@@ -86,6 +86,12 @@ Route::middleware('auth')->group(function () {
 Route::get('/ferga', function () {
     return view('ferga');
 });
+Route::get('/about', function () {
+    return view('about');
+});
+Route::get('/news', function () {
+    return view('news');
+});
 // ئەمە هێڵی ٩٠ بەدواوە بگۆڕە بۆ ئەمە:
 Route::get('/universities', function () {
     return view('universities');
