@@ -112,17 +112,7 @@
 
     <!-- بەشی کەتێگۆری فلتەر -->
     <section class="relative z-10 container mx-auto px-4 pb-8">
-        <div class="flex items-center justify-center gap-3">
-            <div id="category-tabs" class="flex flex-wrap gap-3 justify-center max-w-5xl mx-auto"></div>
-            <div class="relative">
-                <button id="lang-gear-btn" class="p-2.5 rounded-2xl bg-white/50 dark:bg-gray-800/50 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 border border-gray-200/50 dark:border-gray-700/50 transition-all hover:rotate-45 duration-300">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                </button>
-                <div id="lang-dropdown" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden hidden z-50" style="min-width: 180px;">
-                    <div id="lang-filter-tabs" class="p-2 flex flex-col gap-1"></div>
-                </div>
-            </div>
-        </div>
+        <div id="category-tabs" class="flex flex-wrap gap-3 justify-center max-w-5xl mx-auto"></div>
     </section>
 
     <!-- بەشی پیشاندانی کۆرسەکان -->
@@ -161,28 +151,6 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">ناونیشان (عەرەبی)</label>
-                        <input type="text" id="title_ar" dir="rtl" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">ناونیشان (ئینگلیزی)</label>
-                        <input type="text" id="title_en" dir="ltr" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">کورتە (عەرەبی)</label>
-                        <textarea id="desc_ar" rows="4" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all resize-none"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">کورتە (ئینگلیزی)</label>
-                        <textarea id="desc_en" rows="4" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all resize-none"></textarea>
-                    </div>
-                </div>
-
                 <div class="grid grid-cols-2 gap-6 mb-8">
                     <div>
                         <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2 lang-str" data-so="بەستەری ڤیدیۆ (لینکی یوتیوب یان درایڤ)" data-ba="لینکا ڤیدیۆیێ">بەستەری ڤیدیۆ</label>
@@ -206,16 +174,7 @@
                         <option value="زمان">زمان (Language)</option>
                         <option value="ڤیدیۆ و مۆنتاژ">ڤیدیۆ و مۆنتاژ (Video Editing)</option>
                     </select>
-                </div>
-
-                <div class="mb-6">
-                    <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2 lang-str" data-so="زمانی کۆرس" data-ba="زمانێ کۆرس">زمانی کۆرس</label>
-                    <select id="language" required class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
-                        <option value="ku">🏴 کوردی (Kurdish)</option>
-                        <option value="ar">🇸🇦 عەرەبی (Arabic)</option>
-                        <option value="en">🇬🇧 ئینگلیزی (English)</option>
-                    </select>
-                </div>
+                    </div>
 
                 <div class="mb-8">
                     <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2 lang-str" data-so="وێنەی کۆرس (ئەپڵۆدکردن)" data-ba="وێنێ کۆرسێ">وێنەی کۆرس</label>
@@ -260,7 +219,6 @@
                 el.innerText = el.getAttribute(`data-${currentLang}`) || el.getAttribute('data-so');
             });
 
-            renderLangFilterTabs(firebaseDataCache);
             renderCourses(firebaseDataCache);
         }
 
@@ -286,20 +244,10 @@
         const categoryOrder = ['پرۆگرامسازی', 'داتا و زیرەکی دەستکرد', 'دیزاین', 'ئاسایشی ئەلیکترۆنی', 'کلود و داتابەیس', 'بزنس و بەرھەمھێنان', 'زمان', 'ڤیدیۆ و مۆنتاژ'];
 
         let activeCategory = null;
-        let activeLangFilter = 'all';
 
         function courseCardHTML(c, showCategory) {
-            let title, desc;
-            if (activeLangFilter === 'ar') {
-                title = c.title_ar || c.title_so || c.title || '';
-                desc = c.desc_ar || c.desc_so || c.description || '';
-            } else if (activeLangFilter === 'en') {
-                title = c.title_en || c.title_so || c.title || '';
-                desc = c.desc_en || c.desc_so || c.description || '';
-            } else {
-                title = currentLang === 'ba' && c.title_ba ? c.title_ba : c.title_so || c.title;
-                desc = currentLang === 'ba' && c.desc_ba ? c.desc_ba : c.desc_so || c.description;
-            }
+            let title = currentLang === 'ba' && c.title_ba ? c.title_ba : c.title_so || c.title;
+            let desc = currentLang === 'ba' && c.desc_ba ? c.desc_ba : c.desc_so || c.description;
             const btnText = currentLang === 'so' ? 'دەستپێکردن' : 'دەستپێکرن';
             const freeText = currentLang === 'so' ? 'خۆڕایی' : 'بێ بەرامبەر';
             const priceBadge = c.price && c.price != 0 ? `$${c.price}` : freeText;
@@ -315,7 +263,6 @@
                         <div class="absolute top-3 right-3 flex gap-2">
                             ${showCategory ? `<span class="${cfg.bg} ${cfg.text} px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md border ${cfg.border} shadow-lg">${cfg.icon} ${catLabel}</span>` : ''}
                             <span class="bg-white/90 dark:bg-[#0a0f1c]/90 text-gray-900 dark:text-white backdrop-blur-md px-3 py-1 rounded-full font-black text-xs shadow-lg border border-gray-200/50 dark:border-gray-700/50">${priceBadge}</span>
-                            ${c.language ? `<span class="bg-white/90 dark:bg-[#0a0f1c]/90 text-gray-900 dark:text-white backdrop-blur-md px-3 py-1 rounded-full font-black text-xs shadow-lg border border-gray-200/50 dark:border-gray-700/50">${c.language === 'ku' ? '🏴 کوردی' : c.language === 'ar' ? '🇸🇦 عەرەبی' : '🇬🇧 ئینگلیزی'}</span>` : ''}
                         </div>
                     </div>
                     <div class="p-6 flex flex-col flex-grow relative bg-white/50 dark:bg-[#111827]/50">
@@ -331,64 +278,6 @@
                 </div>
             `;
         }
-
-        function renderLangFilterTabs(data) {
-            const container = document.getElementById('lang-filter-tabs');
-            if (!container) return;
-
-            const langNames = {
-                all: { so: 'هەموو', ba: 'هەموو', ar: 'الكل', en: 'All' },
-                ar: { so: 'عەرەبی', ba: 'عەرەبی', ar: 'العربية', en: 'Arabic' },
-                ku: { so: 'کوردی', ba: 'کوردی', ar: 'الكردية', en: 'Kurdish' },
-                en: { so: 'ئینگلیزی', ba: 'ئینگلیزی', ar: 'الإنجليزية', en: 'English' }
-            };
-
-            const langIcons = { all: '🌍', ar: '🇸🇦', ku: '🏴', en: '🇬🇧' };
-
-            const langs = ['all', 'ku', 'ar', 'en'];
-
-            container.innerHTML = langs.map(l => {
-                const label = langNames[l][currentLang] || langNames[l].so;
-                const isActive = l === activeLangFilter;
-                return `
-                    <button class="lang-filter-tab w-full text-right px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-3
-                        ${isActive 
-                            ? 'bg-emerald-600 text-white shadow-md' 
-                            : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50'
-                        }
-                    " data-lang="${l}">
-                        <span>${langIcons[l]}</span>
-                        <span>${label}</span>
-                    </button>
-                `;
-            }).join('');
-
-            container.querySelectorAll('.lang-filter-tab').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const lang = btn.dataset.lang;
-                    if (lang === activeLangFilter) return;
-                    activeLangFilter = lang;
-                    renderLangFilterTabs(data);
-                    renderCourses(data);
-                    document.getElementById('lang-dropdown').classList.add('hidden');
-                });
-            });
-        }
-
-        // Gear button toggle
-        document.getElementById('lang-gear-btn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            document.getElementById('lang-dropdown').classList.toggle('hidden');
-        });
-
-        // Close dropdown on outside click
-        document.addEventListener('click', (e) => {
-            const dd = document.getElementById('lang-dropdown');
-            const btn = document.getElementById('lang-gear-btn');
-            if (!dd.classList.contains('hidden') && !dd.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
-                dd.classList.add('hidden');
-            }
-        });
 
         function renderCategoryTabs(data) {
             const tabsContainer = document.getElementById('category-tabs');
@@ -432,16 +321,9 @@
                     const cat = btn.dataset.category;
                     activeCategory = cat === 'all' ? null : cat;
                     renderCategoryTabs(data);
-                    renderLangFilterTabs(data);
                     renderCourses(data);
                 });
             });
-        }
-
-        function hasLanguageContent(c, lang) {
-            if (lang === 'all') return true;
-            if (!c.language) return true;
-            return c.language === lang;
         }
 
         function renderCourses(data) {
@@ -458,7 +340,7 @@
             let filtered = [];
             for (let id in data) {
                 const cat = data[id].category || 'گشتی';
-                if ((activeCategory === null || cat === activeCategory) && hasLanguageContent(data[id], activeLangFilter)) {
+                if (activeCategory === null || cat === activeCategory) {
                     filtered.push({ ...data[id], id });
                 }
             }
@@ -476,7 +358,6 @@
         onValue(dbRef(db, 'courses'), (snapshot) => {
             firebaseDataCache = snapshot.val() || {};
             renderCategoryTabs(firebaseDataCache);
-            renderLangFilterTabs(firebaseDataCache);
             renderCourses(firebaseDataCache);
         });
 
@@ -512,16 +393,11 @@
                         await set(push(dbRef(db, 'courses')), {
                             title_so: document.getElementById('title_so').value,
                             title_ba: document.getElementById('title_ba').value,
-                            title_ar: document.getElementById('title_ar').value,
-                            title_en: document.getElementById('title_en').value,
                             desc_so: document.getElementById('desc_so').value,
                             desc_ba: document.getElementById('desc_ba').value,
-                            desc_ar: document.getElementById('desc_ar').value,
-                            desc_en: document.getElementById('desc_en').value,
                             video_url: document.getElementById('video_url').value,
                             price: document.getElementById('price').value,
                             category: document.getElementById('category').value,
-                            language: document.getElementById('language').value,
                             image_url: url
                         });
 
