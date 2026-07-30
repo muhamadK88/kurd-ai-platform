@@ -1,67 +1,8 @@
 <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
-    <!-- Quill Rich Text Editor CSS & JS -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-    <!-- Favicon (وێنە بچووکەکەی سەرەوەی تابەکە) -->
-<link rel="icon" href="/favicon.ico" type="image/png">
-
-<!-- Meta Tags (بۆ سۆشیاڵ میدیا و گوگڵ) -->
-<meta name="description" content="کورد ئەی ئای - یەکەمین پلاتفۆرمی کوردی بۆ فێربوونی ژیریی دەستکرد و پرۆگرامسازی بە شێوازێکی مۆدێرن.">
-
-<!-- تایبەت بە فەیسبووک، تێلیگرام و نامەکان (Open Graph) -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="کورد ئەی ئای - Kurd AI">
-<meta property="og:description" content="پەرە بە تواناکانت بدە لەگەڵ باشترین کۆرسەکانی ژیریی دەستکرد و پرۆگرامسازی.">
-<meta property="og:image" content="/logo.jpg">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <meta name="description" content="کورد ئەی ئای - یەکەمین پلاتفۆرمی کوردی بۆ فێربوونی ژیریی دەستکرد و پرۆگرامسازی بە شێوازێکی مۆدێرن.">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="کورد ئەی ئای - Kurd AI">
-    <meta property="og:description" content="پەرە بە تواناکانت بدە لەگەڵ باشترین کۆرسەکانی ژیریی دەستکرد و پرۆگرامسازی.">
-    <meta property="og:image" content="/logo.jpg">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>فێرگە - کورد ئەی ئای</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script>
-        let pyodide = null;
-
-        async function initPyodide() {
-            if (!pyodide) {
-                pyodide = await loadPyodide();
-            }
-        }
-
-        async function runPythonCode() {
-            const out = document.getElementById('code-output');
-            const code = document.getElementById('user-code').value;
-            
-            out.innerText = "چاوەڕێ بکە...";
-            out.classList.add("animate-pulse");
-            
-            try {
-                await initPyodide();
-                pyodide.runPython("import sys\nfrom io import StringIO\nsys.stdout = StringIO()");
-                await pyodide.runPythonAsync(code);
-                out.innerText = pyodide.runPython("sys.stdout.getvalue()");
-                out.classList.remove("animate-pulse");
-            } catch (err) {
-                out.innerText = "هەڵە لە کۆدەکەدا:\n" + err;
-                out.classList.remove("animate-pulse");
-            }
-        }
-
         tailwind.config = { 
             darkMode: 'class', 
             theme: { 
@@ -85,6 +26,27 @@
             document.documentElement.classList.remove('dark');
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+    <!-- Quill Rich Text Editor CSS & JS -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/png">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="کورد ئەی ئای - یەکەمین پلاتفۆرمی کوردی بۆ فێربوونی ژیریی دەستکرد و پرۆگرامسازی بە شێوازێکی مۆدێرن.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="کورد ئەی ئای - Kurd AI">
+    <meta property="og:description" content="پەرە بە تواناکانت بدە لەگەڵ باشترین کۆرسەکانی ژیریی دەستکرد و پرۆگرامسازی.">
+    <meta property="og:image" content="/logo.jpg">
+    <title>فێرگە - کورد ئەی ئای</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }

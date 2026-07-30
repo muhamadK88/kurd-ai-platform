@@ -381,7 +381,6 @@
                 modalContent.classList.add('translate-y-0', 'opacity-100');
             }, 10);
         };
-        };
 
         const categoryOrder = ['پرۆگرامسازی', 'داتا و زیرەکی دەستکرد', 'دیزاین', 'ئاسایشی ئەلیکترۆنی', 'کلود و داتابەیس', 'بزنس و بەرھەمھێنان', 'زمان', 'ڤیدیۆ و مۆنتاژ'];
 
@@ -425,40 +424,6 @@
                 }
             });
         }
-
-            return `
-                <div class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 overflow-hidden flex flex-col group hover:-translate-y-2">
-                    <div class="h-48 w-full relative overflow-hidden bg-gray-200 dark:bg-gray-800">
-                        <img src="${c.image_url}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div class="absolute top-3 right-3 flex gap-2">
-                            ${showCategory ? `<span class="${cfg.bg} ${cfg.text} px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md border ${cfg.border} shadow-lg">${cfg.icon} ${catLabel}</span>` : ''}
-                            <span class="bg-white/90 dark:bg-[#0a0f1c]/90 text-gray-900 dark:text-white backdrop-blur-md px-3 py-1 rounded-full font-black text-xs shadow-lg border border-gray-200/50 dark:border-gray-700/50">${priceBadge}</span>
-                        </div>
-                    </div>
-                    <div class="p-6 flex flex-col flex-grow relative bg-white/50 dark:bg-[#111827]/50">
-                        <h3 class="font-black text-xl mb-2 text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">${title}</h3>
-                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 line-clamp-2 leading-relaxed">${desc}</p>
-                        <div class="mt-auto pt-4 border-t border-gray-200/50 dark:border-gray-700/50">
-                            <a href="${c.video_url}" target="_blank" class="w-full block bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-center py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-500/30 hover:shadow-indigo-500/50 hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                ${btnText}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderCategoryTabs(data) {
-            const tabsContainer = document.getElementById('category-tabs');
-            if (!tabsContainer) return;
-
-            const cats = {};
-            for (let id in data) {
-                const cat = data[id].category || 'گشتی';
-                cats[cat] = (cats[cat] || 0) + 1;
-            }
 
         window.toggleCourseFav = function(courseId, event) {
             if(event) event.stopPropagation();
@@ -755,11 +720,8 @@
                             title_ba: document.getElementById('title_ba').value,
                             desc_so: document.getElementById('desc_so').value,
                             desc_ba: document.getElementById('desc_ba').value,
-<<<<<<< HEAD
                             course_category: document.getElementById('course_category').value,
                             topic: document.getElementById('course_topic').value, // بابەتی نوێ (نموونە ژیری دەستکرد)
-=======
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
                             video_url: document.getElementById('video_url').value,
                             price: document.getElementById('price').value,
                             category: document.getElementById('category').value,
@@ -809,12 +771,7 @@
                 }
             }
         });
-<<<<<<< HEAD
-        
-         document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
-=======
         document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
     </script>
 </body>
 </html>

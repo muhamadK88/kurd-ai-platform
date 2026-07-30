@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -257,43 +257,25 @@
                 const btnText = currentLang === 'so' ? 'بەکارهێنان' : 'ب کارئینان';
 
                 container.innerHTML += `
-                    <div class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 p-8 flex flex-col h-full group hover:-translate-y-2">
-                        <div class="w-20 h-20 rounded-2xl overflow-hidden shadow-lg mb-6 bg-white dark:bg-gray-800 flex-shrink-0 flex items-center justify-center p-3 border border-gray-100 dark:border-gray-700 group-hover:scale-110 transition-transform duration-500">
+                    <div class="tool-card glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-500 p-8 flex flex-col h-full group hover:-translate-y-2 hover:border-purple-200 dark:hover:border-purple-800 border border-transparent">
+                        <div class="w-20 h-20 rounded-2xl overflow-hidden shadow-lg mb-6 bg-white dark:bg-gray-800 flex-shrink-0 flex items-center justify-center p-3 border border-gray-100 dark:border-gray-700 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 relative">
                             <img src="${t.image_url}" class="w-full h-full object-contain">
+                            <button onclick="window.toggleToolFav('${t.id || t.fb_id}', event)" class="absolute -top-2 -right-2 w-8 h-8 flex items-center justify-center rounded-full backdrop-blur-md transition-all duration-200 shadow-lg ${userFavorites && userFavorites[t.id || t.fb_id] ? 'bg-red-500 text-white scale-110' : 'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:text-red-500 hover:scale-110'}" title="${currentLang === 'so' ? 'دڵخواز' : 'دڵخواز'}">
+                                <svg class="w-[14px] h-[14px]" fill="${userFavorites && userFavorites[t.id || t.fb_id] ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                            </button>
                         </div>
-                    </div>`;
-
-                tools.forEach((t, idx) => {
-                    const title = currentLang === 'ba' && t.title_ba ? t.title_ba : t.title_so || t.title; 
-                    const desc = currentLang === 'ba' && t.desc_ba ? t.desc_ba : t.desc_so || t.description;
-                    const btnText = currentLang === 'so' ? 'بەکارهێنان' : 'ب کارئینان';
-
-                    container.innerHTML += `
-                        <div class="tool-card glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-500 p-8 flex flex-col h-full group hover:-translate-y-2 hover:border-purple-200 dark:hover:border-purple-800 border border-transparent">
-                            <div class="w-20 h-20 rounded-2xl overflow-hidden shadow-lg mb-6 bg-white dark:bg-gray-800 flex-shrink-0 flex items-center justify-center p-3 border border-gray-100 dark:border-gray-700 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 relative">
-                                <img src="${t.image_url}" class="w-full h-full object-contain">
-                                <button onclick="window.toggleToolFav('${t.id || t.fb_id}', event)" class="absolute -top-2 -right-2 w-8 h-8 flex items-center justify-center rounded-full backdrop-blur-md transition-all duration-200 shadow-lg ${userFavorites && userFavorites[t.id || t.fb_id] ? 'bg-red-500 text-white scale-110' : 'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:text-red-500 hover:scale-110'}" title="${currentLang === 'so' ? 'دڵخواز' : 'دڵخواز'}">
-                                    <svg class="w-[14px] h-[14px]" fill="${userFavorites && userFavorites[t.id || t.fb_id] ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                                </button>
-                            </div>
-                            <h3 class="font-black text-2xl mb-3 text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">${title}</h3>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm mb-8 flex-grow line-clamp-3 leading-relaxed">${desc}</p>
-                            <div class="mt-auto pt-5 border-t border-gray-200/50 dark:border-gray-700/50">
-                                <a href="${t.tool_url}" target="_blank" class="w-full block bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white text-center py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-purple-500/30 hover:shadow-pink-500/40 hover:-translate-y-0.5 flex items-center justify-center gap-2 group/btn">
-                                    ${btnText}
-                                    <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                                </a>
-                            </div>
+                        <h3 class="font-black text-2xl mb-3 text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">${title}</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-8 flex-grow line-clamp-3 leading-relaxed">${desc}</p>
+                        <div class="mt-auto pt-5 border-t border-gray-200/50 dark:border-gray-700/50">
+                            <a href="${t.tool_url}" target="_blank" class="w-full block bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white text-center py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-purple-500/30 hover:shadow-pink-500/40 hover:-translate-y-0.5 flex items-center justify-center gap-2 group/btn">
+                                ${btnText}
+                                <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            </a>
                         </div>
                     </div>
                 `;
             }
         }
-
-        window.setCategory = function(cat) {
-            activeCategory = cat;
-            renderTools(firebaseDataCache);
-        };
 
         window.toggleToolFav = function(toolId, event) {
             if(event) event.stopPropagation();
