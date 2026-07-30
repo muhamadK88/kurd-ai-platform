@@ -115,40 +115,6 @@
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
-<<<<<<< HEAD
-
-<!-- ناڤباری سەرەکی -->
-<nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-        
-        <a href="/" class="flex items-center gap-3 transition group relative">
-            <div class="relative flex-shrink-0">
-                <div class="absolute -inset-2 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-all duration-300 dark:group-hover:opacity-50"></div>
-                <img src="logo.jpg" alt="Kurd AI Logo" class="h-10 md:h-11 w-auto object-contain dark:invert drop-shadow-md group-hover:scale-105 transition-transform duration-300 relative z-10">
-            </div>
-            <div class="flex flex-col justify-center hidden sm:flex">
-                <h1 class="text-xl md:text-2xl font-black tracking-tight text-gray-900 dark:text-white leading-none group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-300">KURD AI</h1>
-                <span class="text-[0.55rem] md:text-[0.60rem] font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 mt-0.5">INNOVATION - FUTURE</span>
-            </div>
-        </a>
-
-        <div class="hidden lg:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
-            <a href="/" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
-            <a href="/ferga" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
-            <a href="/courses" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
-            <a href="/news" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>
-            <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
-            <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
-            <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
-            <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەربارەی ئێمە" data-ba="دەربارەی مە">دەربارەی ئێمە</a>
-        </div>
-
-        <div class="flex items-center gap-2.5">
-            <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
-            <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
-            <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50 lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
-            <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</button>
-=======
 
     <!-- ناڤباری سەرەکی -->
     <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
@@ -180,7 +146,6 @@
                     <span class="lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</span>
                 </a>
             </div>
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
         </div>
     </nav>
 
@@ -202,20 +167,6 @@
             <span class="lang-str" data-so="تایبەت بە خوێندکارانی ژیریی دەستکرد" data-ba="تایبەت ب قوتابیێن ژیرییا دەستکرد">تایبەت بە خوێندکارانی ژیریی دەستکرد</span>
         </div>
         
-<<<<<<< HEAD
-        <h2 class="text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tight text-gray-900 dark:text-white leading-tight animate-fade-up" 
-            data-so="دەروازەیەک بەرەو داهاتووی ژیریی دەستکرد" 
-            data-ba="دەرگەهەک بەرەڤ پاشەڕۆژا ژیرییا دەستکرد">
-            <span class="gradient-text">KURD AI</span>
-            <br>
-            <span class="lang-str" data-so="دەروازەیەک بەرەو داهاتووی ژیریی دەستکرد" data-ba="دەرگەهەک بەرەڤ پاشەڕۆژا ژیرییا دەستکرد">دەروازەیەک بەرەو داهاتووی ژیریی دەستکرد</span>
-        </h2>
-        
-        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl font-medium leading-relaxed mb-10 animate-fade-up animation-delay-200 lang-str" 
-           data-so="یەکەمین پلاتفۆرمی پێشکەوتووی کوردی بۆ فێربوون، ڕێنمایی ئەکادیمی و بەکارهێنانی ئامرازەکانی AI بە شێوەیەکی پراکتیکی." 
-           data-ba="ئێکەمین پلاتفۆرما پێشکەفتییا کوردی بۆ فێربوون، ڕێنماییێن ئەکادیمی و ب کارئینانا ئامرازێن AI ب شێوەیەکێ پراکتیکی.">
-           یەکەمین پلاتفۆرمی پێشکەوتووی کوردی بۆ فێربوون، ڕێنمایی ئەکادیمی و بەکارهێنانی ئامرازەکانی AI بە شێوەیەکی پراکتیکی.
-=======
         <!-- شەپۆلی خوارەوە (Wave) -->
         <div class="absolute bottom-0 w-full overflow-hidden leading-none z-0">
             <svg class="relative block w-full h-[50px] md:h-[100px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -287,7 +238,6 @@
     <footer class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-8 text-center">
         <p class="text-gray-500 dark:text-gray-400 font-bold text-sm">
             &copy; 2026 Kurd AI. گەشەپێدراوە لەلایەن خوێندکارانی AI  .
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
         </p>
         
         <div class="flex flex-wrap justify-center gap-4 animate-fade-up animation-delay-400">

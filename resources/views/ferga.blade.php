@@ -35,8 +35,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script>
-<<<<<<< HEAD
-=======
         let pyodide = null;
 
         async function initPyodide() {
@@ -64,7 +62,6 @@
             }
         }
 
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
         tailwind.config = { 
             darkMode: 'class', 
             theme: { 
@@ -131,7 +128,6 @@
     <div id="xp-notification-container"></div>
 
     <!-- ناڤباری سەرەکی -->
-<<<<<<< HEAD
     <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <a href="/" class="flex items-center gap-3 transition group relative">
@@ -159,36 +155,6 @@
                 <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
                 <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50 lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
                 <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="چنە دەر">دەرچوون</button>
-=======
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="/" class="flex items-center gap-3 hover:opacity-80 transition group">
-                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 text-white font-black text-xl group-hover:scale-105 transition-transform">ئـ</div>
-                <h1 class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-800 to-blue-500 dark:from-blue-400 dark:to-cyan-300 lang-str" data-so="کورد ئەی ئای" data-ba="کورد ئەی ئای">کورد ئەی ئای</h1>
-            </a>
-
-            <div class="hidden md:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
-                <a href="/" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
-                <a href="/ferga" class="px-4 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
-                <a href="/courses" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
-                <a href="/ai-tools" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="تووڵەکانی AI" data-ba="ئامرازێن AI">تووڵەکانی AI</a>
-                <a href="/academic-guide" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
-                <a href="/universities" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
-            </div>
-
-            <div class="flex items-center gap-3">
-                <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-sm border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 dark:hover:bg-blue-800/50 transition">
-                    <span id="lang-text">بادینی</span>
-                </button>
-                <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition shadow-sm border border-gray-200/50 dark:border-gray-700/50">
-                    <svg id="theme-toggle-light-icon" class="hidden dark:block w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707-.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                    <svg id="theme-toggle-dark-icon" class="block dark:hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                </button>
-                <button id="logout-btn" class="flex items-center gap-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-800/50 px-4 py-2 rounded-xl hover:bg-red-500 hover:text-white dark:hover:bg-red-600 dark:hover:text-white font-bold text-sm transition-all duration-300 shadow-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                    <span class="lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</span>
-                </button>
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
             </div>
         </div>
     </nav>
@@ -356,7 +322,6 @@
                 <!-- سندووقی کۆدی نموونە -->
                 <div id="display-code-box" class="hidden mb-6 relative">
                     <div class="rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800 bg-[#1e1e1e]">
-<<<<<<< HEAD
                         <div class="bg-[#2d2d2d] px-4 py-3 flex justify-between items-center border-b border-gray-800">
                             <div class="flex items-center gap-2">
                                 <div class="w-3 h-3 rounded-full bg-red-500"></div>
@@ -365,14 +330,6 @@
                                 <span class="text-[10px] text-gray-500 mr-3 font-bold uppercase tracking-wider lang-str" data-so="نمونە" data-ba="نمونە">نمونە</span>
                                 <span id="code-filename-label" class="text-xs font-mono text-gray-400">main.py</span>
                             </div>
-=======
-                        <!-- Mac OS Header -->
-                        <div class="bg-[#2d2d2d] px-4 py-3 flex items-center gap-2 border-b border-gray-800">
-                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                            <span class="ml-4 text-xs font-mono text-gray-400">main.py</span>
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
                         </div>
                         <div class="p-5 overflow-x-auto" dir="ltr">
                             <pre class="font-mono text-[15px] leading-relaxed text-[#569cd6]"><code id="display-code"></code></pre>
@@ -428,20 +385,14 @@
         <div class="bg-[#1e1e1e] w-full max-w-6xl h-[85vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-800 transform transition-all">
             <div class="bg-[#252526] text-white p-4 flex justify-between items-center border-b border-[#333]">
                 <div class="flex items-center gap-3">
-<<<<<<< HEAD
                     <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                     <h3 id="compiler-modal-title" class="text-lg font-bold font-mono">سەکۆی کۆدکردن</h3>
-=======
-                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                    <h3 class="text-lg font-bold font-mono">سەکۆی کۆدکردن (Python)</h3>
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
                 </div>
                 <button onclick="closeTryItYourself()" class="text-gray-400 hover:text-white bg-[#333] hover:bg-red-500 w-8 h-8 rounded-full flex items-center justify-center transition-colors">✕</button>
             </div>
             <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
                 <!-- Editor -->
                 <div class="w-full md:w-1/2 flex flex-col border-b md:border-b-0 md:border-l border-[#333]">
-<<<<<<< HEAD
                     <div class="bg-[#2d2d2d] px-4 py-3 flex justify-between items-center">
                         <span id="compiler-filename-label" class="text-xs font-mono text-gray-400 uppercase tracking-wider">main.py</span>
                         <div class="flex gap-2">
@@ -454,14 +405,6 @@
                                 پشکنینی مەشق
                             </button>
                         </div>
-=======
-                    <div class="bg-[#2d2d2d] px-4 py-2 flex justify-between items-center">
-                        <span class="text-xs font-mono text-gray-400 uppercase tracking-wider">main.py</span>
-                        <button onclick="runPythonCode()" class="bg-green-600 hover:bg-green-500 text-white px-5 py-1.5 rounded-lg font-bold text-sm shadow flex items-center gap-2 transition-colors">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
-                            Run
-                        </button>
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
                     </div>
                     <textarea id="user-code" class="flex-1 w-full bg-[#1e1e1e] text-[#d4d4d4] font-mono text-[16px] leading-relaxed p-6 focus:outline-none resize-none custom-scrollbar" dir="ltr" spellcheck="false"></textarea>
                 </div>
@@ -835,15 +778,9 @@
 
             currentLessonArray = [];
             const sidebar = document.getElementById('sidebar-content');
-<<<<<<< HEAD
             sidebar.innerHTML = '';
             
             let htmlStr = '';
-=======
-            const langName = loc(currentActiveLanguage, 'name');
-            sidebar.innerHTML = `<div class="flex items-center gap-3 mb-8 px-2"><div class="w-8 h-8 rounded bg-blue-500 flex items-center justify-center text-white font-bold">${langName.charAt(0)}</div><h2 class="text-xl font-black text-gray-800 dark:text-white">${langName}</h2></div>`;
-
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
             for (let level in grouped) {
                 htmlStr += `<div class="mb-4 px-2 text-xs font-bold text-gray-400 dark:text-gray-500 tracking-widest mt-6">${level}</div><div class="relative pl-3 border-r-2 border-gray-100 dark:border-gray-800 mr-3">`;
                 grouped[level].forEach(lesson => {

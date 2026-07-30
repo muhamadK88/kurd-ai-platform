@@ -79,41 +79,6 @@
     <!-- ناڤباری سەرەکی -->
     <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-<<<<<<< HEAD
-            
-            <!-- بەشی لۆگۆ و ناوی پڕۆژە -->
-            <a href="/" class="flex items-center gap-3 transition group relative">
-                <div class="relative flex-shrink-0">
-                    <div class="absolute -inset-2 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-all duration-300 dark:group-hover:opacity-50"></div>
-                    <img src="logo.jpg" alt="Kurd AI Logo" class="h-10 md:h-11 w-auto object-contain dark:invert drop-shadow-md group-hover:scale-105 transition-transform duration-300 relative z-10">
-                </div>
-                <div class="flex flex-col justify-center hidden sm:flex">
-                    <h1 class="text-xl md:text-2xl font-black tracking-tight text-gray-900 dark:text-white leading-none group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-300">
-                        KURD AI
-                    </h1>
-                    <span class="text-[0.55rem] md:text-[0.60rem] font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 mt-0.5">
-                        INNOVATION - FUTURE
-                    </span>
-                </div>
-            </a>
-            
-            <div class="hidden lg:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
-                <a href="/" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
-                <a href="/ferga" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
-                <a href="/courses" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
-                <a href="/news" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>
-                <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
-                <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
-                <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
-                <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەرباری مە">دەرباری ئێمە</a>
-            </div>
-            
-            <div class="flex items-center gap-2.5">
-                <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
-                <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
-                <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50 lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
-                <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="چنە دەر">دەرچوون</button>
-=======
             <a href="/" class="flex items-center gap-3 hover:opacity-80 transition group">
                 <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 text-white font-black text-xl group-hover:scale-105 transition-transform">ئـ</div>
                 <h1 class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-800 to-blue-500 dark:from-blue-400 dark:to-cyan-300 lang-str" data-so="کورد ئەی ئای" data-ba="کورد ئەی ئای">کورد ئەی ئای</h1>
@@ -140,7 +105,6 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                     <span class="lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</span>
                 </button>
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
             </div>
         </div>
     </nav>
@@ -165,37 +129,7 @@
 
     <!-- بەشی پیشاندانی کۆرسەکان -->
     <section class="relative z-10 container mx-auto pb-24 px-4">
-<<<<<<< HEAD
-        
-        <!-- بەشی فلتەرەکان (کەتەگۆری) -->
-        <div class="mb-12 max-w-6xl mx-auto bg-white/40 dark:bg-gray-900/40 p-6 md:p-8 rounded-[2rem] border border-gray-200/50 dark:border-gray-800/50 shadow-sm backdrop-blur-xl">
-            
-            <!-- فلتەری زمانەکان -->
-            <div class="mb-6 border-b border-gray-200/50 dark:border-gray-700/50 pb-6">
-                <h4 class="text-center font-bold text-gray-500 dark:text-gray-400 mb-4 text-sm lang-str" data-so="جیاکردنەوە بەپێی زمان:" data-ba="جوداکرن بپێی زمانێ:">جیاکردنەوە بەپێی زمان:</h4>
-                <div class="flex flex-wrap items-center justify-center gap-3">
-                    <button onclick="window.filterByLang('all')" class="lang-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 bg-blue-600 text-white shadow-lg shadow-blue-500/30" data-target="all">
-                        <span class="lang-str" data-so="هەموو زمانەکان" data-ba="هەمی زمان">هەموو زمانەکان</span>
-                    </button>
-                    <button onclick="window.filterByLang('sorani')" class="lang-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700" data-target="sorani">سۆرانی</button>
-                    <button onclick="window.filterByLang('badini')" class="lang-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700" data-target="badini">بادینی</button>
-                    <button onclick="window.filterByLang('arabic')" class="lang-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700" data-target="arabic">عەرەبی</button>
-                    <button onclick="window.filterByLang('english')" class="lang-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700" data-target="english">ئینگلیزی</button>
-                </div>
-            </div>
 
-            <!-- فلتەری کەتەگۆرییەکان (پێشوەخت دیاری کراوە) -->
-            <div>
-                <h4 class="text-center font-bold text-gray-500 dark:text-gray-400 mb-4 text-sm lang-str" data-so="جیاکردنەوە بەپێی کەتەگۆری:" data-ba="جوداکرن بپێی کەتگۆریێ:">جیاکردنەوە بەپێی کەتەگۆری:</h4>
-                <div class="flex flex-wrap items-center justify-center gap-3" id="topic-filters">
-                    <!-- کەتەگۆرییەکان لە JavaScriptـەوە زیاد دەکرێن -->
-                </div>
-            </div>
-
-        </div>
-
-=======
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
         <div id="courses-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"></div>
     </section>
 
@@ -230,11 +164,7 @@
                     </div>
                 </div>
 
-<<<<<<< HEAD
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-=======
-                <div class="grid grid-cols-2 gap-6 mb-8">
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
                     <div>
                         <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2 lang-str" data-so="بەستەری ڤیدیۆ (لینکی یوتیوب یان درایڤ)" data-ba="لینکا ڤیدیۆیێ">بەستەری ڤیدیۆ</label>
                         <input type="url" id="video_url" required dir="ltr" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
@@ -245,7 +175,6 @@
                     </div>
                 </div>
 
-<<<<<<< HEAD
                 <!-- هاوپۆلی زمان و بابەت -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     <div>
@@ -266,7 +195,6 @@
                         </select>
                     </div>
                 </div>
-=======
                 <div class="mb-6">
                     <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2 lang-str" data-so="کەتێگۆری (Category)" data-ba="کەتێگۆری (Category)">کەتێگۆری</label>
                     <select id="category" required class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
@@ -280,7 +208,6 @@
                         <option value="ڤیدیۆ و مۆنتاژ">ڤیدیۆ و مۆنتاژ (Video Editing)</option>
                     </select>
                     </div>
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
 
                 <div class="mb-8">
                     <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2 lang-str" data-so="وێنەی کۆرس (ئەپڵۆدکردن)" data-ba="وێنێ کۆرسێ">وێنەی کۆرس</label>
@@ -298,7 +225,6 @@
         </div>
     </section>
 
-<<<<<<< HEAD
     <!-- پەنجەرەی زیاتر ببینە (Modal) -->
     <div id="courseModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="window.closeCourseModal()"></div>
@@ -383,9 +309,6 @@
             </div>
         </div>
     </div>
-
-=======
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
     <!-- سکرێپتەکان -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -398,7 +321,6 @@
         const db = getDatabase(app);
         const IMGBB_API_KEY = "947299981b43abca761315a1cd24c02a"; 
 
-<<<<<<< HEAD
         // گۆڕاوەکان بۆ فلتەرکردن
         let currentLang = localStorage.getItem('site-lang') || 'so';
         let firebaseDataCache = {}; 
@@ -424,11 +346,6 @@
         
         window.activeLang = 'all';
         window.activeTopic = 'all';
-=======
-        // ----- بەشی زمان (Language Toggle) -----
-        let currentLang = localStorage.getItem('site-lang') || 'so';
-        let firebaseDataCache = {}; 
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
 
         function applyLanguage() {
             const langBtnText = document.getElementById('lang-text');
@@ -449,7 +366,6 @@
             applyLanguage();
         });
 
-<<<<<<< HEAD
         // ----- فەنکشنە جیهانییەکان بۆ مۆدێل و فلتەر -----
         window.openCourseModal = function(title, desc, badgeTxt, topicTxt) {
             document.getElementById('modalTitle').innerText = title;
@@ -464,24 +380,11 @@
                 modalContent.classList.remove('translate-y-4', 'opacity-0');
                 modalContent.classList.add('translate-y-0', 'opacity-100');
             }, 10);
-=======
-        // ----- category config -----
-        const categoryConfig = {
-            'پرۆگرامسازی': { icon: '💻', color: 'from-blue-600 to-cyan-500', bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-700 dark:text-blue-300', border: 'border-blue-200 dark:border-blue-800' },
-            'داتا و زیرەکی دەستکرد': { icon: '🧠', color: 'from-purple-600 to-pink-500', bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-700 dark:text-purple-300', border: 'border-purple-200 dark:border-purple-800' },
-            'دیزاین': { icon: '🎨', color: 'from-pink-600 to-rose-500', bg: 'bg-pink-100 dark:bg-pink-900/30', text: 'text-pink-700 dark:text-pink-300', border: 'border-pink-200 dark:border-pink-800' },
-            'ئاسایشی ئەلیکترۆنی': { icon: '🔒', color: 'from-red-600 to-orange-500', bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-300', border: 'border-red-200 dark:border-red-800' },
-            'کلود و داتابەیس': { icon: '☁️', color: 'from-sky-600 to-teal-500', bg: 'bg-sky-100 dark:bg-sky-900/30', text: 'text-sky-700 dark:text-sky-300', border: 'border-sky-200 dark:border-sky-800' },
-            'بزنس و بەرھەمھێنان': { icon: '💼', color: 'from-emerald-600 to-green-500', bg: 'bg-emerald-100 dark:bg-emerald-900/30', text: 'text-emerald-700 dark:text-emerald-300', border: 'border-emerald-200 dark:border-emerald-800' },
-            'زمان': { icon: '🌐', color: 'from-yellow-600 to-amber-500', bg: 'bg-yellow-100 dark:bg-yellow-900/30', text: 'text-yellow-700 dark:text-yellow-300', border: 'border-yellow-200 dark:border-yellow-800' },
-            'ڤیدیۆ و مۆنتاژ': { icon: '🎬', color: 'from-violet-600 to-indigo-500', bg: 'bg-violet-100 dark:bg-violet-900/30', text: 'text-violet-700 dark:text-violet-300', border: 'border-violet-200 dark:border-violet-800' },
-            'گشتی': { icon: '📚', color: 'from-gray-600 to-slate-500', bg: 'bg-gray-100 dark:bg-gray-800/30', text: 'text-gray-700 dark:text-gray-300', border: 'border-gray-200 dark:border-gray-700' }
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
+        };
         };
 
         const categoryOrder = ['پرۆگرامسازی', 'داتا و زیرەکی دەستکرد', 'دیزاین', 'ئاسایشی ئەلیکترۆنی', 'کلود و داتابەیس', 'بزنس و بەرھەمھێنان', 'زمان', 'ڤیدیۆ و مۆنتاژ'];
 
-<<<<<<< HEAD
         window.filterByLang = function(lang) {
             window.activeLang = lang;
             document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -522,19 +425,6 @@
                 }
             });
         }
-=======
-        let activeCategory = null;
-
-        function courseCardHTML(c, showCategory) {
-            let title = currentLang === 'ba' && c.title_ba ? c.title_ba : c.title_so || c.title;
-            let desc = currentLang === 'ba' && c.desc_ba ? c.desc_ba : c.desc_so || c.description;
-            const btnText = currentLang === 'so' ? 'دەستپێکردن' : 'دەستپێکرن';
-            const freeText = currentLang === 'so' ? 'خۆڕایی' : 'بێ بەرامبەر';
-            const priceBadge = c.price && c.price != 0 ? `$${c.price}` : freeText;
-            const cat = c.category || 'گشتی';
-            const cfg = categoryConfig[cat] || categoryConfig['گشتی'];
-            const catLabel = currentLang === 'so' ? cat : cat;
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
 
             return `
                 <div class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 overflow-hidden flex flex-col group hover:-translate-y-2">
@@ -570,7 +460,6 @@
                 cats[cat] = (cats[cat] || 0) + 1;
             }
 
-<<<<<<< HEAD
         window.toggleCourseFav = function(courseId, event) {
             if(event) event.stopPropagation();
             if (!currentUserId) return;
@@ -684,45 +573,6 @@
         });
 
         // ----- هێنان و پیشاندانی کۆرسەکان لە فایەربەیس (بە کۆمەڵ کەتەگۆری) -----
-=======
-            const catsToShow = categoryOrder.filter(c => cats[c]);
-            const others = Object.keys(cats).filter(c => !categoryOrder.includes(c));
-            const allCats = ['all', ...catsToShow, ...others.sort()];
-
-            const allText = currentLang === 'so' ? 'هەموو' : 'هەموو';
-
-            tabsContainer.innerHTML = allCats.map(cat => {
-                const isAll = cat === 'all';
-                const cfg = isAll ? null : (categoryConfig[cat] || categoryConfig['گشتی']);
-                const label = isAll ? allText : cat;
-                const count = isAll ? Object.keys(data).length : cats[cat];
-                const isActive = isAll ? activeCategory === null : activeCategory === cat;
-
-                return `
-                    <button class="category-tab px-5 py-2.5 rounded-2xl font-bold text-sm transition-all duration-300 flex items-center gap-2
-                        ${isActive 
-                            ? (isAll ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30' : `${cfg.bg} ${cfg.text} shadow-lg`) 
-                            : 'bg-white/50 dark:bg-gray-800/50 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 border border-gray-200/50 dark:border-gray-700/50'
-                        }
-                    " data-category="${cat}">
-                        ${isAll ? '' : `<span>${cfg.icon}</span>`}
-                        <span>${label}</span>
-                        <span class="text-xs opacity-60">(${count})</span>
-                    </button>
-                `;
-            }).join('');
-
-            tabsContainer.querySelectorAll('.category-tab').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const cat = btn.dataset.category;
-                    activeCategory = cat === 'all' ? null : cat;
-                    renderCategoryTabs(data);
-                    renderCourses(data);
-                });
-            });
-        }
-
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
         function renderCourses(data) {
             const container = document.getElementById('courses-container');
             const topicFiltersContainer = document.getElementById('topic-filters');
@@ -737,7 +587,6 @@
                 return;
             }
 
-<<<<<<< HEAD
             // دروستکردنی دوگمەکانی فلتەری کەتەگۆری لە لیستی پێشوەخت دیاریکراو
             if(topicFiltersContainer) {
                 const allLabel = currentLang === 'so' ? 'هەموو کەتەگۆرییەکان' : 'هەمی کەتگۆری';
@@ -866,24 +715,6 @@
             
             // جارێکی تر فلتەرەکە جێبەجێ بکەوە بۆ ئەوەی هەر کۆرسێک نەگونجاو بێت بیشارێتەوە
             applyFilters();
-=======
-            let filtered = [];
-            for (let id in data) {
-                const cat = data[id].category || 'گشتی';
-                if (activeCategory === null || cat === activeCategory) {
-                    filtered.push({ ...data[id], id });
-                }
-            }
-
-            if (filtered.length === 0) {
-                const emptyText = currentLang === 'so' ? 'هیچ کۆرسێک لەم کەتێگۆریەدا نییە' : 'چ کۆرس د ڤی کەتێگۆریێدا نینە';
-                container.innerHTML = `<div class="col-span-1 md:col-span-2 lg:col-span-3 text-center py-20 glass-card rounded-[2rem] border border-dashed border-gray-300 dark:border-gray-700"><p class="text-gray-500 dark:text-gray-400 text-xl font-bold">${emptyText}</p></div>`;
-                return;
-            }
-
-            const showCategory = activeCategory === null;
-            container.innerHTML = filtered.map(c => courseCardHTML(c, showCategory)).join('');
->>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
         }
 
         onValue(dbRef(db, 'courses'), (snapshot) => {
