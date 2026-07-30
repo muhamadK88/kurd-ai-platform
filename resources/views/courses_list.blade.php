@@ -410,6 +410,7 @@
                     activeCategory = cat === 'all' ? null : cat;
                     activeLangFilter = 'all';
                     renderCategoryTabs(data);
+                    renderLangFilterTabs(data);
                     renderCourses(data);
                 });
             });
