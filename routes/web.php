@@ -86,6 +86,8 @@ Route::middleware('auth')->group(function () {
 Route::get('/ferga', function () {
     return view('ferga');
 });
+Route::post('/ferga/run-php', [AdminController::class, 'runPhpCode']);
+Route::post('/ferga/run-code', [AdminController::class, 'runCode']);
 Route::get('/about', function () {
     return view('about');
 });

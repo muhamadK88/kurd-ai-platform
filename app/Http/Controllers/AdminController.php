@@ -158,4 +158,64 @@ class AdminController extends Controller
         Http::delete($this->firebaseUrl . 'ferga_lessons/' . $id . '.json');
         return redirect()->back()->with('success', 'وانەکە بە سەرکەوتوویی سڕایەوە!');
     }
+
+    public function runPhpCode(Request $request)
+    {
+        $code = $request->input('code', '');
+        if (trim($code) === '') {
+            return response()->json(['output' => '', 'error' => 'هیچ کۆدێک نەنووسراوە'], 400);
+        }
+        if (!str_starts_with(trim($code), '<?php')) {
+            $code = "<?php\n" . $code;
+        }
+        $tmpFile = tempnam(sys_get_temp_dir(), 'ferga_php_');
+        file_put_contents($tmpFile, $code);
+        $outputLines = [];
+        $returnCode = 0;
+        exec('php ' . escapeshellarg($tmpFile) . ' 2>&1', $outputLines, $returnCode);
+        @unlink($tmpFile);
+        $output = implode("\n", $outputLines);
+        return response()->json([
+            'output' => $output,
+            'code' => $returnCode
+        ]);
+    }
+
+    public function runCode(Request $request)
+    {
+        $language = $request->input('language', '');
+        $code = $request->input('code', '');
+        if (trim($code) === '') {
+            return response()->json(['output' => '', 'error' => 'هیچ کۆدێک نەنووسراوە'], 400);
+        }
+        $langMap = [
+            'js' => 'node', 'javascript' => 'node',
+            'rb' => 'ruby', 'ruby' => 'ruby',
+            'rs' => 'rust', 'rust' => 'rust',
+            'go' => 'go',
+            'java' => 'java',
+            'kt' => 'kotlin', 'kotlin' => 'kotlin',
+            'swift' => 'swift',
+        ];
+        $binary = $langMap[$language] ?? null;
+        if (!$binary) {
+            return response()->json(['output' => '', 'error' => 'کارپێکردنی ئەم زمانە لەسەر ڕاژەکار بەردەست نییە'], 400);
+        }
+        $extMap = [
+            'node' => 'js', 'ruby' => 'rb', 'rust' => 'rs',
+            'go' => 'go', 'java' => 'java', 'kotlin' => 'kt', 'swift' => 'swift',
+        ];
+        $ext = $extMap[$binary] ?? $language;
+        $tmpFile = tempnam(sys_get_temp_dir(), 'ferga_code_') . '.' . $ext;
+        file_put_contents($tmpFile, $code);
+        $outputLines = [];
+        $returnCode = 0;
+        exec($binary . ' ' . escapeshellarg($tmpFile) . ' 2>&1', $outputLines, $returnCode);
+        @unlink($tmpFile);
+        $output = implode("\n", $outputLines);
+        return response()->json([
+            'output' => $output,
+            'code' => $returnCode
+        ]);
+    }
 }
