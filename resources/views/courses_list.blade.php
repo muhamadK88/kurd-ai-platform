@@ -115,8 +115,8 @@
         <div id="category-tabs" class="flex flex-wrap gap-3 justify-center max-w-5xl mx-auto"></div>
     </section>
 
-    <!-- بەشی زمانی فلتەر -->
-    <section class="relative z-10 container mx-auto px-4 pb-8 -mt-4">
+    <!-- بەشی زمانی فلتەر (تەنها دەرکەوتن کاتێک کەتێگۆریەک هەڵبژێردرا) -->
+    <section id="lang-filter-section" class="relative z-10 container mx-auto px-4 pb-8 -mt-4" style="display: none;">
         <div id="lang-filter-tabs" class="flex flex-wrap gap-3 justify-center max-w-3xl mx-auto"></div>
     </section>
 
@@ -319,7 +319,15 @@
 
         function renderLangFilterTabs(data) {
             const container = document.getElementById('lang-filter-tabs');
-            if (!container) return;
+            const section = document.getElementById('lang-filter-section');
+            if (!container || !section) return;
+
+            if (activeCategory === null) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
 
             const langNames = {
                 all: { so: 'هەموو زمانەکان', ba: 'هەموو زمانان', ar: 'كل اللغات', en: 'All Languages' },
@@ -400,6 +408,7 @@
                 btn.addEventListener('click', () => {
                     const cat = btn.dataset.category;
                     activeCategory = cat === 'all' ? null : cat;
+                    activeLangFilter = 'all';
                     renderCategoryTabs(data);
                     renderCourses(data);
                 });
