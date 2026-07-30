@@ -79,9 +79,12 @@
             </div>
 
             <div class="flex items-center gap-3">
-                <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-sm border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 dark:hover:bg-blue-800/50 transition">
-                    <span id="lang-text">بادینی</span>
-                </button>
+                <div id="lang-tabs" class="flex gap-1 bg-gray-100 dark:bg-gray-800/50 p-1 rounded-xl border border-gray-200/50 dark:border-gray-700/50">
+                    <button class="lang-tab px-3 py-1.5 rounded-lg text-sm font-bold transition-all" data-lang="so">سۆرانی</button>
+                    <button class="lang-tab px-3 py-1.5 rounded-lg text-sm font-bold transition-all" data-lang="ba">بادینی</button>
+                    <button class="lang-tab px-3 py-1.5 rounded-lg text-sm font-bold transition-all" data-lang="ar">العربية</button>
+                    <button class="lang-tab px-3 py-1.5 rounded-lg text-sm font-bold transition-all" data-lang="en">English</button>
+                </div>
                 <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition shadow-sm border border-gray-200/50 dark:border-gray-700/50">
                     <svg id="theme-toggle-light-icon" class="hidden dark:block w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707-.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
                     <svg id="theme-toggle-dark-icon" class="block dark:hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
@@ -143,11 +146,33 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
                         <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">کورتە (سۆرانی)</label>
-                        <textarea id="desc_so" required rows="4" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all resize-none"></textarea>
+                        <textarea id="desc_so" rows="4" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all resize-none"></textarea>
                     </div>
                     <div>
                         <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">کورتە (بادینی)</label>
-                        <textarea id="desc_ba" required rows="4" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all resize-none"></textarea>
+                        <textarea id="desc_ba" rows="4" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all resize-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">ناونیشان (عەرەبی)</label>
+                        <input type="text" id="title_ar" dir="rtl" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">ناونیشان (ئینگلیزی)</label>
+                        <input type="text" id="title_en" dir="ltr" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">کورتە (عەرەبی)</label>
+                        <textarea id="desc_ar" rows="4" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">کورتە (ئینگلیزی)</label>
+                        <textarea id="desc_en" rows="4" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all resize-none"></textarea>
                     </div>
                 </div>
 
@@ -205,25 +230,35 @@
 
         const IMGBB_API_KEY = "947299981b43abca761315a1cd24c02a"; 
 
-        // ----- بەشی زمان (Language Toggle) -----
+        // ----- بەشی زمان (Multi-Language Support) -----
+        const langNames = { so: 'سۆرانی', ba: 'بادینی', ar: 'العربية', en: 'English' };
         let currentLang = localStorage.getItem('site-lang') || 'so';
         let firebaseDataCache = {}; 
 
         function applyLanguage() {
-            const langBtnText = document.getElementById('lang-text');
-            if (langBtnText) {
-                langBtnText.innerText = currentLang === 'so' ? 'Badini' : 'سۆرانی';
-            }
-
             document.querySelectorAll('.lang-str').forEach(el => {
-                el.innerText = el.getAttribute(`data-${currentLang}`) || el.getAttribute('data-so');
+                el.innerText = el.getAttribute(`data-${currentLang}`) || el.getAttribute('data-so') || el.innerText;
             });
 
+            document.querySelectorAll('.lang-tab').forEach(btn => {
+                const lang = btn.dataset.lang;
+                if (lang === currentLang) {
+                    btn.className = 'lang-tab px-3 py-1.5 rounded-lg text-sm font-bold transition-all bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm';
+                } else {
+                    btn.className = 'lang-tab px-3 py-1.5 rounded-lg text-sm font-bold transition-all text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50';
+                }
+            });
+
+            renderCategoryTabs(firebaseDataCache);
             renderCourses(firebaseDataCache);
         }
 
-        document.getElementById('lang-toggle').addEventListener('click', () => {
-            currentLang = currentLang === 'so' ? 'ba' : 'so';
+        document.getElementById('lang-tabs').addEventListener('click', (e) => {
+            const btn = e.target.closest('.lang-tab');
+            if (!btn) return;
+            const lang = btn.dataset.lang;
+            if (lang === currentLang) return;
+            currentLang = lang;
             localStorage.setItem('site-lang', currentLang);
             applyLanguage();
         });
@@ -246,9 +281,9 @@
         let activeCategory = null;
 
         function courseCardHTML(c, showCategory) {
-            const title = currentLang === 'ba' && c.title_ba ? c.title_ba : c.title_so || c.title; 
-            const desc = currentLang === 'ba' && c.desc_ba ? c.desc_ba : c.desc_so || c.description;
-            const btnText = currentLang === 'so' ? 'دەستپێکردن' : 'دەستپێکرن';
+            const title = c[`title_${currentLang}`] || c.title_so || c.title || '';
+            const desc = c[`desc_${currentLang}`] || c.desc_so || c.description || '';
+            const btnText = currentLang === 'en' ? 'Start' : currentLang === 'ar' ? 'ابدأ' : currentLang === 'ba' ? 'دەستپێکرن' : 'دەستپێکردن';
             const freeText = currentLang === 'so' ? 'خۆڕایی' : 'بێ بەرامبەر';
             const priceBadge = c.price && c.price != 0 ? `$${c.price}` : freeText;
             const cat = c.category || 'گشتی';
@@ -285,6 +320,8 @@
 
             const cats = {};
             for (let id in data) {
+                const lang = currentLang;
+                const hasContent = data[id][`title_${lang}`] || data[id][`desc_${lang}`];
                 const cat = data[id].category || 'گشتی';
                 cats[cat] = (cats[cat] || 0) + 1;
             }
@@ -293,7 +330,8 @@
             const others = Object.keys(cats).filter(c => !categoryOrder.includes(c));
             const allCats = ['all', ...catsToShow, ...others.sort()];
 
-            const allText = currentLang === 'so' ? 'هەموو' : 'هەموو';
+            const langLabels = { so: 'هەموو', ba: 'هەموو', ar: 'الكل', en: 'All' };
+            const allText = langLabels[currentLang] || 'All';
 
             tabsContainer.innerHTML = allCats.map(cat => {
                 const isAll = cat === 'all';
@@ -393,8 +431,12 @@
                         await set(push(dbRef(db, 'courses')), {
                             title_so: document.getElementById('title_so').value,
                             title_ba: document.getElementById('title_ba').value,
+                            title_ar: document.getElementById('title_ar').value,
+                            title_en: document.getElementById('title_en').value,
                             desc_so: document.getElementById('desc_so').value,
                             desc_ba: document.getElementById('desc_ba').value,
+                            desc_ar: document.getElementById('desc_ar').value,
+                            desc_en: document.getElementById('desc_en').value,
                             video_url: document.getElementById('video_url').value,
                             price: document.getElementById('price').value,
                             category: document.getElementById('category').value,
