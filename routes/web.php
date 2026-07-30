@@ -86,6 +86,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/ferga', function () {
     return view('ferga');
 });
+<<<<<<< HEAD
 Route::post('/ferga/run-php', [AdminController::class, 'runPhpCode']);
 Route::post('/ferga/run-code', [AdminController::class, 'runCode']);
 Route::get('/about', function () {
@@ -94,6 +95,8 @@ Route::get('/about', function () {
 Route::get('/news', function () {
     return view('news');
 });
+=======
+>>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
 // ئەمە هێڵی ٩٠ بەدواوە بگۆڕە بۆ ئەمە:
 Route::get('/universities', function () {
     return view('universities');

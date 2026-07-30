@@ -71,20 +71,15 @@
         }
         .animation-delay-2000 { animation-delay: 2s; }
         .animation-delay-4000 { animation-delay: 4s; }
-        .line-clamp-3 {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;  
-            overflow: hidden;
-        }
     </style>
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
 
     <!-- ناڤباری سەرەکی -->
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
+    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+<<<<<<< HEAD
             
             <!-- بەشی لۆگۆ و ناوی پڕۆژە -->
             <a href="/" class="flex items-center gap-3 transition group relative">
@@ -118,12 +113,41 @@
                 <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
                 <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50 lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
                 <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="چنە دەر">دەرچوون</button>
+=======
+            <a href="/" class="flex items-center gap-3 hover:opacity-80 transition group">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 text-white font-black text-xl group-hover:scale-105 transition-transform">ئـ</div>
+                <h1 class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-800 to-blue-500 dark:from-blue-400 dark:to-cyan-300 lang-str" data-so="کورد ئەی ئای" data-ba="کورد ئەی ئای">کورد ئەی ئای</h1>
+            </a>
+
+            <div class="hidden md:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
+                <a href="/" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
+                <a href="/ferga" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
+                <a href="/courses" class="px-4 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
+                <a href="/ai-tools" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="تووڵەکانی AI" data-ba="ئامرازێن AI">تووڵەکانی AI</a>
+                <a href="/academic-guide" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
+                <a href="/universities" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-sm border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 dark:hover:bg-blue-800/50 transition">
+                    <span id="lang-text">بادینی</span>
+                </button>
+                <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition shadow-sm border border-gray-200/50 dark:border-gray-700/50">
+                    <svg id="theme-toggle-light-icon" class="hidden dark:block w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707-.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                    <svg id="theme-toggle-dark-icon" class="block dark:hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                </button>
+                <button id="logout-btn" class="flex items-center gap-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-800/50 px-4 py-2 rounded-xl hover:bg-red-500 hover:text-white dark:hover:bg-red-600 dark:hover:text-white font-bold text-sm transition-all duration-300 shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    <span class="lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</span>
+                </button>
+>>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
             </div>
         </div>
     </nav>
 
     <!-- بەشی هێدەر بە دیزاینی مۆدێرن -->
     <header class="relative min-h-[50vh] flex items-center justify-center overflow-hidden py-20 px-4">
+        <!-- باکگراوندی جوڵاو -->
         <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
             <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         </div>
@@ -134,8 +158,14 @@
         </div>
     </header>
 
+    <!-- بەشی کەتێگۆری فلتەر -->
+    <section class="relative z-10 container mx-auto px-4 pb-8">
+        <div id="category-tabs" class="flex flex-wrap gap-3 justify-center max-w-5xl mx-auto"></div>
+    </section>
+
     <!-- بەشی پیشاندانی کۆرسەکان -->
     <section class="relative z-10 container mx-auto pb-24 px-4">
+<<<<<<< HEAD
         
         <!-- بەشی فلتەرەکان (کەتەگۆری) -->
         <div class="mb-12 max-w-6xl mx-auto bg-white/40 dark:bg-gray-900/40 p-6 md:p-8 rounded-[2rem] border border-gray-200/50 dark:border-gray-800/50 shadow-sm backdrop-blur-xl">
@@ -164,12 +194,15 @@
 
         </div>
 
+=======
+>>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
         <div id="courses-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"></div>
     </section>
 
     <!-- بەشی زیادکردنی کۆرس (تایبەت بە ئەدمین) -->
     <section class="admin-only hidden relative z-10 container mx-auto pb-24 px-4">
         <div class="glass-card p-8 md:p-12 rounded-[2.5rem] shadow-2xl max-w-4xl mx-auto border-t-4 border-indigo-600 relative overflow-hidden">
+            <!-- دەیکۆرەیشنی ناو فۆڕم -->
             <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500 opacity-5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
 
             <h3 class="text-3xl font-black mb-8 text-center text-gray-900 dark:text-white lang-str" data-so="زیادکردنی کۆرسی نوێ (ئەدمین)" data-ba="زێدەکرنا کۆرسێ نوی (ئەدمین)">زیادکردنی کۆرسی نوێ</h3>
@@ -189,15 +222,19 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
                         <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">کورتە (سۆرانی)</label>
-                        <textarea id="desc_so" required rows="4" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all resize-none custom-scrollbar"></textarea>
+                        <textarea id="desc_so" rows="4" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all resize-none"></textarea>
                     </div>
                     <div>
                         <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">کورتە (بادینی)</label>
-                        <textarea id="desc_ba" required rows="4" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all resize-none custom-scrollbar"></textarea>
+                        <textarea id="desc_ba" rows="4" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all resize-none"></textarea>
                     </div>
                 </div>
 
+<<<<<<< HEAD
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+=======
+                <div class="grid grid-cols-2 gap-6 mb-8">
+>>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
                     <div>
                         <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2 lang-str" data-so="بەستەری ڤیدیۆ (لینکی یوتیوب یان درایڤ)" data-ba="لینکا ڤیدیۆیێ">بەستەری ڤیدیۆ</label>
                         <input type="url" id="video_url" required dir="ltr" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
@@ -208,6 +245,7 @@
                     </div>
                 </div>
 
+<<<<<<< HEAD
                 <!-- هاوپۆلی زمان و بابەت -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     <div>
@@ -228,6 +266,21 @@
                         </select>
                     </div>
                 </div>
+=======
+                <div class="mb-6">
+                    <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2 lang-str" data-so="کەتێگۆری (Category)" data-ba="کەتێگۆری (Category)">کەتێگۆری</label>
+                    <select id="category" required class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
+                        <option value="پرۆگرامسازی">پرۆگرامسازی (Programming)</option>
+                        <option value="داتا و زیرەکی دەستکرد">داتا و زیرەکی دەستکرد (Data & AI)</option>
+                        <option value="دیزاین">دیزاین (Design)</option>
+                        <option value="ئاسایشی ئەلیکترۆنی">ئاسایشی ئەلیکترۆنی (Cyber Security)</option>
+                        <option value="کلود و داتابەیس">کلود و داتابەیس (Cloud & Database)</option>
+                        <option value="بزنس و بەرھەمھێنان">بزنس و بەرھەمھێنان (Business)</option>
+                        <option value="زمان">زمان (Language)</option>
+                        <option value="ڤیدیۆ و مۆنتاژ">ڤیدیۆ و مۆنتاژ (Video Editing)</option>
+                    </select>
+                    </div>
+>>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
 
                 <div class="mb-8">
                     <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2 lang-str" data-so="وێنەی کۆرس (ئەپڵۆدکردن)" data-ba="وێنێ کۆرسێ">وێنەی کۆرس</label>
@@ -235,7 +288,7 @@
                         <input type="file" id="course_image_input" accept="image/*" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                         <div class="text-center pointer-events-none">
                             <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48"><path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400 font-bold">کلیک بکە یان وێنەکە ڕابکێشە بۆ ئێرە</p>
+                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">کلیک بکە یان وێنەکە ڕابکێشە بۆ ئێرە</p>
                         </div>
                     </div>
                 </div>
@@ -245,6 +298,7 @@
         </div>
     </section>
 
+<<<<<<< HEAD
     <!-- پەنجەرەی زیاتر ببینە (Modal) -->
     <div id="courseModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="window.closeCourseModal()"></div>
@@ -330,11 +384,13 @@
         </div>
     </div>
 
+=======
+>>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
     <!-- سکرێپتەکان -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getDatabase, ref as dbRef, push, set, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref as dbRef, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAizrzIAwVMDSXdu-Y0LYFDzwQPy79ThEs", authDomain: "ai-platform-adb1b.firebaseapp.com", databaseURL: "https://ai-platform-adb1b-default-rtdb.firebaseio.com", projectId: "ai-platform-adb1b", storageBucket: "ai-platform-adb1b.firebasestorage.app", messagingSenderId: "798560436587", appId: "1:798560436587:web:d4e3f4e5f862c7cbde0c2e" };
         const app = initializeApp(firebaseConfig);
@@ -342,6 +398,7 @@
         const db = getDatabase(app);
         const IMGBB_API_KEY = "947299981b43abca761315a1cd24c02a"; 
 
+<<<<<<< HEAD
         // گۆڕاوەکان بۆ فلتەرکردن
         let currentLang = localStorage.getItem('site-lang') || 'so';
         let firebaseDataCache = {}; 
@@ -367,8 +424,12 @@
         
         window.activeLang = 'all';
         window.activeTopic = 'all';
-
+=======
         // ----- بەشی زمان (Language Toggle) -----
+        let currentLang = localStorage.getItem('site-lang') || 'so';
+        let firebaseDataCache = {}; 
+>>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
+
         function applyLanguage() {
             const langBtnText = document.getElementById('lang-text');
             if (langBtnText) {
@@ -388,6 +449,7 @@
             applyLanguage();
         });
 
+<<<<<<< HEAD
         // ----- فەنکشنە جیهانییەکان بۆ مۆدێل و فلتەر -----
         window.openCourseModal = function(title, desc, badgeTxt, topicTxt) {
             document.getElementById('modalTitle').innerText = title;
@@ -402,18 +464,24 @@
                 modalContent.classList.remove('translate-y-4', 'opacity-0');
                 modalContent.classList.add('translate-y-0', 'opacity-100');
             }, 10);
+=======
+        // ----- category config -----
+        const categoryConfig = {
+            'پرۆگرامسازی': { icon: '💻', color: 'from-blue-600 to-cyan-500', bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-700 dark:text-blue-300', border: 'border-blue-200 dark:border-blue-800' },
+            'داتا و زیرەکی دەستکرد': { icon: '🧠', color: 'from-purple-600 to-pink-500', bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-700 dark:text-purple-300', border: 'border-purple-200 dark:border-purple-800' },
+            'دیزاین': { icon: '🎨', color: 'from-pink-600 to-rose-500', bg: 'bg-pink-100 dark:bg-pink-900/30', text: 'text-pink-700 dark:text-pink-300', border: 'border-pink-200 dark:border-pink-800' },
+            'ئاسایشی ئەلیکترۆنی': { icon: '🔒', color: 'from-red-600 to-orange-500', bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-300', border: 'border-red-200 dark:border-red-800' },
+            'کلود و داتابەیس': { icon: '☁️', color: 'from-sky-600 to-teal-500', bg: 'bg-sky-100 dark:bg-sky-900/30', text: 'text-sky-700 dark:text-sky-300', border: 'border-sky-200 dark:border-sky-800' },
+            'بزنس و بەرھەمھێنان': { icon: '💼', color: 'from-emerald-600 to-green-500', bg: 'bg-emerald-100 dark:bg-emerald-900/30', text: 'text-emerald-700 dark:text-emerald-300', border: 'border-emerald-200 dark:border-emerald-800' },
+            'زمان': { icon: '🌐', color: 'from-yellow-600 to-amber-500', bg: 'bg-yellow-100 dark:bg-yellow-900/30', text: 'text-yellow-700 dark:text-yellow-300', border: 'border-yellow-200 dark:border-yellow-800' },
+            'ڤیدیۆ و مۆنتاژ': { icon: '🎬', color: 'from-violet-600 to-indigo-500', bg: 'bg-violet-100 dark:bg-violet-900/30', text: 'text-violet-700 dark:text-violet-300', border: 'border-violet-200 dark:border-violet-800' },
+            'گشتی': { icon: '📚', color: 'from-gray-600 to-slate-500', bg: 'bg-gray-100 dark:bg-gray-800/30', text: 'text-gray-700 dark:text-gray-300', border: 'border-gray-200 dark:border-gray-700' }
+>>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
         };
 
-        window.closeCourseModal = function() {
-            const modal = document.getElementById('courseModal');
-            const modalContent = document.getElementById('modalContent');
-            modalContent.classList.remove('translate-y-0', 'opacity-100');
-            modalContent.classList.add('translate-y-4', 'opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
-        };
+        const categoryOrder = ['پرۆگرامسازی', 'داتا و زیرەکی دەستکرد', 'دیزاین', 'ئاسایشی ئەلیکترۆنی', 'کلود و داتابەیس', 'بزنس و بەرھەمھێنان', 'زمان', 'ڤیدیۆ و مۆنتاژ'];
 
+<<<<<<< HEAD
         window.filterByLang = function(lang) {
             window.activeLang = lang;
             document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -454,18 +522,55 @@
                 }
             });
         }
+=======
+        let activeCategory = null;
 
-        window.deleteCourse = async function(id) {
-            if(confirm('دڵنیایت لە سڕینەوەی ئەم کۆرسە؟')) {
-                try {
-                    await remove(dbRef(db, 'courses/' + id));
-                    alert('کۆرسەکە سڕایەوە');
-                } catch(error) {
-                    alert('هەڵەیەک ڕوویدا لە کاتی سڕینەوەدا');
-                }
+        function courseCardHTML(c, showCategory) {
+            let title = currentLang === 'ba' && c.title_ba ? c.title_ba : c.title_so || c.title;
+            let desc = currentLang === 'ba' && c.desc_ba ? c.desc_ba : c.desc_so || c.description;
+            const btnText = currentLang === 'so' ? 'دەستپێکردن' : 'دەستپێکرن';
+            const freeText = currentLang === 'so' ? 'خۆڕایی' : 'بێ بەرامبەر';
+            const priceBadge = c.price && c.price != 0 ? `$${c.price}` : freeText;
+            const cat = c.category || 'گشتی';
+            const cfg = categoryConfig[cat] || categoryConfig['گشتی'];
+            const catLabel = currentLang === 'so' ? cat : cat;
+>>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
+
+            return `
+                <div class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 overflow-hidden flex flex-col group hover:-translate-y-2">
+                    <div class="h-48 w-full relative overflow-hidden bg-gray-200 dark:bg-gray-800">
+                        <img src="${c.image_url}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute top-3 right-3 flex gap-2">
+                            ${showCategory ? `<span class="${cfg.bg} ${cfg.text} px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md border ${cfg.border} shadow-lg">${cfg.icon} ${catLabel}</span>` : ''}
+                            <span class="bg-white/90 dark:bg-[#0a0f1c]/90 text-gray-900 dark:text-white backdrop-blur-md px-3 py-1 rounded-full font-black text-xs shadow-lg border border-gray-200/50 dark:border-gray-700/50">${priceBadge}</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow relative bg-white/50 dark:bg-[#111827]/50">
+                        <h3 class="font-black text-xl mb-2 text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">${title}</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 line-clamp-2 leading-relaxed">${desc}</p>
+                        <div class="mt-auto pt-4 border-t border-gray-200/50 dark:border-gray-700/50">
+                            <a href="${c.video_url}" target="_blank" class="w-full block bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-center py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-500/30 hover:shadow-indigo-500/50 hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                ${btnText}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCategoryTabs(data) {
+            const tabsContainer = document.getElementById('category-tabs');
+            if (!tabsContainer) return;
+
+            const cats = {};
+            for (let id in data) {
+                const cat = data[id].category || 'گشتی';
+                cats[cat] = (cats[cat] || 0) + 1;
             }
-        };
 
+<<<<<<< HEAD
         window.toggleCourseFav = function(courseId, event) {
             if(event) event.stopPropagation();
             if (!currentUserId) return;
@@ -579,6 +684,45 @@
         });
 
         // ----- هێنان و پیشاندانی کۆرسەکان لە فایەربەیس (بە کۆمەڵ کەتەگۆری) -----
+=======
+            const catsToShow = categoryOrder.filter(c => cats[c]);
+            const others = Object.keys(cats).filter(c => !categoryOrder.includes(c));
+            const allCats = ['all', ...catsToShow, ...others.sort()];
+
+            const allText = currentLang === 'so' ? 'هەموو' : 'هەموو';
+
+            tabsContainer.innerHTML = allCats.map(cat => {
+                const isAll = cat === 'all';
+                const cfg = isAll ? null : (categoryConfig[cat] || categoryConfig['گشتی']);
+                const label = isAll ? allText : cat;
+                const count = isAll ? Object.keys(data).length : cats[cat];
+                const isActive = isAll ? activeCategory === null : activeCategory === cat;
+
+                return `
+                    <button class="category-tab px-5 py-2.5 rounded-2xl font-bold text-sm transition-all duration-300 flex items-center gap-2
+                        ${isActive 
+                            ? (isAll ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30' : `${cfg.bg} ${cfg.text} shadow-lg`) 
+                            : 'bg-white/50 dark:bg-gray-800/50 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 border border-gray-200/50 dark:border-gray-700/50'
+                        }
+                    " data-category="${cat}">
+                        ${isAll ? '' : `<span>${cfg.icon}</span>`}
+                        <span>${label}</span>
+                        <span class="text-xs opacity-60">(${count})</span>
+                    </button>
+                `;
+            }).join('');
+
+            tabsContainer.querySelectorAll('.category-tab').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const cat = btn.dataset.category;
+                    activeCategory = cat === 'all' ? null : cat;
+                    renderCategoryTabs(data);
+                    renderCourses(data);
+                });
+            });
+        }
+
+>>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
         function renderCourses(data) {
             const container = document.getElementById('courses-container');
             const topicFiltersContainer = document.getElementById('topic-filters');
@@ -593,6 +737,7 @@
                 return;
             }
 
+<<<<<<< HEAD
             // دروستکردنی دوگمەکانی فلتەری کەتەگۆری لە لیستی پێشوەخت دیاریکراو
             if(topicFiltersContainer) {
                 const allLabel = currentLang === 'so' ? 'هەموو کەتەگۆرییەکان' : 'هەمی کەتگۆری';
@@ -721,10 +866,29 @@
             
             // جارێکی تر فلتەرەکە جێبەجێ بکەوە بۆ ئەوەی هەر کۆرسێک نەگونجاو بێت بیشارێتەوە
             applyFilters();
+=======
+            let filtered = [];
+            for (let id in data) {
+                const cat = data[id].category || 'گشتی';
+                if (activeCategory === null || cat === activeCategory) {
+                    filtered.push({ ...data[id], id });
+                }
+            }
+
+            if (filtered.length === 0) {
+                const emptyText = currentLang === 'so' ? 'هیچ کۆرسێک لەم کەتێگۆریەدا نییە' : 'چ کۆرس د ڤی کەتێگۆریێدا نینە';
+                container.innerHTML = `<div class="col-span-1 md:col-span-2 lg:col-span-3 text-center py-20 glass-card rounded-[2rem] border border-dashed border-gray-300 dark:border-gray-700"><p class="text-gray-500 dark:text-gray-400 text-xl font-bold">${emptyText}</p></div>`;
+                return;
+            }
+
+            const showCategory = activeCategory === null;
+            container.innerHTML = filtered.map(c => courseCardHTML(c, showCategory)).join('');
+>>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
         }
 
         onValue(dbRef(db, 'courses'), (snapshot) => {
             firebaseDataCache = snapshot.val() || {};
+            renderCategoryTabs(firebaseDataCache);
             renderCourses(firebaseDataCache);
         });
 
@@ -760,10 +924,14 @@
                             title_ba: document.getElementById('title_ba').value,
                             desc_so: document.getElementById('desc_so').value,
                             desc_ba: document.getElementById('desc_ba').value,
+<<<<<<< HEAD
                             course_category: document.getElementById('course_category').value,
                             topic: document.getElementById('course_topic').value, // بابەتی نوێ (نموونە ژیری دەستکرد)
+=======
+>>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
                             video_url: document.getElementById('video_url').value,
                             price: document.getElementById('price').value,
+                            category: document.getElementById('category').value,
                             image_url: url
                         });
 
@@ -806,13 +974,16 @@
                     renderCourses(firebaseDataCache);
                 });
                 if(["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
-                    window.isAdmin = true;
                     document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
                 }
             }
         });
+<<<<<<< HEAD
         
          document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
+=======
+        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
+>>>>>>> df4ede4228ca553f4dfb5739740a489a0b79faa2
     </script>
 </body>
 </html>
