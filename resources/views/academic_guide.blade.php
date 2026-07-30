@@ -4,6 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title class="lang-str" data-so="ڕێنیشاندەری ئەکادیمی - کورد ئەی ئای" data-ba="ڕێبەرێ ئەکادیمی - کورد ئەی ئای">ڕێنیشاندەری ئەکادیمی - کورد ئەی ئای</title>
+<!-- Favicon (وێنە بچووکەکەی سەرەوەی تابەکە) -->
+<link rel="icon" href="/favicon.png" type="image/png">
+
+<!-- Meta Tags (بۆ سۆشیاڵ میدیا و گوگڵ) -->
+<meta name="description" content="کورد ئەی ئای - یەکەمین پلاتفۆرمی کوردی بۆ فێربوونی ژیریی دەستکرد و پرۆگرامسازی بە شێوازێکی مۆدێرن.">
+
+<!-- تایبەت بە فەیسبووک، تێلیگرام و نامەکان (Open Graph) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="کورد ئەی ئای - Kurd AI">
+<meta property="og:description" content="پەرە بە تواناکانت بدە لەگەڵ باشترین کۆرسەکانی ژیریی دەستکرد و پرۆگرامسازی.">
+<meta property="og:image" content="/logo.jpg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="description" content="ڕێنیشاندەری ئەکادیمی کورد ئەی ئای - ڕێنمایی زانکۆ و خوێندن">
+    <meta name="keywords" content="ڕێنیشاندەر, ئەکادیمی, زانکۆ, کورد ئەی ئای, خوێندن">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kurd-ai.com/academic-guide">
+    <meta property="og:title" content="ڕێنیشاندەری ئەکادیمی - KURD AI">
+    <meta property="og:description" content="ڕێنمایی زانکۆ و خوێندن بۆ خوێندکارانی کورد">
+    <meta property="og:image" content="https://kurd-ai.com/logo.jpg">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kurd-ai.com/academic-guide">
+    <meta property="twitter:title" content="ڕێنیشاندەری ئەکادیمی - KURD AI">
+    <meta property="twitter:description" content="ڕێنمایی زانکۆ و خوێندن بۆ خوێندکارانی کورد">
+    <meta property="twitter:image" content="https://kurd-ai.com/logo.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,7 +84,6 @@
     <!-- ناڤباری سەرەکی -->
     <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-       <div class="container mx-auto px-4 py-3 flex justify-between items-center">
         
         <!-- بەشی لۆگۆ و ناوی پڕۆژە -->
         <a href="/" class="flex items-center gap-3 transition group relative">
@@ -86,7 +110,7 @@
     <a href="/courses" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
     <a href="/news" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>
     <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
-    <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
+    <a href="/academic-guide" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
     <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
     <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەرباری مە">دەرباری ئێمە</a>
 </div>

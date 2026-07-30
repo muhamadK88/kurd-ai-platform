@@ -4,6 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>هەژمارەکەم - کورد ئەی ئای</title>
+<!-- Favicon (وێنە بچووکەکەی سەرەوەی تابەکە) -->
+<link rel="icon" href="/favicon.png" type="image/png">
+
+<!-- Meta Tags (بۆ سۆشیاڵ میدیا و گوگڵ) -->
+<meta name="description" content="کورد ئەی ئای - یەکەمین پلاتفۆرمی کوردی بۆ فێربوونی ژیریی دەستکرد و پرۆگرامسازی بە شێوازێکی مۆدێرن.">
+
+<!-- تایبەت بە فەیسبووک، تێلیگرام و نامەکان (Open Graph) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="کورد ئەی ئای - Kurd AI">
+<meta property="og:description" content="پەرە بە تواناکانت بدە لەگەڵ باشترین کۆرسەکانی ژیریی دەستکرد و پرۆگرامسازی.">
+<meta property="og:image" content="/logo.jpg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="description" content="پڕۆفایلی بەکارهێنەر - کورد ئەی ئای">
+    <meta name="keywords" content="پڕۆفایل, هەژمار, کورد ئەی ئای, بەکارهێنەر">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kurd-ai.com/profile">
+    <meta property="og:title" content="هەژمارەکەم - KURD AI">
+    <meta property="og:description" content="پڕۆفایلی بەکارهێنەر لە کورد ئەی ئای">
+    <meta property="og:image" content="https://kurd-ai.com/logo.jpg">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kurd-ai.com/profile">
+    <meta property="twitter:title" content="هەژمارەکەم - KURD AI">
+    <meta property="twitter:description" content="پڕۆفایلی بەکارهێنەر لە کورد ئەی ئای">
+    <meta property="twitter:image" content="https://kurd-ai.com/logo.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,137 +36,323 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
-        tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['"Noto Sans Arabic"', 'sans-serif'], } } } }
+        tailwind.config = { 
+            darkMode: 'class', 
+            theme: { 
+                extend: { 
+                    fontFamily: { sans: ['"Noto Sans Arabic"', 'sans-serif'] },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-up': 'fadeUp 0.6s ease-out',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                } 
+            } 
+        }
+        
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
         }
     </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dark .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            border: 1px solid rgba(55, 65, 81, 0.5);
+        }
+        .animation-delay-200 { animation-delay: 0.2s; }
+        .animation-delay-400 { animation-delay: 0.4s; }
+        .animation-delay-600 { animation-delay: 0.6s; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #475569; }
+    </style>
 </head>
 
-<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
+<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
 
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-sm transition-all duration-300">
+    <!-- ناڤباری سەرەکی (وەک پەڕەکانی دیکە) -->
+    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="/" class="flex items-center gap-3 hover:opacity-80 transition">
-                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg text-white font-black text-xl">ئـ</div>
-                <h1 class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-800 to-blue-500 dark:from-blue-400 dark:to-cyan-300 lang-str" data-so="کورد ئەی ئای" data-ba="کورد ئەی ئای">کورد ئەی ئای</h1>
+            
+            <a href="/" class="flex items-center gap-3 transition group relative">
+                <div class="relative flex-shrink-0">
+                    <div class="absolute -inset-2 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-all duration-300 dark:group-hover:opacity-50"></div>
+                    <img src="logo.jpg" alt="Kurd AI Logo" class="h-10 md:h-11 w-auto object-contain dark:invert drop-shadow-md group-hover:scale-105 transition-transform duration-300 relative z-10">
+                </div>
+                <div class="flex flex-col justify-center hidden sm:flex">
+                    <h1 class="text-xl md:text-2xl font-black tracking-tight text-gray-900 dark:text-white leading-none group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-300">KURD AI</h1>
+                    <span class="text-[0.55rem] md:text-[0.60rem] font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 mt-0.5">INNOVATION - FUTURE</span>
+                </div>
             </a>
-
-            <div class="hidden md:flex items-center space-x-reverse space-x-2">
-                <a href="/" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
-                <a href="/courses" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
-                <a href="/ai-tools" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition lang-str" data-so="تووڵەکانی AI" data-ba="ئامرازێن AI">تووڵەکانی AI</a>
-                <a href="/academic-guide" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
+            
+            <div class="hidden lg:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
+                <a href="/" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
+                <a href="/ferga" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
+                <a href="/courses" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
+                <a href="/news" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>
+                <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
+                <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
+                <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
+                <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەرباری مە">دەرباری ئێمە</a>
             </div>
-
-            <div class="flex items-center gap-3">
-                <button id="lang-toggle" class="px-3 py-2 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-sm hover:bg-blue-200 transition">
-                    <span id="lang-text">بادینی</span>
-                </button>
-
-                <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-300 shadow-sm flex items-center justify-center">
-                    <svg id="theme-toggle-light-icon" class="hidden dark:block w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707-.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                    <svg id="theme-toggle-dark-icon" class="block dark:hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                </button>
-
-                <button id="logout-btn" class="flex items-center gap-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-800/50 px-4 py-2 rounded-xl hover:bg-red-500 hover:text-white dark:hover:bg-red-600 dark:hover:text-white font-bold text-sm transition-all duration-300 shadow-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                    <span class="lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</span>
-                </button>
+            
+            <div class="flex items-center gap-2.5">
+                <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
+                <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
+                <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-blue-600 text-white font-bold rounded-xl text-xs shadow-lg shadow-blue-500/30 lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
+                <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="چنە دەر">دەرچوون</button>
             </div>
         </div>
     </nav>
 
-    <section class="container mx-auto py-12 px-4 max-w-5xl">
-        <!-- بەشی سەرەوەی پرۆفایل -->
-        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden mb-8">
-            <div class="h-32 bg-gradient-to-l from-blue-700 to-blue-900 dark:from-blue-900 dark:to-gray-900"></div>
-            <div class="px-8 pb-8 relative flex flex-col md:flex-row items-center md:items-end justify-between -mt-16 gap-6">
-                
-                <div class="flex flex-col md:flex-row items-center gap-6">
-                    <div id="profile-avatar" class="w-32 h-32 rounded-full bg-green-200 border-4 border-white dark:border-gray-800 flex items-center justify-center text-green-800 text-4xl font-black shadow-lg">
-                        -
-                    </div>
-                    <div class="text-center md:text-right mt-4 md:mt-16">
-                        <h2 id="profile-name" class="text-3xl font-black text-gray-800 dark:text-white mb-1">...</h2>
-                        <p id="profile-email" class="text-gray-500 dark:text-gray-400" dir="ltr">...</p>
-                    </div>
-                </div>
+    <!-- بەشی سەرەوەی پرۆفایل بە دیزاینی مۆدێرن -->
+    <header class="relative min-h-[40vh] flex items-center justify-center overflow-hidden py-16 px-4">
+        <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+            <div class="absolute top-0 -left-4 w-72 h-72 bg-blue-400 dark:bg-blue-600 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-20 animate-blob"></div>
+            <div class="absolute top-0 -right-4 w-72 h-72 bg-indigo-400 dark:bg-indigo-600 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-purple-400 dark:bg-purple-600 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        </div>
 
-                <div class="admin-only hidden bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400 px-4 py-2 rounded-full font-bold text-sm border border-red-200 dark:border-red-800 mb-2">
-                    <span class="lang-str" data-so="سەرپەرشتیار (ئەدمین)" data-ba="سەرپەرشتیار (ئەدمین)">سەرپەرشتیار (ئەدمین)</span>
+        <div class="relative z-10 w-full max-w-5xl mx-auto animate-fade-in">
+            <!-- کارتی پرۆفایل -->
+            <div class="glass-card rounded-[2.5rem] p-8 md:p-10 shadow-2xl border border-white/30 dark:border-gray-700/30 backdrop-blur-xl">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <!-- ئاڤاتار -->
+                    <div class="relative flex-shrink-0">
+                        <div class="absolute -inset-3 bg-gradient-to-br from-blue-600 via-indigo-500 to-purple-600 rounded-full blur-xl opacity-40 animate-pulse"></div>
+                        <div id="profile-avatar" class="relative w-28 h-28 md:w-36 md:h-36 rounded-full bg-gradient-to-br from-blue-500 to-indigo-700 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white text-5xl md:text-6xl font-black shadow-2xl">
+                            -
+                        </div>
+                        <div class="absolute -bottom-1 -right-1 w-8 h-8 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full flex items-center justify-center shadow-lg">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        </div>
+                    </div>
+
+                    <!-- زانیارییەکان -->
+                    <div class="flex-1 text-center md:text-right">
+                        <div class="flex flex-col md:flex-row md:items-center gap-3 mb-2">
+                            <h2 id="profile-name" class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white tracking-tight">...</h2>
+                            <span id="account-type-badge" class="hidden px-4 py-1.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-black rounded-full border border-blue-200 dark:border-blue-800/50 w-fit">
+                                <span class="lang-str" data-so="سەرپەرشتیار" data-ba="سەرپەرشتیار">سەرپەرشتیار</span>
+                            </span>
+                        </div>
+                        <p id="profile-email" class="text-gray-500 dark:text-gray-400 text-lg font-medium" dir="ltr">...</p>
+                        
+                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-4">
+                            <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                                <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                <span class="font-bold lang-str" data-so="هەژمار چالاکە" data-ba="هەژمار چالاکە">هەژمار چالاکە</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                                <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path></svg>
+                                <span class="font-bold lang-str" data-so="خۆڕایی" data-ba="بێ بەرامبەر">خۆڕایی</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </header>
 
-        <!-- پەنێڵی بەڕێوەبردن (تەنها بۆ ئەدمین) -->
-        <div class="admin-only hidden bg-white dark:bg-[#1a2035] rounded-3xl shadow-sm border border-gray-100 dark:border-[#2a3045] p-8 mb-8">
-            <div class="text-center mb-8">
-                <h3 class="text-2xl font-black text-blue-600 dark:text-blue-400 mb-2 flex items-center justify-center gap-2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    <span class="lang-str" data-so="پەنێڵی بەڕێوەبردن (تایبەت بە تیمی ئەدمین)" data-ba="پەنەلێ بڕێڤەبرنێ (تایبەت ب تیمێ ئەدمینی ڤە)">پەنێڵی بەڕێوەبردن (تایبەت بە تیمی ئەدمین)</span>
+    <!-- ناوەڕۆکی پرۆفایل -->
+    <section class="relative z-10 container mx-auto pb-24 px-4 -mt-8">
+        <div class="max-w-5xl mx-auto space-y-8">
+
+            <!-- پەنێڵی بەڕێوەبردن (تەنها بۆ ئەدمین) -->
+            <div class="admin-only hidden animate-slide-up">
+                <div class="glass-card rounded-[2rem] p-8 md:p-10 shadow-xl border border-white/30 dark:border-gray-700/30 backdrop-blur-xl">
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-black mb-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <span class="lang-str" data-so="پەنێڵی بەڕێوەبردن" data-ba="پەنەلێ بڕێڤەبرنێ">پەنێڵی بەڕێوەبردن</span>
+                        </div>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm lang-str" data-so="لێرەوە دەستگەیشتنی خێرا بۆ بەشەکانی بەڕێوەبردنی ماڵپەڕ." data-ba="ژ ڤێرێ دەستگەهشتنەکا لەز بۆ بەشێن بڕێڤەبرنا مالپەری.">لێرەوە دەستگەیشتنی خێرا بۆ بەشەکانی بەڕێوەبردنی ماڵپەڕ.</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <a href="/courses" class="group bg-gray-50/80 dark:bg-[#111827]/80 border border-gray-200/50 dark:border-gray-700/50 text-gray-700 dark:text-gray-300 font-bold py-5 px-6 rounded-2xl text-center hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-200 dark:hover:border-blue-800/50 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 shadow-sm">
+                            <svg class="w-6 h-6 mx-auto mb-2 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                            <span class="text-sm lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</span>
+                        </a>
+                        <a href="/ai-tools" class="group bg-gray-50/80 dark:bg-[#111827]/80 border border-gray-200/50 dark:border-gray-700/50 text-gray-700 dark:text-gray-300 font-bold py-5 px-6 rounded-2xl text-center hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-200 dark:hover:border-blue-800/50 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 shadow-sm">
+                            <svg class="w-6 h-6 mx-auto mb-2 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <span class="text-sm lang-str" data-so="ئامرازەکان" data-ba="ئامراز">ئامرازەکان</span>
+                        </a>
+                        <a href="/academic-guide" class="group bg-gray-50/80 dark:bg-[#111827]/80 border border-gray-200/50 dark:border-gray-700/50 text-gray-700 dark:text-gray-300 font-bold py-5 px-6 rounded-2xl text-center hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-200 dark:hover:border-blue-800/50 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 shadow-sm">
+                            <svg class="w-6 h-6 mx-auto mb-2 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                            <span class="text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</span>
+                        </a>
+                        <a href="/ferga" class="group bg-gray-50/80 dark:bg-[#111827]/80 border border-gray-200/50 dark:border-gray-700/50 text-gray-700 dark:text-gray-300 font-bold py-5 px-6 rounded-2xl text-center hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-200 dark:hover:border-blue-800/50 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 shadow-sm">
+                            <svg class="w-6 h-6 mx-auto mb-2 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                            <span class="text-sm lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- کارتەکانی ئامار و زانیاری -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- ئامارەکان -->
+                <div class="lg:col-span-2 glass-card rounded-[2rem] p-8 md:p-10 shadow-xl border border-white/30 dark:border-gray-700/30 backdrop-blur-xl animate-slide-up animation-delay-200">
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-8 text-center flex items-center justify-center gap-3">
+                        <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                        <span class="lang-str" data-so="ئامار و چالاکییەکان" data-ba="ئامار و چالاکی">ئامار و چالاکییەکان</span>
+                    </h3>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
+                            <div class="text-3xl md:text-4xl font-black text-blue-500 mb-1 fav-stats-courses">٠</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="کۆرسی دڵخواز" data-ba="کۆرسێن دڵخواز">کۆرسی دڵخواز</div>
+                        </div>
+                        <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
+                            <div class="text-3xl md:text-4xl font-black text-indigo-500 mb-1 fav-stats-tools">٠</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="ئامرازی دڵخواز" data-ba="ئامرازێن دڵخواز">ئامرازی دڵخواز</div>
+                        </div>
+                        <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
+                            <div class="text-3xl md:text-4xl font-black text-purple-500 mb-1">٠</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="ڕۆژی بەشداری" data-ba="ڕۆژێن پشکداری">ڕۆژی بەشداری</div>
+                        </div>
+                        <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
+                            <div class="text-3xl md:text-4xl font-black text-cyan-500 mb-1">-</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="پلەی ئێستا" data-ba="پلەیێ ئێستا">پلەی ئێستا</div>
+                        </div>
+                    </div>
+
+                    <p class="text-center text-sm text-gray-400 dark:text-gray-500 lang-str" data-so="لە داهاتوودا چالاکییەکانت و پێشکەوتنەکانت لێرەدا پیشان دەدرێت، کاتێک لە کۆرسەکان خوێندنت دەستپێکرد." data-ba="د پاشەڕۆژێ دا چالاکی و پێشکەفتنێن تە د ڤێرە دێ نیشان بدرن، دەمێ تۆ دەست ب خوێندنا کۆرسان بکی.">لە داهاتوودا چالاکییەکانت و پێشکەوتنەکانت لێرەدا پیشان دەدرێت.</p>
+                </div>
+
+                <!-- زانیارییە کەسییەکان -->
+                <div class="glass-card rounded-[2rem] p-8 md:p-10 shadow-xl border border-white/30 dark:border-gray-700/30 backdrop-blur-xl animate-slide-up animation-delay-400">
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-8 text-center flex items-center justify-center gap-3">
+                        <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        <span class="lang-str" data-so="زانیارییە کەسییەکان" data-ba="پێزانینێن کەسی">زانیارییە کەسییەکان</span>
+                    </h3>
+                    
+                    <div class="space-y-5">
+                        <div class="flex items-center justify-between p-4 bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl border border-gray-100/50 dark:border-gray-700/50">
+                            <span class="text-gray-500 dark:text-gray-400 font-bold text-sm lang-str" data-so="جۆری هەژمار" data-ba="جۆرێ هەژمارێ">جۆری هەژمار</span>
+                            <span id="account-type" class="font-black text-gray-800 dark:text-white lang-str" data-so="بەکارهێنەر" data-ba="بکارهێنەر">بەکارهێنەر</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl border border-gray-100/50 dark:border-gray-700/50">
+                            <span class="text-gray-500 dark:text-gray-400 font-bold text-sm lang-str" data-so="بەشداریکردن" data-ba="پشکداریکرن">بەشداریکردن</span>
+                            <span class="font-black text-green-600 dark:text-green-400 lang-str" data-so="خۆڕایی (چالاکە)" data-ba="بێ بەرامبەر (چالاکە)">خۆڕایی (چالاکە)</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl border border-gray-100/50 dark:border-gray-700/50">
+                            <span class="text-gray-500 dark:text-gray-400 font-bold text-sm lang-str" data-so="ڕەوش" data-ba="ڕەوش">ڕەوش</span>
+                            <span class="font-black text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                                <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                                <span class="lang-str" data-so="چالاکە" data-ba="چالاکە">چالاکە</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- کارتی زیادە: سەرکەوتنەکان -->
+            <div class="glass-card rounded-[2rem] p-8 md:p-10 shadow-xl border border-white/30 dark:border-gray-700/30 backdrop-blur-xl animate-slide-up animation-delay-600">
+                <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-6 text-center flex items-center justify-center gap-3">
+                    <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                    <span class="lang-str" data-so="سەرکەوتن و دەستکەوتەکان" data-ba="سەرکەفتن و دەستکەفتن">سەرکەوتن و دەستکەوتەکان</span>
                 </h3>
-                <p class="text-gray-500 dark:text-blue-300/70 text-sm lang-str" data-so="لێرەوە دەتوانیت دەستگەیشتنی خێرای هەبێت بۆ بەشەکانی زیادکردنی داتا لە ماڵپەڕەکەدا." data-ba="ژ ڤێرێ تۆ دشێی ب لەز بگەهیە بەشێن زێدەکرنا داتایان ل مالپەری.">لێرەوە دەتوانیت دەستگەیشتنی خێرای هەبێت بۆ بەشەکانی زیادکردنی داتا لە ماڵپەڕەکەدا.</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <a href="/courses" class="bg-gray-100 dark:bg-[#111827] border border-transparent dark:border-gray-800 text-gray-700 dark:text-gray-300 font-bold py-4 px-6 rounded-2xl text-center hover:bg-gray-200 dark:hover:bg-[#1f2937] transition shadow-sm">
-                    <span class="lang-str" data-so="بەڕێوەبردنی کۆرسەکان" data-ba="بڕێڤەبرنا کۆرسان">بەڕێوەبردنی کۆرسەکان</span>
-                </a>
-                <a href="/ai-tools" class="bg-gray-100 dark:bg-[#111827] border border-transparent dark:border-gray-800 text-gray-700 dark:text-gray-300 font-bold py-4 px-6 rounded-2xl text-center hover:bg-gray-200 dark:hover:bg-[#1f2937] transition shadow-sm">
-                    <span class="lang-str" data-so="بەڕێوەبردنی ئامرازەکان" data-ba="بڕێڤەبرنا ئامرازان">بەڕێوەبردنی ئامرازەکان</span>
-                </a>
-                <a href="/academic-guide" class="bg-gray-100 dark:bg-[#111827] border border-transparent dark:border-gray-800 text-gray-700 dark:text-gray-300 font-bold py-4 px-6 rounded-2xl text-center hover:bg-gray-200 dark:hover:bg-[#1f2937] transition shadow-sm">
-                    <span class="lang-str" data-so="بەڕێوەبردنی ڕێنیشاندەر" data-ba="بڕێڤەبرنا ڕێبەری">بەڕێوەبردنی ڕێنیشاندەر</span>
-                </a>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- چالاکییەکانی من -->
-            <div class="md:col-span-2 bg-white dark:bg-[#1a2035] rounded-3xl shadow-sm border border-gray-100 dark:border-[#2a3045] p-8">
-                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-6 text-center lang-str" data-so="چالاکییەکانی من" data-ba="چالاکیێن من">چالاکییەکانی من</h3>
                 
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div class="bg-gray-50 dark:bg-[#111827] p-6 rounded-2xl text-center border border-gray-100 dark:border-gray-800">
-                        <div class="text-2xl font-black text-blue-500 mb-1">٠</div>
-                        <div class="text-sm text-gray-500 dark:text-gray-400 lang-str" data-so="کۆرسی تەواوکراو" data-ba="کۆرسێن ب دوماهی هاتی">کۆرسی تەواوکراو</div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="text-center p-4">
+                        <div class="w-14 h-14 mx-auto mb-3 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl flex items-center justify-center opacity-40">
+                            <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+                        </div>
+                        <p class="text-xs font-bold text-gray-400 dark:text-gray-500 lang-str" data-so="بەخێربێیت" data-ba="بەخێر هاتی">بەخێربێیت</p>
                     </div>
-                    <div class="bg-gray-50 dark:bg-[#111827] p-6 rounded-2xl text-center border border-gray-100 dark:border-gray-800">
-                        <div class="text-2xl font-black text-blue-500 mb-1">٠</div>
-                        <div class="text-sm text-gray-500 dark:text-gray-400 lang-str" data-so="ئامرازی دڵخواز" data-ba="ئامرازێن دڵخواز">ئامرازی دڵخواز</div>
+                    <div class="text-center p-4">
+                        <div class="w-14 h-14 mx-auto mb-3 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl flex items-center justify-center opacity-40">
+                            <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <p class="text-xs font-bold text-gray-400 dark:text-gray-500 lang-str" data-so="یەکەم کۆرس" data-ba="کۆرسێ یەکێ">یەکەم کۆرس</p>
                     </div>
-                </div>
-                
-                <p class="text-center text-sm text-gray-400 dark:text-gray-500 lang-str" data-so="لەم بەشەدا لە داهاتوودا چالاکییەکانت و پێشکەوتنەکانت پیشان دەدرێت." data-ba="د ڤی بەشی دا د پاشەڕۆژێ دا چالاکی و پێشکەفتنێن تە دێ هێنە نیشاندان.">لەم بەشەدا لە داهاتوودا چالاکییەکانت و پێشکەوتنەکانت پیشان دەدرێت.</p>
-            </div>
-
-            <!-- زانیارییە کەسییەکان -->
-            <div class="bg-white dark:bg-[#1a2035] rounded-3xl shadow-sm border border-gray-100 dark:border-[#2a3045] p-8 flex flex-col justify-center">
-                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-6 text-center lang-str" data-so="زانیارییە کەسییەکان" data-ba="پێزانینێن کەسی">زانیارییە کەسییەکان</h3>
-                
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center border-b border-gray-100 dark:border-gray-700/50 pb-4">
-                        <span class="text-gray-500 dark:text-gray-400 font-bold text-sm lang-str" data-so="جۆری هەژمار" data-ba="جۆرێ هەژمارێ">جۆری هەژمار</span>
-                        <span id="account-type" class="font-bold text-gray-800 dark:text-white lang-str" data-so="بەکارهێنەر" data-ba="بکارهێنەر">بەکارهێنەر</span>
+                    <div class="text-center p-4">
+                        <div class="w-14 h-14 mx-auto mb-3 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl flex items-center justify-center opacity-40">
+                            <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <p class="text-xs font-bold text-gray-400 dark:text-gray-500 lang-str" data-so="١ کاتژمێر" data-ba="١ دەمژمێر">١ کاتژمێر</p>
                     </div>
-                    <div class="flex justify-between items-center pt-2">
-                        <span class="text-gray-500 dark:text-gray-400 font-bold text-sm lang-str" data-so="بەشداریکردن" data-ba="پشکداریکرن">بەشداریکردن</span>
-                        <span class="font-bold text-gray-800 dark:text-white lang-str" data-so="خۆڕایی (چالاکە)" data-ba="بێ بەرامبەر (چالاکە)">خۆڕایی (چالاکە)</span>
+                    <div class="text-center p-4">
+                        <div class="w-14 h-14 mx-auto mb-3 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl flex items-center justify-center opacity-40">
+                            <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+                        </div>
+                        <p class="text-xs font-bold text-gray-400 dark:text-gray-500 lang-str" data-so="نوێ" data-ba="نو">نوێ</p>
                     </div>
                 </div>
             </div>
+
+            <!-- بەشی دڵخوازەکان (Favorites) -->
+            <div class="glass-card rounded-[2rem] p-8 md:p-10 shadow-xl border border-white/30 dark:border-gray-700/30 backdrop-blur-xl animate-slide-up">
+                <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-6 text-center flex items-center justify-center gap-3">
+                    <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    <span class="lang-str" data-so="دڵخوازەکان" data-ba="دڵخواز">دڵخوازەکان</span>
+                </h3>
+
+                <!-- Tab buttons: Courses / Tools -->
+                <div class="flex justify-center gap-3 mb-8">
+                    <button id="fav-tab-courses" onclick="switchFavTab('courses')" class="px-6 py-2.5 bg-blue-600 text-white font-bold rounded-xl text-sm shadow-lg shadow-blue-500/30 transition-all lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</button>
+                    <button id="fav-tab-tools" onclick="switchFavTab('tools')" class="px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-bold rounded-xl text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-all lang-str" data-so="ئامرازەکان" data-ba="ئامراز">ئامرازەکان</button>
+                </div>
+
+                <!-- Favorites content -->
+                <div id="fav-content" class="min-h-[100px]">
+                    <div id="fav-courses" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                    <div id="fav-tools" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 hidden"></div>
+                    <div id="fav-empty" class="text-center py-10">
+                        <svg class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        <p class="text-gray-400 dark:text-gray-500 font-bold lang-str" data-so="هێشتا هیچ دڵخوازێکی نییە" data-ba="هێشتا چ دڵخواز نینە">هێشتا هیچ دڵخوازێکی نییە</p>
+                        <p class="text-gray-300 dark:text-gray-600 text-sm mt-2 lang-str" data-so="لە کۆرس یان ئامرازەکاندا کرتە لەسەر دڵ بکە بۆ زیادکردن" data-ba="د کۆرس یان ئامرازان دا کرتە لسەر دڵ بکە بۆ زێدەکرن">لە کۆرس یان ئامرازەکاندا کرتە لەسەر دڵ بکە بۆ زیادکردن</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAizrzIAwVMDSXdu-Y0LYFDzwQPy79ThEs", authDomain: "ai-platform-adb1b.firebaseapp.com", databaseURL: "https://ai-platform-adb1b-default-rtdb.firebaseio.com", projectId: "ai-platform-adb1b", storageBucket: "ai-platform-adb1b.firebasestorage.app", messagingSenderId: "798560436587", appId: "1:798560436587:web:d4e3f4e5f862c7cbde0c2e" };
-        const auth = getAuth(initializeApp(firebaseConfig));
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
 
         let currentLang = localStorage.getItem('site-lang') || 'so';
         let isAdmin = false;
@@ -155,7 +366,6 @@
                 el.innerText = text;
             });
 
-            // تایبەت بە جۆری هەژمار (ئەگەر ئەدمین بوو، با تێکستەکە بگرێتەوە)
             const typeEl = document.getElementById('account-type');
             if(isAdmin && typeEl) {
                 typeEl.innerText = currentLang === 'so' ? 'ئەدمین (تایبەت)' : 'ئەدمین (تایبەت)';
@@ -167,9 +377,10 @@
             currentLang = currentLang === 'so' ? 'ba' : 'so';
             localStorage.setItem('site-lang', currentLang);
             applyLanguage();
+            renderFavCourses();
+            renderFavTools();
         });
 
-        // Theme Toggle
         document.getElementById('theme-toggle').addEventListener('click', () => {
             if (document.documentElement.classList.contains('dark')) {
                 document.documentElement.classList.remove('dark');
@@ -180,7 +391,6 @@
             }
         });
 
-        // وەرگرتنی پیتی یەکەمی ناو بۆ وێنەی پرۆفایل
         function getInitials(name) {
             if(!name) return 'U';
             const parts = name.split(' ');
@@ -190,27 +400,145 @@
             return name.substring(0, 2).toUpperCase();
         }
 
-        // Auth Check
+        let favTab = 'courses';
+        let favCourses = {};
+        let favTools = {};
+        let coursesData = {};
+        let toolsData = {};
+
+        window.switchFavTab = function(tab) {
+            favTab = tab;
+            document.getElementById('fav-tab-courses').className = tab === 'courses' ? 'px-6 py-2.5 bg-blue-600 text-white font-bold rounded-xl text-sm shadow-lg shadow-blue-500/30 transition-all' : 'px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-bold rounded-xl text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-all';
+            document.getElementById('fav-tab-tools').className = tab === 'tools' ? 'px-6 py-2.5 bg-blue-600 text-white font-bold rounded-xl text-sm shadow-lg shadow-blue-500/30 transition-all' : 'px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-bold rounded-xl text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-all';
+            document.getElementById('fav-courses').classList.toggle('hidden', tab !== 'courses');
+            document.getElementById('fav-tools').classList.toggle('hidden', tab !== 'tools');
+            renderFavCourses();
+            renderFavTools();
+        };
+
+        function renderFavCourses() {
+            const container = document.getElementById('fav-courses');
+            const favIds = Object.keys(favCourses);
+            if (favIds.length === 0) {
+                container.innerHTML = '';
+                document.getElementById('fav-empty').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('fav-empty').classList.add('hidden');
+            let html = '';
+            favIds.forEach(id => {
+                const c = coursesData[id];
+                if (!c) return;
+                const title = currentLang === 'ba' && c.title_ba ? c.title_ba : c.title_so || c.title;
+                const desc = currentLang === 'ba' && c.desc_ba ? c.desc_ba : c.desc_so || c.description;
+                html += `
+                    <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl overflow-hidden border border-gray-100/50 dark:border-gray-700/50 hover:border-red-200 dark:hover:border-red-800/50 transition-all group relative">
+                        <button onclick="removeFavCourse('${id}', event)" class="absolute top-2 left-2 z-10 w-7 h-7 flex items-center justify-center rounded-full bg-red-500/80 text-white opacity-0 group-hover:opacity-100 hover:bg-red-600 transition-all" title="${currentLang === 'so' ? 'لابردن' : 'ژێبرن'}">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                        <div class="h-28 overflow-hidden bg-gray-200 dark:bg-gray-800">
+                            <img src="${c.image_url}" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-black text-sm text-gray-900 dark:text-white line-clamp-1 mb-2">${title}</h4>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">${desc || ''}</p>
+                            <a href="${c.video_url}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 transition">
+                                <span>${currentLang === 'so' ? 'بینین' : 'دیتن'}</span>
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderFavTools() {
+            const container = document.getElementById('fav-tools');
+            const favIds = Object.keys(favTools);
+            if (favIds.length === 0) {
+                container.innerHTML = '';
+                document.getElementById('fav-empty').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('fav-empty').classList.add('hidden');
+            let html = '';
+            favIds.forEach(id => {
+                const t = toolsData[id];
+                if (!t) return;
+                const title = currentLang === 'ba' && t.title_ba ? t.title_ba : t.title_so || t.title;
+                html += `
+                    <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-4 border border-gray-100/50 dark:border-gray-700/50 hover:border-red-200 dark:hover:border-red-800/50 transition-all group flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl overflow-hidden bg-white dark:bg-gray-800 flex-shrink-0 p-2 border border-gray-100 dark:border-gray-700">
+                            <img src="${t.image_url}" class="w-full h-full object-contain">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-black text-sm text-gray-900 dark:text-white line-clamp-1">${title}</h4>
+                            <a href="${t.tool_url}" target="_blank" class="text-xs font-bold text-purple-600 dark:text-purple-400 hover:text-purple-800 transition flex items-center gap-1">
+                                <span>${currentLang === 'so' ? 'کردنەوە' : 'ڤەکرن'}</span>
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            </a>
+                        </div>
+                        <button onclick="removeFavTool('${id}', event)" class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-red-50 dark:bg-red-900/20 text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 hover:text-red-600 transition" title="${currentLang === 'so' ? 'لابردن' : 'ژێبرن'}">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        window.removeFavCourse = function(courseId, event) {
+            if (event) event.stopPropagation();
+            const user = auth.currentUser;
+            if (user) remove(ref(db, 'favorites/' + user.uid + '/courses/' + courseId));
+        };
+
+        window.removeFavTool = function(toolId, event) {
+            if (event) event.stopPropagation();
+            const user = auth.currentUser;
+            if (user) remove(ref(db, 'favorites/' + user.uid + '/ai_tools/' + toolId));
+        };
+
         onAuthStateChanged(auth, (user) => { 
             if(!user) {
                 window.location.href = "/login"; 
             } else { 
                 document.body.style.display = 'block'; 
                 
-                // دانانی زانیارییەکانی بەکارهێنەر
                 let displayName = user.displayName || user.email.split('@')[0];
                 document.getElementById('profile-name').innerText = displayName;
                 document.getElementById('profile-email').innerText = user.email;
                 document.getElementById('profile-avatar').innerText = getInitials(displayName);
 
-                // پشکنین بۆ ئەدمین
                 const adminEmails = ["team@kurd-ai.com", "mahamadkamaran890@gmail.com"];
                 if(adminEmails.includes(user.email)) {
                     isAdmin = true;
                     document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+                    document.getElementById('account-type-badge').classList.remove('hidden');
                 }
-                
-                applyLanguage(); // کارپێکردنی زمان دوای بارکردنی زانیارییەکان
+
+                // بارکردنی دڵخوازەکان و کۆرس/ئامرازەکان
+                onValue(ref(db, 'favorites/' + user.uid + '/courses'), (snap) => {
+                    favCourses = snap.val() || {};
+                    document.querySelector('.fav-stats-courses').textContent = Object.keys(favCourses).length;
+                    if (favTab === 'courses') renderFavCourses();
+                });
+                onValue(ref(db, 'favorites/' + user.uid + '/ai_tools'), (snap) => {
+                    favTools = snap.val() || {};
+                    document.querySelector('.fav-stats-tools').textContent = Object.keys(favTools).length;
+                    if (favTab === 'tools') renderFavTools();
+                });
+                onValue(ref(db, 'courses'), (snap) => {
+                    coursesData = snap.val() || {};
+                    if (favTab === 'courses') renderFavCourses();
+                });
+                onValue(ref(db, 'ai_tools'), (snap) => {
+                    toolsData = snap.val() || {};
+                    if (favTab === 'tools') renderFavTools();
+                });
+
+                applyLanguage();
             }
         });
         

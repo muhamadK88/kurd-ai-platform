@@ -4,6 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دەربارەی ئێمە - کورد ئەی ئای</title>
+<!-- Favicon (وێنە بچووکەکەی سەرەوەی تابەکە) -->
+<link rel="icon" href="/favicon.png" type="image/png">
+
+<!-- Meta Tags (بۆ سۆشیاڵ میدیا و گوگڵ) -->
+<meta name="description" content="کورد ئەی ئای - یەکەمین پلاتفۆرمی کوردی بۆ فێربوونی ژیریی دەستکرد و پرۆگرامسازی بە شێوازێکی مۆدێرن.">
+
+<!-- تایبەت بە فەیسبووک، تێلیگرام و نامەکان (Open Graph) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="کورد ئەی ئای - Kurd AI">
+<meta property="og:description" content="پەرە بە تواناکانت بدە لەگەڵ باشترین کۆرسەکانی ژیریی دەستکرد و پرۆگرامسازی.">
+<meta property="og:image" content="/logo.jpg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="description" content="دەربارەی کورد ئەی ئای - پلاتفۆرمی فێربوونی زیرەکی دەستکرد و پرۆگرامسازی">
+    <meta name="keywords" content="دەربارەی ئێمە, کورد ئەی ئای, تیم, پلاتفۆرم">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kurd-ai.com/about">
+    <meta property="og:title" content="دەربارەی ئێمە - KURD AI">
+    <meta property="og:description" content="پلاتفۆرمی فێربوونی زیرەکی دەستکرد و پرۆگرامسازی بە زمانی کوردی">
+    <meta property="og:image" content="https://kurd-ai.com/logo.jpg">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kurd-ai.com/about">
+    <meta property="twitter:title" content="دەربارەی ئێمە - KURD AI">
+    <meta property="twitter:description" content="پلاتفۆرمی فێربوونی زیرەکی دەستکرد و پرۆگرامسازی بە زمانی کوردی">
+    <meta property="twitter:image" content="https://kurd-ai.com/logo.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,7 +112,7 @@
     <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
     <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
     <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
-    <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەرباری مە">دەرباری ئێمە</a>
+    <a href="/about" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەرباری مە">دەرباری ئێمە</a>
 </div>
             <div class="flex items-center gap-2.5">
                 <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
@@ -139,8 +164,7 @@
                     </div>
                     <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">محمد کامران حمەساڵح</h4>
                     <p class="text-blue-600 dark:text-blue-400 font-bold text-center text-sm mb-6">زانکۆی ئاکرێ بۆ زانستە کردارییەکان - قۆناغی سێیەم</p>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="سەرپەرشتیار و پێشڕەوی پڕۆژەی کورد ئەی ئای. خاوەن دیدگاهێکی مۆدێرن لە بواری تەکنەلۆژیا و زیرەکی دەستکرددا، کار بۆ دابینکردن و ئاسانکاری پلاتفۆرمە ئەکادیمییەکان دەکات بە شێوازێکی پێشکەوتوو و داهێنەرانە." data-ba="لێرە دشێی کورتەیەک ژ کار و پسپۆڕیا ڤی ئەندامی بنووسی.">سەرپەرشتیاری گشتی و پەرەپێدەری سەرەکی</p>
-                </div>
+<p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="خوێندکاری بەشی ژیریی دەستکرد لە زانکۆی ئاکرێ و دامەزرێنەری پلاتفۆرمی کورد ئەی ئای. پەرەپێدەرێکی لێهاتووی سیستەمە زیرەکەکان و وێب، ئامانجی سەرەکی دروستکردنی ئامرازی پێشکەوتوو و ئاسانکردنی ژیانی ئەکادیمییە بۆ فێرخوازان." data-ba="قوتابیێ بەشێ ژیرییا دەستکرد ل زانکۆیا ئاکرێ و دامەزرێنەرێ پلاتفۆرمێ کورد ئەی ئای. پێشڤەبەرەکێ لێهاتی یێ سیستەمێن زیرەک و وێبی، ئارمانجا سەرەکی دروستکرنا ئامرازێن پێشکەفتی و ب ساناھیکرنا ژیانا ئەکادیمییە بۆ قوتابیان.">خوێندکاری بەشی ژیریی دەستکرد لە زانکۆی ئاکرێ و دامەزرێنەری پلاتفۆرمی کورد ئەی ئای. پەرەپێدەرێکی لێهاتووی سیستەمە زیرەکەکان و وێب، ئامانجی سەرەکی دروستکردنی ئامرازی پێشکەوتوو و ئاسانکردنی ژیانی ئەکادیمییە بۆ فێرخوازان.</p>                </div>
                 
                 <div class="space-y-3 pt-6 border-t border-gray-200/50 dark:border-gray-700/50">
                     <a href="mailto:mahamadkamaran890@gmail.com" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
@@ -153,7 +177,7 @@
                     </a>
                     <a href="https://www.facebook.com/share/1939LEuq7d/" target="_blank" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
                         <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
-                        <span>[لینکی فەیسبووک]</span>
+                        <span>کلیک لێرە بکە</span>
                     </a>
                 </div>
             </div>
@@ -166,8 +190,8 @@
                         <div class="absolute inset-0 bg-gradient-to-tr from-purple-600 to-pink-500 rounded-full blur-md opacity-50 group-hover:opacity-80 transition duration-300"></div>
                         <img src="لێرە_لینکی_وێنەی_دووەم_دابنە" alt="Member 2" class="relative w-28 h-28 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg">
                     </div>
-                    <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">[ ناوی ئەندامی دووەم ]</h4>
-                    <p class="text-purple-600 dark:text-purple-400 font-bold text-center text-sm mb-6">[ ناوی زانکۆ و بەش / ڕۆڵ ]</p>
+                    <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">ڕاستگۆ تۆفیق حسێن</h4>
+                    <p class="text-purple-600 dark:text-purple-400 font-bold text-center text-sm mb-6">زانکۆی زاخۆ-قۆناغی دووەم</p>
                     <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="لێرە دەتوانیت کورتەیەک لە کارەکان و پسپۆڕی ئەم ئەندامە بنووسیت." data-ba="لێرە دشێی کورتەیەک ژ کار و پسپۆڕیا ڤی ئەندامی بنووسی.">لێرە دەتوانیت کورتەیەک لە کارەکان و پسپۆڕی ئەم ئەندامە بنووسیت.</p>
                 </div>
                 
@@ -178,11 +202,11 @@
                     </a>
                     <a href="tel:+964XXXXXXXXX" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
                         <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                        <span dir="ltr">[ژمارە موبایل]</span>
+                        <span dir="ltr">07708913535</span>
                     </a>
-                    <a href="https://facebook.com" target="_blank" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
+                    <a href="https://www.facebook.com/share/1Dvruge4Xg/" target="_blank" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
                         <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
-                        <span>[لینکی فەیسبووک]</span>
+                        <span>کلیک لێرە بکە</span>
                     </a>
                 </div>
             </div>
@@ -211,7 +235,7 @@
                     </a>
                     <a href="https://facebook.com" target="_blank" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
                         <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
-                        <span>[لینکی فەیسبووک]</span>
+                        <span>کلیک لێرە بکە</span>
                     </a>
                 </div>
             </div>

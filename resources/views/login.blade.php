@@ -4,6 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>چوونەژوورەوە - کورد ئەی ئای</title>
+<!-- Favicon (وێنە بچووکەکەی سەرەوەی تابەکە) -->
+<link rel="icon" href="/favicon.png" type="image/png">
+
+<!-- Meta Tags (بۆ سۆشیاڵ میدیا و گوگڵ) -->
+<meta name="description" content="کورد ئەی ئای - یەکەمین پلاتفۆرمی کوردی بۆ فێربوونی ژیریی دەستکرد و پرۆگرامسازی بە شێوازێکی مۆدێرن.">
+
+<!-- تایبەت بە فەیسبووک، تێلیگرام و نامەکان (Open Graph) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="کورد ئەی ئای - Kurd AI">
+<meta property="og:description" content="پەرە بە تواناکانت بدە لەگەڵ باشترین کۆرسەکانی ژیریی دەستکرد و پرۆگرامسازی.">
+<meta property="og:image" content="/logo.jpg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="description" content="چوونەژوورەوە بۆ کورد ئەی ئای - پلاتفۆرمی فێربوون">
+    <meta name="keywords" content="چوونەژوورەوە, login, کورد ئەی ئای">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kurd-ai.com/login">
+    <meta property="og:title" content="چوونەژوورەوە - KURD AI">
+    <meta property="og:description" content="چوونەژوورەوە بۆ کورد ئەی ئای - پلاتفۆرمی فێربوونی زیرەکی دەستکرد">
+    <meta property="og:image" content="https://kurd-ai.com/logo.jpg">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kurd-ai.com/login">
+    <meta property="twitter:title" content="چوونەژوورەوە - KURD AI">
+    <meta property="twitter:description" content="چوونەژوورەوە بۆ کورد ئەی ئای - پلاتفۆرمی فێربوونی زیرەکی دەستکرد">
+    <meta property="twitter:image" content="https://kurd-ai.com/logo.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

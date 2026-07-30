@@ -4,6 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سەرەکی - کورد ئەی ئای</title>
+<!-- Favicon (وێنە بچووکەکەی سەرەوەی تابەکە) -->
+<link rel="icon" href="/favicon.png" type="image/png">
+
+<!-- Meta Tags (بۆ سۆشیاڵ میدیا و گوگڵ) -->
+<meta name="description" content="کورد ئەی ئای - یەکەمین پلاتفۆرمی کوردی بۆ فێربوونی ژیریی دەستکرد و پرۆگرامسازی بە شێوازێکی مۆدێرن.">
+
+<!-- تایبەت بە فەیسبووک، تێلیگرام و نامەکان (Open Graph) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="کورد ئەی ئای - Kurd AI">
+<meta property="og:description" content="پەرە بە تواناکانت بدە لەگەڵ باشترین کۆرسەکانی ژیریی دەستکرد و پرۆگرامسازی.">
+<meta property="og:image" content="/logo.jpg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <meta name="description" content="Kurd AI - پلاتفۆرمی فێربوونی زیرەکی دەستکرد و پرۆگرامسازی بە زمانی کوردی">
+    <meta name="keywords" content="Kurd AI, کورد ئەی ئای, زیرەکی دەستکرد, پرۆگرامسازی, کوردی, فێربوون, AI, programming">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kurd-ai.com">
+    <meta property="og:title" content="KURD AI - پلاتفۆرمی فێربوونی زیرەکی دەستکرد">
+    <meta property="og:description" content="فێربوونی زیرەکی دەستکرد و پرۆگرامسازی بە زمانی کوردی، لەگەڵ کۆرس، ئامرازەکانی AI، و ڕێنیشاندەری ئەکادیمی">
+    <meta property="og:image" content="https://kurd-ai.com/logo.jpg">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kurd-ai.com">
+    <meta property="twitter:title" content="KURD AI - پلاتفۆرمی فێربوونی زیرەکی دەستکرد">
+    <meta property="twitter:description" content="فێربوونی زیرەکی دەستکرد و پرۆگرامسازی بە زمانی کوردی، لەگەڵ کۆرس، ئامرازەکانی AI، و ڕێنیشاندەری ئەکادیمی">
+    <meta property="twitter:image" content="https://kurd-ai.com/logo.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -80,7 +108,7 @@
 
         <!-- بەشە سەرەکییەکانی ناڤبار -->
         <div class="hidden lg:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
-    <a href="/" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
+    <a href="/" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
     <a href="/ferga" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
     <a href="/courses" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
     <a href="/news" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>

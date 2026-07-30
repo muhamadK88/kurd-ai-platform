@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تووڵەکانی ئەی ئای - کورد ئەی ئای</title>
 
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="description" content="ئامرازەکانی زیرەکی دەستکرد - کورد ئەی ئای">
+    <meta name="keywords" content="ئامراز, AI, زیرەکی دەستکرد, تووڵ, کورد ئەی ئای">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kurd-ai.com/ai-tools">
+    <meta property="og:title" content="تووڵەکانی ئەی ئای - KURD AI">
+    <meta property="og:description" content="باشترین ئامرازەکانی زیرەکی دەستکرد بۆ بەرزکردنەوەی بەرهەمهێنان">
+    <meta property="og:image" content="https://kurd-ai.com/logo.jpg">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kurd-ai.com/ai-tools">
+    <meta property="twitter:title" content="تووڵەکانی ئەی ئای - KURD AI">
+    <meta property="twitter:description" content="باشترین ئامرازەکانی زیرەکی دەستکرد بۆ بەرزکردنەوەی بەرهەمهێنان">
+    <meta property="twitter:image" content="https://kurd-ai.com/logo.jpg">
+<!-- Favicon (وێنە بچووکەکەی سەرەوەی تابەکە) -->
+<link rel="icon" href="/favicon.png" type="image/png">
+
+<!-- Meta Tags (بۆ سۆشیاڵ میدیا و گوگڵ) -->
+<meta name="description" content="کورد ئەی ئای - یەکەمین پلاتفۆرمی کوردی بۆ فێربوونی ژیریی دەستکرد و پرۆگرامسازی بە شێوازێکی مۆدێرن.">
+
+<!-- تایبەت بە فەیسبووک، تێلیگرام و نامەکان (Open Graph) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="کورد ئەی ئای - Kurd AI">
+<meta property="og:description" content="پەرە بە تواناکانت بدە لەگەڵ باشترین کۆرسەکانی ژیریی دەستکرد و پرۆگرامسازی.">
+<meta property="og:image" content="/logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -130,7 +155,6 @@
     <!-- ناڤباری سەرەکی -->
     <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
         
         <!-- بەشی لۆگۆ و ناوی پڕۆژە -->
         <a href="/" class="flex items-center gap-3 transition group relative">
@@ -156,7 +180,7 @@
     <a href="/ferga" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
     <a href="/courses" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
     <a href="/news" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>
-    <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
+    <a href="/ai-tools" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
     <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
     <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
     <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەرباری مە">دەرباری ئێمە</a>
@@ -269,7 +293,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getDatabase, ref as dbRef, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref as dbRef, push, set, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAizrzIAwVMDSXdu-Y0LYFDzwQPy79ThEs", authDomain: "ai-platform-adb1b.firebaseapp.com", databaseURL: "https://ai-platform-adb1b-default-rtdb.firebaseio.com", projectId: "ai-platform-adb1b", storageBucket: "ai-platform-adb1b.firebasestorage.app", messagingSenderId: "798560436587", appId: "1:798560436587:web:d4e3f4e5f862c7cbde0c2e" };
         const app = initializeApp(firebaseConfig);
@@ -279,7 +303,9 @@
         const IMGBB_API_KEY = "947299981b43abca761315a1cd24c02a"; 
 
         let currentLang = localStorage.getItem('site-lang') || 'so';
-        let firebaseDataCache = {}; 
+        let firebaseDataCache = {};
+        let currentUserId = null;
+        let userFavorites = {};
 
         function applyLanguage() {
             const langBtnText = document.getElementById('lang-text');
@@ -394,8 +420,11 @@
 
                     container.innerHTML += `
                         <div class="tool-card glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-500 p-8 flex flex-col h-full group hover:-translate-y-2 hover:border-purple-200 dark:hover:border-purple-800 border border-transparent">
-                            <div class="w-20 h-20 rounded-2xl overflow-hidden shadow-lg mb-6 bg-white dark:bg-gray-800 flex-shrink-0 flex items-center justify-center p-3 border border-gray-100 dark:border-gray-700 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
+                            <div class="w-20 h-20 rounded-2xl overflow-hidden shadow-lg mb-6 bg-white dark:bg-gray-800 flex-shrink-0 flex items-center justify-center p-3 border border-gray-100 dark:border-gray-700 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 relative">
                                 <img src="${t.image_url}" class="w-full h-full object-contain">
+                                <button onclick="window.toggleToolFav('${t.id || t.fb_id}', event)" class="absolute -top-2 -right-2 w-8 h-8 flex items-center justify-center rounded-full backdrop-blur-md transition-all duration-200 shadow-lg ${userFavorites && userFavorites[t.id || t.fb_id] ? 'bg-red-500 text-white scale-110' : 'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:text-red-500 hover:scale-110'}" title="${currentLang === 'so' ? 'دڵخواز' : 'دڵخواز'}">
+                                    <svg class="w-[14px] h-[14px]" fill="${userFavorites && userFavorites[t.id || t.fb_id] ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                                </button>
                             </div>
                             <h3 class="font-black text-2xl mb-3 text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">${title}</h3>
                             <p class="text-gray-600 dark:text-gray-400 text-sm mb-8 flex-grow line-clamp-3 leading-relaxed">${desc}</p>
@@ -414,6 +443,17 @@
         window.setCategory = function(cat) {
             activeCategory = cat;
             renderTools(firebaseDataCache);
+        };
+
+        window.toggleToolFav = function(toolId, event) {
+            if(event) event.stopPropagation();
+            if (!currentUserId) return;
+            const favRef = dbRef(db, 'favorites/' + currentUserId + '/ai_tools/' + toolId);
+            if (userFavorites && userFavorites[toolId]) {
+                remove(favRef);
+            } else {
+                set(favRef, { favoritedAt: Date.now() });
+            }
         };
 
         onValue(dbRef(db, 'ai_tools'), (snapshot) => {
@@ -493,6 +533,11 @@
             if(!user) window.location.href = "/login"; 
             else {
                 document.body.style.display = 'block';
+                currentUserId = user.uid;
+                onValue(dbRef(db, 'favorites/' + user.uid + '/ai_tools'), (snap) => {
+                    userFavorites = snap.val() || {};
+                    renderTools(firebaseDataCache);
+                });
                 if(["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
                     document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
                 }
