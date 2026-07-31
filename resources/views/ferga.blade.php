@@ -206,6 +206,7 @@
                 </div>
 
                 <div><label class="block font-bold mb-2 mt-4">کۆدی نموونە (دەردەکەوێت لە سەکۆکەدا)</label><textarea id="lesson_code" rows="5" dir="ltr" class="w-full p-3 rounded-xl bg-[#1e1e1e] text-green-400 font-mono text-left"></textarea></div>
+                <div><label class="block font-bold mb-2 mt-4">کۆدی CSS (style.css — تەنها بۆ HTML + CSS)</label><textarea id="lesson_code_css" rows="5" dir="ltr" class="w-full p-3 rounded-xl bg-[#1e1e1e] text-purple-400 font-mono text-left"></textarea></div>
                 <div>
                     <label class="block font-bold mb-2 mt-4 text-blue-600">ئەنجامی کۆدی نموونە (Example Output)</label>
                     <textarea id="lesson_example_output" rows="3" dir="ltr" placeholder="hello world" class="w-full p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 font-mono text-left"></textarea>
@@ -289,6 +290,13 @@
             <div class="max-w-4xl mx-auto w-full flex-1 flex flex-col pt-10 md:pt-0">
                 <h1 id="display-title" class="text-4xl md:text-5xl font-black mb-6 text-gray-900 dark:text-white leading-tight"></h1>
                 
+                <div class="admin-only hidden mb-4 flex justify-end">
+                    <button onclick="window.openEditLessonModal(window.currentLessonId)" class="flex items-center gap-2 px-4 py-2 bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400 hover:bg-amber-100 rounded-xl font-bold text-sm transition border border-amber-200 dark:border-amber-800/50">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        <span class="lang-str" data-so="دەستکاری وانەکە" data-ba="دەستکاری وانەیێ">دەستکاری وانەکە</span>
+                    </button>
+                </div>
+                
                 <div id="display-content" class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-8 font-medium rendered-content"></div>
                 
                 <div id="display-code-box" class="hidden mb-6 relative">
@@ -304,6 +312,23 @@
                         </div>
                         <div class="p-5 overflow-x-auto" dir="ltr">
                             <div id="display-code" class="font-mono text-[15px] leading-relaxed space-y-1"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="display-css-code-box" class="hidden mb-6 relative">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800 bg-[#1e1e1e]">
+                        <div class="bg-[#2d2d2d] px-4 py-3 flex justify-between items-center border-b border-gray-800">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                <span class="text-[10px] text-gray-500 mr-3 font-bold uppercase tracking-wider lang-str" data-so="نمونەی CSS" data-ba="نمونەی CSS">نمونەی CSS</span>
+                                <span class="text-xs font-mono text-gray-400">style.css</span>
+                            </div>
+                        </div>
+                        <div class="p-5 overflow-x-auto" dir="ltr">
+                            <div id="display-css-code" class="font-mono text-[15px] leading-relaxed space-y-1"></div>
                         </div>
                     </div>
                 </div>
@@ -395,8 +420,14 @@
                             </button>
                         </div>
                     </div>
-                    <!-- Editor Textarea -->
+                    <!-- File Tabs (index.html / style.css) -->
+                    <div id="compiler-file-tabs" class="hidden bg-[#252526] border-b border-[#1e1e1e] flex items-center px-2 pt-2 gap-1 shrink-0">
+                        <button id="file-tab-html" onclick="switchCompilerFile('html')" class="px-4 py-2 rounded-t-lg text-xs font-bold font-mono text-white bg-[#1e1e1e] border border-b-0 border-[#333]">index.html</button>
+                        <button id="file-tab-css" onclick="switchCompilerFile('css')" class="px-4 py-2 rounded-t-lg text-xs font-bold font-mono text-gray-400 hover:text-white bg-transparent border border-b-0 border-transparent">style.css</button>
+                    </div>
+                    <!-- Editor Textareas -->
                     <textarea id="user-code" class="flex-1 w-full bg-[#1e1e1e] text-[#d4d4d4] font-mono text-[16px] leading-relaxed p-6 focus:outline-none resize-none custom-scrollbar" dir="ltr" spellcheck="false"></textarea>
+                    <textarea id="user-code-css" class="flex-1 w-full bg-[#1e1e1e] text-[#d4d4d4] font-mono text-[16px] leading-relaxed p-6 focus:outline-none resize-none custom-scrollbar hidden" dir="ltr" spellcheck="false"></textarea>
                 </div>
                 
                 <!-- Terminal Pane -->
@@ -451,6 +482,7 @@
         const IMGBB_API_KEY = "947299981b43abca761315a1cd24c02a";
 
         let currentLang = localStorage.getItem('site-lang') || 'so';
+        window.isAdmin = false;
         let languagesData = {}; let lessonsData = {}; let quizzesData = {};
         let currentActiveLanguage = null; let currentLessonArray = []; let currentLessonIndex = 0;
 
@@ -467,6 +499,11 @@
         let dayStreak = 0;
         let lastActiveDate = "";
         let latestCompilerOutput = ""; 
+
+        // --- Combined HTML+CSS compiler state ---
+        let currentCompilerFile = 'html';
+        let compilerHtmlBuffer = '';
+        let compilerCssBuffer = '';
 
         // --- Quill Editors Initialization ---
         let quillSo = new Quill('#editor_content_so', { theme: 'snow', modules: { toolbar: [ [{ 'header': [1, 2, 3, false] }], ['bold', 'italic', 'underline'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['code-block'] ] } });
@@ -502,6 +539,16 @@
             }
         });
 
+        document.getElementById('user-code-css').addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+                this.value = this.value.substring(0, start) + "    " + this.value.substring(end);
+                this.selectionStart = this.selectionEnd = start + 4;
+            }
+        });
+
         // Guess file extension
         function guessExtFromName(name) {
             const n = (name || '').toLowerCase();
@@ -509,6 +556,7 @@
             if (n.includes('php')) return 'php';
             if (n.includes('java')) return 'java';
             if (n.includes('javascript') || n.includes('js')) return 'js';
+            if (n.includes('html') && n.includes('css')) return 'html+css';
             if (n.includes('html')) return 'html';
             if (n.includes('css')) return 'css';
             if (n.includes('ruby') || n.includes('rb')) return 'rb';
@@ -519,15 +567,51 @@
             return 'py';
         }
 
+        function isCombinedWebMode() {
+            const ext = (currentActiveLanguage && currentActiveLanguage.ext) ? currentActiveLanguage.ext.toLowerCase().replace('.','') : (currentActiveLanguage ? guessExtFromName(loc(currentActiveLanguage, 'name')) : 'py');
+            return ext === 'html+css' || ext === 'htmlcss' || ext === 'html-css' || ext === 'web';
+        }
+
         // --- COMPILER LOGIC ---
         window.runCode = async function() {
             const ext = (currentActiveLanguage && currentActiveLanguage.ext) ? currentActiveLanguage.ext.toLowerCase().replace('.','') : (currentActiveLanguage ? guessExtFromName(loc(currentActiveLanguage, 'name')) : 'py');
-            if (ext === 'cpp') await runCppCode();
+            if (isCombinedWebMode()) await runHtmlCssCode();
+            else if (ext === 'cpp') await runCppCode();
             else if (ext === 'py' || ext === 'python') await runPythonCode();
             else if (ext === 'php') await runPhpCode();
             else if (ext === 'html' || ext === 'htm') await runHtmlCode();
             else if (ext === 'css') await runCssCode();
             else await runServerCode(ext);
+        }
+
+        // Switch between index.html / style.css tabs in combined mode
+        window.switchCompilerFile = function(file) {
+            currentCompilerFile = file;
+            const htmlArea = document.getElementById('user-code');
+            const cssArea = document.getElementById('user-code-css');
+            const tabHtml = document.getElementById('file-tab-html');
+            const tabCss = document.getElementById('file-tab-css');
+            if (file === 'css') {
+                htmlArea.classList.add('hidden');
+                cssArea.classList.remove('hidden');
+                tabHtml.className = "px-4 py-2 rounded-t-lg text-xs font-bold font-mono text-gray-400 hover:text-white bg-transparent border border-b-0 border-transparent";
+                tabCss.className = "px-4 py-2 rounded-t-lg text-xs font-bold font-mono text-white bg-[#1e1e1e] border border-b-0 border-[#333]";
+            } else {
+                cssArea.classList.add('hidden');
+                htmlArea.classList.remove('hidden');
+                tabCss.className = "px-4 py-2 rounded-t-lg text-xs font-bold font-mono text-gray-400 hover:text-white bg-transparent border border-b-0 border-transparent";
+                tabHtml.className = "px-4 py-2 rounded-t-lg text-xs font-bold font-mono text-white bg-[#1e1e1e] border border-b-0 border-[#333]";
+            }
+            updateCompilerFilenameLabel();
+        };
+
+        function updateCompilerFilenameLabel() {
+            if (isCombinedWebMode()) {
+                const label = currentCompilerFile === 'css' ? 'style.css' : 'index.html';
+                document.getElementById('compiler-filename-label').textContent = label;
+            } else {
+                document.getElementById('compiler-filename-label').textContent = 'main.' + currentLangExt;
+            }
         }
 
         function showPreview(htmlContent) {
@@ -551,6 +635,29 @@
             const code = document.getElementById('user-code').value;
             hidePreview();
             showPreview(code);
+            latestCompilerOutput = "";
+        }
+
+        async function runHtmlCssCode() {
+            const html = document.getElementById('user-code').value;
+            const css = document.getElementById('user-code-css').value;
+            hidePreview();
+            let combined = html;
+            const styleTag = `<style>\n${css}\n</style>`;
+            if (css && css.trim()) {
+                if (/<link[^>]*href="style\.css"[^>]*>/i.test(combined)) {
+                    combined = combined.replace(/<link[^>]*href="style\.css"[^>]*>/i, styleTag);
+                } else if (/<style[\s>]/i.test(combined)) {
+                    combined = combined.replace(/<style[\s\S]*?<\/style>/i, styleTag);
+                } else if (/<\/head>/i.test(combined)) {
+                    combined = combined.replace(/<\/head>/i, styleTag + '\n</head>');
+                } else if (/<html[^>]*>/i.test(combined)) {
+                    combined = combined.replace(/<html[^>]*>/i, m => m + '\n' + styleTag);
+                } else {
+                    combined = styleTag + '\n' + combined;
+                }
+            }
+            showPreview(combined);
             latestCompilerOutput = "";
         }
 
@@ -774,7 +881,7 @@ ${code}
 
             let pass = false;
 
-            if (ext === 'html' || ext === 'css') {
+            if (ext === 'html' || ext === 'css' || isCombinedWebMode()) {
                 const checks = parsePreviewChecks(lesson.expected_output || '');
                 pass = checks.length > 0 && previewChecksPass(checks);
             } else {
@@ -906,9 +1013,11 @@ ${code}
                 updateStatsUI();
                 
                 document.body.style.display = 'block';
-                if(["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
-                    document.querySelector('.admin-only').classList.remove('hidden');
+                window.isAdmin = ["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email);
+                if(window.isAdmin) {
+                    document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
                 }
+                renderLanguagesGrid();
             }
         });
 
@@ -981,12 +1090,16 @@ ${code}
                     let clickAction = isLocked ? '' : `loadLesson(${index})`;
 
                     htmlStr += `
-                        <div class="relative flex items-center gap-3 mb-2 group">
+                        <div class="relative flex items-center gap-2 mb-2 group">
                             <div class="absolute -right-[1.1rem] timeline-dot ${dotClass}"></div>
                             <button id="sidebar-btn-${index}" onclick="${clickAction}" class="w-full text-right flex justify-between items-center px-4 py-3 text-[14px] font-bold rounded-xl transition-all ${btnClass}">
                                 <span class="truncate">${isLocked ? '🔒 ' : ''}${loc(lesson, 'title')}</span>
                                 ${isCompleted ? '<svg class="w-4 h-4 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>' : ''}
                             </button>
+                            ${window.isAdmin ? `
+                            <button onclick="event.stopPropagation(); window.openEditLessonModal('${lesson.id}')" class="shrink-0 w-9 h-9 flex items-center justify-center rounded-xl bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400 hover:bg-amber-100 transition border border-amber-200 dark:border-amber-800/50" title="${currentLang === 'so' ? 'دەستکاری وانە' : 'دەستکاریکرنا وانەیێ'}">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                            </button>` : ''}
                         </div>`;
                 });
                 htmlStr += `</div>`;
@@ -994,8 +1107,13 @@ ${code}
             sidebar.innerHTML = htmlStr;
 
             currentLangExt = (currentActiveLanguage.ext) ? currentActiveLanguage.ext.replace('.','').toLowerCase() : guessExtFromName(loc(currentActiveLanguage, 'name'));
-            document.getElementById('code-filename-label').textContent = 'main.' + currentLangExt;
-            document.getElementById('compiler-filename-label').textContent = 'main.' + currentLangExt;
+            if (isCombinedWebMode()) {
+                document.getElementById('code-filename-label').textContent = 'index.html';
+                document.getElementById('compiler-filename-label').textContent = 'index.html';
+            } else {
+                document.getElementById('code-filename-label').textContent = 'main.' + currentLangExt;
+                document.getElementById('compiler-filename-label').textContent = 'main.' + currentLangExt;
+            }
             
             if (currentLessonArray.length > 0) {
                 let targetIdx = forcedIndex !== null ? forcedIndex : currentLessonArray.findIndex(l => !completedLessons.includes(l.id));
@@ -1007,6 +1125,7 @@ ${code}
         window.loadLesson = function(index) {
             currentLessonIndex = index;
             const lesson = currentLessonArray[index];
+            window.currentLessonId = lesson.id;
             
             document.querySelectorAll('[id^="sidebar-btn-"]').forEach(el => el.classList.remove('bg-blue-50', 'dark:bg-blue-900/20', 'text-blue-600', 'dark:text-blue-400', 'shadow-sm'));
             const activeBtn = document.getElementById(`sidebar-btn-${index}`);
@@ -1037,9 +1156,18 @@ ${code}
 
             if (lesson.code && lesson.code.trim() !== '') {
                 document.getElementById('display-code-box').classList.remove('hidden');
-                renderCodeExplanations(document.getElementById('display-code'), lesson);
+                const hasCss = lesson.code_css && lesson.code_css.trim() !== '';
+                const htmlLesson = hasCss ? Object.assign({}, lesson, { code_explain_so: [], code_explain_ba: [] }) : lesson;
+                renderCodeExplanations(document.getElementById('display-code'), htmlLesson);
             } else {
                 document.getElementById('display-code-box').classList.add('hidden');
+            }
+
+            if (lesson.code_css && lesson.code_css.trim() !== '') {
+                document.getElementById('display-css-code-box').classList.remove('hidden');
+                renderCodeExplanations(document.getElementById('display-css-code'), Object.assign({}, lesson, { code: lesson.code_css }));
+            } else {
+                document.getElementById('display-css-code-box').classList.add('hidden');
             }
 
             if (lesson.example_output && lesson.example_output.trim() !== '') {
@@ -1126,8 +1254,22 @@ ${code}
         window.openTryItYourself = function() {
             const lesson = currentLessonArray[currentLessonIndex];
             
-            // Set compiler code to blank/comment to prevent copying example code automatically
-            document.getElementById('user-code').value = currentLang === 'so' ? "# لێرە کۆدەکەت بنووسە...\n" : "# لێرە کۆدێ خۆ بنڤیسە...\n";
+            const combined = isCombinedWebMode();
+            const tabs = document.getElementById('compiler-file-tabs');
+            if (tabs) tabs.classList.toggle('hidden', !combined);
+            
+            if (combined) {
+                compilerHtmlBuffer = lesson.code || '';
+                compilerCssBuffer = lesson.code_css || '';
+                document.getElementById('user-code').value = compilerHtmlBuffer;
+                document.getElementById('user-code-css').value = compilerCssBuffer;
+                window.switchCompilerFile('html');
+            } else {
+                document.getElementById('user-code-css').classList.add('hidden');
+                document.getElementById('user-code').classList.remove('hidden');
+                // Set compiler code to blank/comment to prevent copying example code automatically
+                document.getElementById('user-code').value = currentLang === 'so' ? "# لێرە کۆدەکەت بنووسە...\n" : "# لێرە کۆدێ خۆ بنڤیسە...\n";
+            }
             
             document.getElementById('code-output').innerText = currentLang === 'so' ? 'ئامادەیە بۆ کارپێکردن...' : 'ئامادەیە بۆ کارپێکرنێ...';
             
@@ -1146,7 +1288,13 @@ ${code}
 
         window.loadExampleIntoCompiler = function() {
             const lesson = currentLessonArray[currentLessonIndex];
-            if (lesson && lesson.code) {
+            if (!lesson) return;
+            if (isCombinedWebMode()) {
+                compilerHtmlBuffer = lesson.code || '';
+                compilerCssBuffer = lesson.code_css || '';
+                document.getElementById('user-code').value = compilerHtmlBuffer;
+                document.getElementById('user-code-css').value = compilerCssBuffer;
+            } else if (lesson.code) {
                 document.getElementById('user-code').value = lesson.code;
             }
         };
@@ -1319,7 +1467,8 @@ ${code}
                 challenge_desc_ba: document.getElementById('lesson_challenge_ba').value,
                 expected_output: document.getElementById('lesson_expected_output').value,
                 example_output: document.getElementById('lesson_example_output').value,
-                code: document.getElementById('lesson_code').value 
+                code: document.getElementById('lesson_code').value,
+                code_css: document.getElementById('lesson_code_css').value
             };
             if(editId) await update(dbRef(db, 'ferga_lessons/' + editId), data); else await set(push(dbRef(db, 'ferga_lessons')), data);
             e.target.reset(); quillSo.root.innerHTML = ''; quillBa.root.innerHTML = ''; switchAdminTab('manage');
@@ -1460,6 +1609,85 @@ ${code}
             localStorage.setItem('site-lang', currentLang);
             applyLanguage();
         });
+
+        // --- Edit Lesson Modal Logic ---
+        let quillModalSo = new Quill('#modal_editor_content_so', { theme: 'snow', modules: { toolbar: [ [{ 'header': [1, 2, 3, false] }], ['bold', 'italic', 'underline'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['code-block'] ] } });
+        let quillModalBa = new Quill('#modal_editor_content_ba', { theme: 'snow', modules: { toolbar: [ [{ 'header': [1, 2, 3, false] }], ['bold', 'italic', 'underline'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['code-block'] ] } });
+
+        window.openEditLessonModal = function(lessonId) {
+            const d = lessonsData[lessonId];
+            if (!d) return;
+            document.getElementById('edit_lesson_modal_id').value = lessonId;
+            document.getElementById('modal_lesson_lang_select').innerHTML = '<option value="">-- زمان --</option>';
+            for (let id in languagesData) document.getElementById('modal_lesson_lang_select').innerHTML += `<option value="${id}">${languagesData[id].name_so || languagesData[id].name}</option>`;
+            document.getElementById('modal_lesson_lang_select').value = d.langId || '';
+            document.getElementById('modal_lesson_order').value = d.order || '1';
+            document.getElementById('modal_lesson_level_so').value = d.level_so || '';
+            document.getElementById('modal_lesson_level_ba').value = d.level_ba || '';
+            document.getElementById('modal_lesson_title_so').value = d.title_so || d.title || '';
+            document.getElementById('modal_lesson_title_ba').value = d.title_ba || d.title || '';
+            document.getElementById('modal_lesson_challenge_so').value = d.challenge_desc_so || d.challenge_so || '';
+            document.getElementById('modal_lesson_challenge_ba').value = d.challenge_desc_ba || d.challenge_ba || '';
+            document.getElementById('modal_lesson_expected_output').value = d.expected_output || '';
+            document.getElementById('modal_lesson_code').value = d.code || '';
+            document.getElementById('modal_lesson_code_css').value = d.code_css || '';
+            document.getElementById('modal_lesson_example_output').value = d.example_output || '';
+            quillModalSo.root.innerHTML = d.content_so || d.content || '';
+            quillModalBa.root.innerHTML = d.content_ba || d.content || '';
+
+            const modal = document.getElementById('editLessonModal');
+            const content = document.getElementById('editLessonModalContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('translate-y-4', 'opacity-0');
+                content.classList.add('translate-y-0', 'opacity-100');
+            }, 10);
+        };
+
+        window.closeEditLessonModal = function() {
+            const modal = document.getElementById('editLessonModal');
+            const content = document.getElementById('editLessonModalContent');
+            content.classList.remove('translate-y-0', 'opacity-100');
+            content.classList.add('translate-y-4', 'opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        };
+
+        document.getElementById('edit-lesson-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('edit_lesson_modal_id').value;
+            if (!id) return;
+            const submitBtn = document.getElementById('edit-lesson-submit-btn');
+            submitBtn.innerText = "خەریکە پاشەکەوت دەکرێت...";
+            submitBtn.classList.add('opacity-70', 'cursor-wait');
+            try {
+                const updates = {
+                    langId: document.getElementById('modal_lesson_lang_select').value,
+                    order: document.getElementById('modal_lesson_order').value,
+                    level_so: document.getElementById('modal_lesson_level_so').value,
+                    level_ba: document.getElementById('modal_lesson_level_ba').value,
+                    title_so: document.getElementById('modal_lesson_title_so').value,
+                    title_ba: document.getElementById('modal_lesson_title_ba').value,
+                    content_so: quillModalSo.root.innerHTML,
+                    content_ba: quillModalBa.root.innerHTML,
+                    challenge_desc_so: document.getElementById('modal_lesson_challenge_so').value,
+                    challenge_desc_ba: document.getElementById('modal_lesson_challenge_ba').value,
+                    expected_output: document.getElementById('modal_lesson_expected_output').value,
+                    example_output: document.getElementById('modal_lesson_example_output').value,
+                    code: document.getElementById('modal_lesson_code').value,
+                    code_css: document.getElementById('modal_lesson_code_css').value
+                };
+                await update(dbRef(db, 'ferga_lessons/' + id), updates);
+                submitBtn.innerText = "پاشەکەوتکردن";
+                submitBtn.classList.remove('opacity-70', 'cursor-wait');
+                window.closeEditLessonModal();
+                if(window.currentLessonId === id && currentActiveLanguage) openLanguage(currentActiveLanguage.id, currentLessonIndex);
+                alert('وانەکە بە سەرکەوتوویی پاشەکەوت کرا');
+            } catch (error) {
+                submitBtn.innerText = "پاشەکەوتکردن";
+                submitBtn.classList.remove('opacity-70', 'cursor-wait');
+                alert('هەڵەیەک ڕوویدا: ' + error.message);
+            }
+        });
     </script>
 
     <!-- پەنجەرەی دەستکاری کردنی زمان (Modal) -->
@@ -1505,6 +1733,87 @@ ${code}
                     </div>
                     <p class="text-xs text-gray-500 dark:text-gray-400 text-center">لۆگۆکە لە کاتی دەستکاری دا ناگۆڕدرێت</p>
                     <button type="submit" id="edit-lang-submit-btn" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3.5 rounded-xl font-black hover:shadow-lg hover:shadow-purple-500/30 hover:-translate-y-0.5 transition-all">پاشەکەوتکردن</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- پەنجەرەی دەستکاری کردنی وانە (Modal) -->
+    <div id="editLessonModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="window.closeEditLessonModal()"></div>
+        <div class="glass-card relative w-full max-w-4xl rounded-[2rem] p-6 md:p-8 shadow-2xl transform transition-all translate-y-4 opacity-0 overflow-y-auto max-h-[90vh]" id="editLessonModalContent">
+            <button onclick="window.closeEditLessonModal()" class="absolute top-5 left-5 p-2 bg-gray-100 dark:bg-gray-800 text-gray-500 hover:text-red-500 rounded-full transition z-10">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="mt-2">
+                <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-6 text-center">دەستکاری کردنی وانە</h3>
+                <form id="edit-lesson-form" class="space-y-5">
+                    <input type="hidden" id="edit_lesson_modal_id">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">زمان</label>
+                            <select id="modal_lesson_lang_select" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm"></select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ڕیزبەندی</label>
+                            <input type="number" id="modal_lesson_order" value="1" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ئاست (سۆرانی)</label>
+                            <input type="text" id="modal_lesson_level_so" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ئاست (بادینی)</label>
+                            <input type="text" id="modal_lesson_level_ba" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">سەردێڕ (سۆرانی)</label>
+                            <input type="text" id="modal_lesson_title_so" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">سەردێڕ (بادینی)</label>
+                            <input type="text" id="modal_lesson_title_ba" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="mb-6">
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1 text-blue-600">ناوەڕۆک (سۆرانی)</label>
+                            <div id="modal_editor_content_so"></div>
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1 text-blue-600">ناوەڕۆک (بادینی)</label>
+                            <div id="modal_editor_content_ba"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">پرسیاری مەشق (سۆرانی)</label>
+                            <textarea id="modal_lesson_challenge_so" rows="2" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">پرسیاری مەشق (بادینی)</label>
+                            <textarea id="modal_lesson_challenge_ba" rows="2" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1 text-green-600">وەڵامی چاوەڕوانکراو (Expected Output Text)</label>
+                        <textarea id="modal_lesson_expected_output" rows="3" dir="ltr" placeholder="هەولێر" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm font-mono text-left"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">کۆدی نموونە</label>
+                        <textarea id="modal_lesson_code" rows="5" dir="ltr" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm font-mono text-left"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1 text-purple-600">کۆدی CSS (style.css — تەنها بۆ HTML + CSS)</label>
+                        <textarea id="modal_lesson_code_css" rows="5" dir="ltr" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm font-mono text-left"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1 text-blue-600">ئەنجامی کۆدی نموونە (Example Output)</label>
+                        <textarea id="modal_lesson_example_output" rows="3" dir="ltr" placeholder="hello world" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm font-mono text-left"></textarea>
+                    </div>
+                    <button type="submit" id="edit-lesson-submit-btn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3.5 rounded-xl font-black hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 transition-all">پاشەکەوتکردن</button>
                 </form>
             </div>
         </div>
