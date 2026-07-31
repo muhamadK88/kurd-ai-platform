@@ -81,7 +81,11 @@
         /* Rendered Content overrides */
         .rendered-content h1, .rendered-content h2, .rendered-content h3 { font-weight: 900; margin-top: 1em; margin-bottom: 0.5em; color: #3b82f6; }
         .rendered-content p { margin-bottom: 1em; }
-        .rendered-content pre { background: #1e1e1e; color: #d4d4d4; padding: 1em; border-radius: 8px; direction: ltr; text-align: left; font-family: monospace; margin-bottom: 1em;}
+        .rendered-content p, .rendered-content li, .rendered-content strong { overflow-wrap: anywhere; }
+        .rendered-content pre { background: #1e1e1e; color: #d4d4d4; padding: 1em; border-radius: 8px; direction: ltr; text-align: left; font-family: monospace; margin-bottom: 1em; white-space: pre-wrap; overflow-wrap: anywhere; max-width: 100%; }
+        #display-title { overflow-wrap: anywhere; }
+        #display-content { overflow-wrap: anywhere; }
+        #display-example-output { white-space: pre-wrap; overflow-wrap: anywhere; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
@@ -299,7 +303,7 @@
                             </div>
                         </div>
                         <div class="p-5 overflow-x-auto" dir="ltr">
-                            <pre class="font-mono text-[15px] leading-relaxed text-[#569cd6]"><code id="display-code"></code></pre>
+                            <div id="display-code" class="font-mono text-[15px] leading-relaxed space-y-1"></div>
                         </div>
                     </div>
                 </div>
@@ -311,7 +315,7 @@
                         </div>
                         <div class="flex-1">
                             <span class="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider lang-str" data-so="ئەنجام" data-ba="ئەنجام">ئەنجام</span>
-                            <pre id="display-example-output" class="mt-1 text-emerald-700 dark:text-emerald-300 font-mono text-sm bg-white dark:bg-emerald-900/20 rounded-lg p-3 border border-emerald-100 dark:border-emerald-800/30"></pre>
+                            <pre id="display-example-output" dir="ltr" class="mt-1 text-emerald-700 dark:text-emerald-300 font-mono text-sm bg-white dark:bg-emerald-900/20 rounded-lg p-3 border border-emerald-100 dark:border-emerald-800/30"></pre>
                         </div>
                     </div>
                 </div>
@@ -402,6 +406,7 @@
                         <span class="text-xs font-mono text-gray-400 uppercase tracking-wider lang-str" data-so="دەرئەنجام (Output)" data-ba="دەرئەنجام (Output)">دەرئەنجام (Output)</span>
                     </div>
                     <pre id="code-output" class="flex-1 w-full text-green-400 font-mono text-[15px] leading-relaxed p-6 overflow-y-auto whitespace-pre-wrap text-left custom-scrollbar" dir="ltr"></pre>
+                    <iframe id="code-preview" class="flex-1 w-full bg-white hidden" sandbox="allow-scripts allow-modals allow-forms"></iframe>
                 </div>
             </div>
         </div>
@@ -520,12 +525,66 @@
             if (ext === 'cpp') await runCppCode();
             else if (ext === 'py' || ext === 'python') await runPythonCode();
             else if (ext === 'php') await runPhpCode();
+            else if (ext === 'html' || ext === 'htm') await runHtmlCode();
+            else if (ext === 'css') await runCssCode();
             else await runServerCode(ext);
+        }
+
+        function showPreview(htmlContent) {
+            const out = document.getElementById('code-output');
+            const preview = document.getElementById('code-preview');
+            if (out) out.classList.add('hidden');
+            if (preview) {
+                preview.classList.remove('hidden');
+                preview.srcdoc = htmlContent;
+            }
+        }
+
+        function hidePreview() {
+            const out = document.getElementById('code-output');
+            const preview = document.getElementById('code-preview');
+            if (out) out.classList.remove('hidden');
+            if (preview) preview.classList.add('hidden');
+        }
+
+        async function runHtmlCode() {
+            const code = document.getElementById('user-code').value;
+            hidePreview();
+            showPreview(code);
+            latestCompilerOutput = "";
+        }
+
+        async function runCssCode() {
+            const out = document.getElementById('code-output');
+            const code = document.getElementById('user-code').value;
+            out.classList.add("animate-pulse");
+            const previewDoc = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; padding: 20px; background: #f8fafc; }
+${code}
+</style>
+</head>
+<body>
+<h1 class="demo-h1">Kurd AI - CSS Preview</h1>
+<p class="demo-p">This is a sample paragraph. Write your CSS and watch it apply to these elements.</p>
+<div class="demo-box">Box 1</div>
+<div class="demo-box">Box 2</div>
+<button class="demo-btn">Click Me</button>
+</body>
+</html>`;
+            hidePreview();
+            showPreview(previewDoc);
+            latestCompilerOutput = "";
+            out.classList.remove("animate-pulse");
         }
 
         async function runPythonCode() {
             const out = document.getElementById('code-output');
             const code = document.getElementById('user-code').value;
+            hidePreview();
             out.innerText = currentLang === 'so' ? "سەرقاڵی کارپێکردن..." : "مژویلی کارپێکرنێیە...";
             out.classList.add("animate-pulse");
             try {
@@ -543,6 +602,7 @@
         async function runCppCode() {
             const out = document.getElementById('code-output');
             const code = document.getElementById('user-code').value;
+            hidePreview();
             out.innerText = currentLang === 'so' ? "سەرقاڵی کارپێکردن..." : "مژویلی کارپێکرنێیە..."; 
             out.classList.add("animate-pulse");
             try {
@@ -567,6 +627,7 @@
         async function runPhpCode() {
             const out = document.getElementById('code-output');
             const code = document.getElementById('user-code').value;
+            hidePreview();
             out.innerText = currentLang === 'so' ? "سەرقاڵی کارپێکردنی PHP..." : "مژویلی کارپێکرنا PHP..."; 
             out.classList.add("animate-pulse");
             try {
@@ -591,6 +652,7 @@
         async function runServerCode(languageExt) {
             const out = document.getElementById('code-output');
             const code = document.getElementById('user-code').value;
+            hidePreview();
             out.innerText = currentLang === 'so' ? "سەرقاڵی کارپێکردن..." : "مژویلی کارپێکرنێیە..."; 
             out.classList.add("animate-pulse");
             try {
@@ -612,6 +674,92 @@
             out.classList.remove("animate-pulse");
         }
 
+        // --- Preview checks (HTML/CSS) ---
+        function parsePreviewChecks(raw) {
+            try {
+                const p = JSON.parse(raw);
+                return Array.isArray(p) ? p : (Array.isArray(p.checks) ? p.checks : []);
+            } catch (e) { return []; }
+        }
+
+        function normalizeColor(v) {
+            v = (v || '').trim().toLowerCase();
+            let m;
+            if (m = v.match(/^#([0-9a-f]{3})$/)) {
+                return [parseInt(m[1][0]+m[1][0],16), parseInt(m[1][1]+m[1][1],16), parseInt(m[1][2]+m[1][2],16)].join(',');
+            }
+            if (m = v.match(/^#([0-9a-f]{6})$/)) {
+                return [parseInt(m[1].slice(0,2),16), parseInt(m[1].slice(2,4),16), parseInt(m[1].slice(4,6),16)].join(',');
+            }
+            if (m = v.match(/^rgba?\(\s*(\d+)\s*[,\s]\s*(\d+)\s*[,\s]\s*(\d+)/)) {
+                return [m[1], m[2], m[3]].join(',');
+            }
+            return null;
+        }
+
+        function previewChecksPass(checks) {
+            const frame = document.getElementById('code-preview');
+            const doc = frame && frame.contentDocument;
+            if (!doc) return false;
+
+            const styleMatches = (sel, prop, expected) => {
+                const els = doc.querySelectorAll(sel);
+                for (const el of els) {
+                    const cs = doc.defaultView.getComputedStyle(el);
+                    const actual = (cs.getPropertyValue(prop) || '').trim();
+                    const ne = normalizeColor(expected);
+                    const na = normalizeColor(actual);
+                    if (ne !== null && na !== null) {
+                        if (na === ne) return true;
+                    } else if (actual.toLowerCase().includes(expected.toLowerCase())) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            for (const c of checks) {
+                if (c.t === 'text') {
+                    const bodyText = (doc.body && doc.body.innerText) || '';
+                    if (!bodyText.includes(c.v)) return false;
+                } else if (c.t === 'style') {
+                    if (!styleMatches(c.s, c.p, c.v)) return false;
+                } else if (c.t === 'styled') {
+                    let ok = false;
+                    const els = doc.querySelectorAll(c.s);
+                    for (const el of els) {
+                        const val = doc.defaultView.getComputedStyle(el).getPropertyValue(c.p).trim();
+                        if (val && val !== 'none' && val !== '0s' && val !== '0px') { ok = true; break; }
+                    }
+                    if (!ok) return false;
+                } else if (c.t === 'attr') {
+                    let ok = false;
+                    const els = doc.querySelectorAll(c.s);
+                    for (const el of els) {
+                        if ((el.getAttribute(c.a) || '').includes(c.v)) { ok = true; break; }
+                    }
+                    if (!ok) return false;
+                } else if (c.t === 'count') {
+                    if (doc.querySelectorAll(c.s).length < c.min) return false;
+                } else if (c.t === 'var') {
+                    const val = doc.defaultView.getComputedStyle(doc.documentElement).getPropertyValue(c.n).trim();
+                    if (!val.toLowerCase().includes((c.v || '').toLowerCase())) return false;
+                } else if (c.t === 'media') {
+                    let ok = false;
+                    try {
+                        for (const sheet of doc.styleSheets) {
+                            for (const rule of sheet.cssRules) {
+                                if (rule.type === 4 && rule.conditionText.toLowerCase().includes((c.v || '').toLowerCase())) { ok = true; break; }
+                            }
+                            if (ok) break;
+                        }
+                    } catch (e) {}
+                    if (!ok) return false;
+                }
+            }
+            return true;
+        }
+
         // --- Challenge Validation ---
         window.verifyChallenge = async function() {
             const lesson = currentLessonArray[currentLessonIndex];
@@ -622,11 +770,21 @@
             
             await window.runCode(); 
             
-            // Normalize expected and actual outputs (convert CRLF to LF, and trim whitespace)
-            const expected = lesson.expected_output ? lesson.expected_output.trim().replace(/\r\n/g, '\n') : "";
-            const actual = latestCompilerOutput ? latestCompilerOutput.trim().replace(/\r\n/g, '\n') : "";
+            const ext = (currentActiveLanguage && currentActiveLanguage.ext) ? currentActiveLanguage.ext.toLowerCase().replace('.','') : (currentActiveLanguage ? guessExtFromName(loc(currentActiveLanguage, 'name')) : 'py');
 
-            if(actual === expected) {
+            let pass = false;
+
+            if (ext === 'html' || ext === 'css') {
+                const checks = parsePreviewChecks(lesson.expected_output || '');
+                pass = checks.length > 0 && previewChecksPass(checks);
+            } else {
+                // Normalize expected and actual outputs (convert CRLF to LF, and trim whitespace)
+                const expected = lesson.expected_output ? lesson.expected_output.trim().replace(/\r\n/g, '\n') : "";
+                const actual = latestCompilerOutput ? latestCompilerOutput.trim().replace(/\r\n/g, '\n') : "";
+                pass = actual === expected;
+            }
+
+            if(pass) {
                 btnText.innerHTML = currentLang === 'so' ? "ئافەرین! وەڵامەکە ڕاستە ✓" : "ئافەرم! بەرسڤ ڕاستە ✓";
                 btn.classList.replace('bg-purple-600', 'bg-green-600');
                 
@@ -768,7 +926,7 @@
                     <div class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 flex flex-col items-center text-center p-10 group hover:-translate-y-2">
                         <div onclick="openLanguage('${id}')" class="cursor-pointer w-full flex flex-col items-center">
                             <div class="w-24 h-24 ${l.color || 'bg-blue-100'} rounded-[1.5rem] flex items-center justify-center mb-8 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">${iconHtml}</div>
-                            <h3 class="text-2xl font-black mb-4 text-gray-900 dark:text-white">Learn ${name}</h3>
+                            <h3 class="text-2xl font-black mb-4 text-gray-900 dark:text-white">Learn <bdi>${name}</bdi></h3>
                             <p class="text-gray-500 dark:text-gray-400 text-sm leading-loose line-clamp-3 mb-4">${desc}</p>
                         </div>
                         ${window.isAdmin ? `
@@ -856,7 +1014,7 @@
                 activeBtn.classList.add('bg-blue-50', 'dark:bg-blue-900/20', 'text-blue-600', 'dark:text-blue-400', 'shadow-sm');
             }
 
-            document.getElementById('display-title').innerText = loc(lesson, 'title');
+            document.getElementById('display-title').innerHTML = loc(lesson, 'title');
             document.getElementById('display-content').innerHTML = loc(lesson, 'content');
             
             // Challenge Handling
@@ -866,7 +1024,7 @@
 
             if (hasChallenge) {
                 document.getElementById('challenge-container').classList.remove('hidden');
-                document.getElementById('challenge-text').innerText = challengeDesc;
+                document.getElementById('challenge-text').innerHTML = challengeDesc;
                 document.getElementById('btn-submit-challenge').classList.remove('hidden');
                 
                 if(!isCompleted) document.getElementById('btn-action').classList.add('hidden');
@@ -879,7 +1037,7 @@
 
             if (lesson.code && lesson.code.trim() !== '') {
                 document.getElementById('display-code-box').classList.remove('hidden');
-                document.getElementById('display-code').innerText = lesson.code;
+                renderCodeExplanations(document.getElementById('display-code'), lesson);
             } else {
                 document.getElementById('display-code-box').classList.add('hidden');
             }
@@ -935,6 +1093,35 @@
             openLanguage(currentActiveLanguage.id, currentLessonIndex + 1 < currentLessonArray.length ? currentLessonIndex + 1 : currentLessonIndex); 
         }
 
+        // --- Code Explanation Rendering (هێل ب هێل) ---
+        function escapeHtml(s) {
+            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function renderCodeExplanations(container, lesson) {
+            if (!container || !lesson || !lesson.code) return;
+            const codeLines = lesson.code.split('\n');
+            const explains = (currentLang === 'ba' ? lesson.code_explain_ba : lesson.code_explain_so) || [];
+            let html = '';
+            codeLines.forEach((line, i) => {
+                const num = i + 1;
+                const ex = explains[i] ? explains[i] : '';
+                html += `<div class="flex gap-3 items-baseline">
+                            <span class="text-gray-600 text-right w-6 shrink-0 select-none">${num}</span>
+                            <code class="text-[#569cd6] whitespace-pre-wrap break-words flex-1">${escapeHtml(line) || ' '}</code>
+                          </div>`;
+                if (ex) {
+                    html += `<div class="flex gap-3 ml-9 mb-3">
+                                <span class="text-[#6a9955] shrink-0 leading-6">↳</span>
+                                <span class="text-gray-400 text-[13px] leading-6" dir="auto">${ex}</span>
+                             </div>`;
+                } else {
+                    html += `<div class="mb-3"></div>`;
+                }
+            });
+            container.innerHTML = html;
+        }
+
         // --- Modal/Compiler Functions ---
         window.openTryItYourself = function() {
             const lesson = currentLessonArray[currentLessonIndex];
@@ -948,7 +1135,7 @@
             const panel = document.getElementById('compiler-challenge-panel');
             if (challengeDesc) {
                 panel.classList.remove('hidden');
-                document.getElementById('compiler-challenge-desc').innerText = challengeDesc;
+                document.getElementById('compiler-challenge-desc').innerHTML = challengeDesc;
             } else {
                 panel.classList.add('hidden');
             }
@@ -1267,6 +1454,12 @@
         };
 
         document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
+
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            currentLang = currentLang === 'so' ? 'ba' : 'so';
+            localStorage.setItem('site-lang', currentLang);
+            applyLanguage();
+        });
     </script>
 
     <!-- پەنجەرەی دەستکاری کردنی زمان (Modal) -->
