@@ -5,31 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تووڵەکانی ئەی ئای - کورد ئەی ئای</title>
 
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <meta name="description" content="ئامرازەکانی زیرەکی دەستکرد - کورد ئەی ئای">
-    <meta name="keywords" content="ئامراز, AI, زیرەکی دەستکرد, تووڵ, کورد ئەی ئای">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://kurd-ai.com/ai-tools">
-    <meta property="og:title" content="تووڵەکانی ئەی ئای - KURD AI">
-    <meta property="og:description" content="باشترین ئامرازەکانی زیرەکی دەستکرد بۆ بەرزکردنەوەی بەرهەمهێنان">
-    <meta property="og:image" content="https://kurd-ai.com/logo.jpg">
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://kurd-ai.com/ai-tools">
-    <meta property="twitter:title" content="تووڵەکانی ئەی ئای - KURD AI">
-    <meta property="twitter:description" content="باشترین ئامرازەکانی زیرەکی دەستکرد بۆ بەرزکردنەوەی بەرهەمهێنان">
-    <meta property="twitter:image" content="https://kurd-ai.com/logo.jpg">
-<!-- Favicon (وێنە بچووکەکەی سەرەوەی تابەکە) -->
-<link rel="icon" href="/favicon.png" type="image/png">
-
-<!-- Meta Tags (بۆ سۆشیاڵ میدیا و گوگڵ) -->
-<meta name="description" content="کورد ئەی ئای - یەکەمین پلاتفۆرمی کوردی بۆ فێربوونی ژیریی دەستکرد و پرۆگرامسازی بە شێوازێکی مۆدێرن.">
-
-<!-- تایبەت بە فەیسبووک، تێلیگرام و نامەکان (Open Graph) -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="کورد ئەی ئای - Kurd AI">
-<meta property="og:description" content="پەرە بە تواناکانت بدە لەگەڵ باشترین کۆرسەکانی ژیریی دەستکرد و پرۆگرامسازی.">
-<meta property="og:image" content="/logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -56,7 +31,6 @@
             } 
         }
         
-        // پشکنین بۆ دارک مۆد پێش کردنەوەی پەڕەکە
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
@@ -81,50 +55,116 @@
         }
         .animation-delay-2000 { animation-delay: 2s; }
         .animation-delay-4000 { animation-delay: 4s; }
+
+        .cat-tab {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .cat-tab::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .cat-tab:hover::before {
+            opacity: 1;
+        }
+        .cat-tab.active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -5px rgba(147, 51, 234, 0.4);
+        }
+        .cat-tab:not(.active):hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .dark .cat-tab:not(.active):hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .cat-tab .tab-icon {
+            transition: transform 0.3s ease;
+        }
+        .cat-tab:hover .tab-icon {
+            transform: scale(1.15) rotate(-5deg);
+        }
+        .cat-tab.active .tab-icon {
+            transform: scale(1.1);
+        }
+        .cat-tab .tab-badge {
+            transition: all 0.3s ease;
+        }
+        .cat-tab.active .tab-badge {
+            background: rgba(255,255,255,0.25);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .tool-card {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+        .tool-card:nth-child(1) { animation-delay: 0.05s; }
+        .tool-card:nth-child(2) { animation-delay: 0.1s; }
+        .tool-card:nth-child(3) { animation-delay: 0.15s; }
+        .tool-card:nth-child(4) { animation-delay: 0.2s; }
+        .tool-card:nth-child(5) { animation-delay: 0.25s; }
+        .tool-card:nth-child(6) { animation-delay: 0.3s; }
+        .cat-header {
+            animation: fadeInScale 0.4s ease forwards;
+            opacity: 0;
+        }
     </style>
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
 
-    <!-- ناڤباری سەرەکی -->
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
+    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="/" class="flex items-center gap-3 hover:opacity-80 transition group">
-                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 text-white font-black text-xl group-hover:scale-105 transition-transform">ئـ</div>
-                <h1 class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-800 to-blue-500 dark:from-blue-400 dark:to-cyan-300 lang-str" data-so="کورد ئەی ئای" data-ba="کورد ئەی ئای">کورد ئەی ئای</h1>
-            </a>
-
-            <div class="hidden md:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
-                <a href="/" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
-                <a href="/ferga" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
-                <a href="/courses" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
-                <!-- تووڵەکان چالاککراوە (Active) -->
-                <a href="/ai-tools" class="px-4 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition lang-str" data-so="تووڵەکانی AI" data-ba="ئامرازێن AI">تووڵەکانی AI</a>
-                <a href="/academic-guide" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
-                <a href="/universities" class="px-4 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-xl transition lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
+        
+        <a href="/" class="flex items-center gap-3 transition group relative">
+            <div class="relative flex-shrink-0">
+                <div class="absolute -inset-2 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-all duration-300 dark:group-hover:opacity-50"></div>
+                <img src="logo.jpg" alt="Kurd AI Logo" class="h-10 md:h-11 w-auto object-contain dark:invert drop-shadow-md group-hover:scale-105 transition-transform duration-300 relative z-10">
             </div>
+            
+            <div class="flex flex-col justify-center hidden sm:flex">
+                <h1 class="text-xl md:text-2xl font-black tracking-tight text-gray-900 dark:text-white leading-none group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-300">
+                    KURD AI
+                </h1>
+                <span class="text-[0.55rem] md:text-[0.60rem] font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 mt-0.5">
+                    INNOVATION - FUTURE
+                </span>
             </div>
-
-            <div class="flex items-center gap-3">
-                <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-sm border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 dark:hover:bg-blue-800/50 transition">
-                    <span id="lang-text">بادینی</span>
-                </button>
-                <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition shadow-sm border border-gray-200/50 dark:border-gray-700/50">
-                    <svg id="theme-toggle-light-icon" class="hidden dark:block w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707-.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                    <svg id="theme-toggle-dark-icon" class="block dark:hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                </button>
-                <button id="logout-btn" class="flex items-center gap-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-800/50 px-4 py-2 rounded-xl hover:bg-red-500 hover:text-white dark:hover:bg-red-600 dark:hover:text-white font-bold text-sm transition-all duration-300 shadow-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                    <span class="lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</span>
-                </button>
-            </div>
-
+        </a>
+        <div class="hidden lg:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
+    <a href="/" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
+    <a href="/ferga" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
+    <a href="/courses" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
+    <a href="/news" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>
+    <a href="/ai-tools" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
+    <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
+    <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
+    <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەرباری مە">دەرباری ئێمە</a>
+</div>
+        <div class="flex items-center gap-2.5">
+            <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
+            <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
+            <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50 lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
+            <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="چنە دەر">دەرچوون</button>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <!-- بەشی هێدەر بە دیزاینی مۆدێرن (ڕەنگی وەنەوشەیی/پەمەیی) -->
     <header class="relative min-h-[45vh] flex items-center justify-center overflow-hidden py-20 px-4">
-        <!-- باکگراوندی جوڵاو -->
         <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
             <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-500 dark:bg-purple-700 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-30 animate-blob"></div>
             <div class="absolute top-0 -right-4 w-72 h-72 bg-pink-500 dark:bg-pink-700 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
@@ -142,15 +182,12 @@
         </div>
     </header>
 
-    <!-- بەشی پیشاندانی تووڵەکان -->
     <section class="relative z-10 container mx-auto pb-24 px-4">
         <div id="tools-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"></div>
     </section>
 
-    <!-- بەشی زیادکردنی تووڵ (تایبەت بە ئەدمین) -->
     <section class="admin-only hidden relative z-10 container mx-auto pb-24 px-4">
         <div class="glass-card p-8 md:p-12 rounded-[2.5rem] shadow-2xl max-w-4xl mx-auto border-t-4 border-purple-600 relative overflow-hidden">
-            <!-- دەیکۆرەیشنی ناو فۆڕم -->
             <div class="absolute top-0 right-0 w-64 h-64 bg-purple-500 opacity-5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
 
             <h3 class="text-3xl font-black mb-8 text-center text-gray-900 dark:text-white lang-str" data-so="زیادکردنی تووڵی نوێ (ئەدمین)" data-ba="زێدەکرنا ئامرازێ نوی (ئەدمین)">زیادکردنی تووڵی نوێ</h3>
@@ -181,6 +218,22 @@
                 </div>
 
                 <div class="mb-6">
+                    <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">پۆل (Category)</label>
+                    <select id="tool_category" required class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all">
+                        <option value="چات بۆت (Chatbot)">چات بۆت (Chatbot)</option>
+                        <option value="وێنە (Image)">وێنە (Image)</option>
+                        <option value="ڤیدیۆ (Video)">ڤیدیۆ (Video)</option>
+                        <option value="کۆدکردن (Coding)">کۆدکردن (Coding)</option>
+                        <option value="دەنگ (Audio)">دەنگ (Audio)</option>
+                        <option value="بەرهەمهێنان (Productivity)">بەرهەمهێنان (Productivity)</option>
+                        <option value="پێشکەشکردن (Presentation)">پێشکەشکردن (Presentation)</option>
+                        <option value="بیرکاری (Math)">بیرکاری (Math)</option>
+                        <option value="نووسین (Content)">نووسین (Content)</option>
+                        <option value="تر (Other)">تر (Other)</option>
+                    </select>
+                </div>
+
+                <div class="mb-6">
                     <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2 lang-str" data-so="بەستەری تووڵەکە (لینک)" data-ba="لینکا ئامرازی">بەستەری تووڵەکە (لینک)</label>
                     <input type="url" id="tool_url" required dir="ltr" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all">
                 </div>
@@ -201,11 +254,10 @@
         </div>
     </section>
 
-    <!-- سکرێپتەکان -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getDatabase, ref as dbRef, push, set, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref as dbRef, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAizrzIAwVMDSXdu-Y0LYFDzwQPy79ThEs", authDomain: "ai-platform-adb1b.firebaseapp.com", databaseURL: "https://ai-platform-adb1b-default-rtdb.firebaseio.com", projectId: "ai-platform-adb1b", storageBucket: "ai-platform-adb1b.firebasestorage.app", messagingSenderId: "798560436587", appId: "1:798560436587:web:d4e3f4e5f862c7cbde0c2e" };
         const app = initializeApp(firebaseConfig);
@@ -215,9 +267,7 @@
         const IMGBB_API_KEY = "947299981b43abca761315a1cd24c02a"; 
 
         let currentLang = localStorage.getItem('site-lang') || 'so';
-        let firebaseDataCache = {};
-        let currentUserId = null;
-        let userFavorites = {};
+        let firebaseDataCache = {}; 
 
         function applyLanguage() {
             const langBtnText = document.getElementById('lang-text');
@@ -238,7 +288,8 @@
             applyLanguage();
         });
 
-        // ----- هێنان و پیشاندانی تووڵەکان بە دیزاینی مۆدێرن -----
+        let activeCategory = 'all';
+
         function renderTools(data) {
             const container = document.getElementById('tools-container');
             if (!container) return;
@@ -250,43 +301,108 @@
                 return;
             }
 
+            const grouped = {};
+            const catLabels = {
+                'چات بۆت (Chatbot)': 'چات بۆت', 'وێنە (Image)': 'وێنە', 'ڤیدیۆ (Video)': 'ڤیدیۆ',
+                'کۆدکردن (Coding)': 'کۆدکردن', 'دەنگ (Audio)': 'دەنگ', 'بەرهەمهێنان (Productivity)': 'بەرهەمهێنان',
+                'پێشکەشکردن (Presentation)': 'پێشکەشکردن', 'بیرکاری (Math)': 'بیرکاری', 'نووسین (Content)': 'نووسین',
+                'تر (Other)': 'تر'
+            };
+
             for (let id in data) {
                 const t = data[id];
-                const title = currentLang === 'ba' && t.title_ba ? t.title_ba : t.title_so || t.title; 
-                const desc = currentLang === 'ba' && t.desc_ba ? t.desc_ba : t.desc_so || t.description;
-                const btnText = currentLang === 'so' ? 'بەکارهێنان' : 'ب کارئینان';
-
-                container.innerHTML += `
-                    <div class="tool-card glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-500 p-8 flex flex-col h-full group hover:-translate-y-2 hover:border-purple-200 dark:hover:border-purple-800 border border-transparent">
-                        <div class="w-20 h-20 rounded-2xl overflow-hidden shadow-lg mb-6 bg-white dark:bg-gray-800 flex-shrink-0 flex items-center justify-center p-3 border border-gray-100 dark:border-gray-700 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 relative">
-                            <img src="${t.image_url}" class="w-full h-full object-contain">
-                            <button onclick="window.toggleToolFav('${t.id || t.fb_id}', event)" class="absolute -top-2 -right-2 w-8 h-8 flex items-center justify-center rounded-full backdrop-blur-md transition-all duration-200 shadow-lg ${userFavorites && userFavorites[t.id || t.fb_id] ? 'bg-red-500 text-white scale-110' : 'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:text-red-500 hover:scale-110'}" title="${currentLang === 'so' ? 'دڵخواز' : 'دڵخواز'}">
-                                <svg class="w-[14px] h-[14px]" fill="${userFavorites && userFavorites[t.id || t.fb_id] ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                            </button>
-                        </div>
-                        <h3 class="font-black text-2xl mb-3 text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">${title}</h3>
-                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-8 flex-grow line-clamp-3 leading-relaxed">${desc}</p>
-                        <div class="mt-auto pt-5 border-t border-gray-200/50 dark:border-gray-700/50">
-                            <a href="${t.tool_url}" target="_blank" class="w-full block bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white text-center py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-purple-500/30 hover:shadow-pink-500/40 hover:-translate-y-0.5 flex items-center justify-center gap-2 group/btn">
-                                ${btnText}
-                                <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                            </a>
-                        </div>
-                    </div>
-                `;
+                const cat = t.category || 'تر (Other)';
+                if (!grouped[cat]) grouped[cat] = [];
+                grouped[cat].push({id, ...t});
             }
+
+            const allCats = Object.keys(grouped).sort((a, b) => {
+                const order = ['چات بۆت (Chatbot)','وێنە (Image)','ڤیدیۆ (Video)','کۆدکردن (Coding)','دەنگ (Audio)','بەرهەمهێنان (Productivity)','پێشکەشکردن (Presentation)','بیرکاری (Math)','نووسین (Content)','تر (Other)'];
+                return order.indexOf(a) - order.indexOf(b);
+            });
+
+            const catIcons = {
+                'چات بۆت (Chatbot)': '💬', 'وێنە (Image)': '🎨', 'ڤیدیۆ (Video)': '🎬',
+                'کۆدکردن (Coding)': '💻', 'دەنگ (Audio)': '🎵', 'بەرهەمهێنان (Productivity)': '⚡',
+                'پێشکەشکردن (Presentation)': '📊', 'بیرکاری (Math)': '🔢', 'نووسین (Content)': '✍️',
+                'تر (Other)': '🔧'
+            };
+            const catColors = {
+                'چات بۆت (Chatbot)': 'from-blue-500 to-cyan-400', 'وێنە (Image)': 'from-pink-500 to-rose-400',
+                'ڤیدیۆ (Video)': 'from-red-500 to-orange-400', 'کۆدکردن (Coding)': 'from-green-500 to-emerald-400',
+                'دەنگ (Audio)': 'from-violet-500 to-purple-400', 'بەرهەمهێنان (Productivity)': 'from-amber-500 to-yellow-400',
+                'پێشکەشکردن (Presentation)': 'from-indigo-500 to-blue-400', 'بیرکاری (Math)': 'from-teal-500 to-cyan-400',
+                'نووسین (Content)': 'from-orange-500 to-amber-400', 'تر (Other)': 'from-gray-500 to-slate-400'
+            };
+
+            let tabsHtml = `<div class="col-span-1 md:col-span-2 lg:col-span-3 mb-10"><div class="flex flex-wrap gap-3 justify-center">`;
+
+            tabsHtml += `
+                <button onclick="setCategory('all')" class="cat-tab relative flex items-center gap-2.5 px-5 py-3.5 rounded-2xl font-bold text-sm transition-all duration-300 ${activeCategory === 'all' ? 'active bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-xl shadow-purple-500/30 scale-105' : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-700 dark:text-gray-300 border border-gray-200/50 dark:border-gray-700/50 hover:bg-purple-50 dark:hover:bg-gray-700/50'}" data-cat="all">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                    <span>${currentLang === 'so' ? 'هەموو' : 'هەمی'}</span>
+                    <span class="tab-badge text-xs px-2 py-0.5 rounded-full ${activeCategory === 'all' ? 'bg-white/20 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}">${Object.keys(data).length}</span>
+                </button>`;
+
+            allCats.forEach(cat => {
+                const label = catLabels[cat] || cat;
+                const icon = catIcons[cat] || '🔧';
+                const grad = catColors[cat] || 'from-gray-500 to-slate-400';
+                tabsHtml += `
+                <button onclick="setCategory('${cat.replace(/'/g, "\\'")}')" class="cat-tab relative flex items-center gap-2.5 px-5 py-3.5 rounded-2xl font-bold text-sm transition-all duration-300 ${activeCategory === cat ? 'active bg-gradient-to-r ' + grad + ' text-white shadow-xl shadow-purple-500/20 scale-105' : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-700 dark:text-gray-300 border border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-700/50'}" data-cat="${cat.replace(/'/g, "&apos;")}">
+                    <span class="tab-icon text-lg">${icon}</span>
+                    <span>${label}</span>
+                    <span class="tab-badge text-xs px-2 py-0.5 rounded-full ${activeCategory === cat ? 'bg-white/20 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}">${grouped[cat].length}</span>
+                </button>`;
+            });
+            tabsHtml += `</div></div>`;
+            container.innerHTML = tabsHtml;
+
+            const categoriesToShow = activeCategory === 'all' ? allCats : [activeCategory];
+            
+            categoriesToShow.forEach(cat => {
+                const tools = grouped[cat];
+                if (!tools || tools.length === 0) return;
+                const label = catLabels[cat] || cat;
+                const icon = catIcons[cat] || '🔧';
+                container.innerHTML += `
+                    <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-6 mb-4 cat-header">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white text-lg shadow-lg shadow-purple-500/20">${icon}</div>
+                            <h3 class="text-2xl font-black text-gray-900 dark:text-white">${label}</h3>
+                            <div class="h-px flex-1 bg-gradient-to-r from-purple-200/50 to-transparent dark:from-purple-800/30 ml-4"></div>
+                        </div>
+                    </div>`;
+
+                tools.forEach((t, idx) => {
+                    const title = currentLang === 'ba' && t.title_ba ? t.title_ba : t.title_so || t.title; 
+                    const desc = currentLang === 'ba' && t.desc_ba ? t.desc_ba : t.desc_so || t.description;
+                    const btnText = currentLang === 'so' ? 'بەکارهێنان' : 'ب کارئینان';
+
+                    container.innerHTML += `
+                        <div class="tool-card glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-500 p-8 flex flex-col h-full group hover:-translate-y-2 hover:border-purple-200 dark:hover:border-purple-800 border border-transparent">
+                            <div class="w-20 h-20 rounded-2xl overflow-hidden shadow-lg mb-6 bg-white dark:bg-gray-800 flex-shrink-0 flex items-center justify-center p-3 border border-gray-100 dark:border-gray-700 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
+                                <img src="${t.image_url}" class="w-full h-full object-contain">
+                            </div>
+                            <h3 class="font-black text-2xl mb-3 text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">${title}</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm mb-8 flex-grow line-clamp-3 leading-relaxed">${desc}</p>
+                            <div class="mt-auto pt-5 border-t border-gray-200/50 dark:border-gray-700/50">
+                                <a href="${t.tool_url}" target="_blank" class="w-full block bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white text-center py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-purple-500/30 hover:shadow-pink-500/40 hover:-translate-y-0.5 flex items-center justify-center gap-2 group/btn">
+                                    ${btnText}
+                                    <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
         }
 
-        window.toggleToolFav = function(toolId, event) {
-            if(event) event.stopPropagation();
-            if (!currentUserId) return;
-            const favRef = dbRef(db, 'favorites/' + currentUserId + '/ai_tools/' + toolId);
-            if (userFavorites && userFavorites[toolId]) {
-                remove(favRef);
-            } else {
-                set(favRef, { favoritedAt: Date.now() });
-            }
+        window.setCategory = function(cat) {
+            activeCategory = cat;
+            renderTools(firebaseDataCache);
         };
+
         onValue(dbRef(db, 'ai_tools'), (snapshot) => {
             firebaseDataCache = snapshot.val() || {};
             renderTools(firebaseDataCache);
@@ -294,7 +410,6 @@
 
         applyLanguage();
 
-        // ----- ناردنی فۆرم بۆ فایەربەیس -----
         let isUploading = false;
         document.getElementById('upload-form').addEventListener('submit', async (e) => {
             e.preventDefault(); 
@@ -327,7 +442,8 @@
                             desc_so: document.getElementById('desc_so').value,
                             desc_ba: document.getElementById('desc_ba').value,
                             tool_url: document.getElementById('tool_url').value,
-                            image_url: url
+                            image_url: url,
+                            category: document.getElementById('tool_category').value
                         });
 
                         alert("تووڵەکە بە سەرکەوتوویی زیادکرا!");
@@ -347,7 +463,6 @@
             }
         });
 
-        // Theme Toggle
         document.getElementById('theme-toggle').addEventListener('click', () => {
             if (document.documentElement.classList.contains('dark')) {
                 document.documentElement.classList.remove('dark');
@@ -358,16 +473,10 @@
             }
         });
 
-        // Auth Check
         onAuthStateChanged(auth, (user) => { 
             if(!user) window.location.href = "/login"; 
             else {
                 document.body.style.display = 'block';
-                currentUserId = user.uid;
-                onValue(dbRef(db, 'favorites/' + user.uid + '/ai_tools'), (snap) => {
-                    userFavorites = snap.val() || {};
-                    renderTools(firebaseDataCache);
-                });
                 if(["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
                     document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
                 }

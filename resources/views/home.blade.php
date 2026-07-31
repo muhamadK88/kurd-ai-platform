@@ -204,28 +204,7 @@
 </header>
 
 <!-- ===== ئامارەکان (Stats) ===== -->
-<section class="relative bg-white dark:bg-[#0d1326] py-16 px-4">
-    <div class="container mx-auto max-w-6xl">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="glass-card rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 group">
-                <div class="text-4xl font-black text-blue-500 mb-2">+٢٠</div>
-                <div class="text-sm text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="کۆرسی ڤیدیۆیی" data-ba="کۆرسێن ڤیدیۆیی">کۆرسی ڤیدیۆیی</div>
-            </div>
-            <div class="glass-card rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 group">
-                <div class="text-4xl font-black text-indigo-500 mb-2">+٢٠</div>
-                <div class="text-sm text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="ئامرازی AI" data-ba="ئامرازێن AI">ئامرازی AI</div>
-            </div>
-            <div class="glass-card rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 group">
-                <div class="text-4xl font-black text-purple-500 mb-2">+٢</div>
-                <div class="text-sm text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="زمانی کۆدنووسی" data-ba="زمانێن کۆدنڤێسینێ">زمانی کۆدنووسی</div>
-            </div>
-            <div class="glass-card rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 group">
-                <div class="text-4xl font-black text-cyan-500 mb-2">خۆڕایی</div>
-                <div class="text-sm text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="بە تەواوی خۆڕاییە" data-ba="ب تەواوی بێ بەرامبەرە">بە تەواوی خۆڕاییە</div>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 <!-- ===== بەشەکانی پلاتفۆرم (Services) ===== -->
 <section class="relative bg-gray-50 dark:bg-[#0a0f1c] py-24 px-4 overflow-hidden">

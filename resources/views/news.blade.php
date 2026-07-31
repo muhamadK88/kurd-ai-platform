@@ -249,6 +249,44 @@
         </div>
     </div>
 
+    <!-- پەنجەرەی دەستکاری کردنی هەواڵ (Modal) -->
+    <div id="editNewsModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="window.closeEditNewsModal()"></div>
+        <div class="glass-card relative w-full max-w-2xl rounded-[2rem] p-6 md:p-8 shadow-2xl transform transition-all translate-y-4 opacity-0 overflow-y-auto max-h-[90vh]" id="editNewsModalContent">
+            <button onclick="window.closeEditNewsModal()" class="absolute top-5 left-5 p-2 bg-gray-100 dark:bg-gray-800 text-gray-500 hover:text-red-500 rounded-full transition z-10">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="mt-2">
+                <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-6 text-center lang-str" data-so="دەستکاری کردنی هەواڵ" data-ba="دەستکاریکرنا نووچەیێ">دەستکاری کردنی هەواڵ</h3>
+                <form id="edit-news-form" class="space-y-5">
+                    <input type="hidden" id="edit-news-id">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">سەردێڕ (سۆرانی)</label>
+                            <input type="text" id="edit_news_title_so" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">سەردێڕ (بادینی)</label>
+                            <input type="text" id="edit_news_title_ba" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all text-sm">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ناوەرۆک (سۆرانی)</label>
+                            <textarea id="edit_news_content_so" required rows="4" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all text-sm resize-none custom-scrollbar"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ناوەرۆک (بادینی)</label>
+                            <textarea id="edit_news_content_ba" required rows="4" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all text-sm resize-none custom-scrollbar"></textarea>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 text-center lang-str" data-so="وێنەکە لە کاتی دەستکاری دا ناگۆڕدرێت" data-ba="وێنە ل دەمێ دەستکاریێ دا ناگوهۆڕیت">وێنەکە لە کاتی دەستکاری دا ناگۆڕدرێت</p>
+                    <button type="submit" id="edit-news-submit-btn" class="w-full bg-gradient-to-r from-sky-500 to-blue-600 text-white py-3.5 rounded-xl font-black hover:shadow-lg hover:shadow-sky-500/30 hover:-translate-y-0.5 transition-all lang-str" data-so="پاشەکەوتکردن" data-ba="پاشەکەوتکرن">پاشەکەوتکردن</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -328,7 +366,18 @@
 
                 let adminBtn = '';
                 if(window.isAdmin) {
-                    adminBtn = `<button onclick="window.deleteNews('${id}')" class="w-full mt-2 py-2 bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400 font-bold rounded-xl text-xs border border-red-200 dark:border-red-800/50 hover:bg-red-100 transition">سڕینەوەی هەواڵ</button>`;
+                    adminBtn = `
+                        <div class="flex items-center gap-2 mt-2">
+                            <button onclick="window.openEditNewsModal('${id}')" class="flex-1 flex justify-center items-center gap-2 py-2.5 bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400 hover:bg-amber-100 rounded-xl font-bold text-xs transition border border-amber-200 dark:border-amber-800/50">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                ${currentLang === 'so' ? 'دەستکاری' : 'دەستکاری'}
+                            </button>
+                            <button onclick="window.deleteNews('${id}')" class="flex-1 flex justify-center items-center gap-2 py-2.5 bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400 hover:bg-red-100 rounded-xl font-bold text-xs transition border border-red-200 dark:border-red-800/50">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                ${currentLang === 'so' ? 'سڕینەوە' : 'سڕینەوە'}
+                            </button>
+                        </div>
+                    `;
                 }
 
                 container.innerHTML += `
@@ -394,6 +443,72 @@
                 await remove(dbRef(db, `news/${id}`));
             }
         };
+
+        // ----- دەستکاری کردنی هەواڵ (Edit Modal) -----
+        let editNewsData = null;
+
+        window.openEditNewsModal = function(newsId) {
+            const data = newsData[newsId];
+            if (!data) {
+                alert('نەتوانرا زانیاری هەواڵەکە بدۆزرێتەوە');
+                return;
+            }
+            editNewsData = { fb_id: newsId, ...data };
+
+            document.getElementById('edit-news-id').value = newsId;
+            document.getElementById('edit_news_title_so').value = data.title_so || '';
+            document.getElementById('edit_news_title_ba').value = data.title_ba || '';
+            document.getElementById('edit_news_content_so').value = data.content_so || '';
+            document.getElementById('edit_news_content_ba').value = data.content_ba || '';
+
+            const modal = document.getElementById('editNewsModal');
+            const content = document.getElementById('editNewsModalContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('translate-y-4', 'opacity-0');
+                content.classList.add('translate-y-0', 'opacity-100');
+            }, 10);
+        };
+
+        window.closeEditNewsModal = function() {
+            const modal = document.getElementById('editNewsModal');
+            const content = document.getElementById('editNewsModalContent');
+            content.classList.remove('translate-y-0', 'opacity-100');
+            content.classList.add('translate-y-4', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        };
+
+        document.getElementById('edit-news-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!editNewsData) return;
+
+            const newsId = document.getElementById('edit-news-id').value;
+            const submitBtn = document.getElementById('edit-news-submit-btn');
+            submitBtn.innerText = "خەریکە پاشەکەوت دەکرێت...";
+            submitBtn.classList.add('opacity-70', 'cursor-wait');
+
+            try {
+                await set(dbRef(db, 'news/' + newsId), {
+                    title_so: document.getElementById('edit_news_title_so').value,
+                    title_ba: document.getElementById('edit_news_title_ba').value,
+                    content_so: document.getElementById('edit_news_content_so').value,
+                    content_ba: document.getElementById('edit_news_content_ba').value,
+                    image_url: editNewsData.image_url || '',
+                    timestamp: editNewsData.timestamp || Date.now()
+                });
+
+                submitBtn.innerText = currentLang === 'so' ? 'پاشەکەوتکردن' : 'پاشەکەوتکرن';
+                submitBtn.classList.remove('opacity-70', 'cursor-wait');
+                window.closeEditNewsModal();
+                alert('هەواڵەکە بە سەرکەوتوویی پاشەکەوت کرا');
+            } catch (error) {
+                submitBtn.innerText = currentLang === 'so' ? 'پاشەکەوتکردن' : 'پاشەکەوتکرن';
+                submitBtn.classList.remove('opacity-70', 'cursor-wait');
+                alert('هەڵەیەک ڕوویدا: ' + error.message);
+            }
+        });
 
         // --- مۆدێل و کۆمێنت ---
         let activeCommentsListener = null;
