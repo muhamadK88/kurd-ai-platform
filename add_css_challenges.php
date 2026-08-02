@@ -3,15 +3,15 @@
 // Add challenges (Test) to CSS lessons in Firebase
 $firebaseUrl = 'https://ai-platform-adb1b-default-rtdb.firebaseio.com/';
 $idToken = trim(file_get_contents('/tmp/opencode/fb_token.txt'));
-$langId = '-OyrwFaGbQ7K-1QnzHvq';
+$langId = '-OysQq7E9B4bBLuGjUEX';
 
 function fbPatch($url, $data) {
     global $idToken;
-    $ch = curl_init($url . '?auth=' . urlencode($idToken));
+    $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $idToken, 'Content-Type: application/json']);
     $res = curl_exec($ch);
     curl_close($ch);
     return $res;
@@ -67,7 +67,7 @@ $data = json_decode(file_get_contents($firebaseUrl . 'ferga_lessons.json'), true
 $count = 0;
 foreach ($data as $id => $lesson) {
     if (($lesson['langId'] ?? '') !== $langId) continue;
-    $order = (int)($lesson['order'] ?? 0);
+    $order = (int)($lesson['order'] ?? 0) - 40; // CSS lessons live at orders 41-80 in the combined course
     if (!isset($challenges[$order])) { echo "SKIP order $order\n"; continue; }
     [$so, $ba, $checks] = $challenges[$order];
     $res = fbPatch($firebaseUrl . 'ferga_lessons/' . $id . '.json', [

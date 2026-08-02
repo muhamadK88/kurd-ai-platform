@@ -44,6 +44,7 @@
     <meta property="og:image" content="/logo.jpg">
     <title>فێرگە - کورد ئەی ئای</title>
 
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -58,6 +59,10 @@
 
         .quiz-option.selected { border-color: #3b82f6; background-color: #eff6ff; box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1); }
         .dark .quiz-option.selected { border-color: #3b82f6; background-color: rgba(59, 130, 246, 0.2); }
+        .quiz-option.option-correct { border-color: #22c55e !important; background-color: #f0fdf4 !important; box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.15); }
+        .dark .quiz-option.option-correct { border-color: #22c55e !important; background-color: rgba(34, 197, 94, 0.22) !important; }
+        .quiz-option.option-wrong { border-color: #ef4444 !important; background-color: #fef2f2 !important; box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.15); }
+        .dark .quiz-option.option-wrong { border-color: #ef4444 !important; background-color: rgba(239, 68, 68, 0.22) !important; }
 
         .timeline-line { position: absolute; right: 20px; top: 0; bottom: 0; width: 3px; background: #e5e7eb; z-index: 1;}
         .dark .timeline-line { background: #374151; }
@@ -147,8 +152,7 @@
             <div class="flex flex-wrap gap-2 mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
                 <button id="tab-btn-lang" onclick="switchAdminTab('lang')" class="px-6 py-2 bg-purple-600 text-white rounded-lg font-bold">1. زمان</button>
                 <button id="tab-btn-lesson" onclick="switchAdminTab('lesson')" class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-bold">2. وانە (دەستکاری ئاسان)</button>
-                <button id="tab-btn-quiz" onclick="switchAdminTab('quiz')" class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-bold">3. پرسیار</button>
-                <button id="tab-btn-manage" onclick="switchAdminTab('manage')" class="px-6 py-2 bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 rounded-lg font-bold border border-red-200 dark:border-red-800">4. بەڕێوەبردن</button>
+                <button id="tab-btn-manage" onclick="switchAdminTab('manage')" class="px-6 py-2 bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 rounded-lg font-bold border border-red-200 dark:border-red-800">3. بەڕێوەبردن</button>
             </div>
             
             <form id="form-lang" class="admin-form space-y-4">
@@ -207,6 +211,19 @@
 
                 <div><label class="block font-bold mb-2 mt-4">کۆدی نموونە (دەردەکەوێت لە سەکۆکەدا)</label><textarea id="lesson_code" rows="5" dir="ltr" class="w-full p-3 rounded-xl bg-[#1e1e1e] text-green-400 font-mono text-left"></textarea></div>
                 <div><label class="block font-bold mb-2 mt-4">کۆدی CSS (style.css — تەنها بۆ HTML + CSS)</label><textarea id="lesson_code_css" rows="5" dir="ltr" class="w-full p-3 rounded-xl bg-[#1e1e1e] text-purple-400 font-mono text-left"></textarea></div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold mb-2 mt-4">ژمارەی هەوڵەکان (Attempts)</label>
+                        <input type="number" id="lesson_max_attempts" min="1" max="20" value="5" class="w-full p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-left">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-2 mt-4">نیشاندانی وەڵام</label>
+                        <select id="lesson_allow_show_answer" class="w-full p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-left">
+                            <option value="1">بەڵێ - ڕێگە بدە</option>
+                            <option value="0">نەخێر - قەدەغە بکە</option>
+                        </select>
+                    </div>
+                </div>
                 <div>
                     <label class="block font-bold mb-2 mt-4 text-blue-600">ئەنجامی کۆدی نموونە (Example Output)</label>
                     <textarea id="lesson_example_output" rows="3" dir="ltr" placeholder="hello world" class="w-full p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 font-mono text-left"></textarea>
@@ -214,43 +231,24 @@
                 <button type="submit" id="btn-submit-lesson" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-xl font-bold mt-4">سەیڤکردنی وانە</button>
             </form>
 
-            <form id="form-quiz" class="admin-form space-y-4 hidden">
-                <input type="hidden" id="edit_quiz_id">
-                <div><label class="block font-bold mb-2">وانە</label><select id="quiz_lesson_select" required class="w-full p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700"></select></div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div><label class="block font-bold mb-2">پرسیار (سۆرانی)</label><input type="text" id="quiz_question_so" required class="w-full p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700"></div>
-                    <div><label class="block font-bold mb-2">پرسیار (بادینی)</label><input type="text" id="quiz_question_ba" required class="w-full p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700"></div>
-                </div>
-                <div class="grid grid-cols-2 gap-6 mt-4">
-                    <div class="space-y-3">
-                        <input type="text" id="quiz_opt0_so" placeholder="بژاردەی ١" required class="w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-300">
-                        <input type="text" id="quiz_opt1_so" placeholder="بژاردەی ٢" required class="w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-300">
-                        <input type="text" id="quiz_opt2_so" placeholder="بژاردەی ٣" required class="w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-300">
-                        <input type="text" id="quiz_opt3_so" placeholder="بژاردەی ٤" required class="w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-300">
-                    </div>
-                    <div class="space-y-3">
-                        <input type="text" id="quiz_opt0_ba" placeholder="بژاردەی ١" required class="w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-300">
-                        <input type="text" id="quiz_opt1_ba" placeholder="بژاردەی ٢" required class="w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-300">
-                        <input type="text" id="quiz_opt2_ba" placeholder="بژاردەی ٣" required class="w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-300">
-                        <input type="text" id="quiz_opt3_ba" placeholder="بژاردەی ٤" required class="w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-300">
-                    </div>
-                </div>
-                <div>
-                    <label class="block font-bold mb-2">وەڵامە ڕاستەکە</label>
-                    <select id="quiz_correct" required class="w-full p-3 rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-300 font-bold">
-                        <option value="0">بژاردەی ١</option><option value="1">بژاردەی ٢</option><option value="2">بژاردەی ٣</option><option value="3">بژاردەی ٤</option>
-                    </select>
-                </div>
-                <button type="submit" id="btn-submit-quiz" class="w-full bg-gradient-to-r from-green-600 to-teal-500 text-white py-4 rounded-xl font-bold">سەیڤکردنی پرسیار</button>
-            </form>
-
             <div id="form-manage" class="admin-form hidden">
                 <div class="mb-4">
                     <select id="manage_category" onchange="renderManageList()" class="w-full p-3 rounded-xl bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 font-bold outline-none">
-                        <option value="langs">زمانەکان</option><option value="lessons">وانەکان</option><option value="quizzes">پرسیارەکان</option>
+                        <option value="langs">زمانەکان</option><option value="lessons">وانەکان</option>
                     </select>
                 </div>
                 <div id="manage-list" class="space-y-3 max-h-96 overflow-y-auto custom-scrollbar p-4 bg-gray-50 dark:bg-[#0a0f1c] rounded-2xl border border-gray-200"></div>
+
+                <div class="mt-8 border-t-4 border-amber-500 bg-gradient-to-br from-amber-50/80 to-yellow-50/50 dark:from-amber-900/10 dark:to-yellow-900/5 rounded-2xl p-5">
+                    <h4 class="text-xl font-black mb-4 flex items-center gap-2 text-amber-700 dark:text-amber-400">👑 بەڕێوەبردنی ئەندامان</h4>
+                    <div class="flex gap-2 mb-4">
+                        <input id="member_email_input" type="email" dir="ltr" placeholder="user@email.com" class="flex-1 p-3 rounded-xl bg-white dark:bg-gray-900 border border-amber-300/60 dark:border-amber-700/50 font-bold outline-none text-sm">
+                        <button onclick="addMemberByEmail(true)" class="px-5 py-3 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white rounded-xl font-black text-sm shadow-lg shadow-emerald-500/20 transition-all whitespace-nowrap">+ مێمبەر</button>
+                        <button onclick="addMemberByEmail(false)" class="px-5 py-3 bg-red-500 hover:bg-red-400 text-white rounded-xl font-black text-sm shadow-lg shadow-red-500/20 transition-all whitespace-nowrap">− سڕینەوە</button>
+                    </div>
+                    <p class="text-xs text-amber-600/80 dark:text-amber-400/70 font-bold mb-4">تێبینی: ئەو بەکارهێنەرە دەبێت یەک جار هاتووتبێتە ناو سایتەکە.</p>
+                    <div id="members-list" class="space-y-2 max-h-72 overflow-y-auto custom-scrollbar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -282,11 +280,12 @@
                     </div>
                 </div>
             </div>
+            <div id="save-status" class="px-5 py-2.5 border-b border-gray-200 dark:border-gray-800 text-[11px] font-bold flex items-center gap-2 hidden"></div>
             <div class="p-6 flex-1 relative" id="sidebar-content"></div>
         </aside>
 
         <!-- ناوەڕۆکی سەرەکی (Main Learning Content) -->
-        <main class="flex-1 p-6 md:p-12 overflow-y-auto h-[calc(100vh-76px)] relative z-10 flex flex-col">
+        <main id="lesson-main" class="flex-1 p-6 md:p-12 overflow-y-auto h-[calc(100vh-76px)] relative z-10 flex flex-col">
             <div class="max-w-4xl mx-auto w-full flex-1 flex flex-col pt-10 md:pt-0">
                 <h1 id="display-title" class="text-4xl md:text-5xl font-black mb-6 text-gray-900 dark:text-white leading-tight"></h1>
                 
@@ -352,15 +351,16 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
                         </div>
                         <div>
-                            <h3 class="text-lg font-black text-gray-800 dark:text-white lang-str" data-so="ئێستا تۆ تاقیبکە" data-ba="ئێستا تۆ تاقیبکە">ئێستا تۆ تاقیبکە</h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 font-medium lang-str" data-so="کۆدەکە لە خوارەوە بنووسە و پشکنینی بکە" data-ba="کۆدێ ل خوارێ بنڤیسە و پشکنینێ بکە">کۆدەکە لە خوارەوە بنووسە و پشکنینی بکە</p>
+                            <h3 class="text-lg font-black text-gray-800 dark:text-white lang-str" data-so="ئێستا تۆ تاقیبکەوە" data-ba="ئێستا تۆ تاقیبکەوە">ئێستا تۆ تاقیبکەوە</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 font-medium lang-str" data-so="وەڵامی ئەم پرسیارە بدەوە" data-ba="وڵامێ ڤی پرسیارێ بدەوە">وەڵامی ئەم پرسیارە بدەوە</p>
                         </div>
                     </div>
                     <p id="challenge-text" class="text-gray-700 dark:text-gray-200 font-bold leading-relaxed bg-white/60 dark:bg-black/20 rounded-xl p-4 border border-purple-200/50 dark:border-purple-800/50"></p>
+                    <p id="challenge-attempts-note" class="mt-3 flex items-center gap-2 text-[12px] font-bold text-purple-600 dark:text-purple-300"></p>
                     <div class="mt-4 flex justify-end">
-                        <button onclick="openTryItYourself()" class="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-2.5 rounded-xl font-bold hover:shadow-lg hover:shadow-purple-500/30 hover:-translate-y-0.5 transition-all text-sm">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                            <span class="lang-str" data-so="کردنەوەی سەکۆی کۆدکردن" data-ba="ڤەکرنا سەکۆیێ کۆدکرنێ">کردنەوەی سەکۆی کۆدکردن</span>
+                        <button id="btn-challenge-open" onclick="openLessonQuestion()" class="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-2.5 rounded-xl font-bold hover:shadow-lg hover:shadow-purple-500/30 hover:-translate-y-0.5 transition-all text-sm">
+                            <svg id="btn-challenge-open-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                            <span id="btn-challenge-open-text" class="lang-str" data-so="کردنەوەی سەکۆی کۆدکردن" data-ba="ڤەکرنا سەکۆیێ کۆدکرنێ">کردنەوەی سەکۆی کۆدکردن</span>
                         </button>
                     </div>
                 </div>
@@ -398,23 +398,39 @@
                             <div>
                                 <span class="text-[11px] text-gray-400 font-bold tracking-widest mb-1 block lang-str" data-so="ئەرکی تۆ لەم وانەیە:" data-ba="ئەرکێ تە دڤێ وانەیێ دا:">ئەرکی تۆ لەم وانەیە:</span>
                                 <p id="compiler-challenge-desc" class="text-sm text-gray-200 font-bold leading-relaxed"></p>
+                                <p id="compiler-attempt-hint" class="mt-2 text-[12px] font-bold text-amber-400"></p>
+                                <div id="correct-answer-box" class="mt-3 hidden">
+                                    <div class="flex items-center gap-1.5 text-emerald-400 text-[11px] font-black tracking-widest mb-1">
+                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.2l-3.5-3.5L4 14.2 9 19.2l11-11-1.5-1.5L9 16.2z"/></svg>
+                                        <span class="lang-str" data-so="وەڵامی ڕاست" data-ba="بەرسڤێ راست">وەڵامی ڕاست</span>
+                                    </div>
+                                    <pre id="correct-answer-code" class="bg-[#1e1e1e] border border-emerald-700/50 rounded-lg p-3 overflow-x-auto text-[12px] text-emerald-200 font-mono max-h-40 overflow-y-auto leading-relaxed"></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Editor Toolbar -->
+                    <!-- Editor Toolbar with Modern Glow Buttons -->
                     <div class="bg-[#2d2d2d] px-4 py-2 flex justify-between items-center border-b border-[#1e1e1e]">
                         <span id="compiler-filename-label" class="text-xs font-mono text-gray-400 uppercase tracking-wider">main.py</span>
-                        <div class="flex gap-2">
-                            <button onclick="loadExampleIntoCompiler()" class="bg-[#3a3a3c] hover:bg-[#4a4a4c] text-gray-300 px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 border border-[#444]">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                                <span class="lang-str" data-so="هێنانی نموونە" data-ba="ئینانا نمونەیێ">هێنانی نموونە</span>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <!-- Load Example Button -->
+                            
+                            
+                            <!-- Show Answer Button -->
+                            <button id="btn-show-answer" onclick="showCorrectAnswer()" class="hidden bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white px-4 py-2 rounded-full font-bold text-xs shadow-[0_0_15px_rgba(245,158,11,0.2)] hover:shadow-[0_0_20px_rgba(245,158,11,0.4)] flex items-center gap-1.5 transition-all hover:scale-105 border border-amber-300/50">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                <span class="lang-str" data-so="بینینی وەڵام" data-ba="دیتنا بەرسڤێ">بینینی وەڵام</span>
                             </button>
-                            <button onclick="runCode()" class="bg-gray-600 hover:bg-gray-500 text-white px-5 py-1.5 rounded-lg font-bold text-xs shadow flex items-center gap-1.5 transition-all">
+                            
+                            <!-- Run Button -->
+                            <button onclick="runCode()" class="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white px-5 py-2 rounded-full font-bold text-xs shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] flex items-center gap-1.5 transition-all hover:scale-105 border border-blue-400/50">
                                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
                                 <span id="btn-run-text" class="lang-str" data-so="کارپێکردن" data-ba="کارپێکرن">کارپێکردن</span>
                             </button>
-                            <button id="btn-submit-challenge" onclick="verifyChallenge()" class="hidden bg-purple-600 hover:bg-purple-500 text-white px-5 py-1.5 rounded-lg font-bold text-xs shadow flex items-center gap-1.5 transition-all hover:scale-105">
+                            
+                            <!-- Submit Button -->
+                            <button id="btn-submit-challenge" onclick="verifyChallenge()" class="hidden bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white px-5 py-2 rounded-full font-bold text-xs shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:shadow-[0_0_25px_rgba(168,85,247,0.6)] flex items-center gap-1.5 transition-all hover:scale-105 border border-purple-400/50">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 <span id="btn-submit-challenge-text" class="lang-str" data-so="پشکنینی مەشق" data-ba="پشکنینا مەشقێ">پشکنینی مەشق</span>
                             </button>
@@ -444,16 +460,22 @@
     </div>
 
     <!-- پەنجەرەی Quiz -->
-    <div id="quiz-modal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-md z-[120] hidden flex-col items-center justify-center p-4">
-        <div class="bg-white dark:bg-[#111827] rounded-[2rem] shadow-2xl w-full max-w-2xl p-8 relative overflow-hidden border border-gray-100 dark:border-gray-800">
+    <div id="quiz-modal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-md z-[120] hidden flex overflow-y-auto">
+        <div class="flex min-h-full w-full items-center justify-center p-4 sm:p-6">
+            <div class="bg-white dark:bg-[#111827] rounded-[2rem] shadow-2xl w-full max-w-2xl p-8 relative overflow-hidden border border-gray-100 dark:border-gray-800">
             <div class="absolute top-0 right-0 w-full h-1.5 bg-gray-100 dark:bg-gray-800"><div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-blue-500 to-indigo-500 w-0 transition-all duration-500 rounded-r-full"></div></div>
             <div class="flex justify-between items-center mb-10 mt-2">
                 <h2 class="text-2xl font-black text-gray-800 dark:text-white lang-str" data-so="تاقیکردنەوەی وانە" data-ba="تاقیکرنا وانەیێ">تاقیکردنەوەی وانە</h2>
                 <span id="quiz-counter" class="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold px-4 py-1.5 rounded-full text-sm border border-blue-100 dark:border-blue-800/50"></span>
             </div>
+            <div id="quiz-notice" class="hidden mb-6 flex items-center gap-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/50 rounded-xl px-4 py-3">
+                <span class="text-amber-500 text-lg shrink-0">⚠️</span>
+                <p class="text-sm font-bold text-amber-700 dark:text-amber-300 lang-str" data-so="دەبێت پرسیارەکە جواب بدەیتەوە بۆ وانەی داهاتوو" data-ba="دڤێت بەرسڤا پرسیارێ بدەی بو وانەیا داهاتی">دەبێت پرسیارەکە جواب بدەیتەوە بۆ وانەی داهاتوو</p>
+            </div>
             <div id="quiz-content">
                 <h3 id="quiz-question-text" class="text-xl md:text-2xl font-bold mb-8 text-gray-800 dark:text-gray-100 leading-relaxed"></h3>
                 <div id="quiz-options" class="space-y-4"></div>
+                <div id="quiz-feedback" class="hidden mt-6 rounded-xl px-4 py-3 text-lg font-black text-center"></div>
             </div>
             <div id="quiz-result" class="hidden text-center py-10">
                 <div class="w-24 h-24 bg-green-100 dark:bg-green-900/30 text-green-500 rounded-full flex items-center justify-center mx-auto mb-8 text-5xl font-black shadow-inner">
@@ -464,8 +486,27 @@
                 <button id="btn-quiz-next" onclick="finishQuizAndContinue()" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-lg w-full transition-all hover:-translate-y-1 lang-str" data-so="بڕۆ بۆ وانەی داهاتوو" data-ba="هەڕە بۆ وانەیا داهاتی">بڕۆ بۆ وانەی داهاتوو</button>
             </div>
             <div id="quiz-footer" class="mt-10 flex justify-end">
-                <button id="btn-next-question" onclick="nextQuestion()" class="bg-gray-200 dark:bg-gray-800 text-gray-500 px-8 py-3.5 rounded-2xl font-bold cursor-not-allowed transition-all lang-str" data-so="دواتر" data-ba="داهاتی" disabled>دواتر</button>
+                <button id="btn-next-question" onclick="nextQuestion()" class="bg-gray-200 dark:bg-gray-800 text-gray-500 px-8 py-3.5 rounded-2xl font-bold cursor-not-allowed transition-all" disabled>دواتر</button>
             </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- پەنجەرەی ئەندامبوون -->
+    <div id="member-modal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-[130] hidden items-center justify-center p-4">
+        <div class="relative bg-white dark:bg-[#111827] rounded-[2rem] shadow-2xl w-full max-w-md p-8 text-center overflow-hidden">
+            <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-500"></div>
+            <button onclick="closeMembershipModal()" class="absolute top-4 left-4 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition text-xl font-black">×</button>
+            <div class="relative mx-auto mt-4 mb-8 w-28 h-28">
+                <div class="absolute inset-0 bg-amber-400/40 dark:bg-amber-500/30 rounded-full blur-2xl animate-pulse"></div>
+                <div class="relative w-full h-full rounded-full bg-gradient-to-br from-amber-400 to-yellow-600 text-white flex items-center justify-center shadow-2xl ring-8 ring-amber-100 dark:ring-amber-900/40">
+                    <svg class="w-12 h-12 drop-shadow" fill="currentColor" viewBox="0 0 24 24"><path d="M18 8h-1V6a5 5 0 00-10 0v2H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zm-6 9a2 2 0 110-4 2 2 0 010 4zm3.5-9h-7V6a3.5 3.5 0 117 0v2z"/></svg>
+                </div>
+            </div>
+            <h3 id="member-modal-title" class="text-3xl font-black mb-3 text-gray-900 dark:text-white lang-str" data-so="بە نزیکترین کات بەردەست دەبێت" data-ba="د نزیکترین دەمێدا بەردەست دبیت">بە نزیکترین کات بەردەست دەبێت</h3>
+            <p id="member-modal-lang" class="inline-block mb-5 px-4 py-1.5 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 rounded-full text-sm font-black border border-amber-200 dark:border-amber-700/50"></p>
+            <p class="text-gray-500 dark:text-gray-400 leading-relaxed mb-8 lang-str" data-so="ئەم زمانە لە ئێستادا لە جێگیربوونە. بە نزیکترین کات بەردەست دەبێت." data-ba="ئەڤ زمانە د ڤێ گەڤەلێ دا نڤێستینە. د نزیکترین کاتێ دا بەردەست دبیت.">ئەم زمانە لە ئێستادا لە جێگیربوونە. بە نزیکترین کات بەردەست دەبێت.</p>
+            <button onclick="closeMembershipModal()" class="w-full py-4 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-2xl font-black hover:bg-gray-200 dark:hover:bg-gray-700 transition-all lang-str" data-so="باشە" data-ba="باشە">باشە</button>
         </div>
     </div>
 
@@ -473,7 +514,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getDatabase, ref as dbRef, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref as dbRef, push, set, update, remove, onValue, get, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAizrzIAwVMDSXdu-Y0LYFDzwQPy79ThEs", authDomain: "ai-platform-adb1b.firebaseapp.com", databaseURL: "https://ai-platform-adb1b-default-rtdb.firebaseio.com", projectId: "ai-platform-adb1b" };
         const app = initializeApp(firebaseConfig);
@@ -481,8 +522,11 @@
         const db = getDatabase(app);
         const IMGBB_API_KEY = "947299981b43abca761315a1cd24c02a";
 
+        console.log('[ferga] v13 loaded');
+
         let currentLang = localStorage.getItem('site-lang') || 'so';
         window.isAdmin = false;
+        window.isMember = false;
         let languagesData = {}; let lessonsData = {}; let quizzesData = {};
         let currentActiveLanguage = null; let currentLessonArray = []; let currentLessonIndex = 0;
 
@@ -498,12 +542,22 @@
         let userXP = 0;
         let dayStreak = 0;
         let lastActiveDate = "";
+        let lessonProgress = {};
         let latestCompilerOutput = ""; 
+        // پێشکەوتن بەپێی ئەکاونت (ئیمەیڵ) — ڕاژە فایەربەیسەکە وەک ڕاژە ڕاستەوخۆ (realtime) دەگوێرێتەوە
+        let currentProgressPath = null;
+        let accountLastLangId = null;
+        let lastActiveLangId = null;
+        let progressUnsub = null;
 
         // --- Combined HTML+CSS compiler state ---
         let currentCompilerFile = 'html';
         let compilerHtmlBuffer = '';
         let compilerCssBuffer = '';
+
+        // --- Challenge attempts / answer reveal ---
+        let challengeAttempts = 0;
+        let answerRevealed = false;
 
         // --- Quill Editors Initialization ---
         let quillSo = new Quill('#editor_content_so', { theme: 'snow', modules: { toolbar: [ [{ 'header': [1, 2, 3, false] }], ['bold', 'italic', 'underline'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['code-block'] ] } });
@@ -526,6 +580,36 @@
                     document.getElementById('code-output').innerText = currentLang === 'so' ? 'ئامادەیە بۆ کارپێکردن...' : 'ئامادەیە بۆ کارپێکرنێ...';
                 }
             }
+        }
+
+        // گۆڕینی زمان (سۆرانی / بادینی)
+        const langToggleBtn = document.getElementById('lang-toggle');
+        if (langToggleBtn) {
+            langToggleBtn.addEventListener('click', () => {
+                currentLang = currentLang === 'so' ? 'ba' : 'so';
+                localStorage.setItem('site-lang', currentLang);
+                applyLanguage();
+            });
+        }
+
+        // گۆڕینی دەقی بادینی/سۆرانی بۆ دوگمەکە هەر لە سەرەتاوە
+        try {
+            const lt = document.getElementById('lang-text');
+            if (lt) lt.innerText = currentLang === 'so' ? 'Badini' : 'سۆرانی';
+        } catch(e) { console.error('[ferga] lang text init failed', e); }
+
+        // گۆڕینی ڕووکار (شەو / ڕۆژ)
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            });
         }
 
         // Support Tab key in compiler
@@ -868,10 +952,109 @@ ${code}
         }
 
         // --- Challenge Validation ---
+        window.openTryItYourself = function() {
+            const lesson = currentLessonArray[currentLessonIndex];
+            if (!lesson) return;
+            
+            const combined = isCombinedWebMode();
+            const tabs = document.getElementById('compiler-file-tabs');
+            if (tabs) tabs.classList.toggle('hidden', !combined);
+            
+            if (combined) {
+                compilerHtmlBuffer = lesson.code || '';
+                compilerCssBuffer = lesson.code_css || '';
+                document.getElementById('user-code').value = compilerHtmlBuffer;
+                document.getElementById('user-code-css').value = compilerCssBuffer;
+                window.switchCompilerFile('html');
+            } else {
+                document.getElementById('user-code-css').classList.add('hidden');
+                document.getElementById('user-code').classList.remove('hidden');
+                document.getElementById('user-code').value = currentLang === 'so' ? "# لێرە کۆدەکەت بنووسە...\n" : "# لێرە کۆدێ خۆ بنڤیسە...\n";
+            }
+            
+            document.getElementById('code-output').innerText = currentLang === 'so' ? 'ئامادەیە بۆ کارپێکردن...' : 'ئامادەیە بۆ کارپێکرنێ...';
+            
+            const challengeDesc = loc(lesson, 'challenge_desc');
+            const panel = document.getElementById('compiler-challenge-panel');
+            const hintEl = document.getElementById('compiler-attempt-hint');
+            const showAnswerBtn = document.getElementById('btn-show-answer');
+            const submitBtn = document.getElementById('btn-submit-challenge');
+            const hasChallenge = challengeDesc && lesson.expected_output;
+            
+            challengeAttempts = 0;
+            answerRevealed = false;
+            if (hintEl) hintEl.textContent = '';
+            const answerBox = document.getElementById('correct-answer-box');
+            if (answerBox) answerBox.classList.add('hidden');
+
+            if (hasChallenge) {
+                panel.classList.remove('hidden');
+                document.getElementById('compiler-challenge-desc').innerHTML = challengeDesc;
+                submitBtn.classList.remove('hidden');
+                const allowShow = lesson.allow_show_answer !== false;
+                if (allowShow && showAnswerBtn) showAnswerBtn.classList.remove('hidden');
+            } else {
+                panel.classList.add('hidden');
+                if (submitBtn) submitBtn.classList.add('hidden');
+                if (showAnswerBtn) showAnswerBtn.classList.add('hidden');
+            }
+
+            document.getElementById('compiler-modal').classList.remove('hidden'); 
+            document.getElementById('compiler-modal').classList.add('flex');
+        };
+
+        window.closeTryItYourself = function() {
+            const modal = document.getElementById('compiler-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+
+        window.showCorrectAnswer = function() {
+            const lesson = currentLessonArray[currentLessonIndex];
+            if (!lesson || answerRevealed) return;
+            answerRevealed = true;
+            const ansHtml = lesson.answer_code || lesson.code || '';
+            const ansCss = lesson.answer_code_css || lesson.code_css || '';
+            if (isCombinedWebMode()) {
+                compilerHtmlBuffer = ansHtml;
+                compilerCssBuffer = ansCss;
+                document.getElementById('user-code').value = compilerHtmlBuffer;
+                document.getElementById('user-code-css').value = compilerCssBuffer;
+                window.switchCompilerFile('html');
+            } else {
+                document.getElementById('user-code').value = ansHtml;
+            }
+            const correctCode = isCombinedWebMode()
+                ? (ansCss.trim() !== '' ? `${ansHtml}\n\n/* CSS */\n${ansCss}` : ansHtml)
+                : ansHtml;
+            const answerCode = document.getElementById('correct-answer-code');
+            if (answerCode) answerCode.textContent = correctCode;
+            const answerBox = document.getElementById('correct-answer-box');
+            if (answerBox) answerBox.classList.remove('hidden');
+            const showBtn = document.getElementById('btn-show-answer');
+            if (showBtn) showBtn.classList.add('hidden');
+            const submitBtn = document.getElementById('btn-submit-challenge');
+            if (submitBtn) submitBtn.classList.add('hidden');
+            const hintEl = document.getElementById('compiler-attempt-hint');
+            
+            if (hintEl) hintEl.innerHTML = currentLang === 'so'
+                ? '⚠️ وەڵامی ڕاستت پێ نیشان درا. هیچ خاڵێک (XP) وەرناگریت، بەڵام دەتوانیت بچیتە وانەی داهاتوو.'
+                : '⚠️ بەرسڤێ راست بۆ تە هاتە نیشاندان. چ خاڵان (XP) وەرناگری، لێ دکاری بچیە وانەیا داهاتی.';
+            
+            window.markLessonCompleted(lesson.id, false, 0);
+            
+            setTimeout(() => {
+                window.closeTryItYourself();
+                window.goToNextLesson();
+            }, 6000);
+        };
+
         window.verifyChallenge = async function() {
             const lesson = currentLessonArray[currentLessonIndex];
             const btnText = document.getElementById('btn-submit-challenge-text');
             const btn = document.getElementById('btn-submit-challenge');
+            const hintEl = document.getElementById('compiler-attempt-hint');
+            const maxAttempts = parseInt(lesson && lesson.max_attempts, 10) || 5;
             
             btnText.innerHTML = currentLang === 'so' ? '<span class="animate-pulse">سەرقاڵی پشکنین...</span>' : '<span class="animate-pulse">مژویلی پشکنینێیە...</span>';
             
@@ -892,30 +1075,87 @@ ${code}
             }
 
             if(pass) {
+                challengeAttempts = 0;
+                if (hintEl) hintEl.textContent = '';
                 btnText.innerHTML = currentLang === 'so' ? "ئافەرین! وەڵامەکە ڕاستە ✓" : "ئافەرم! بەرسڤ ڕاستە ✓";
-                btn.classList.replace('bg-purple-600', 'bg-green-600');
+                btn.classList.replace('from-purple-600', 'from-green-500');
+                btn.classList.replace('to-pink-500', 'to-emerald-500');
                 
-                if(!completedLessons.includes(lesson.id)) {
-                    completedLessons.push(lesson.id);
-                    triggerConfetti();
-                    addXP(50); 
-                    saveProgressToFirebase();
-                    
-                    setTimeout(() => {
-                        window.closeTryItYourself();
-                        openLanguage(currentActiveLanguage.id, currentLessonIndex);
-                    }, 1500);
-                } else {
-                    setTimeout(() => { window.closeTryItYourself(); openLanguage(currentActiveLanguage.id, currentLessonIndex); }, 1500);
-                }
-            } else {
-                btnText.innerHTML = currentLang === 'so' ? "هەڵەیە، دووبارە تاقیبکەرەوە" : "خەلەتە، دوبارە تاقیبکە";
-                btn.classList.replace('bg-purple-600', 'bg-red-600');
+                window.markLessonCompleted(lesson.id, true, 50);
+                
                 setTimeout(() => {
-                    btnText.innerHTML = currentLang === 'so' ? 'پشکنینی مەشق' : 'پشکنینا مەشقێ';
-                    btn.classList.replace('bg-red-600', 'bg-purple-600');
-                }, 3000);
+                    window.closeTryItYourself();
+                    window.goToNextLesson();
+                }, 1500);
+            } else {
+                challengeAttempts++;
+                if (challengeAttempts >= maxAttempts && !answerRevealed) {
+                    window.showCorrectAnswer();
+                    btnText.innerHTML = currentLang === 'so' ? "هەڵەیە! وەڵامی ڕاست نیشان درا" : "خەلەتە! بەرسڤێ راست هاتیە نیشان دان";
+                    btn.classList.replace('from-purple-600', 'from-amber-500');
+                    btn.classList.replace('to-pink-500', 'to-orange-500');
+                } else {
+                    const remaining = Math.max(maxAttempts - challengeAttempts, 0);
+                    if (hintEl) hintEl.innerHTML = currentLang === 'so'
+                        ? `وەڵامەکە هەڵەیە — <b>${remaining}</b> هەوڵی ماوە`
+                        : `بەرسڤ خەلەتە — <b>${remaining}</b> هەوڵێت ماین`;
+                    btnText.innerHTML = currentLang === 'so' ? "هەڵەیە، دووبارە تاقیبکەرەوە" : "خەلەتە، دوبارە تاقیبکە";
+                    btn.classList.replace('from-purple-600', 'from-red-600');
+                    btn.classList.replace('to-pink-500', 'to-rose-500');
+                    setTimeout(() => {
+                        btnText.innerHTML = currentLang === 'so' ? 'پشکنینی مەشق' : 'پشکنینا مەشقێ';
+                        btn.classList.replace('from-red-600', 'from-purple-600');
+                        btn.classList.replace('to-rose-500', 'to-pink-500');
+                    }, 3000);
+                }
             }
+        }
+
+        // --- Progression Logic ---
+        // پاشەکەوتی ناوخۆیی (localStorage) بۆ وانە تەواوکراوەکان — ئەگەر فایەربەیس بشکێت، قفڵ نالابێتەوە
+        function completedBackupKey() { return 'ferga_completed_' + (currentUid || 'guest'); }
+        function saveCompletedBackup() {
+            try { localStorage.setItem(completedBackupKey(), JSON.stringify(completedLessons)); } catch(e) { console.error('[ferga] backup write failed', e); }
+        }
+        function loadCompletedBackup() {
+            try { const raw = localStorage.getItem(completedBackupKey()); return raw ? JSON.parse(raw) : []; } catch(e) { return []; }
+        }
+        function unionArrays(a, b) { const s = new Set([].concat(a || [], b || [])); return Array.from(s); }
+
+        window.markLessonCompleted = function(lessonId, giveReward = true, xpAmount = 20) {
+            let isNew = false;
+            if(lessonId && !completedLessons.includes(lessonId)) {
+                completedLessons.push(lessonId);
+                isNew = true;
+                saveCompletedBackup();
+            }
+
+            if (isNew) {
+                try {
+                    if (giveReward) {
+                        try { triggerConfetti(); } catch(e) { console.error('[ferga] confetti failed', e); }
+                        try {
+                            addXP(xpAmount);
+                        } catch(e) {
+                            console.error('[ferga] addXP failed', e);
+                            saveProgressToFirebase();
+                        }
+                    } else {
+                        saveProgressToFirebase();
+                    }
+                } catch(e) {
+                    console.error('[ferga] reward/save failed', e);
+                    try { saveProgressToFirebase(); } catch(e2) { console.error('[ferga] fallback save failed', e2); }
+                }
+
+                const lesson = lessonsData[lessonId];
+                if (lesson && lesson.langId && lessonProgress[lesson.langId]) {
+                    lessonProgress[lesson.langId].completed = (lessonProgress[lesson.langId].completed || 0) + 1;
+                }
+            }
+
+            if (isNew && currentActiveLanguage) renderSidebar();
+            return isNew;
         }
 
         // --- Confetti & Notifications ---
@@ -980,10 +1220,98 @@ ${code}
             return false;
         }
 
+        function setSaveStatus(msg, isError) {
+            const el = document.getElementById('save-status');
+            if (el) {
+                el.classList.remove('hidden');
+                if (isError) {
+                    el.className = 'px-5 py-2.5 border-b border-gray-200 dark:border-gray-800 text-[11px] font-bold flex items-center gap-2 bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-300';
+                } else {
+                    el.className = 'px-5 py-2.5 border-b border-gray-200 dark:border-gray-800 text-[11px] font-bold flex items-center gap-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300';
+                }
+                el.textContent = msg;
+            }
+        }
+
+        function showProgressSaveError(err) {
+            console.error('[ferga] progress SAVE FAILED:', err);
+            setSaveStatus('پاراستن شکستی هێنا: ' + (err && err.message ? err.message : 'unknown'), true);
+            try {
+                const container = document.getElementById('xp-notification-container');
+                if (container) {
+                    const notif = document.createElement('div');
+                    notif.className = 'xp-popup bg-gradient-to-r from-rose-600 to-red-600 text-white px-4 py-2 rounded-2xl shadow-2xl font-bold text-sm';
+                    notif.textContent = 'پاراستنی پێشکەوتن سەرکەوتوو نەبوو: ' + (err && err.message ? err.message : 'unknown');
+                    container.appendChild(notif);
+                    setTimeout(() => notif.remove(), 5000);
+                }
+            } catch(e2) {}
+        }
+
         function saveProgressToFirebase() {
-            if(!currentUid) return;
-            update(dbRef(db, `users/${currentUid}/ferga_progress`), { xp: userXP, completedLessons: completedLessons, streak: dayStreak, lastActiveDate: lastActiveDate });
-            updateStatsUI();
+            if(!currentUid || !currentProgressPath) return;
+            const savedLangId = lastActiveLangId || accountLastLangId || null;
+            const payload = { xp: userXP, completedLessons: completedLessons, streak: dayStreak, lastActiveDate: lastActiveDate, lessonProgress: lessonProgress, lastLanguageId: savedLangId };
+            update(dbRef(db, currentProgressPath), payload)
+                .then(() => { console.log('[ferga] progress saved OK'); setSaveStatus('پێشکەوتن سەیڤکرا'); })
+                .catch(showProgressSaveError);
+        }
+
+        function trackLessonVisit() {
+            if (!currentActiveLanguage || currentLessonIndex === undefined || currentLessonIndex === null) return;
+            const langId = currentActiveLanguage.id;
+            lastActiveLangId = langId;
+            try {
+                localStorage.setItem('ferga_last_lang', currentActiveLanguage.id);
+                // سەیڤکردنی کۆتا وانە بۆ هەر زمانێک بە جیاواز
+                localStorage.setItem('ferga_last_lesson_' + langId, window.currentLessonId);
+            } catch(e) { console.error('[ferga] localStorage write failed', e); }
+            if (!lessonProgress[langId]) {
+                let count = 0;
+                Object.keys(lessonsData).forEach(lid => {
+                    if (lessonsData[lid].langId === langId && completedLessons.includes(lid)) count++;
+                });
+                lessonProgress[langId] = { lastIndex: 1, completed: count, total: currentLessonArray.length, lastLessonId: null, updatedAt: Date.now() };
+            }
+            const p = lessonProgress[langId];
+            p.lastIndex = Math.max(p.lastIndex || 1, currentLessonIndex + 1);
+            p.total = currentLessonArray.length;
+            p.lastLessonId = window.currentLessonId;
+            p.updatedAt = Date.now();
+            saveProgressToFirebase();
+        }
+
+        // --- بیرگەی کاتی (LocalStorage) بۆ ڕیفرێش — ئەو سیستمەی کە پێشتر درا ---
+        let dataLoaded = { langs: false, lessons: false, quizzes: false, auth: false };
+        let initialLoadDone = false;
+
+        function clearLocalResume() {
+            try { localStorage.removeItem('ferga_last_lang'); } catch(e) {}
+            try {
+                Object.keys(localStorage).forEach(k => { if (k.indexOf('ferga_last_lesson_') === 0) localStorage.removeItem(k); });
+            } catch(e) {}
+        }
+
+        function sortedLangLessons(langId) {
+            let arr = Object.keys(lessonsData).filter(lid => lessonsData[lid].langId === langId).map(lid => ({ id: lid, ...lessonsData[lid] }));
+            arr.sort((a, b) => {
+                let orderA = parseInt(a.order) || 0;
+                let orderB = parseInt(b.order) || 0;
+                if (orderA !== orderB) return orderA - orderB;
+                return a.id.localeCompare(b.id);
+            });
+            return arr;
+        }
+
+        function checkAndAutoResume() {
+            if (!initialLoadDone && dataLoaded.langs && dataLoaded.lessons && dataLoaded.auth && dataLoaded.quizzes) {
+                initialLoadDone = true;
+                applyLanguage();
+                // هەرگیز بە خۆی نەچیتە ناو وانە/زمانێک — هەر کات پەڕەکە دەکرێتەوە، پەڕەی هەموو وانەکان دەردەکەوێت
+                renderLanguagesGrid();
+            } else if (initialLoadDone) {
+                if (!currentActiveLanguage) renderLanguagesGrid();
+            }
         }
 
         window.addXP = function(amount) {
@@ -993,31 +1321,93 @@ ${code}
         };
 
         // --- Data Fetching ---
-        onValue(dbRef(db, 'ferga_languages'), (s) => { languagesData = s.val() || {}; applyLanguage(); updateAdminSelects(); renderManageList(); });
-        onValue(dbRef(db, 'ferga_lessons'), (s) => { lessonsData = s.val() || {}; updateAdminSelects(); renderManageList(); });
-        onValue(dbRef(db, 'ferga_quizzes'), (s) => { quizzesData = s.val() || {}; renderManageList(); });
+        onValue(dbRef(db, 'ferga_languages'), (s) => { languagesData = s.val() || {}; dataLoaded.langs = true; applyLanguage(); updateAdminSelects(); renderManageList(); checkAndAutoResume(); });
+        onValue(dbRef(db, 'ferga_lessons'), (s) => { lessonsData = s.val() || {}; dataLoaded.lessons = true; updateAdminSelects(); renderManageList(); checkAndAutoResume(); });
+        onValue(dbRef(db, 'ferga_quizzes'), (s) => { quizzesData = s.val() || {}; dataLoaded.quizzes = true; renderManageList(); checkAndAutoResume(); });
+
+        // پێشکەوتن بەپێی ئیمەیڵ — ڕاژە فایەربەیسەکە وەک ڕاژە ڕاستەوخۆ (realtime) دەگوێرێتەوە
+        function applyProgressData(data) {
+            if (data) {
+                userXP = data.xp || 0;
+                // چارەسەری کێشەی فایەربەیس: دڵنیابوونەوە لەوەی کە هەمیشە وەک لیست (Array) مامەڵەی لەگەڵ دەکرێت
+                const fromFirebase = data.completedLessons ? (Array.isArray(data.completedLessons) ? data.completedLessons : Object.values(data.completedLessons)) : [];
+                // تێکەڵکردنی پاشەکەوتی ناوخۆیی: ئەگەر وانەیەک ناوخۆیی تەواو کرابوو بەڵام هێشتا فایەربەیس نەگەیشت، قفڵی نالابێتەوە
+                completedLessons = unionArrays(fromFirebase, loadCompletedBackup());
+                saveCompletedBackup();
+                dayStreak = data.streak || 0; lastActiveDate = data.lastActiveDate || "";
+                lessonProgress = data.lessonProgress || {};
+                accountLastLangId = data.lastLanguageId || null;
+            } else {
+                completedLessons = loadCompletedBackup();
+                if (completedLessons.length > 0) saveCompletedBackup();
+                userXP = 0; dayStreak = 0; lastActiveDate = ""; lessonProgress = {};
+                accountLastLangId = null;
+            }
+            if (updateStreakLogic()) saveProgressToFirebase();
+            updateStatsUI();
+            if (currentActiveLanguage) renderSidebar();
+            renderLanguagesGrid();
+            dataLoaded.auth = true;
+            checkAndAutoResume();
+        }
+
+        // کلیدی سەلامەت بۆ ئیمەیڵ: ڕاژەی فایەربەیس ڕێگا نادات بە نوسینەوەی (.) لە ناوی کلیددا
+        function safeEmailKey(email) {
+            return String(email || '').trim().toLowerCase().replace(/\./g, ',');
+        }
 
         onAuthStateChanged(auth, async (user) => { 
             if(!user) { window.location.href = "/login"; } else {
                 currentUid = user.uid;
-                const snap = await get(dbRef(db, `users/${currentUid}/ferga_progress`));
-                if(snap.exists()) {
-                    const data = snap.val();
-                    userXP = data.xp || 0; completedLessons = data.completedLessons || [];
-                    dayStreak = data.streak || 0; lastActiveDate = data.lastActiveDate || "";
-                } else {
-                    userXP = 0; completedLessons = []; dayStreak = 0; lastActiveDate = "";
-                }
 
-                if(updateStreakLogic()) saveProgressToFirebase();
-                updateStatsUI();
-                
                 document.body.style.display = 'block';
                 window.isAdmin = ["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email);
                 if(window.isAdmin) {
                     document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
                 }
                 renderLanguagesGrid();
+
+                window.isMember = false;
+                if(user.email) {
+                    try {
+                        set(dbRef(db, 'user_index/' + safeEmailKey(user.email)), { uid: user.uid, email: user.email }).catch(() => {});
+                    } catch(e) { console.error('[ferga] user_index write failed:', e); }
+                    set(dbRef(db, `users/${currentUid}/email`), user.email).catch(() => {});
+                    get(dbRef(db, `users/${currentUid}/is_member`)).then(msnap => {
+                        window.isMember = msnap.exists() ? msnap.val() === true : false;
+                        renderLanguagesGrid();
+                    }).catch(() => { window.isMember = false; });
+                }
+
+                // پێشکەوتن بەپێی ئیمەیڵ: ئەگەر بەکارهێنەر بە هەمان ئیمەیڵ بە دوو ئەکاونتی جیاواز (بۆ نموونە ئیمەیڵ/پاسۆرد + گووگڵ) چووە ژوورەوە،
+                // پێشکەوتنەکەی لە ئەکاونتی کۆنەوە بۆ ئەکاونتی ئێستا دەگوازرێتەوە
+                currentProgressPath = `users/${currentUid}/ferga_progress`;
+                if (user.email) {
+                    try {
+                        const idxSnap = await get(dbRef(db, 'user_index/' + safeEmailKey(user.email)));
+                        if (idxSnap.exists() && idxSnap.val().uid && idxSnap.val().uid !== currentUid) {
+                            const otherSnap = await get(dbRef(db, `users/${idxSnap.val().uid}/ferga_progress`));
+                            const mySnap = await get(dbRef(db, `users/${currentUid}/ferga_progress`));
+                            if (otherSnap.exists() && !mySnap.exists()) {
+                                await set(dbRef(db, `users/${currentUid}/ferga_progress`), otherSnap.val());
+                            }
+                        }
+                    } catch(e) {
+                        console.error('[ferga] progress migration failed:', e);
+                    }
+                }
+
+                try {
+                    if (progressUnsub) progressUnsub();
+                    progressUnsub = onValue(dbRef(db, currentProgressPath), (snap) => { applyProgressData(snap.val()); }, (err) => {
+                        console.error('[ferga] progress listen failed:', err);
+                        if (!dataLoaded.auth) { dataLoaded.auth = true; checkAndAutoResume(); }
+                    });
+                } catch(e) {
+                    console.error('[ferga] progress subscribe failed:', e);
+                    dataLoaded.auth = true;
+                    checkAndAutoResume();
+                }
             }
         });
 
@@ -1030,16 +1420,34 @@ ${code}
                 const l = languagesData[id];
                 const name = loc(l, 'name');
                 const desc = loc(l, 'desc');
-                let iconHtml = l.logo_url ? `<img src="${l.logo_url}" class="w-full h-full object-contain p-2">` : `<span class="text-3xl font-black text-gray-800">${name.charAt(0)}</span>`;
+                const locked = l.locked === true;
+                const showLock = locked && !window.isAdmin;
+                const needsMembership = locked && !window.isAdmin && !window.isMember;
+                let iconHtml = l.logo_url ? `<img src="${l.logo_url}" class="w-full h-full object-contain p-2" alt="${name}">` : `<span class="text-3xl font-black text-gray-800">${name.charAt(0)}</span>`;
+                const openAction = needsMembership
+                    ? `window.openMembershipModal('${id}')`
+                    : `window.openLanguage('${id}')`;
+                const lockBadge = showLock ? `
+                    <div onclick="event.stopPropagation(); ${openAction}" class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] font-black shadow-lg bg-gradient-to-r from-amber-500 to-yellow-500 text-white ring-2 ring-white dark:ring-gray-900 hover:scale-105 transition-transform cursor-pointer whitespace-nowrap">
+                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18 8h-1V6a5 5 0 00-10 0v2H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zm-6 9a2 2 0 110-4 2 2 0 010 4zm3.5-9h-7V6a3.5 3.5 0 117 0v2z"/></svg>
+                        ${currentLang === 'so' ? 'بەم زوانە بەردەست دەبێت' : 'بۆ ئەم زوانە بەردەست دەبیت'}
+                    </div>` : '';
                 grid.innerHTML += `
-                    <div class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 flex flex-col items-center text-center p-10 group hover:-translate-y-2">
-                        <div onclick="openLanguage('${id}')" class="cursor-pointer w-full flex flex-col items-center">
-                            <div class="w-24 h-24 ${l.color || 'bg-blue-100'} rounded-[1.5rem] flex items-center justify-center mb-8 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">${iconHtml}</div>
+                    <div class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 flex flex-col items-center text-center p-10 group hover:-translate-y-2 relative ${showLock ? 'ring-1 ring-amber-200/60 dark:ring-amber-700/40' : ''}">
+                        ${lockBadge}
+                        <div onclick="${openAction}" class="cursor-pointer w-full flex flex-col items-center">
+                            <div class="w-24 h-24 ${l.color || 'bg-blue-100'} rounded-[1.5rem] flex items-center justify-center mb-8 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 relative">
+                                ${iconHtml}
+                            </div>
                             <h3 class="text-2xl font-black mb-4 text-gray-900 dark:text-white">Learn <bdi>${name}</bdi></h3>
                             <p class="text-gray-500 dark:text-gray-400 text-sm leading-loose line-clamp-3 mb-4">${desc}</p>
                         </div>
                         ${window.isAdmin ? `
                         <div class="flex items-center gap-2 w-full mt-auto pt-4 border-t border-gray-200/50 dark:border-gray-700/50">
+                            <button onclick="event.stopPropagation(); window.toggleLanguageLock('${id}')" class="flex-1 flex justify-center items-center gap-2 py-2.5 ${locked ? 'bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400 hover:bg-green-100' : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400 hover:bg-gray-200'} rounded-xl font-bold text-xs transition border ${locked ? 'border-green-200 dark:border-green-800/50' : 'border-gray-200 dark:border-gray-700'}">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+                                ${locked ? (currentLang === 'so' ? 'کردنەوە' : 'ڤەکرن') : (currentLang === 'so' ? 'قفڵکردن' : 'قفڵکرن')}
+                            </button>
                             <button onclick="event.stopPropagation(); window.openEditLangModal('${id}')" class="flex-1 flex justify-center items-center gap-2 py-2.5 bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400 hover:bg-amber-100 rounded-xl font-bold text-xs transition border border-amber-200 dark:border-amber-800/50">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                 ${currentLang === 'so' ? 'دەستکاری' : 'دەستکاریکرن'}
@@ -1053,35 +1461,93 @@ ${code}
             }
         }
 
-        window.openLanguage = function(langId, forcedIndex = null) {
-            currentActiveLanguage = { id: langId, ...languagesData[langId] };
-            document.getElementById('home-view').classList.add('hidden');
-            document.getElementById('learning-view').classList.remove('hidden');
-            document.getElementById('learning-view').classList.add('flex');
-            
-            let langLessons = Object.keys(lessonsData).filter(lid => lessonsData[lid].langId === langId).map(lid => ({id: lid, ...lessonsData[lid]}));
-            
-            // Sort by manual order, fallback to push id
-            langLessons.sort((a, b) => {
-                let orderA = parseInt(a.order) || 0;
-                let orderB = parseInt(b.order) || 0;
-                if (orderA !== orderB) return orderA - orderB;
-                return a.id.localeCompare(b.id);
-            });
+        window.toggleLanguageLock = async function(id) {
+            const l = languagesData[id];
+            if(!l) return;
+            const next = !(l.locked === true);
+            await update(dbRef(db, 'ferga_languages/' + id), { locked: next });
+            renderLanguagesGrid();
+            const notif = document.createElement('div');
+            notif.className = 'xp-popup bg-gradient-to-r from-emerald-600 to-teal-500 text-white px-6 py-3 rounded-2xl shadow-2xl font-bold flex items-center gap-2';
+            notif.innerHTML = next
+                ? (currentLang === 'so' ? '🔒 زمانەکە قفڵکرا' : '🔒 زمان قفڵکر')
+                : (currentLang === 'so' ? '🔓 زمانەکە کرایەوە' : '🔓 زمان هاتە ڤەکرن');
+            document.getElementById('xp-notification-container').appendChild(notif);
+            setTimeout(() => notif.remove(), 2500);
+        };
 
-            const grouped = {};
-            langLessons.forEach(l => { const lvl = loc(l, 'level'); if(!grouped[lvl]) grouped[lvl] = []; grouped[lvl].push(l); });
+        window.openMembershipModal = function(langId) {
+            const l = languagesData[langId];
+            if(!l) return;
+            document.getElementById('member-modal-lang').innerText = 'Learn ' + (loc(l, 'name') || '');
+            const m = document.getElementById('member-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        };
 
-            currentLessonArray = [];
+        window.closeMembershipModal = function() {
+            const m = document.getElementById('member-modal');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        };
+
+        async function refreshMembersList() {
+            const listEl = document.getElementById('members-list');
+            if(!listEl) return;
+            listEl.innerHTML = '<p class="text-gray-400 text-sm text-center p-3">...</p>';
+            let snap;
+            try {
+                snap = await get(query(dbRef(db, 'users'), orderByChild('is_member'), equalTo(true)));
+            } catch(e) { snap = null; }
+            listEl.innerHTML = '';
+            if(snap && snap.exists()) {
+                let any = false;
+                snap.forEach(child => {
+                    any = true;
+                    const uid = child.key;
+                    const email = child.val().email || uid;
+                    listEl.innerHTML += `
+                        <div class="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-amber-200/60 dark:border-amber-700/40">
+                            <span class="font-bold text-sm flex items-center gap-2">👑 <span dir="ltr">${email}</span></span>
+                            <button onclick="setMember('${uid}', false)" class="text-red-500 font-bold text-xs bg-red-50 dark:bg-red-900/20 hover:bg-red-100 px-3 py-1.5 rounded-lg">سڕینەوە</button>
+                        </div>`;
+                });
+                if(!any) listEl.innerHTML = '<p class="text-gray-400 text-sm text-center p-3">هیچ ئەندامێک نییە</p>';
+            } else {
+                listEl.innerHTML = '<p class="text-gray-400 text-sm text-center p-3">هیچ ئەندامێک نییە</p>';
+            }
+        }
+
+        window.setMember = async function(uid, make) {
+            if(!uid) return;
+            await set(dbRef(db, `users/${uid}/is_member`), make);
+            refreshMembersList();
+        };
+
+        window.addMemberByEmail = async function(make) {
+            const email = document.getElementById('member_email_input').value.trim();
+            if(!email) { alert(currentLang === 'so' ? 'ئیمەیڵ بنووسە' : 'ئیمەیڵێ بنڤیسە'); return; }
+            const snap = await get(dbRef(db, 'user_index/' + safeEmailKey(email)));
+            if(!snap.exists()) {
+                alert(currentLang === 'so' ? 'ئەم ئیمەیڵە نەدۆزرایەوە — بەکارهێنەرەکە دەبێت یەک جار هاتووتبێتە ناو سایتەکە' : 'ئەڤ ئیمەیڵە نەهاتە دیتن — دڤێت بەکارهێنەر یەک جار هاتیبیتە ناڤ سایت');
+                return;
+            }
+            await set(dbRef(db, `users/${snap.val().uid}/is_member`), make);
+            document.getElementById('member_email_input').value = '';
+            refreshMembersList();
+        };
+
+        // دروستکردنەوەی سایدبار بەپێی ئاستەکان — بۆ ئەوەی وانەی تەواوکراو یەکسەر کراوە بێت
+        function renderSidebar() {
             const sidebar = document.getElementById('sidebar-content');
-            sidebar.innerHTML = '';
-            
+            if (!sidebar || currentLessonArray.length === 0) return;
+            const grouped = {};
+            currentLessonArray.forEach(l => { const lvl = loc(l, 'level'); if(!grouped[lvl]) grouped[lvl] = []; grouped[lvl].push(l); });
             let htmlStr = '';
             for (let level in grouped) {
                 htmlStr += `<div class="mb-4 px-2 text-xs font-bold text-gray-400 dark:text-gray-500 tracking-widest mt-6">${level}</div><div class="relative pl-3 border-r-2 border-gray-100 dark:border-gray-800 mr-3">`;
                 grouped[level].forEach(lesson => {
-                    const index = currentLessonArray.length;
-                    currentLessonArray.push(lesson);
+                    const index = currentLessonArray.indexOf(lesson);
                     const isCompleted = completedLessons.includes(lesson.id);
                     const isLocked = index > 0 && !completedLessons.includes(currentLessonArray[index - 1].id);
                     
@@ -1105,6 +1571,28 @@ ${code}
                 htmlStr += `</div>`;
             }
             sidebar.innerHTML = htmlStr;
+            const activeBtn = document.getElementById(`sidebar-btn-${currentLessonIndex}`);
+            if (activeBtn && !activeBtn.classList.contains('locked-lesson')) {
+                activeBtn.classList.add('bg-blue-50', 'dark:bg-blue-900/20', 'text-blue-600', 'dark:text-blue-400', 'shadow-sm');
+            }
+        }
+
+        window.openLanguage = function(langId, forcedIndex = null) {
+            currentActiveLanguage = { id: langId, ...languagesData[langId] };
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('learning-view').classList.remove('hidden');
+            document.getElementById('learning-view').classList.add('flex');
+            
+            let langLessons = sortedLangLessons(langId);
+            
+            const grouped = {};
+            langLessons.forEach(l => { const lvl = loc(l, 'level'); if(!grouped[lvl]) grouped[lvl] = []; grouped[lvl].push(l); });
+
+            currentLessonArray = [];
+            for (let level in grouped) {
+                grouped[level].forEach(lesson => currentLessonArray.push(lesson));
+            }
+            renderSidebar();
 
             currentLangExt = (currentActiveLanguage.ext) ? currentActiveLanguage.ext.replace('.','').toLowerCase() : guessExtFromName(loc(currentActiveLanguage, 'name'));
             if (isCombinedWebMode()) {
@@ -1116,16 +1604,101 @@ ${code}
             }
             
             if (currentLessonArray.length > 0) {
-                let targetIdx = forcedIndex !== null ? forcedIndex : currentLessonArray.findIndex(l => !completedLessons.includes(l.id));
-                if (targetIdx === -1) targetIdx = 0; 
+                let targetIdx = forcedIndex;
+                if (targetIdx === null || targetIdx === undefined) {
+                    // هێنانەوەی ئایدی وانەکە بەپێی ئەو زمانەی کە تێیدایە (چێک پۆینت) — ئەکاونت (ئیمەیڵ) یەکەمە
+                    let savedLessonId = null;
+                    if (lessonProgress[langId]) savedLessonId = lessonProgress[langId].lastLessonId || null;
+                    if (!savedLessonId) {
+                        try { savedLessonId = localStorage.getItem('ferga_last_lesson_' + langId); } catch(e) { savedLessonId = null; }
+                    }
+
+                    if (savedLessonId) {
+                        targetIdx = currentLessonArray.findIndex(l => l.id === savedLessonId);
+                    }
+
+                    // دۆزینەوەی یەکەم وانە کە تەواو نەکراوە
+                    let firstUncompleted = currentLessonArray.findIndex(l => !completedLessons.includes(l.id));
+                    if (firstUncompleted === -1) firstUncompleted = currentLessonArray.length - 1;
+
+                    if (targetIdx === null || targetIdx === undefined || targetIdx === -1) {
+                        targetIdx = firstUncompleted;
+                    } else if (targetIdx > firstUncompleted) {
+                        // ئەگەر وانە سەیڤ کراوەکە لە پێشەوەی وانە تەواونەکراوەکان بوو (واتە قفڵ بوو)، بیگەڕێنەوە بۆ یەکەم وانەی تەواونەکراو
+                        targetIdx = firstUncompleted;
+                    }
+                }
+                if (targetIdx < 0 || targetIdx >= currentLessonArray.length) targetIdx = 0;
                 loadLesson(targetIdx);
+                if (forcedIndex === null || forcedIndex === undefined) {
+                    const resumedLesson = currentLessonArray[targetIdx];
+                    if (resumedLesson) {
+                        setSaveStatus('بەردەوامبوون لە وانەی: ' + loc(resumedLesson, 'title'));
+                    }
+                }
             }
+        };
+
+        window.lessonQuestionType = function(lesson) {
+            if (!lesson) return 'none';
+            if (lesson.quiz_type) return lesson.quiz_type;
+            if ((lesson.quiz_question_so && lesson.quiz_question_so.trim()) || (lesson.quiz_question_ba && lesson.quiz_question_ba.trim())) return 'choice';
+            const challenge = loc(lesson, 'challenge_desc');
+            // تەنها ئەگەر مەشقێک هەیە (وەسفەکەی) وەک پرسیاری کۆد دادەنرێت — ئەگەر هەر `expected_output` بەجێماو بێت بێ وەسف، قفڵی ناکات
+            if (challenge && lesson.expected_output) return 'code';
+            if (lesson.challenge_desc_so || lesson.challenge_desc_ba) return 'code';
+            return 'none';
+        };
+
+        window.getLessonQuiz = function(lesson) {
+            if (!lesson) return null;
+            if ((lesson.quiz_question_so && lesson.quiz_question_so.trim()) || (lesson.quiz_question_ba && lesson.quiz_question_ba.trim())) {
+                return {
+                    question_so: lesson.quiz_question_so || '',
+                    question_ba: lesson.quiz_question_ba || '',
+                    options_so: Array.isArray(lesson.quiz_options_so) ? lesson.quiz_options_so : [],
+                    options_ba: Array.isArray(lesson.quiz_options_ba) ? lesson.quiz_options_ba : [],
+                    correct: lesson.quiz_correct !== undefined && lesson.quiz_correct !== null ? String(lesson.quiz_correct) : '0'
+                };
+            }
+            if (quizzesData && typeof quizzesData === 'object') {
+                for (let id in quizzesData) {
+                    const q = quizzesData[id];
+                    if (q && q.lessonId === lesson.id) return q;
+                }
+            }
+            return null;
+        };
+
+        window.hasLessonQuestion = function(lesson) {
+            return window.lessonQuestionType(lesson) !== 'none';
+        };
+
+        window.openLessonQuestion = function() {
+            const lesson = lessonsData[window.currentLessonId];
+            if (!lesson) return;
+            if (window.lessonQuestionType(lesson) === 'code') {
+                window.openTryItYourself();
+            } else {
+                const quiz = window.getLessonQuiz(lesson);
+                if (quiz) window.startQuiz([quiz], lesson.id);
+            }
+        };
+
+        window.goBackToHome = function() {
+            clearLocalResume();
+            document.getElementById('learning-view').classList.add('hidden');
+            document.getElementById('learning-view').classList.remove('flex');
+            document.getElementById('home-view').classList.remove('hidden');
+            window.scrollTo(0, 0);
+            if (typeof renderLanguagesGrid === 'function') renderLanguagesGrid();
         };
 
         window.loadLesson = function(index) {
             currentLessonIndex = index;
             const lesson = currentLessonArray[index];
             window.currentLessonId = lesson.id;
+            trackLessonVisit();
             
             document.querySelectorAll('[id^="sidebar-btn-"]').forEach(el => el.classList.remove('bg-blue-50', 'dark:bg-blue-900/20', 'text-blue-600', 'dark:text-blue-400', 'shadow-sm'));
             const activeBtn = document.getElementById(`sidebar-btn-${index}`);
@@ -1137,20 +1710,62 @@ ${code}
             document.getElementById('display-content').innerHTML = loc(lesson, 'content');
             
             // Challenge Handling
-            const challengeDesc = loc(lesson, 'challenge_desc');
-            const hasChallenge = challengeDesc && lesson.expected_output;
+            const questionType = window.lessonQuestionType(lesson);
+            const hasChallenge = questionType !== 'none';
             const isCompleted = completedLessons.includes(lesson.id);
 
             if (hasChallenge) {
                 document.getElementById('challenge-container').classList.remove('hidden');
-                document.getElementById('challenge-text').innerHTML = challengeDesc;
-                document.getElementById('btn-submit-challenge').classList.remove('hidden');
-                
-                if(!isCompleted) document.getElementById('btn-action').classList.add('hidden');
-                else document.getElementById('btn-action').classList.remove('hidden');
+                if (questionType === 'choice') {
+                    const quiz = window.getLessonQuiz(lesson);
+                    document.getElementById('challenge-text').innerHTML = loc(lesson, 'quiz_question') || (quiz ? (currentLang === 'so' ? quiz.question_so : quiz.question_ba) : '');
+                    document.getElementById('btn-submit-challenge').classList.add('hidden');
+                    const btnOpen = document.getElementById('btn-challenge-open');
+                    if (btnOpen) {
+                        btnOpen.classList.remove('hidden');
+                        const btnText = document.getElementById('btn-challenge-open-text');
+                        const icon = document.getElementById('btn-challenge-open-icon');
+                        if (btnText) {
+                            btnText.setAttribute('data-so', 'کردنەوەی پرسیارەکە');
+                            btnText.setAttribute('data-ba', 'ڤەکرنا پرسیارێ');
+                            btnText.textContent = currentLang === 'so' ? 'کردنەوەی پرسیارەکە' : 'ڤەکرنا پرسیارێ';
+                        }
+                        if (icon) icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>';
+                    }
+                    const attemptsNote = document.getElementById('challenge-attempts-note');
+                    if (attemptsNote) attemptsNote.textContent = '';
+                } else {
+                    document.getElementById('challenge-text').innerHTML = loc(lesson, 'challenge_desc');
+                    document.getElementById('btn-submit-challenge').classList.remove('hidden');
+                    const btnOpen = document.getElementById('btn-challenge-open');
+                    if (btnOpen) {
+                        btnOpen.classList.remove('hidden');
+                        const btnText = document.getElementById('btn-challenge-open-text');
+                        const icon = document.getElementById('btn-challenge-open-icon');
+                        if (btnText) {
+                            btnText.setAttribute('data-so', 'کردنەوەی سەکۆی کۆدکردن');
+                            btnText.setAttribute('data-ba', 'ڤەکرنا سەکۆیێ کۆدکرنێ');
+                            btnText.textContent = currentLang === 'so' ? 'کردنەوەی سەکۆی کۆدکردن' : 'ڤەکرنا سەکۆیێ کۆدکرنێ';
+                        }
+                        if (icon) icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>';
+                    }
+                    const attemptsNote = document.getElementById('challenge-attempts-note');
+                    if (attemptsNote) {
+                        const maxA = parseInt(lesson.max_attempts, 10) || 5;
+                        const canShow = lesson.allow_show_answer !== false;
+                        attemptsNote.innerHTML = (currentLang === 'so'
+                            ? `🧪 ${maxA} هەوڵت هەیە — لە دوای ئەوە وەڵامەکە نیشان دەدرێت${canShow ? ' · بە دوگمەی «نیشاندانی وەڵام» دەتوانیت کۆدەکە ببینیت' : ''}`
+                            : `🧪 ${maxA} هەوڵێت تە هەن — پاشی وەکێ بەرسڤ تێ دەچیتە نیشاندان${canShow ? ' · ب دگمەکا «نیشاندانا بەرسڤێ» تۆ دکەی کۆدێ ببینی' : ''}`);
+                    }
+                }
+
+                document.getElementById('btn-action').classList.remove('hidden');
             } else {
                 document.getElementById('challenge-container').classList.add('hidden');
                 document.getElementById('btn-submit-challenge').classList.add('hidden');
+                document.getElementById('btn-challenge-open').classList.add('hidden');
+                const attemptsNote = document.getElementById('challenge-attempts-note');
+                if (attemptsNote) attemptsNote.textContent = '';
                 document.getElementById('btn-action').classList.remove('hidden');
             }
 
@@ -1194,37 +1809,58 @@ ${code}
                 btnAction.innerHTML = isLast ? (currentLang === 'so' ? "کۆتایی زمانەکە" : "دووماهیا زمانێ") : (currentLang === 'so' ? "وانەی داهاتوو &raquo;" : "وانەیا داهاتی &raquo;");
                 btnAction.className = "bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded-xl font-bold text-lg shadow-lg transition hover:-translate-y-1";
             }
+
+            // سەرەتای وانەکە پیشان بدە بۆ ئەوەی ناوەڕۆکەکە (باسکردنەکە) دیار بێت — سکرۆڵەکە لەناو main دایە
+            const lessonMain = document.getElementById('lesson-main');
+            if (lessonMain) lessonMain.scrollTop = 0;
+            window.scrollTo(0, 0);
+        };
+
+        function showMustAnswerChallengeMessage() {
+            const container = document.getElementById('xp-notification-container');
+            const notif = document.createElement('div');
+            notif.className = 'xp-popup bg-gradient-to-r from-red-600 to-amber-600 text-white px-6 py-3 rounded-2xl shadow-2xl font-bold flex items-center gap-2';
+            notif.innerHTML = currentLang === 'so'
+                ? '⚠️ پێویستە پرسیارەکە جواب بدەیتەوە بۆ وانەی داهاتوو'
+                : '⚠️ دڤێت بەرسڤا پرسیارێ بدەی ژبو وانەیا داهاتی';
+            container.appendChild(notif);
+            setTimeout(() => notif.remove(), 3500);
+
+            const cc = document.getElementById('challenge-container');
+            if (cc) {
+                cc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                cc.classList.add('ring-4', 'ring-red-500');
+                setTimeout(() => cc.classList.remove('ring-4', 'ring-red-500'), 3500);
+            }
+        }
+
+        // بۆ وانەی داهاتوو دەڕوات — بەشێکی یەکگرتوو بۆ هەموو شوێنەکان
+        window.goToNextLesson = function() {
+            if (!currentActiveLanguage || !currentActiveLanguage.id) return;
+            let nextIdx = currentLessonIndex + 1;
+            if (nextIdx >= currentLessonArray.length) nextIdx = currentLessonArray.length - 1;
+            openLanguage(currentActiveLanguage.id, nextIdx);
         };
 
         window.handleNextAction = function() {
-            const lessonId = currentLessonArray[currentLessonIndex].id;
+            const lesson = currentLessonArray[currentLessonIndex];
+            if (!lesson) {
+                console.error('[ferga] handleNextAction: no lesson at index', currentLessonIndex);
+                return;
+            }
+            const hasChallenge = window.hasLessonQuestion(lesson);
+            const lessonId = lesson.id;
             const isCompleted = completedLessons.includes(lessonId);
 
             if (!isCompleted) {
-                let lessonQuizzes = Object.values(quizzesData).filter(q => q.lessonId === lessonId);
-                if (lessonQuizzes.length > 0) startQuiz(lessonQuizzes, lessonId);
-                else markLessonCompleted(lessonId);
-            } else {
-                if(currentLessonIndex < currentLessonArray.length - 1) {
-                    loadLesson(currentLessonIndex + 1);
+                if (hasChallenge) {
+                    showMustAnswerChallengeMessage();
+                    return;
                 }
+                window.markLessonCompleted(lessonId, true, 20);
             }
+            window.goToNextLesson();
         };
-
-        function markLessonCompleted(lessonId) {
-            if(!completedLessons.includes(lessonId)) {
-                completedLessons.push(lessonId);
-                triggerConfetti();
-                addXP(20);
-                saveProgressToFirebase();
-            }
-            openLanguage(currentActiveLanguage.id, currentLessonIndex + 1 < currentLessonArray.length ? currentLessonIndex + 1 : currentLessonIndex); 
-        }
-
-        // --- Code Explanation Rendering (هێل ب هێل) ---
-        function escapeHtml(s) {
-            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        }
 
         function renderCodeExplanations(container, lesson) {
             if (!container || !lesson || !lesson.code) return;
@@ -1250,120 +1886,175 @@ ${code}
             container.innerHTML = html;
         }
 
-        // --- Modal/Compiler Functions ---
-        window.openTryItYourself = function() {
-            const lesson = currentLessonArray[currentLessonIndex];
-            
-            const combined = isCombinedWebMode();
-            const tabs = document.getElementById('compiler-file-tabs');
-            if (tabs) tabs.classList.toggle('hidden', !combined);
-            
-            if (combined) {
-                compilerHtmlBuffer = lesson.code || '';
-                compilerCssBuffer = lesson.code_css || '';
-                document.getElementById('user-code').value = compilerHtmlBuffer;
-                document.getElementById('user-code-css').value = compilerCssBuffer;
-                window.switchCompilerFile('html');
-            } else {
-                document.getElementById('user-code-css').classList.add('hidden');
-                document.getElementById('user-code').classList.remove('hidden');
-                // Set compiler code to blank/comment to prevent copying example code automatically
-                document.getElementById('user-code').value = currentLang === 'so' ? "# لێرە کۆدەکەت بنووسە...\n" : "# لێرە کۆدێ خۆ بنڤیسە...\n";
-            }
-            
-            document.getElementById('code-output').innerText = currentLang === 'so' ? 'ئامادەیە بۆ کارپێکردن...' : 'ئامادەیە بۆ کارپێکرنێ...';
-            
-            const challengeDesc = loc(lesson, 'challenge_desc');
-            const panel = document.getElementById('compiler-challenge-panel');
-            if (challengeDesc) {
-                panel.classList.remove('hidden');
-                document.getElementById('compiler-challenge-desc').innerHTML = challengeDesc;
-            } else {
-                panel.classList.add('hidden');
-            }
-
-            document.getElementById('compiler-modal').classList.remove('hidden'); 
-            document.getElementById('compiler-modal').classList.add('flex');
-        };
-
-        window.loadExampleIntoCompiler = function() {
-            const lesson = currentLessonArray[currentLessonIndex];
-            if (!lesson) return;
-            if (isCombinedWebMode()) {
-                compilerHtmlBuffer = lesson.code || '';
-                compilerCssBuffer = lesson.code_css || '';
-                document.getElementById('user-code').value = compilerHtmlBuffer;
-                document.getElementById('user-code-css').value = compilerCssBuffer;
-            } else if (lesson.code) {
-                document.getElementById('user-code').value = lesson.code;
-            }
-        };
-
-        window.closeTryItYourself = function() { 
-            document.getElementById('compiler-modal').classList.add('hidden'); 
-            document.getElementById('compiler-modal').classList.remove('flex'); 
-        };
-        
-        window.goBackToHome = function() { 
-            document.getElementById('learning-view').classList.add('hidden'); 
-            document.getElementById('learning-view').classList.remove('flex'); 
-            document.getElementById('home-view').classList.remove('hidden'); 
-            currentActiveLanguage = null;
-        };
+        function escapeHtml(s) {
+            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
 
         // --- Quiz Logic ---
-        let activeQuizQuestions = []; let activeQuizIndex = 0; let activeQuizScore = 0; let activeLessonIdToComplete = null; let selectedOptionForCurrent = null;
+        let activeQuizQuestions = []; let activeQuizIndex = 0; let activeQuizScore = 0; let activeLessonIdToComplete = null; let selectedOptionForCurrent = null; let quizAnswered = false;
+        // هەڵبژاردە ڕاستەقینەکان (دواتر بۆ 0-based و یەکخستنی ئیندێکس)
+        let activeQuizOptions = [];
 
-        function startQuiz(questions, lessonId) {
-            activeQuizQuestions = questions; activeQuizIndex = 0; activeQuizScore = 0; activeLessonIdToComplete = lessonId;
-            document.getElementById('quiz-modal').classList.remove('hidden'); document.getElementById('quiz-modal').classList.add('flex');
-            document.getElementById('quiz-content').classList.remove('hidden'); document.getElementById('quiz-footer').classList.remove('hidden'); document.getElementById('quiz-result').classList.add('hidden');
-            renderQuizQuestion();
+        // دیاریکردنی بەهای ڕاستەکە بە شێوەیەکی بەرگریکار — ژمارە (0-based) یان پیت (a/b/c/d)
+        function resolveCorrectIndex(q) {
+            if (!q) return 0;
+            const raw = q.correct;
+            if (raw === undefined || raw === null || raw === '') return 0;
+            const c = String(raw).trim().toLowerCase();
+            const letterMap = { a: 0, b: 1, c: 2, d: 3, 'ئە': 0, 'ا': 0, 'أ': 0, 'آ': 0, 'ب': 1, 'ج': 2, 'د': 3, 'پ': 4, 'ت': 5 };
+            if (letterMap[c] !== undefined) return letterMap[c];
+            const num = parseInt(c, 10);
+            return isNaN(num) ? 0 : num;
         }
+
+        window.startQuiz = function(questions, lessonId) {
+            activeQuizQuestions = questions; activeQuizIndex = 0; activeQuizScore = 0; activeLessonIdToComplete = lessonId; quizAnswered = false;
+            document.getElementById('quiz-modal').classList.remove('hidden'); document.getElementById('quiz-modal').classList.add('flex');
+            const qm = document.getElementById('quiz-modal');
+            if (qm) { try { qm.scrollTop = 0; } catch(e) {} }
+            document.getElementById('quiz-content').classList.remove('hidden'); document.getElementById('quiz-footer').classList.remove('hidden'); document.getElementById('quiz-result').classList.add('hidden');
+            const notice = document.getElementById('quiz-notice');
+            if (notice) notice.classList.remove('hidden');
+            renderQuizQuestion();
+        };
 
         function renderQuizQuestion() {
             const q = activeQuizQuestions[activeQuizIndex];
             selectedOptionForCurrent = null;
+            quizAnswered = false;
+            const qmEl = document.getElementById('quiz-modal');
+            if (qmEl) { try { qmEl.scrollTop = 0; } catch(e) {} }
             document.getElementById('quiz-progress-bar').style.width = `${((activeQuizIndex) / activeQuizQuestions.length) * 100}%`;
             document.getElementById('quiz-counter').innerText = `${activeQuizIndex + 1} / ${activeQuizQuestions.length}`;
-            document.getElementById('quiz-question-text').innerText = loc(q, 'question');
+            document.getElementById('quiz-question-text').innerText = currentLang === 'so' ? q.question_so : q.question_ba;
+            const feedback = document.getElementById('quiz-feedback');
+            if (feedback) { feedback.classList.add('hidden'); feedback.textContent = ''; }
             
             const optionsContainer = document.getElementById('quiz-options');
             optionsContainer.innerHTML = '';
-            const optionsArray = currentLang === 'ba' && q.options_ba ? q.options_ba : q.options_so || q.options;
+            const rawOptions = currentLang === 'ba' && q.options_ba && q.options_ba.length ? q.options_ba : q.options_so || q.options || [];
+            // تەنها بژاردە پڕەکان نیشان دەدرێن (بۆ ئەوەی خانە بەتاڵەکان ئەنیکەنەوە)
+            activeQuizOptions = [];
+            rawOptions.forEach((opt, i) => {
+                if (opt && String(opt).trim() !== '') activeQuizOptions.push({ text: opt, origIdx: i });
+            });
             
-            optionsArray.forEach((opt, idx) => {
+            activeQuizOptions.forEach((opt, idx) => {
                 optionsContainer.innerHTML += `
                     <div onclick="selectQuizOption(${idx})" id="opt-${idx}" class="quiz-option cursor-pointer border-2 border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 rounded-2xl p-5 text-lg font-bold text-gray-700 dark:text-gray-300 hover:border-blue-300 transition-all flex items-center gap-4">
                         <div class="w-6 h-6 rounded-full border-2 border-gray-300 dark:border-gray-600 flex items-center justify-center shrink-0 indicator-circle"></div>
-                        ${opt}
+                        ${opt.text}
                     </div>`;
             });
             
             const nextBtn = document.getElementById('btn-next-question');
-            nextBtn.disabled = true; nextBtn.className = "bg-gray-200 dark:bg-gray-800 text-gray-500 px-8 py-3.5 rounded-2xl font-bold cursor-not-allowed";
+            if (activeQuizOptions.length === 0) {
+                // هیچ بژاردەیەک نییە — وانەکە تەواو دەکرێت و وانەی داهاتوو دەکرێتەوە
+                if (feedback) {
+                    feedback.classList.remove('hidden');
+                    feedback.className = 'mt-6 rounded-xl px-4 py-3 text-lg font-black text-center bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 border-2 border-amber-300 dark:border-amber-700/60';
+                    feedback.textContent = currentLang === 'so' ? '⚠️ هیچ هەڵبژاردنێک نییە — وانەکە تەواو دەبێت' : '⚠️ چ هەلبژارتنەک نینە — وانە دبیتە دووماهی';
+                }
+                nextBtn.setAttribute('onclick', 'finishQuizAndContinue()');
+                nextBtn.disabled = false; nextBtn.className = "bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3.5 rounded-2xl font-bold shadow-lg cursor-pointer transition-all";
+                nextBtn.textContent = currentLang === 'so' ? 'بڕۆ بۆ وانەی داهاتوو' : 'هەڕە بۆ وانەیا داهاتی';
+                try {
+                    const lid = activeLessonIdToComplete || (currentLessonArray[currentLessonIndex] && currentLessonArray[currentLessonIndex].id);
+                    if (lid && !completedLessons.includes(lid)) window.markLessonCompleted(lid, true, 20);
+                } catch(e) { console.error('[ferga] auto-complete no options failed', e); }
+            } else {
+                nextBtn.setAttribute('onclick', 'nextQuestion()');
+                nextBtn.disabled = true; nextBtn.className = "bg-gray-200 dark:bg-gray-800 text-gray-500 px-8 py-3.5 rounded-2xl font-bold cursor-not-allowed transition-all";
+                nextBtn.textContent = currentLang === 'so' ? 'دواتر' : 'داهاتی';
+            }
         }
 
         window.selectQuizOption = function(idx) {
+            if (quizAnswered) return;
             selectedOptionForCurrent = idx;
-            document.querySelectorAll('.quiz-option').forEach(el => {
-                el.classList.remove('selected');
-                el.querySelector('.indicator-circle').innerHTML = '';
-                el.querySelector('.indicator-circle').classList.remove('border-blue-500', 'bg-blue-500');
-            });
-            const selectedEl = document.getElementById(`opt-${idx}`);
-            selectedEl.classList.add('selected');
-            const circle = selectedEl.querySelector('.indicator-circle');
-            circle.classList.add('border-blue-500', 'bg-blue-500');
-            circle.innerHTML = '<svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="3" d="M5 13l4 4L19 7"></path></svg>';
+            quizAnswered = true;
+            const q = activeQuizQuestions[activeQuizIndex];
+            const correctResolved = resolveCorrectIndex(q);
+            const origIdx = (activeQuizOptions[idx] && activeQuizOptions[idx].origIdx) || idx;
+            const isCorrect = origIdx === correctResolved;
+            if (isCorrect) activeQuizScore++;
 
+            try {
+                // بڕیار لە وەڵامەکە دەدرێت: ڕێگە بە کلیکێکی تر نادرێت
+                document.querySelectorAll('.quiz-option').forEach(el => {
+                    el.classList.remove('selected', 'option-correct', 'option-wrong');
+                    el.style.pointerEvents = 'none';
+                    const circle = el.querySelector('.indicator-circle');
+                    circle.innerHTML = '';
+                    circle.classList.remove('border-blue-500', 'bg-blue-500', 'border-green-500', 'bg-green-500', 'border-red-500', 'bg-red-500');
+                });
+
+                // وەڵامە ڕاستەکە بە سەوز دیاری دەکرێت
+                const correctRenderIdx = activeQuizOptions.findIndex(o => o.origIdx === correctResolved);
+                const correctEl = document.getElementById(`opt-${correctRenderIdx}`);
+                if (correctEl) {
+                    correctEl.classList.add('option-correct');
+                    const cCircle = correctEl.querySelector('.indicator-circle');
+                    cCircle.classList.add('border-green-500', 'bg-green-500');
+                    cCircle.innerHTML = '<svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="3" d="M5 13l4 4L19 7"></path></svg>';
+                }
+
+                // ئەگەر وەڵامەکە هەڵە بوو، وەڵامی هەڵبژێردراو بە سوور دیاری دەکرێت
+                const feedback = document.getElementById('quiz-feedback');
+                if (isCorrect) {
+                    if (feedback) {
+                        feedback.classList.remove('hidden');
+                        feedback.className = 'mt-6 rounded-xl px-4 py-3 text-lg font-black text-center bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 border-2 border-emerald-300 dark:border-emerald-700/60';
+                        feedback.textContent = currentLang === 'so' ? '✅ وەڵامەکەت دروستە!' : '✅ بەرسڤا تە ڕاستە!';
+                    }
+                } else {
+                    const wrongEl = document.getElementById(`opt-${idx}`);
+                    if (wrongEl) {
+                        wrongEl.classList.add('option-wrong');
+                        const wCircle = wrongEl.querySelector('.indicator-circle');
+                        wCircle.classList.add('border-red-500', 'bg-red-500');
+                        wCircle.innerHTML = '<svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="3" d="M6 6l12 12M18 6L6 18"></path></svg>';
+                    }
+                    if (feedback) {
+                        feedback.classList.remove('hidden');
+                        feedback.className = 'mt-6 rounded-xl px-4 py-3 text-lg font-black text-center bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-300 border-2 border-rose-300 dark:border-rose-700/60';
+                        feedback.textContent = currentLang === 'so' ? '❌ وەڵامەکەت هەڵەیە!' : '❌ بەرسڤا تە خەلەتە!';
+                    }
+                }
+            } catch(e) { console.error('[ferga] quiz feedback UI failed', e); }
+
+            // دوای وەڵامدانەوە، بۆ وانەی داهاتوو دەچێت — هەمیشە دەبێت کار بکات
             const nextBtn = document.getElementById('btn-next-question');
-            nextBtn.disabled = false; nextBtn.className = "bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-2xl font-bold shadow-lg cursor-pointer transition-all";
+            if (nextBtn) {
+                // لابردنی lang-str تا applyLanguage نەتوانێت دەقەکە بگەڕێنێتەوە بۆ «دواتر»
+                nextBtn.classList.remove('lang-str');
+                nextBtn.removeAttribute('data-so');
+                nextBtn.removeAttribute('data-ba');
+                nextBtn.setAttribute('onclick', 'finishQuizAndContinue()');
+                nextBtn.disabled = false; nextBtn.className = "bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3.5 rounded-2xl font-bold shadow-lg cursor-pointer transition-all";
+                nextBtn.textContent = currentLang === 'so' ? 'بڕۆ بۆ وانەی داهاتوو' : 'هەڕە بۆ وانەیا داهاتی';
+                // پەڕە دان بۆ خوارەوە تا دوگمەی «وانەی داهاتوو» دیار بێت (بۆ مۆبایل و لاپتۆپ)
+                try {
+                    const quizModalEl = document.getElementById('quiz-modal');
+                    if (quizModalEl) quizModalEl.scrollTo({ top: quizModalEl.scrollHeight, behavior: 'smooth' });
+                } catch(e) {}
+            }
+
+            // وانەکە تەواو دەکرێت (XP تەنها ئەگەر وەڵامەکە دروست بوو) — ڕاست یان هەڵە، هەردووکیان بۆ وانەی داهاتوو دەڕوان
+            try {
+                const lessonIdToComplete = activeLessonIdToComplete || (currentLessonArray[currentLessonIndex] && currentLessonArray[currentLessonIndex].id);
+                if(lessonIdToComplete && !completedLessons.includes(lessonIdToComplete)) {
+                    console.log('[ferga] choice answered, completing lesson', lessonIdToComplete, 'correct =', isCorrect);
+                    window.markLessonCompleted(lessonIdToComplete, isCorrect, 50);
+                }
+            } catch(e) { console.error('[ferga] markLessonCompleted failed', e); }
         };
 
         window.nextQuestion = function() {
-            if(selectedOptionForCurrent === null) return;
-            if(parseInt(selectedOptionForCurrent) === parseInt(activeQuizQuestions[activeQuizIndex].correct)) activeQuizScore++;
+            if(selectedOptionForCurrent === null || quizAnswered) return;
+            const q = activeQuizQuestions[activeQuizIndex];
+            const origIdx = (activeQuizOptions[selectedOptionForCurrent] && activeQuizOptions[selectedOptionForCurrent].origIdx) || selectedOptionForCurrent;
+            if(origIdx === resolveCorrectIndex(q)) activeQuizScore++;
             activeQuizIndex++;
             if(activeQuizIndex < activeQuizQuestions.length) renderQuizQuestion();
             else showQuizResult();
@@ -1372,25 +2063,26 @@ ${code}
         function showQuizResult() {
             document.getElementById('quiz-progress-bar').style.width = `100%`;
             document.getElementById('quiz-content').classList.add('hidden'); document.getElementById('quiz-footer').classList.add('hidden'); document.getElementById('quiz-result').classList.remove('hidden');
+            const notice = document.getElementById('quiz-notice');
+            if (notice) notice.classList.add('hidden');
             
             const percent = Math.round((activeQuizScore / activeQuizQuestions.length) * 100);
             document.getElementById('quiz-score-text').innerText = currentLang === 'so' ? `تۆ وەڵامی ${activeQuizScore} پرسیارت بە دروستی دایەوە (${percent}%)` : `تە بەرسڤا ${activeQuizScore} پرسیاران ب دروستی دا (${percent}%)`;
             
             if(!completedLessons.includes(activeLessonIdToComplete)) {
-                completedLessons.push(activeLessonIdToComplete);
-                triggerConfetti();
-                addXP(50);
-                saveProgressToFirebase();
+                let giveXP = activeQuizScore > 0;
+                window.markLessonCompleted(activeLessonIdToComplete, giveXP, 50);
             }
         }
 
         window.finishQuizAndContinue = function() {
-            document.getElementById('quiz-modal').classList.add('hidden'); document.getElementById('quiz-modal').classList.remove('flex');
-            openLanguage(currentActiveLanguage.id, currentLessonIndex + 1 < currentLessonArray.length ? currentLessonIndex + 1 : currentLessonIndex);
+            const modal = document.getElementById('quiz-modal');
+            if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+            window.goToNextLesson();
         };
 
         // --- Admin Logic ---
-        const tabs = ['lang', 'lesson', 'quiz', 'manage'];
+        const tabs = ['lang', 'lesson', 'manage'];
         window.switchAdminTab = function(tabName) {
             tabs.forEach(x => {
                 document.getElementById(`tab-btn-${x}`).className = "px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-bold";
@@ -1400,29 +2092,15 @@ ${code}
             document.getElementById(`tab-btn-${tabName}`).className = `px-6 py-2 ${tabName === 'manage' ? 'bg-red-600' : 'bg-purple-600'} text-white rounded-lg font-bold`;
             document.getElementById(`form-${tabName}`)?.classList.remove('hidden');
             
-            // CLEAR FORMS AND HIDDEN IDs TO PREVENT OVERWRITING
+            if (tabName === 'manage') refreshMembersList();
+            
             if (tabName === 'lang') { document.getElementById('form-lang').reset(); document.getElementById('edit_lang_id').value = ''; }
             if (tabName === 'lesson') { document.getElementById('form-lesson').reset(); document.getElementById('edit_lesson_id').value = ''; quillSo.root.innerHTML = ''; quillBa.root.innerHTML = ''; document.getElementById('lesson_order').value = '1'; }
-            if (tabName === 'quiz') { document.getElementById('form-quiz').reset(); document.getElementById('edit_quiz_id').value = ''; }
         };
 
         function updateAdminSelects() {
             const lSelect = document.getElementById('lesson_lang_select'); lSelect.innerHTML = '<option value="">-- زمان --</option>';
             for (let id in languagesData) lSelect.innerHTML += `<option value="${id}">${languagesData[id].name_so || languagesData[id].name}</option>`;
-            const qSelect = document.getElementById('quiz_lesson_select'); qSelect.innerHTML = '<option value="">-- وانە --</option>';
-            
-            // Sort lessons for the quiz dropdown as well
-            let lessonsArr = Object.keys(lessonsData).map(lid => ({id: lid, ...lessonsData[lid]}));
-            lessonsArr.sort((a, b) => {
-                let orderA = parseInt(a.order) || 0;
-                let orderB = parseInt(b.order) || 0;
-                if (orderA !== orderB) return orderA - orderB;
-                return a.id.localeCompare(b.id);
-            });
-            
-            lessonsArr.forEach(item => {
-                qSelect.innerHTML += `<option value="${item.id}">[${languagesData[item.langId]?.name_so || '?'}] ${item.title_so || item.title}</option>`;
-            });
         }
 
         async function uploadImage(file) {
@@ -1468,17 +2146,12 @@ ${code}
                 expected_output: document.getElementById('lesson_expected_output').value,
                 example_output: document.getElementById('lesson_example_output').value,
                 code: document.getElementById('lesson_code').value,
-                code_css: document.getElementById('lesson_code_css').value
+                code_css: document.getElementById('lesson_code_css').value,
+                max_attempts: parseInt(document.getElementById('lesson_max_attempts').value, 10) || 5,
+                allow_show_answer: document.getElementById('lesson_allow_show_answer').value === '1'
             };
             if(editId) await update(dbRef(db, 'ferga_lessons/' + editId), data); else await set(push(dbRef(db, 'ferga_lessons')), data);
             e.target.reset(); quillSo.root.innerHTML = ''; quillBa.root.innerHTML = ''; switchAdminTab('manage');
-        });
-
-        document.getElementById('form-quiz').addEventListener('submit', async (e) => {
-            e.preventDefault(); const editId = document.getElementById('edit_quiz_id').value;
-            const data = { lessonId: document.getElementById('quiz_lesson_select').value, question_so: document.getElementById('quiz_question_so').value, question_ba: document.getElementById('quiz_question_ba').value, options_so: [document.getElementById('quiz_opt0_so').value, document.getElementById('quiz_opt1_so').value, document.getElementById('quiz_opt2_so').value, document.getElementById('quiz_opt3_so').value], options_ba: [document.getElementById('quiz_opt0_ba').value, document.getElementById('quiz_opt1_ba').value, document.getElementById('quiz_opt2_ba').value, document.getElementById('quiz_opt3_ba').value], correct: document.getElementById('quiz_correct').value };
-            if(editId) await update(dbRef(db, 'ferga_quizzes/' + editId), data); else await set(push(dbRef(db, 'ferga_quizzes')), data);
-            e.target.reset(); switchAdminTab('manage');
         });
 
         window.renderManageList = function() {
@@ -1486,12 +2159,11 @@ ${code}
             const listObj = document.getElementById('manage-list'); listObj.innerHTML = '';
             
             let dataArr = [];
-            let dataObj = cat === 'langs' ? languagesData : (cat === 'lessons' ? lessonsData : quizzesData);
+            let dataObj = cat === 'langs' ? languagesData : lessonsData;
             for(let id in dataObj) {
                 dataArr.push({id: id, ...dataObj[id]});
             }
             
-            // Sort to make managing easier
             if(cat === 'lessons') {
                 dataArr.sort((a, b) => {
                     let orderA = parseInt(a.order) || 0;
@@ -1503,14 +2175,15 @@ ${code}
 
             dataArr.forEach(item => {
                 let title = '';
-                if(cat === 'langs') title = item.name_so || item.name;
+                let lockBadge = '';
+                if(cat === 'langs') { title = item.name_so || item.name; lockBadge = item.locked === true ? '<span class="text-xs font-black bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-300 px-2.5 py-1 rounded-full">🔒 قفڵکراو</span>' : '<span class="text-xs font-black bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-300 px-2.5 py-1 rounded-full">🔓 کراوە</span>'; }
                 if(cat === 'lessons') title = `[${languagesData[item.langId]?.name_so || '?'}] (${item.order || 0}) ${item.title_so || item.title}`;
-                if(cat === 'quizzes') title = `[پرسیار] ${item.question_so || item.question}`;
-                listObj.innerHTML += `<div class="flex justify-between p-4 bg-white dark:bg-gray-800 rounded mb-2 shadow-sm"><span>${title}</span><div class="flex gap-2"><button onclick="editItem('${cat}','${item.id}')" class="text-blue-500 font-bold">دەستکاری</button><button onclick="deleteItem('${cat}','${item.id}')" class="text-red-500 font-bold">سڕینەوە</button></div></div>`;
+                let extraBtn = cat === 'langs' ? `<button onclick="toggleLanguageLock('${item.id}')" class="font-bold text-xs ${item.locked === true ? 'text-emerald-500' : 'text-amber-500'}">${item.locked === true ? 'کردنەوە' : 'قفڵکردن'}</button>` : '';
+                listObj.innerHTML += `<div class="flex justify-between p-4 bg-white dark:bg-gray-800 rounded mb-2 shadow-sm"><span class="flex items-center gap-2 flex-wrap">${lockBadge}<span>${title}</span></span><div class="flex gap-2 items-center">${extraBtn}<button onclick="editItem('${cat}','${item.id}')" class="text-blue-500 font-bold">دەستکاری</button><button onclick="deleteItem('${cat}','${item.id}')" class="text-red-500 font-bold">سڕینەوە</button></div></div>`;
             });
         };
 
-        window.deleteItem = async function(cat, id) { if(confirm('دڵنیایت لە سڕینەوە؟')) { await remove(dbRef(db, (cat === 'langs' ? 'ferga_languages' : (cat === 'lessons' ? 'ferga_lessons' : 'ferga_quizzes')) + '/' + id)); } };
+        window.deleteItem = async function(cat, id) { if(confirm('دڵنیایت لە سڕینەوە؟')) { await remove(dbRef(db, (cat === 'langs' ? 'ferga_languages' : 'ferga_lessons') + '/' + id)); } };
 
         window.editItem = function(cat, id) {
             if(cat === 'langs') {
@@ -1531,11 +2204,6 @@ ${code}
                 quillSo.root.innerHTML = d.content_so || d.content || '';
                 quillBa.root.innerHTML = d.content_ba || d.content || '';
                 switchAdminTab('lesson');
-            } else if(cat === 'quizzes') {
-                const d = quizzesData[id]; document.getElementById('edit_quiz_id').value = id; document.getElementById('quiz_lesson_select').value = d.lessonId || '';
-                ['quiz_question_so','quiz_question_ba'].forEach(k => { document.getElementById(k).value = d[k.replace('quiz_','')] || d[k.replace('quiz_','').replace('_so','')] || ''; });
-                for(let i=0; i<4; i++) { document.getElementById(`quiz_opt${i}_so`).value = (d.options_so || d.options || [])[i] || ''; document.getElementById(`quiz_opt${i}_ba`).value = (d.options_ba || d.options || [])[i] || ''; }
-                document.getElementById('quiz_correct').value = d.correct || '0'; switchAdminTab('quiz');
             }
         };
 
@@ -1596,27 +2264,22 @@ ${code}
             }
         });
 
-        const origEditItem = window.editItem;
-        window.editItem = function(cat, id) {
-            if (cat === 'langs') { window.openEditLangModal(id); return; }
-            origEditItem(cat, id);
-        };
-
-        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
-
-        document.getElementById('lang-toggle').addEventListener('click', () => {
-            currentLang = currentLang === 'so' ? 'ba' : 'so';
-            localStorage.setItem('site-lang', currentLang);
-            applyLanguage();
-        });
-
         // --- Edit Lesson Modal Logic ---
         let quillModalSo = new Quill('#modal_editor_content_so', { theme: 'snow', modules: { toolbar: [ [{ 'header': [1, 2, 3, false] }], ['bold', 'italic', 'underline'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['code-block'] ] } });
         let quillModalBa = new Quill('#modal_editor_content_ba', { theme: 'snow', modules: { toolbar: [ [{ 'header': [1, 2, 3, false] }], ['bold', 'italic', 'underline'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['code-block'] ] } });
 
+        window.toggleQuizType = function() {
+            const type = (document.querySelector('input[name="modal_quiz_type"]:checked') || {}).value || 'none';
+            const choiceFields = document.getElementById('quiz-choice-fields');
+            const codeFields = document.getElementById('quiz-code-fields');
+            if (choiceFields) choiceFields.classList.toggle('hidden', type !== 'choice');
+            if (codeFields) codeFields.classList.toggle('hidden', type !== 'code');
+        };
+
         window.openEditLessonModal = function(lessonId) {
             const d = lessonsData[lessonId];
             if (!d) return;
+            const legacyQuiz = Object.values(quizzesData).find(q => q.lessonId === lessonId) || null;
             document.getElementById('edit_lesson_modal_id').value = lessonId;
             document.getElementById('modal_lesson_lang_select').innerHTML = '<option value="">-- زمان --</option>';
             for (let id in languagesData) document.getElementById('modal_lesson_lang_select').innerHTML += `<option value="${id}">${languagesData[id].name_so || languagesData[id].name}</option>`;
@@ -1631,9 +2294,29 @@ ${code}
             document.getElementById('modal_lesson_expected_output').value = d.expected_output || '';
             document.getElementById('modal_lesson_code').value = d.code || '';
             document.getElementById('modal_lesson_code_css').value = d.code_css || '';
+            document.getElementById('modal_lesson_answer_code').value = d.answer_code || '';
+            document.getElementById('modal_lesson_answer_code_css').value = d.answer_code_css || '';
+            document.getElementById('modal_lesson_max_attempts').value = parseInt(d.max_attempts, 10) || 5;
+            document.getElementById('modal_lesson_allow_show_answer').value = (d.allow_show_answer === false) ? '0' : '1';
             document.getElementById('modal_lesson_example_output').value = d.example_output || '';
             quillModalSo.root.innerHTML = d.content_so || d.content || '';
             quillModalBa.root.innerHTML = d.content_ba || d.content || '';
+
+            document.getElementById('modal_quiz_question_so').value = d.quiz_question_so || (legacyQuiz ? legacyQuiz.question_so : '') || '';
+            document.getElementById('modal_quiz_question_ba').value = d.quiz_question_ba || (legacyQuiz ? legacyQuiz.question_ba : '') || '';
+            for(let i=0; i<4; i++) {
+                document.getElementById(`modal_quiz_opt${i}_so`).value = (d.quiz_options_so || (legacyQuiz ? (legacyQuiz.options_so || legacyQuiz.options) : null) || [])[i] || '';
+                document.getElementById(`modal_quiz_opt${i}_ba`).value = (d.quiz_options_ba || (legacyQuiz ? (legacyQuiz.options_ba || legacyQuiz.options) : null) || [])[i] || '';
+            }
+            document.getElementById('modal_quiz_correct').value = d.quiz_correct !== undefined && d.quiz_correct !== null ? String(d.quiz_correct) : (legacyQuiz ? (legacyQuiz.correct || '0') : '0');
+
+            let qtype = d.quiz_type || '';
+            if (!qtype && (d.quiz_question_so || d.quiz_question_ba)) qtype = 'choice';
+            if (!qtype && ((d.challenge_desc_so || d.challenge_desc_ba || d.challenge_so || d.challenge_ba) && d.expected_output)) qtype = 'code';
+            if (!qtype && legacyQuiz) qtype = 'choice';
+            const radio = document.querySelector(`input[name="modal_quiz_type"][value="${qtype || 'none'}"]`);
+            if (radio) radio.checked = true;
+            window.toggleQuizType();
 
             const modal = document.getElementById('editLessonModal');
             const content = document.getElementById('editLessonModalContent');
@@ -1660,6 +2343,7 @@ ${code}
             submitBtn.innerText = "خەریکە پاشەکەوت دەکرێت...";
             submitBtn.classList.add('opacity-70', 'cursor-wait');
             try {
+                const quizType = (document.querySelector('input[name="modal_quiz_type"]:checked') || {}).value || 'none';
                 const updates = {
                     langId: document.getElementById('modal_lesson_lang_select').value,
                     order: document.getElementById('modal_lesson_order').value,
@@ -1674,7 +2358,17 @@ ${code}
                     expected_output: document.getElementById('modal_lesson_expected_output').value,
                     example_output: document.getElementById('modal_lesson_example_output').value,
                     code: document.getElementById('modal_lesson_code').value,
-                    code_css: document.getElementById('modal_lesson_code_css').value
+                    code_css: document.getElementById('modal_lesson_code_css').value,
+                    answer_code: document.getElementById('modal_lesson_answer_code').value,
+                    answer_code_css: document.getElementById('modal_lesson_answer_code_css').value,
+                    max_attempts: parseInt(document.getElementById('modal_lesson_max_attempts').value, 10) || 5,
+                    allow_show_answer: document.getElementById('modal_lesson_allow_show_answer').value === '1',
+                    quiz_type: quizType,
+                    quiz_question_so: document.getElementById('modal_quiz_question_so').value,
+                    quiz_question_ba: document.getElementById('modal_quiz_question_ba').value,
+                    quiz_options_so: [0,1,2,3].map(i => document.getElementById(`modal_quiz_opt${i}_so`).value),
+                    quiz_options_ba: [0,1,2,3].map(i => document.getElementById(`modal_quiz_opt${i}_ba`).value),
+                    quiz_correct: document.getElementById('modal_quiz_correct').value
                 };
                 await update(dbRef(db, 'ferga_lessons/' + id), updates);
                 submitBtn.innerText = "پاشەکەوتکردن";
@@ -1688,18 +2382,29 @@ ${code}
                 alert('هەڵەیەک ڕوویدا: ' + error.message);
             }
         });
+        
+        const origEditItem2 = window.editItem;
+        window.editItem = function(cat, id) {
+            if (cat === 'langs') { window.openEditLangModal(id); return; }
+            if (cat === 'lessons') { window.openEditLessonModal(id); return; }
+            origEditItem2(cat, id);
+        };
+
+        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
     </script>
 
-    <!-- پەنجەرەی دەستکاری کردنی زمان (Modal) -->
-    <div id="editLangModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
-        <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="window.closeEditLangModal()"></div>
-        <div class="glass-card relative w-full max-w-2xl rounded-[2rem] p-6 md:p-8 shadow-2xl transform transition-all translate-y-4 opacity-0 overflow-y-auto max-h-[90vh]" id="editLangModalContent">
-            <button onclick="window.closeEditLangModal()" class="absolute top-5 left-5 p-2 bg-gray-100 dark:bg-gray-800 text-gray-500 hover:text-red-500 rounded-full transition z-10">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <div class="mt-2">
-                <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-6 text-center">دەستکاری کردنی زمان</h3>
-                <form id="edit-lang-form" class="space-y-5">
+    <!-- مۆدالی دەستکاریکردنی زمان -->
+    <div id="editLangModal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm hidden z-[130] overflow-y-auto">
+        <div class="min-h-full flex items-center justify-center p-4">
+            <div class="absolute inset-0" onclick="window.closeEditLangModal()"></div>
+            <div id="editLangModalContent" class="relative w-full max-w-2xl bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 transition-all duration-300 translate-y-4 opacity-0">
+                <button onclick="window.closeEditLangModal()" class="absolute top-5 left-5 p-2 bg-gray-100 dark:bg-gray-800 text-gray-500 hover:text-red-500 rounded-full transition z-10">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <div class="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-t-3xl">
+                    <h3 class="text-xl font-black text-white text-center">دەستکاریکردنی زمان</h3>
+                </div>
+                <form id="edit-lang-form" class="p-6 space-y-4">
                     <input type="hidden" id="edit_lang_id">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -1714,105 +2419,226 @@ ${code}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">کورتە (سۆرانی)</label>
-                            <textarea id="lang_desc_so" required rows="3" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm resize-none"></textarea>
+                            <textarea id="lang_desc_so" required rows="3" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm"></textarea>
                         </div>
                         <div>
                             <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">کورتە (بادینی)</label>
-                            <textarea id="lang_desc_ba" required rows="3" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm resize-none"></textarea>
+                            <textarea id="lang_desc_ba" required rows="3" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm"></textarea>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">پاشگری زمان (بۆ نموونە: py, php, cpp)</label>
-                            <input type="text" id="lang_ext" required dir="ltr" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm font-mono">
+                            <input type="text" id="lang_ext" required placeholder="py" dir="ltr" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm font-mono text-left">
                         </div>
                         <div>
                             <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ڕەنگی پاشبنەما</label>
-                            <input type="text" id="lang_color" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm">
+                            <input type="text" id="lang_color" value="bg-blue-100" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm">
                         </div>
                     </div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 text-center">لۆگۆکە لە کاتی دەستکاری دا ناگۆڕدرێت</p>
                     <button type="submit" id="edit-lang-submit-btn" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3.5 rounded-xl font-black hover:shadow-lg hover:shadow-purple-500/30 hover:-translate-y-0.5 transition-all">پاشەکەوتکردن</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- پەنجەرەی دەستکاری کردنی وانە (Modal) -->
-    <div id="editLessonModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
-        <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="window.closeEditLessonModal()"></div>
-        <div class="glass-card relative w-full max-w-4xl rounded-[2rem] p-6 md:p-8 shadow-2xl transform transition-all translate-y-4 opacity-0 overflow-y-auto max-h-[90vh]" id="editLessonModalContent">
-            <button onclick="window.closeEditLessonModal()" class="absolute top-5 left-5 p-2 bg-gray-100 dark:bg-gray-800 text-gray-500 hover:text-red-500 rounded-full transition z-10">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <div class="mt-2">
-                <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-6 text-center">دەستکاری کردنی وانە</h3>
-                <form id="edit-lesson-form" class="space-y-5">
+    <!-- مۆدالی دەستکاریکردنی وانە -->
+    <div id="editLessonModal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm hidden z-[140] overflow-y-auto">
+        <div class="min-h-full flex items-center justify-center p-4">
+            <div class="absolute inset-0" onclick="window.closeEditLessonModal()"></div>
+            <div id="editLessonModalContent" class="relative w-full max-w-4xl bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 transition-all duration-300 translate-y-4 opacity-0">
+                <button onclick="window.closeEditLessonModal()" class="absolute top-5 left-5 p-2 bg-gray-100 dark:bg-gray-800 text-gray-500 hover:text-red-500 rounded-full transition z-10">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <div class="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-t-3xl">
+                    <h3 class="text-xl font-black text-white text-center">دەستکاریکردنی وانە</h3>
+                </div>
+                <form id="edit-lesson-form" class="p-6 space-y-6">
                     <input type="hidden" id="edit_lesson_modal_id">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div>
-                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">زمان</label>
-                            <select id="modal_lesson_lang_select" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm"></select>
+
+                    <!-- ١. زانیارییە بنەڕەتییەکان -->
+                    <div class="rounded-2xl border-2 border-blue-300 dark:border-blue-700 overflow-hidden">
+                        <div class="px-5 py-3 bg-gradient-to-r from-blue-600 to-indigo-500 text-white font-black text-sm flex items-center gap-2">
+                            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                            <span>١. زانیارییە بنەڕەتییەکان</span>
                         </div>
-                        <div>
-                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ڕیزبەندی</label>
-                            <input type="number" id="modal_lesson_order" value="1" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ئاست (سۆرانی)</label>
-                            <input type="text" id="modal_lesson_level_so" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ئاست (بادینی)</label>
-                            <input type="text" id="modal_lesson_level_ba" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm">
+                        <div class="p-5 space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                <div class="md:col-span-1">
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">زمان</label>
+                                    <select id="modal_lesson_lang_select" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm"></select>
+                                </div>
+                                <div class="md:col-span-1">
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ڕیزبەندی (ژمارە)</label>
+                                    <input type="number" id="modal_lesson_order" value="1" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                </div>
+                                <div class="md:col-span-1">
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ئاست (سۆرانی)</label>
+                                    <input type="text" id="modal_lesson_level_so" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                </div>
+                                <div class="md:col-span-1">
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ئاست (بادینی)</label>
+                                    <input type="text" id="modal_lesson_level_ba" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">سەردێڕ (سۆرانی)</label>
+                                    <input type="text" id="modal_lesson_title_so" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">سەردێڕ (بادینی)</label>
+                                    <input type="text" id="modal_lesson_title_ba" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="mb-10">
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ناوەڕۆک (سۆرانی)</label>
+                                    <div id="modal_editor_content_so" class="bg-white dark:bg-gray-900 rounded-xl"></div>
+                                </div>
+                                <div class="mb-10">
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ناوەڕۆک (بادینی)</label>
+                                    <div id="modal_editor_content_ba" class="bg-white dark:bg-gray-900 rounded-xl"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">سەردێڕ (سۆرانی)</label>
-                            <input type="text" id="modal_lesson_title_so" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm">
+
+                    <!-- ٢. کۆدی نموونە -->
+                    <div class="rounded-2xl border-2 border-orange-300 dark:border-orange-700 overflow-hidden">
+                        <div class="px-5 py-3 bg-gradient-to-r from-orange-600 to-amber-500 text-white font-black text-sm flex items-center gap-2">
+                            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                            <span>٢. کۆدی نموونە (دەردەکەوێت لە سەکۆکەدا)</span>
                         </div>
-                        <div>
-                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">سەردێڕ (بادینی)</label>
-                            <input type="text" id="modal_lesson_title_ba" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="mb-6">
-                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1 text-blue-600">ناوەڕۆک (سۆرانی)</label>
-                            <div id="modal_editor_content_so"></div>
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1 text-blue-600">ناوەڕۆک (بادینی)</label>
-                            <div id="modal_editor_content_ba"></div>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">پرسیاری مەشق (سۆرانی)</label>
-                            <textarea id="modal_lesson_challenge_so" rows="2" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm"></textarea>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">پرسیاری مەشق (بادینی)</label>
-                            <textarea id="modal_lesson_challenge_ba" rows="2" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm"></textarea>
+                        <div class="p-5 space-y-4">
+                            <div>
+                                <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">کۆدی نموونە</label>
+                                <textarea id="modal_lesson_code" rows="6" dir="ltr" class="w-full px-4 py-3 bg-[#1e1e1e] text-green-400 border border-gray-700 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all text-sm font-mono text-left" placeholder="# لێرە کۆدەکە بنووسە"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">کۆدی CSS (style.css — تەنها بۆ HTML + CSS)</label>
+                                <textarea id="modal_lesson_code_css" rows="5" dir="ltr" class="w-full px-4 py-3 bg-[#1e1e1e] text-purple-400 border border-gray-700 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all text-sm font-mono text-left"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-blue-600 dark:text-blue-300 font-bold text-sm mb-1">ئەنجامی کۆدی نموونە (Example Output)</label>
+                                <textarea id="modal_lesson_example_output" rows="3" dir="ltr" placeholder="hello world" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm font-mono text-left"></textarea>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1 text-green-600">وەڵامی چاوەڕوانکراو (Expected Output Text)</label>
-                        <textarea id="modal_lesson_expected_output" rows="3" dir="ltr" placeholder="هەولێر" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm font-mono text-left"></textarea>
+
+                    <!-- ٣. پرسیاری وانەکە -->
+                    <div class="rounded-2xl border-2 border-green-300 dark:border-green-700 overflow-hidden">
+                        <div class="px-5 py-3 bg-gradient-to-r from-green-600 to-emerald-500 text-white font-black text-sm flex items-center gap-2">
+                            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>٣. پرسیاری وانەکە (بەدڵخواز — جۆرەکە هەڵبژێرە)</span>
+                        </div>
+                        <div class="p-5 space-y-5">
+                            <!-- جۆری پرسیار -->
+                            <div>
+                                <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-2">جۆری پرسیار</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <label class="flex items-center gap-3 p-3.5 rounded-xl border-2 border-gray-200 dark:border-gray-700 cursor-pointer hover:border-gray-400 dark:hover:border-gray-500 transition bg-white/50 dark:bg-gray-900/30">
+                                        <input type="radio" name="modal_quiz_type" value="none" checked onchange="toggleQuizType()" class="w-4 h-4 accent-green-600 shrink-0">
+                                        <span class="text-sm font-bold text-gray-700 dark:text-gray-300">🚫 هیچ پرسیارێک</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3.5 rounded-xl border-2 border-gray-200 dark:border-gray-700 cursor-pointer hover:border-blue-400 dark:hover:border-blue-600 transition bg-white/50 dark:bg-gray-900/30">
+                                        <input type="radio" name="modal_quiz_type" value="choice" onchange="toggleQuizType()" class="w-4 h-4 accent-blue-600 shrink-0">
+                                        <span class="text-sm font-bold text-gray-700 dark:text-gray-300">🔘 هەڵبژاردن (کویز)</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3.5 rounded-xl border-2 border-gray-200 dark:border-gray-700 cursor-pointer hover:border-purple-400 dark:hover:border-purple-600 transition bg-white/50 dark:bg-gray-900/30">
+                                        <input type="radio" name="modal_quiz_type" value="code" onchange="toggleQuizType()" class="w-4 h-4 accent-purple-600 shrink-0">
+                                        <span class="text-sm font-bold text-gray-700 dark:text-gray-300">💻 مەشق (نمونەی کۆد)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- بەشی هەڵبژاردن -->
+                            <div id="quiz-choice-fields" class="hidden space-y-4 rounded-2xl border-2 border-blue-300 dark:border-blue-700 p-5 bg-blue-50/40 dark:bg-blue-900/10">
+                                <div class="text-xs font-black text-blue-700 dark:text-blue-300 flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>پرسیاری هەڵبژاردن — بەکارهێنەر یەکێک هەڵدەبژێرێت</span>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">پرسیار (سۆرانی)</label>
+                                        <input type="text" id="modal_quiz_question_so" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">پرسیار (بادینی)</label>
+                                        <input type="text" id="modal_quiz_question_ba" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-2">بژاردەکان (سۆرانی)</label>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                        <input type="text" id="modal_quiz_opt0_so" placeholder="بژاردەی ١" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                        <input type="text" id="modal_quiz_opt1_so" placeholder="بژاردەی ٢" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                        <input type="text" id="modal_quiz_opt2_so" placeholder="بژاردەی ٣" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                        <input type="text" id="modal_quiz_opt3_so" placeholder="بژاردەی ٤" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-2">بژاردەکان (بادینی)</label>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                        <input type="text" id="modal_quiz_opt0_ba" placeholder="بژاردەی ١" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                        <input type="text" id="modal_quiz_opt1_ba" placeholder="بژاردەی ٢" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                        <input type="text" id="modal_quiz_opt2_ba" placeholder="بژاردەی ٣" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                        <input type="text" id="modal_quiz_opt3_ba" placeholder="بژاردەی ٤" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm">
+                                    </div>
+                                </div>
+                                <div class="md:w-1/2">
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">وەڵامە ڕاستەکە</label>
+                                    <select id="modal_quiz_correct" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-green-300 dark:border-green-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-sm font-bold">
+                                        <option value="0">بژاردەی ١</option><option value="1">بژاردەی ٢</option><option value="2">بژاردەی ٣</option><option value="3">بژاردەی ٤</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- بەشی مەشق / کۆد -->
+                            <div id="quiz-code-fields" class="hidden space-y-4 rounded-2xl border-2 border-purple-300 dark:border-purple-700 p-5 bg-purple-50/40 dark:bg-purple-900/10">
+                                <div class="text-xs font-black text-purple-700 dark:text-purple-300 flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                                    <span>مەشقی کۆد — بەکارهێنەر کۆدەکە دەنووسێت و پشکنینی دەکات</span>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">پرسیاری مەشق (سۆرانی)</label>
+                                        <textarea id="modal_lesson_challenge_so" rows="2" placeholder="نموونە: کۆدێک بنووسە کە وشەی هەولێر چاپ بکات" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm"></textarea>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">پرسیاری مەشق (بادینی)</label>
+                                        <textarea id="modal_lesson_challenge_ba" rows="2" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm"></textarea>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1 text-green-600">وەڵامی چاوەڕوانکراو (Expected Output Text)</label>
+                                    <textarea id="modal_lesson_expected_output" rows="3" dir="ltr" placeholder="هەولێر" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-sm font-mono text-left"></textarea>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ژمارەی هەوڵەکان (Attempts)</label>
+                                        <input type="number" id="modal_lesson_max_attempts" min="1" max="20" value="5" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">نیشاندانی وەڵام</label>
+                                        <select id="modal_lesson_allow_show_answer" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm">
+                                            <option value="1">بەڵێ - ڕێگە بدە</option>
+                                            <option value="0">نەخێر - قەدەغە بکە</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="rounded-xl border-2 border-dashed border-emerald-400/50 p-4 bg-emerald-50/40 dark:bg-emerald-900/10">
+                                    <label class="block text-emerald-700 dark:text-emerald-300 font-black text-sm mb-1">✅ وەڵامی ڕاست (کۆدێک کە بەکارهێنەر دوای هەوڵەکان دەیبینێت)</label>
+                                    <textarea id="modal_lesson_answer_code" rows="5" dir="ltr" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-emerald-300 dark:border-emerald-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all text-sm font-mono text-left" placeholder="جگەر بەتاڵ بێت، کۆدی نموونە دەردەکرێت"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-emerald-700 dark:text-emerald-300 font-bold text-sm mb-1">وەڵامی ڕاست (CSS — تەنها بۆ HTML + CSS)</label>
+                                    <textarea id="modal_lesson_answer_code_css" rows="5" dir="ltr" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-emerald-300 dark:border-emerald-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all text-sm font-mono text-left"></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">کۆدی نموونە</label>
-                        <textarea id="modal_lesson_code" rows="5" dir="ltr" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm font-mono text-left"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1 text-purple-600">کۆدی CSS (style.css — تەنها بۆ HTML + CSS)</label>
-                        <textarea id="modal_lesson_code_css" rows="5" dir="ltr" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm font-mono text-left"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1 text-blue-600">ئەنجامی کۆدی نموونە (Example Output)</label>
-                        <textarea id="modal_lesson_example_output" rows="3" dir="ltr" placeholder="hello world" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all text-sm font-mono text-left"></textarea>
-                    </div>
+
                     <button type="submit" id="edit-lesson-submit-btn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3.5 rounded-xl font-black hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 transition-all">پاشەکەوتکردن</button>
                 </form>
             </div>

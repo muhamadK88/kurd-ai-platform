@@ -84,8 +84,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile-breeze', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::get('/ferga', function () {
-    return view('ferga');
+    return response(view('ferga'))->withHeaders([
+        'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+        'Pragma' => 'no-cache',
+        'Expires' => '0',
+    ]);
 });
+Route::get('/ferga/seed-missing', [\App\Http\Controllers\FergaSeedController::class, 'run']);
+Route::get('/ferga/seed-data', [\App\Http\Controllers\FergaSeedController::class, 'data']);
+Route::get('/ferga/upload', [\App\Http\Controllers\FergaSeedController::class, 'uploadPage']);
 Route::post('/ferga/run-php', [AdminController::class, 'runPhpCode']);
 Route::post('/ferga/run-code', [AdminController::class, 'runCode']);
 Route::get('/about', function () {

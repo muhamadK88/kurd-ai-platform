@@ -3,15 +3,15 @@
 // Script to add HTML lessons 1-20 to the Ferga section in Firebase
 $firebaseUrl = 'https://ai-platform-adb1b-default-rtdb.firebaseio.com/';
 $idToken = trim(file_get_contents('/tmp/opencode/fb_token.txt'));
-$langId = '-OyrwFN0avjq2hhlCRO5';
+$langId = '-OysQq7E9B4bBLuGjUEX';
 
 function fbPost($url, $data) {
     global $idToken;
-    $ch = curl_init($url . '?auth=' . urlencode($idToken));
+    $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $idToken, 'Content-Type: application/json']);
     $res = curl_exec($ch);
     curl_close($ch);
     return $res;

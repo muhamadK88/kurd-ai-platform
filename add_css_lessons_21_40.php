@@ -3,15 +3,15 @@
 // Script to add CSS lessons 21-40 to the Ferga section in Firebase
 $firebaseUrl = 'https://ai-platform-adb1b-default-rtdb.firebaseio.com/';
 $idToken = trim(file_get_contents('/tmp/opencode/fb_token.txt'));
-$langId = '-OyrwFaGbQ7K-1QnzHvq';
+$langId = '-OysQq7E9B4bBLuGjUEX';
 
 function fbPost($url, $data) {
     global $idToken;
-    $ch = curl_init($url . '?auth=' . urlencode($idToken));
+    $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $idToken, 'Content-Type: application/json']);
     $res = curl_exec($ch);
     curl_close($ch);
     return $res;
@@ -141,8 +141,13 @@ $lessons = [
         ".contact {\n    background: #f5f7fa;\n    padding: 70px 20px;\n    text-align: center;\n}\n\n.contact form {\n    max-width: 400px;\n    margin: auto;\n    text-align: right;\n}\n\n.contact input,\n.contact textarea {\n    width: 100%;\n    padding: 12px;\n    border: 1px solid #ccc;\n    border-radius: 6px;\n    margin: 6px 0 14px;\n    box-sizing: border-box;\n}\n\n.contact textarea {\n    height: 100px;\n}\n\n.contact button {\n    width: 100%;\n    background: #1976d2;\n    color: white;\n    border: none;\n    padding: 13px;\n    border-radius: 6px;\n    font-size: 15px;\n    cursor: pointer;\n}\n\nfooter {\n    background: #263238;\n    color: #bbb;\n    text-align: center;\n    padding: 25px;\n}\n\nfooter a {\n    color: #ffd54f;\n    text-decoration: none;\n    margin: 0 8px;\n}\n\n@media (max-width: 600px) {\n    .navbar {\n        flex-direction: column;\n    }\n    .navbar ul {\n        width: 100%;\n        flex-direction: column;\n        text-align: center;\n    }\n    .hero h1 {\n        font-size: 30px;\n    }\n    .hero {\n        padding: 60px 15px;\n    }\n}\n\n@keyframes fadeUp {\n    from { opacity: 0; transform: translateY(15px); }\n    to   { opacity: 1; transform: translateY(0); }\n}\n\n.hero {\n    animation: fadeUp 0.8s ease-out;\n}"),
 ];
 
+$cssDemoHtml = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n</head>\n<body>\n<h1 class=\"demo-h1\">Kurd AI - CSS Preview</h1>\n<p class=\"demo-p\">This is a sample paragraph. Write your CSS and watch it apply to these elements.</p>\n<div class=\"demo-box\">Box 1</div>\n<div class=\"demo-box\">Box 2</div>\n<button class=\"demo-btn\">Click Me</button>\n</body>\n</html>";
+
 foreach ($lessons as $lesson) {
     $lesson['langId'] = $langId;
+    $lesson['order'] = ($lesson['order'] ?? 0) + 40;
+    $lesson['code_css'] = $lesson['code'];
+    $lesson['code'] = $cssDemoHtml;
     $res = fbPost($firebaseUrl . 'ferga_lessons.json', $lesson);
     $d = json_decode($res, true);
     if (isset($d['name'])) {

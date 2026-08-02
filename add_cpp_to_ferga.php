@@ -1,39 +1,24 @@
 <?php
 
-// Script to add C++ language and lessons to the Ferga section in Firebase
+// Script to add the first C++ lessons (1-7) to the Ferga section in Firebase.
+// Language already exists as -Oyrqajy5loFSFBPUgNi; we just post lessons.
 $firebaseUrl = 'https://ai-platform-adb1b-default-rtdb.firebaseio.com/';
 $idToken = trim(file_get_contents('/tmp/opencode/fb_token.txt'));
+$langId = '-Oyrqajy5loFSFBPUgNi';
 
 function fbPost($url, $data) {
     global $idToken;
-    $ch = curl_init($url . '?auth=' . urlencode($idToken));
+    $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $idToken, 'Content-Type: application/json']);
     $res = curl_exec($ch);
     curl_close($ch);
     return $res;
 }
 
-// 1. Add the C++ language
-$langRes = fbPost($firebaseUrl . 'ferga_languages.json', [
-    'name_so' => 'C++',
-    'name_ba' => 'C++',
-    'desc_so' => 'C++ یەکێکە لە بەهێزترین زمانەکانی پرۆگرامکردن، بەکاردێت بۆ دروستکردنی یاری، سیستەمی وەگەڕخستن و ئەپڵیکەیشنە ئاستبەرزەکان. فێربوونی یارمەتیت دەدات بنەمای پرۆگرامکردن بە تەواوی تێبگەیت.',
-    'desc_ba' => 'C++ ئێک ژ زمانێن هەرە بیهێز یێن پروگرامسازییێ یە، بکارتیت بۆ دروستکرنا یارییان، سیستەمان و ئەپلیکەیشنێن ئاستبلند. فێربوونا وی هاریکارییێ دکەت کو بنەمایێن پروگرامسازییێ تەمام تێبگەهی.',
-    'ext' => 'cpp',
-    'color' => 'from-blue-500 to-sky-400',
-    'logo_url' => 'https://i.ibb.co/wgvXsLx/cpp-logo.png',
-]);
-
-$langData = json_decode($langRes, true);
-if (!isset($langData['name'])) {
-    echo "ERROR: could not create language\n$langRes\n";
-    exit(1);
-}
-$langId = $langData['name'];
-echo "Language created with ID: $langId\n";
+// C++ language already exists; skip creation.
 
 // 2. Add lessons
 $lessons = [

@@ -241,12 +241,12 @@
                             <div class="text-xs text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="ئامرازی دڵخواز" data-ba="ئامرازێن دڵخواز">ئامرازی دڵخواز</div>
                         </div>
                         <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
-                            <div class="text-3xl md:text-4xl font-black text-purple-500 mb-1">٠</div>
+                            <div id="stat-streak" class="text-3xl md:text-4xl font-black text-purple-500 mb-1">٠</div>
                             <div class="text-xs text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="ڕۆژی بەشداری" data-ba="ڕۆژێن پشکداری">ڕۆژی بەشداری</div>
                         </div>
                         <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
-                            <div class="text-3xl md:text-4xl font-black text-cyan-500 mb-1">-</div>
-                            <div class="text-xs text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="پلەی ئێستا" data-ba="پلەیێ ئێستا">پلەی ئێستا</div>
+                            <div id="stat-xp" class="text-3xl md:text-4xl font-black text-cyan-500 mb-1">-</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="خاڵی XP" data-ba="خاڵێن XP">خاڵی XP</div>
                         </div>
                     </div>
 
@@ -279,6 +279,16 @@
                     </div>
                 </div>
 
+            </div>
+
+            <!-- کارتی زیادە: پێشکەوتنی فێرگە -->
+            <div id="ferga-progress-card" class="glass-card rounded-[2rem] p-8 md:p-10 shadow-xl border border-white/30 dark:border-gray-700/30 backdrop-blur-xl animate-slide-up animation-delay-400">
+                <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2 text-center flex items-center justify-center gap-3">
+                    <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                    <span class="lang-str" data-so="پێشکەوتنی فێرگە" data-ba="پێشکەفتنا فێرگە">پێشکەوتنی فێرگە</span>
+                </h3>
+                <p id="ferga-progress-summary" class="text-center text-sm text-gray-500 dark:text-gray-400 font-bold mb-6"></p>
+                <div id="ferga-progress-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
 
             <!-- کارتی زیادە: سەرکەوتنەکان -->
@@ -488,6 +498,52 @@
             container.innerHTML = html;
         }
 
+        let fergaProgressData = {};
+        let fergaLangNames = {};
+
+        function fergaLangName(langId) {
+            const l = fergaLangNames[langId];
+            if (!l) return langId;
+            return currentLang === 'ba' && l.name_ba ? l.name_ba : (l.name_so || l.name || langId);
+        }
+
+        function renderFergaProgress() {
+            const container = document.getElementById('ferga-progress-list');
+            const summaryEl = document.getElementById('ferga-progress-summary');
+            if (!container) return;
+            const lp = fergaProgressData.lessonProgress || {};
+            const langIds = Object.keys(lp).filter(id => id && id !== 'undefined' && id !== 'null');
+            if (langIds.length === 0) {
+                if (summaryEl) summaryEl.innerText = currentLang === 'so' ? 'هێشتا هیچ پێشکەوتنێک تۆمار نەکراوە — لە فێرگە دەست بە خوێندن بکە' : 'هێشتا چ پێشکەفتن نەهاتیە تۆمارکرن — د فێرگە دەست ب خوێندنێ بکە';
+                container.innerHTML = '';
+                return;
+            }
+            let totalCompleted = 0; let totalAll = 0;
+            let html = '';
+            langIds.forEach(langId => {
+                const p = lp[langId] || {};
+                const total = p.total || 0;
+                const completed = p.completed || 0;
+                const last = p.lastIndex || 0;
+                totalCompleted += completed; totalAll += total;
+                const percent = total > 0 ? Math.min(100, Math.round((completed / total) * 100)) : 0;
+                html += `
+                <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-5 border border-gray-100/50 dark:border-gray-700/50">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="font-black text-gray-900 dark:text-white">${fergaLangName(langId)}</span>
+                        <span class="text-xs font-black px-3 py-1 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 rounded-full">${completed}/${total}</span>
+                    </div>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 font-bold mb-3">${currentLang === 'so' ? 'گەیشتووەتە وانەی' : 'گەهیشتایە وانەیێ'} ${Math.min(last, total) || 0} ${currentLang === 'so' ? 'لە' : 'ژ'} ${total}</p>
+                    <div class="h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-green-500 to-emerald-400 rounded-full transition-all duration-500" style="width:${percent}%"></div>
+                    </div>
+                    <p class="text-left text-xs font-black text-emerald-600 dark:text-emerald-400 mt-1.5">${percent}%</p>
+                </div>`;
+            });
+            if (summaryEl) summaryEl.innerText = currentLang === 'so' ? `کۆی گشتی: ${totalCompleted} وانە لە ${totalAll}` : `کۆڤکا گشتی: ${totalCompleted} وانەی ژ ${totalAll}`;
+            container.innerHTML = html;
+        }
+
         window.removeFavCourse = function(courseId, event) {
             if (event) event.stopPropagation();
             const user = auth.currentUser;
@@ -536,6 +592,20 @@
                 onValue(ref(db, 'ai_tools'), (snap) => {
                     toolsData = snap.val() || {};
                     if (favTab === 'tools') renderFavTools();
+                });
+
+                onValue(ref(db, 'users/' + user.uid + '/ferga_progress'), (snap) => {
+                    const data = snap.val() || {};
+                    fergaProgressData = data;
+                    const statStreak = document.getElementById('stat-streak');
+                    if (statStreak) statStreak.textContent = data.streak || 0;
+                    const statXp = document.getElementById('stat-xp');
+                    if (statXp) statXp.textContent = data.xp || 0;
+                    renderFergaProgress();
+                });
+                onValue(ref(db, 'ferga_languages'), (snap) => {
+                    fergaLangNames = snap.val() || {};
+                    renderFergaProgress();
                 });
 
                 applyLanguage();

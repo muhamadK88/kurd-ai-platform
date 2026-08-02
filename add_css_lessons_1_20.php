@@ -3,15 +3,15 @@
 // Script to add CSS lessons 1-20 to the Ferga section in Firebase
 $firebaseUrl = 'https://ai-platform-adb1b-default-rtdb.firebaseio.com/';
 $idToken = trim(file_get_contents('/tmp/opencode/fb_token.txt'));
-$langId = '-OyrwFaGbQ7K-1QnzHvq';
+$langId = '-OysQq7E9B4bBLuGjUEX';
 
 function fbPost($url, $data) {
     global $idToken;
-    $ch = curl_init($url . '?auth=' . urlencode($idToken));
+    $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $idToken, 'Content-Type: application/json']);
     $res = curl_exec($ch);
     curl_close($ch);
     return $res;
@@ -145,8 +145,13 @@ $lessons = [
         ".quote::before {\n    content: \"\\201C\";\n    font-size: 40px;\n    color: #999;\n}\n\n.card::after {\n    content: \"\";\n    display: block;\n    width: 50px;\n    height: 3px;\n    background: #e91e63;\n    margin-top: 10px;\n}\n\n::selection {\n    background: #ffe082;\n}\n\np::first-line {\n    font-weight: bold;\n}"),
 ];
 
+$cssDemoHtml = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n</head>\n<body>\n<h1 class=\"demo-h1\">Kurd AI - CSS Preview</h1>\n<p class=\"demo-p\">This is a sample paragraph. Write your CSS and watch it apply to these elements.</p>\n<div class=\"demo-box\">Box 1</div>\n<div class=\"demo-box\">Box 2</div>\n<button class=\"demo-btn\">Click Me</button>\n</body>\n</html>";
+
 foreach ($lessons as $lesson) {
     $lesson['langId'] = $langId;
+    $lesson['order'] = ($lesson['order'] ?? 0) + 40;
+    $lesson['code_css'] = $lesson['code'];
+    $lesson['code'] = $cssDemoHtml;
     $res = fbPost($firebaseUrl . 'ferga_lessons.json', $lesson);
     $d = json_decode($res, true);
     if (isset($d['name'])) {
