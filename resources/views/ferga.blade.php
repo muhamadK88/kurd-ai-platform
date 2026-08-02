@@ -639,6 +639,7 @@
             if (n.includes('++') || n.includes('cpp') || n.includes('c++')) return 'cpp';
             if (n.includes('php')) return 'php';
             if (n.includes('java')) return 'java';
+            if (/c#|csharp/i.test(n)) return 'cs';
             if (n.includes('javascript') || n.includes('js')) return 'js';
             if (n.includes('html') && n.includes('css')) return 'html+css';
             if (n.includes('html')) return 'html';
@@ -651,8 +652,27 @@
             return 'py';
         }
 
+        function currentLangExtValue() {
+            return (currentActiveLanguage && currentActiveLanguage.ext) ? currentActiveLanguage.ext.toLowerCase().replace('.','') : (currentActiveLanguage ? guessExtFromName(loc(currentActiveLanguage, 'name')) : 'py');
+        }
+
+        function codePlaceholderText() {
+            const ext = currentLangExtValue();
+            const msg = currentLang === 'so' ? 'لێرە کۆدەکەت بنووسە' : 'لێرە کۆدێ خۆ بنڤیسە';
+            if (ext === 'html' || ext === 'htm' || ext === 'html+css' || ext === 'htmlcss' || ext === 'web') {
+                return '<!-- ' + msg + ' -->\n';
+            }
+            if (ext === 'css') {
+                return '/* ' + msg + ' */\n';
+            }
+            if (ext === 'py' || ext === 'python') {
+                return '# ' + msg + '\n';
+            }
+            return '// ' + msg + '\n';
+        }
+
         function isCombinedWebMode() {
-            const ext = (currentActiveLanguage && currentActiveLanguage.ext) ? currentActiveLanguage.ext.toLowerCase().replace('.','') : (currentActiveLanguage ? guessExtFromName(loc(currentActiveLanguage, 'name')) : 'py');
+            const ext = currentLangExtValue();
             return ext === 'html+css' || ext === 'htmlcss' || ext === 'html-css' || ext === 'web';
         }
 
@@ -662,9 +682,13 @@
             if (isCombinedWebMode()) await runHtmlCssCode();
             else if (ext === 'cpp') await runCppCode();
             else if (ext === 'py' || ext === 'python') await runPythonCode();
-            else if (ext === 'php') await runPhpCode();
             else if (ext === 'html' || ext === 'htm') await runHtmlCode();
             else if (ext === 'css') await runCssCode();
+            else if (ext === 'php' || ext === 'js' || ext === 'java' || ext === 'rs' || ext === 'cs') {
+                let cloudCode = document.getElementById('user-code').value;
+                if (ext === 'php') cloudCode = preparePhpCode(cloudCode);
+                await runCloudCode(ext, cloudCode);
+            }
             else await runServerCode(ext);
         }
 
@@ -865,6 +889,52 @@ ${code}
             out.classList.remove("animate-pulse");
         }
 
+        // Run PHP/JS/Java/Rust/C# through the server proxy -> Wandbox cloud API (no server-side binaries needed)
+        function preparePhpCode(code) {
+            const trimmed = code.trim();
+            if (!/^<\x3Fphp/i.test(trimmed)) return '<\x3Fphp\n' + code;
+            return code;
+        }
+
+        async function runCloudCode(languageExt, code) {
+            const out = document.getElementById('code-output');
+            hidePreview();
+            out.innerText = currentLang === 'so' ? "سەرقاڵی کارپێکردن..." : "مژویلی کارپێکرنێیە..."; 
+            out.classList.add("animate-pulse");
+            try {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') : '';
+                const res = await fetch("/ferga/run-cloud", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": csrfToken
+                    },
+                    body: JSON.stringify({
+                        language: languageExt,
+                        code: code
+                    })
+                });
+                const data = await res.json();
+                let output = "";
+                if (data.message) {
+                    output = data.message;
+                } else if (String(data.status) !== "0") {
+                    output = (data.compiler_error || data.compiler_message || data.program_error || "").trim();
+                } else {
+                    output = (data.program_output || "").trim();
+                }
+                if (/(OCI runtime error|Resource temporarily unavailable|Internal Server Error)/i.test(output)) {
+                    output = (currentLang === 'so' ? "خزمەتگوزاری ڕاندنی دەرەکی ئێستا سەرقاڵە و کۆدەکە نەڕا. تکایە دوای چەند خولەکێک دووبارە هەوڵبدەوە." : "خزمەتگوزاری ڕاندنا دەرڤەیی ئەڤ گەهانە سەرقاڵە و کۆد نەرەڤی. ڤانایە پی دو چەند خولەکان جارەکا دی هەوڵ بدە.");
+                }
+                latestCompilerOutput = output;
+                out.innerText = output || (currentLang === 'so' ? "(بێ دەرکەوتن)" : "(بێ دەرکەفتن)");
+            } catch (err) {
+                latestCompilerOutput = "";
+                out.innerText = (currentLang === 'so' ? "هەڵە لە پەیوەندیکردن بە خزمەتگوزاری:\n" : "خەلەت د پەیوەندیکرنێدا:\n") + err;
+            }
+            out.classList.remove("animate-pulse");
+        }
+
         // --- Preview checks (HTML/CSS) ---
         function parsePreviewChecks(raw) {
             try {
@@ -969,7 +1039,7 @@ ${code}
             } else {
                 document.getElementById('user-code-css').classList.add('hidden');
                 document.getElementById('user-code').classList.remove('hidden');
-                document.getElementById('user-code').value = currentLang === 'so' ? "# لێرە کۆدەکەت بنووسە...\n" : "# لێرە کۆدێ خۆ بنڤیسە...\n";
+                document.getElementById('user-code').value = codePlaceholderText();
             }
             
             document.getElementById('code-output').innerText = currentLang === 'so' ? 'ئامادەیە بۆ کارپێکردن...' : 'ئامادەیە بۆ کارپێکرنێ...';

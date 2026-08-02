@@ -95,6 +95,7 @@ Route::get('/ferga/seed-data', [\App\Http\Controllers\FergaSeedController::class
 Route::get('/ferga/upload', [\App\Http\Controllers\FergaSeedController::class, 'uploadPage']);
 Route::post('/ferga/run-php', [AdminController::class, 'runPhpCode']);
 Route::post('/ferga/run-code', [AdminController::class, 'runCode']);
+Route::post('/ferga/run-cloud', [AdminController::class, 'runCloud']);
 Route::get('/about', function () {
     return view('about');
 });
