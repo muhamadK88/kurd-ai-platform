@@ -892,12 +892,12 @@
     let dragState = null;
     btn.addEventListener('pointerdown', e => {
         if (e.button !== 0) return;
+        e.preventDefault();
         const rect = btn.getBoundingClientRect();
         dragState = { sx: e.clientX, sy: e.clientY, bx: rect.left, by: rect.top, moved: false };
         btn.classList.add('dragging');
-        btn.setPointerCapture(e.pointerId);
     });
-    btn.addEventListener('pointermove', e => {
+    document.addEventListener('pointermove', e => {
         if (!dragState) return;
         const dx = e.clientX - dragState.sx, dy = e.clientY - dragState.sy;
         if (!dragState.moved && (Math.abs(dx) > 4 || Math.abs(dy) > 4)) dragState.moved = true;
@@ -909,14 +909,14 @@
         btn.style.top = y + 'px';
         localStorage.setItem('kurdai_btn_pos', JSON.stringify({ x, y }));
     });
-    btn.addEventListener('pointerup', () => {
+    document.addEventListener('pointerup', () => {
         if (!dragState) return;
         const wasMoved = dragState.moved;
         dragState = null;
         btn.classList.remove('dragging');
         if (wasMoved) {
             btn.classList.add('just-dragged');
-            setTimeout(() => btn.classList.remove('just-dragged'), 50);
+            setTimeout(() => btn.classList.remove('just-dragged'), 60);
         }
     });
     try {
