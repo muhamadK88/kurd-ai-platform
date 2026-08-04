@@ -63,6 +63,9 @@
         box-shadow: none; transform: none; opacity: 1;
     }
     @keyframes kurdaiBtnFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+    #kurdai-chat-panel.dragging { transition: none; }
+    #kurdai-chat-header { cursor: grab; touch-action: none; user-select: none; }
+    #kurdai-chat-panel.dragging #kurdai-chat-header { cursor: grabbing; }
     #kurdai-chat-panel {
         position: fixed; bottom: 118px; right: 24px; z-index: 9999;
         width: min(480px, calc(100vw - 48px)); height: min(660px, calc(100vh - 140px));
@@ -499,6 +502,7 @@
 
     function setFullscreen(on) {
         panel.classList.toggle('fullscreen', on);
+        if (on) { panel.style.left = panel.style.top = panel.style.right = panel.style.bottom = ''; }
         fsIcon.innerHTML = on ? FS_BACK : FS_EXPAND;
         fsBtn.title = on ? t('fs_exit') : t('fs_enter');
     }
@@ -937,6 +941,36 @@
             btn.style.bottom = 'auto';
         }
     } catch (e) {}
+
+    const panelHeader = document.getElementById('kurdai-chat-header');
+    let panelDrag = null;
+    panelHeader.addEventListener('pointerdown', e => {
+        if (e.button !== 0 || e.target.closest('button')) return;
+        if (panel.classList.contains('fullscreen') || window.innerWidth <= 640) return;
+        e.preventDefault();
+        const r = panel.getBoundingClientRect();
+        panelDrag = { sx: e.clientX, sy: e.clientY, px: r.left, py: r.top, moved: false };
+        panel.classList.add('dragging');
+    });
+    document.addEventListener('pointermove', e => {
+        if (!panelDrag) return;
+        const dx = e.clientX - panelDrag.sx, dy = e.clientY - panelDrag.sy;
+        if (!panelDrag.moved && (Math.abs(dx) > 4 || Math.abs(dy) > 4)) panelDrag.moved = true;
+        if (!panelDrag.moved) return;
+        const pw = panel.offsetWidth, ph = panel.offsetHeight;
+        const x = Math.min(Math.max(panelDrag.px + dx, -pw + 90), window.innerWidth - 90);
+        const y = Math.min(Math.max(panelDrag.py + dy, 8), window.innerHeight - 60);
+        panel.style.left = x + 'px';
+        panel.style.top = y + 'px';
+        panel.style.right = 'auto';
+        panel.style.bottom = 'auto';
+    });
+    document.addEventListener('pointerup', () => {
+        if (!panelDrag) return;
+        panelDrag = null;
+        panel.classList.remove('dragging');
+    });
+
     sessionsToggle.addEventListener('click', () => { listMode = !listMode; setView(); });
     newSessionBtn.addEventListener('click', newSession);
     sendBtn.addEventListener('click', sendMessage);
