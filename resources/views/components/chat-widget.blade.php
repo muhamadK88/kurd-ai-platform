@@ -414,8 +414,6 @@
     let lastMsgDay = null;
     let searchQuery = '';
     let soundEnabled = localStorage.getItem('kurdai_sound') !== 'off';
-    soundBtn.classList.toggle('muted', !soundEnabled);
-    soundBtn.title = soundEnabled ? t('sound_on') : t('sound_off');
 
     const DIGITS = '٠١٢٣٤٥٦٧٨٩';
     const fmtN = n => String(n).padStart(2, '0').replace(/\d/g, c => DIGITS[c]);
@@ -547,6 +545,9 @@
 
     function lang() { return localStorage.getItem('site-lang') === 'ba' ? 'ba' : 'so'; }
     function t(key) { return T[lang()][key] ?? T.so[key]; }
+
+    soundBtn.classList.toggle('muted', !soundEnabled);
+    soundBtn.title = soundEnabled ? t('sound_on') : t('sound_off');
 
     let userKey = localStorage.getItem('kurdai_user_key');
     if (!userKey) {
