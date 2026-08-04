@@ -335,6 +335,7 @@
         userKey = 'k-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
         localStorage.setItem('kurdai_user_key', userKey);
     }
+    const userId = @json(auth()->id());
 
     let sessions = [], current = null, listMode = false, grammarMode = false,
         attachedFile = null, attachedImage = null, pyodideInstance = null, isRecording = false;
@@ -581,7 +582,7 @@
 
         const body = {
             message: message || 'وەڵام بە ئەم وێنەیەدا بدە',
-            user_key: userKey, session_id: current?.id || null,
+            user_key: userKey, user_id: userId, session_id: current?.id || null,
             lang: lang(), mode: grammarMode ? 'grammar' : 'default',
         };
         if (attachedImage) body.image = attachedImage;

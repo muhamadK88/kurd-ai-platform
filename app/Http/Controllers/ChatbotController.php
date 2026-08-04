@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ChatHistory;
 use App\Models\ChatSession;
 use App\Models\ChatUsage;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -18,6 +19,7 @@ class ChatbotController extends Controller
         $request->validate([
             'message' => 'required|string|max:4000',
             'user_key' => 'nullable|string|max:255',
+            'user_id' => 'nullable|integer',
             'session_id' => 'nullable|integer',
             'lang' => 'nullable|in:so,ba',
             'image' => 'nullable|string|max:15000000',
@@ -38,11 +40,18 @@ class ChatbotController extends Controller
         }
 
         $userKey = $request->input('user_key');
+        $userId = $request->input('user_id');
         $lang = $request->input('lang', 'so');
         $image = $request->input('image');
         $mode = $request->input('mode', 'default');
 
-        if ($userKey && !$this->consumeDailyQuota($userKey)) {
+        $isAdmin = false;
+        if ($userId) {
+            $user = User::find($userId);
+            $isAdmin = $user && $user->is_admin;
+        }
+
+        if ($userKey && !$isAdmin && !$this->consumeDailyQuota($userKey)) {
             return response()->json([
                 'reply' => $this->msg($lang, 'limit'),
                 'limited' => true,
@@ -136,7 +145,8 @@ class ChatbotController extends Controller
             return response()->json([
                 'reply' => $reply,
                 'session_id' => $session?->id,
-                'remaining' => $this->remainingToday($userKey),
+                'remaining' => $isAdmin ? null : $this->remainingToday($userKey),
+                'is_admin' => $isAdmin,
             ]);
         } catch (\Exception $e) {
             Log::error('AI provider exception', ['error' => $e->getMessage()]);
