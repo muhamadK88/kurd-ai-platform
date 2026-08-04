@@ -33,3 +33,4 @@ storage/framework/sessions/*
 storage/framework/views/*
 storage/logs/*
 firebase_credentials.json
+storage/app/ai
