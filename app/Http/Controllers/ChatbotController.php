@@ -40,18 +40,18 @@ class ChatbotController extends Controller
             ], 500);
         }
 
+        $userKey = $request->input('user_key');
+        $userId = $request->input('user_id');
+        $lang = $request->input('lang', 'so');
+        $image = $request->input('image');
+        $mode = $request->input('mode', 'default');
+
         if ($image && !$visionModel) {
             Log::warning('Vision model config missing');
             return response()->json([
                 'reply' => $this->msg($request->lang, 'config_missing'),
             ], 500);
         }
-
-        $userKey = $request->input('user_key');
-        $userId = $request->input('user_id');
-        $lang = $request->input('lang', 'so');
-        $image = $request->input('image');
-        $mode = $request->input('mode', 'default');
 
         $isAdmin = false;
         if ($userId) {
