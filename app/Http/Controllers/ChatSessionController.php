@@ -56,7 +56,7 @@ class ChatSessionController extends Controller
 
         $messages = ChatHistory::where('session_id', $session->id)
             ->orderBy('id')
-            ->get(['role', 'content', 'created_at']);
+            ->get(['id', 'role', 'content', 'reaction', 'created_at']);
 
         return response()->json([
             'id' => $session->id,
@@ -92,5 +92,26 @@ class ChatSessionController extends Controller
         $session->delete();
 
         return response()->json(['deleted' => true]);
+    }
+
+    public function react(Request $request, $id)
+    {
+        $request->validate([
+            'user_key' => 'required|string|max:255',
+            'reaction' => 'nullable|in:up,down',
+        ]);
+
+        $message = ChatHistory::where('id', $id)
+            ->whereHas('session', fn ($q) => $q->where('user_key', $request->user_key))
+            ->first();
+
+        if (!$message) {
+            return response()->json(['error' => 'not found'], 404);
+        }
+
+        $message->reaction = $request->reaction;
+        $message->save();
+
+        return response()->json(['reaction' => $message->reaction]);
     }
 }

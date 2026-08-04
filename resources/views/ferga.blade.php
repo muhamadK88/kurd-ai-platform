@@ -3955,5 +3955,7 @@ ${code}
             </div>
         </div>
     </div>
+
+@include('components.chat-widget')
 </body>
 </html>

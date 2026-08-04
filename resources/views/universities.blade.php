@@ -587,5 +587,6 @@
         
         document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
     </script>
+@include('components.chat-widget')
 </body>
 </html>

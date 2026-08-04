@@ -282,5 +282,6 @@ Tech Evangelism& AI Literacy.</p>
 
         applyLanguage();
     </script>
+@include('components.chat-widget')
 </body>
 </html>

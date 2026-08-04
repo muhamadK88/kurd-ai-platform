@@ -18,6 +18,7 @@ Route::post('/api/chat/sessions', [ChatSessionController::class, 'store']);
 Route::get('/api/chat/sessions/{id}/messages', [ChatSessionController::class, 'messages']);
 Route::post('/api/chat/sessions/{id}/pin', [ChatSessionController::class, 'pin']);
 Route::delete('/api/chat/sessions/{id}', [ChatSessionController::class, 'destroy']);
+Route::post('/api/chat/messages/{id}/reaction', [ChatSessionController::class, 'react']);
 /*
 |--------------------------------------------------------------------------
 | Web Routes

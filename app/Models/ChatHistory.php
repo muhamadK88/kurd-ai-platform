@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChatHistory extends Model
 {
-    protected $fillable = ['session_id', 'role', 'content'];
+    protected $fillable = ['session_id', 'role', 'content', 'reaction'];
 
     public function session()
     {
