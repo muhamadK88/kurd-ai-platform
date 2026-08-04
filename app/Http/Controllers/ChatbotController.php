@@ -41,22 +41,19 @@ class ChatbotController extends Controller
         $mode = $request->input('mode', 'default');
 
         if ($lang === 'ba') {
-            $badiniFirst = [];
-            $others = [];
-            foreach ($providers as $provider) {
-                if (!empty($provider['badini_first']) && !empty($provider['fallback_model'])) {
-                    $swap = $provider['model'];
-                    $provider['model'] = $provider['fallback_model'];
-                    $provider['fallback_model'] = $swap;
-                    $badiniFirst[] = $provider;
-                } else {
-                    $others[] = $provider;
-                }
-            }
-            $providers = array_merge($badiniFirst, $others);
+            usort($providers, fn ($a, $b) =>
+                ($a['badini_priority'] ?? 999) <=> ($b['badini_priority'] ?? 999));
         }
 
-        if ($image && !$visionModel) {
+        $hasVision = false;
+        foreach ($providers as $provider) {
+            if (!empty($provider['vision_model'])) {
+                $hasVision = true;
+                break;
+            }
+        }
+
+        if ($image && !$hasVision) {
             Log::warning('Vision model config missing');
             return response()->json([
                 'reply' => $this->msg($request->lang, 'config_missing'),
@@ -128,9 +125,12 @@ class ChatbotController extends Controller
 
         foreach ($providers as $provider) {
             $maxTokens = $provider['max_tokens'] ?? 1200;
-            $models = $isVision
-                ? array_values(array_unique(array_filter([$provider['vision_model'] ?? null, $provider['model'] ?? null, $provider['fallback_model'] ?? null, $provider['fallback_model2'] ?? null])))
+            $chain = $lang === 'ba' && !empty($provider['badini_models'])
+                ? $provider['badini_models']
                 : array_values(array_unique(array_filter([$provider['model'], $provider['fallback_model'] ?? null, $provider['fallback_model2'] ?? null])));
+            $models = $isVision
+                ? array_values(array_unique(array_filter(array_merge([$provider['vision_model'] ?? null], $chain))))
+                : $chain;
 
             foreach ($models as $attemptModel) {
                 try {
@@ -309,6 +309,7 @@ class ChatbotController extends Controller
                 . 'بەرگرییا ئەکەت: هەمی وەڵامێن تە دەبیت ب تەواوی ب شێوەزاری بادینی (کورمانجیا باکوری/بادینی) بن، نەک سۆرانی. '
                 . 'بەکارئینانا فەرم و وشەیێن سۆرانی قەدەغەیە: نەک "بەخێربێیت" بەلکو "بەخێر هاتی"، نەک "دەتوانیت/دەتوانی" بەلکو "دشێی/دکەی"، نەک "ئێستا" بەلکو "نوکە/نوک"، نەک "چۆن" بەلکو "چاوا/چوان"، نەک "ئەمڕۆ" بەلکو "ئەڤرۆ"، نەک "هەوڵبدەرەوە" بەلکو "هەوڵبە"، نەک "بەم شێوەیە" بەلکو "ب ڤی شێوەی". '
                 . 'فەرمێن کرداران ب شێوەزا بادینی بن: "دکەم/دکەی/دکەت"، "دێم/دێی/دێت"، "دزانم/دزانێ"، "دشێم/دشێی"، "بکە/بکەن"، "بنڤێسە/بنڤێسن"، "بەرسڤ بدە". '
+                . 'بۆ پرسیارا "چۆنی؟"، بنڤێسە "تو چاوا یی؟" یان "تۆ چاوا یی؟" — نەک "چاوا یاری" یان "چاوا یاریت". '
                 . 'بەر بەرسڤدانێ، خۆ ڕاست بکەرەوە: ئەڤ وەڵامە ب تەواوی بادینییە؟ ئەگەر نەخێر، وەڵامێ خۆ ب بادینی بنڤێسە.'
             : 'تۆ یاریدەدەری ژیری دەستکردی پلاتفۆرمی کورد ئەی ئای (Kurd AI) ی. '
                 . 'بەرگرییا ئەکەت: هەمی وەڵامێن تە دەبیت ب تەواوی ب شێوەزاری سۆرانی (کوردیی ناوەندی) بن — نەک بادینی و نەک کورمانجی باکور. '
