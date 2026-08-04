@@ -40,6 +40,22 @@ class ChatbotController extends Controller
         $image = $request->input('image');
         $mode = $request->input('mode', 'default');
 
+        if ($lang === 'ba') {
+            $badiniFirst = [];
+            $others = [];
+            foreach ($providers as $provider) {
+                if (!empty($provider['badini_first']) && !empty($provider['fallback_model'])) {
+                    $swap = $provider['model'];
+                    $provider['model'] = $provider['fallback_model'];
+                    $provider['fallback_model'] = $swap;
+                    $badiniFirst[] = $provider;
+                } else {
+                    $others[] = $provider;
+                }
+            }
+            $providers = array_merge($badiniFirst, $others);
+        }
+
         if ($image && !$visionModel) {
             Log::warning('Vision model config missing');
             return response()->json([
