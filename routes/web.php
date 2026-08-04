@@ -3,11 +3,21 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ChatbotController;
+use App\Http\Controllers\ChatSessionController;
 use App\Models\Faq;
 Route::get('/', function () {
     $faqs = Faq::all(); // هەموو پرسیارەکان بهێنە
     return view('home', compact('faqs')); // بینێرە بۆ home.blade.php
 });
+
+// چاتبۆتی یاریدەدەری AI
+Route::post('/api/chat', [ChatbotController::class, 'chat']);
+Route::get('/api/chat/sessions', [ChatSessionController::class, 'index']);
+Route::post('/api/chat/sessions', [ChatSessionController::class, 'store']);
+Route::get('/api/chat/sessions/{id}/messages', [ChatSessionController::class, 'messages']);
+Route::post('/api/chat/sessions/{id}/pin', [ChatSessionController::class, 'pin']);
+Route::delete('/api/chat/sessions/{id}', [ChatSessionController::class, 'destroy']);
 /*
 |--------------------------------------------------------------------------
 | Web Routes
