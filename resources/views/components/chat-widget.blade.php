@@ -54,6 +54,12 @@
         #kurdai-chat-btn { bottom: 16px; right: 16px; width: 62px; height: 62px; }
         #kurdai-greet { bottom: 90px; right: 16px; }
         #kurdai-chat-input { font-size: 16px; }
+        #kurdai-fs-btn { display: none; }
+    }
+    #kurdai-chat-panel.fullscreen {
+        position: fixed; inset: 0; width: 100vw; height: 100dvh;
+        border-radius: 0; z-index: 10001; border: none;
+        box-shadow: none; transform: none; opacity: 1;
     }
     @keyframes kurdaiBtnFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
     #kurdai-chat-panel {
@@ -281,6 +287,9 @@
         <button id="kurdai-new-session" class="hdr-btn" title="گفتوگۆی نوێ">
             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
         </button>
+        <button id="kurdai-fs-btn" class="hdr-btn" title="پڕ شاشە">
+            <svg id="kurdai-fs-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
+        </button>
         <button id="kurdai-chat-close" class="hdr-btn" title="داخستن">
             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
@@ -338,6 +347,17 @@
     const grammarBtn = document.getElementById('kurdai-grammar-btn');
     const previewEl = document.getElementById('kurdai-preview');
     const badgeEl = document.getElementById('kurdai-badge');
+    const fsBtn = document.getElementById('kurdai-fs-btn');
+    const fsIcon = document.getElementById('kurdai-fs-icon');
+
+    const FS_EXPAND = '<path stroke-linecap="round" stroke-linejoin="round" d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/>';
+    const FS_BACK = '<path stroke-linecap="round" stroke-linejoin="round" d="M8 3v5H3M16 3v5h5M8 21v-5H3M16 21v-5h5"/>';
+
+    function setFullscreen(on) {
+        panel.classList.toggle('fullscreen', on);
+        fsIcon.innerHTML = on ? FS_BACK : FS_EXPAND;
+        fsBtn.title = on ? t('fs_exit') : t('fs_enter');
+    }
 
     let unreadCount = 0;
 
@@ -374,7 +394,7 @@
             untitled: 'گفتوگۆی بێ ناو', now: 'ئێستا',
             delete_confirm: 'ئەم گفتوگۆیە بسڕینەوە؟', pin_on: 'لێکردنەوە لە پین', pin_off: 'پینکردن',
             delete: 'سڕینەوە', empty: 'هیچ گفتوگۆیەک نییە',
-            network_error: 'ببورە، کێشەیەک ڕوویدا لە پەیوەندیدا.', wait_hint: 'ببورە، کەمێک درێژە دەکێشێت، تکایە چاوەڕێ بکە...', greet: 'سڵاو! پێویستت بە یارمەتییە؟',
+            network_error: 'ببورە، کێشەیەک ڕوویدا لە پەیوەندیدا.', wait_hint: 'ببورە، کەمێک درێژە دەکێشێت، تکایە چاوەڕێ بکە...', greet: 'سڵاو! پێویستت بە یارمەتییە؟', fs_enter: 'پڕ شاشە', fs_exit: 'گەڕانەوە',
 
             copied: 'کۆپی کرا!', voice_not_avail: 'دەنگ ناڤێ نا', voice_listening: 'گوێ بگرە...',
             run: '▶ کارپێکردن', file_attached: 'فایل: ',
@@ -388,7 +408,7 @@
             untitled: 'گفتوگۆیەکا بێ ناڤ', now: 'نوکە',
             delete_confirm: 'ئەڤ گفتوگۆیا ب سڕینەوە؟', pin_on: 'ژ پین دەرخستن', pin_off: 'پینکرن',
             delete: 'سڕینەوە', empty: 'چ گفتوگۆیەک نینە',
-            network_error: 'ببورە، کێشەیەک ڕوویدا د گرێدانێ دا.', wait_hint: 'ببورە، دەمەکێک درێژ دکەت، تکایە چاڤڕێ بکە...', greet: 'سڵاو! پێویستت ب یارمەتییە؟',
+            network_error: 'ببورە، کێشەیەک ڕوویدا د گرێدانێ دا.', wait_hint: 'ببورە، دەمەکێک درێژ دکەت، تکایە چاڤڕێ بکە...', greet: 'سڵاو! پێویستت ب یارمەتییە؟', fs_enter: 'پڕ شاشە', fs_exit: 'ڤەگەڕانەوە',
             copied: 'کۆپی کرا!', voice_not_avail: 'دەنگ ناڤێ نا', voice_listening: 'گوێ بگرە...',
             run: '▶ کاردان', file_attached: 'فایل: ',
             grammar_on: 'مۆدێ ڕێزمان: ئین', grammar_off: 'مۆدێ ڕێزمان: دامە',
@@ -696,6 +716,7 @@
         openPanel();
     });
     closeBtn.addEventListener('click', () => panel.classList.remove('open'));
+    fsBtn.addEventListener('click', () => setFullscreen(!panel.classList.contains('fullscreen')));
     sessionsToggle.addEventListener('click', () => { listMode = !listMode; setView(); });
     newSessionBtn.addEventListener('click', newSession);
     sendBtn.addEventListener('click', sendMessage);
