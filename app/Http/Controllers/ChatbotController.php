@@ -54,7 +54,10 @@ class ChatbotController extends Controller
         }
 
         $isAdmin = false;
-        if ($userId) {
+        $authUser = $request->user();
+        if ($authUser) {
+            $isAdmin = $authUser->is_admin;
+        } elseif ($userId) {
             $user = User::find($userId);
             $isAdmin = $user && $user->is_admin;
         }
