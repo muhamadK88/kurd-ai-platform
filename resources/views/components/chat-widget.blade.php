@@ -12,16 +12,17 @@
         --kai-black-2: #0c0c11;
         --kai-black-3: #16161d;
     }
-    #kurdai-chat-btn {
-        position: fixed; bottom: 24px; right: 24px; z-index: 9998;
+    #kurdai-chat-btn { position: fixed; bottom: 24px; right: 24px; z-index: 9998;
         width: 78px; height: 78px; border-radius: 50%;
         background: radial-gradient(circle at 30% 30%, #15151d, #000);
-        border: 2px solid var(--neon-cyan); cursor: pointer;
+        border: 2px solid var(--neon-cyan); cursor: grab;
         box-shadow: 0 0 18px rgba(0,240,255,0.55), inset 0 0 14px rgba(0,240,255,0.2);
         display: flex; align-items: center; justify-content: center; padding: 9px;
-        transition: transform 0.3s, box-shadow 0.3s;
+        transition: transform 0.3s, box-shadow 0.3s; touch-action: none;
         animation: kurdaiBtnPulse 3s ease-in-out infinite;
     }
+    #kurdai-chat-btn:active { cursor: grabbing; }
+    #kurdai-chat-btn.dragging { animation: none; transition: none; cursor: grabbing; transform: scale(1.05); box-shadow: 0 0 28px rgba(0,240,255,0.85); }
     #kurdai-chat-btn:hover { transform: scale(1.08); box-shadow: 0 0 28px rgba(0,240,255,0.85), 0 0 60px rgba(176,38,255,0.4); animation-play-state: paused; }
     #kurdai-chat-btn svg { width: 72%; height: 72%; }
     @keyframes kurdaiBtnPulse { 0%,100%{box-shadow:0 0 18px rgba(0,240,255,0.55),0 0 0 0 rgba(0,240,255,0.5)} 50%{box-shadow:0 0 18px rgba(0,240,255,0.55),0 0 0 16px rgba(0,240,255,0)} }
@@ -712,11 +713,51 @@
     }
 
     btn.addEventListener('click', () => {
+        if (btn.classList.contains('dragging') || btn.classList.contains('just-dragged')) return;
         if (panel.classList.contains('open')) { panel.classList.remove('open'); return; }
         openPanel();
     });
     closeBtn.addEventListener('click', () => panel.classList.remove('open'));
     fsBtn.addEventListener('click', () => setFullscreen(!panel.classList.contains('fullscreen')));
+
+    let dragState = null;
+    btn.addEventListener('pointerdown', e => {
+        if (e.button !== 0) return;
+        const rect = btn.getBoundingClientRect();
+        dragState = { sx: e.clientX, sy: e.clientY, bx: rect.left, by: rect.top, moved: false };
+        btn.classList.add('dragging');
+        btn.setPointerCapture(e.pointerId);
+    });
+    btn.addEventListener('pointermove', e => {
+        if (!dragState) return;
+        const dx = e.clientX - dragState.sx, dy = e.clientY - dragState.sy;
+        if (!dragState.moved && (Math.abs(dx) > 4 || Math.abs(dy) > 4)) dragState.moved = true;
+        if (!dragState.moved) return;
+        const size = btn.offsetWidth;
+        const x = Math.min(Math.max(dragState.bx + dx, 10), window.innerWidth - size - 10);
+        const y = Math.min(Math.max(dragState.by + dy, 10), window.innerHeight - size - 10);
+        btn.style.left = x + 'px';
+        btn.style.top = y + 'px';
+        localStorage.setItem('kurdai_btn_pos', JSON.stringify({ x, y }));
+    });
+    btn.addEventListener('pointerup', () => {
+        if (!dragState) return;
+        const wasMoved = dragState.moved;
+        dragState = null;
+        btn.classList.remove('dragging');
+        if (wasMoved) {
+            btn.classList.add('just-dragged');
+            setTimeout(() => btn.classList.remove('just-dragged'), 50);
+        }
+    });
+    try {
+        const saved = JSON.parse(localStorage.getItem('kurdai_btn_pos') || 'null');
+        if (saved && window.innerWidth > 640) {
+            const size = btn.offsetWidth;
+            btn.style.left = Math.min(Math.max(parseInt(saved.x), 10), window.innerWidth - size - 10) + 'px';
+            btn.style.top = Math.min(Math.max(parseInt(saved.y), 10), window.innerHeight - size - 10) + 'px';
+        }
+    } catch (e) {}
     sessionsToggle.addEventListener('click', () => { listMode = !listMode; setView(); });
     newSessionBtn.addEventListener('click', newSession);
     sendBtn.addEventListener('click', sendMessage);
