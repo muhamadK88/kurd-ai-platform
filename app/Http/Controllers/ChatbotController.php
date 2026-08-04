@@ -31,9 +31,17 @@ class ChatbotController extends Controller
         $key = env('DEEPSEEK_API_KEY');
         $baseUrl = env('DEEPSEEK_BASE_URL');
         $model = env('DEEPSEEK_MODEL');
+        $visionModel = env('DEEPSEEK_VISION_MODEL');
 
         if (!$key || !$baseUrl || !$model) {
             Log::warning('AI provider config missing');
+            return response()->json([
+                'reply' => $this->msg($request->lang, 'config_missing'),
+            ], 500);
+        }
+
+        if ($image && !$visionModel) {
+            Log::warning('Vision model config missing');
             return response()->json([
                 'reply' => $this->msg($request->lang, 'config_missing'),
             ], 500);
@@ -112,7 +120,7 @@ class ChatbotController extends Controller
             $response = Http::withToken($key)
                 ->timeout(120)
                 ->post($baseUrl . '/chat/completions', [
-                    'model' => $isVision ? 'gemma-4-31B-it-fp8' : $model,
+                    'model' => $isVision ? $visionModel : $model,
                     'messages' => $apiMessages,
                     'temperature' => 0.7,
                     'max_tokens' => 2000,
