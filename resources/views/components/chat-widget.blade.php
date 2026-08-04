@@ -854,10 +854,13 @@
         scrollDownBtn.classList.toggle('show', !nearBottom && messagesEl.scrollHeight > messagesEl.clientHeight + 200);
     }
 
-    btn.addEventListener('click', () => {
-        if (btn.classList.contains('dragging') || btn.classList.contains('just-dragged')) return;
+    function togglePanel() {
         if (panel.classList.contains('open')) { closePanel(); return; }
         openPanel();
+    }
+
+    btn.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); togglePanel(); }
     });
     closeBtn.addEventListener('click', closePanel);
     backdrop.addEventListener('click', closePanel);
@@ -907,6 +910,8 @@
         const y = Math.min(Math.max(dragState.by + dy, 10), window.innerHeight - size - 10);
         btn.style.left = x + 'px';
         btn.style.top = y + 'px';
+        btn.style.right = 'auto';
+        btn.style.bottom = 'auto';
         localStorage.setItem('kurdai_btn_pos', JSON.stringify({ x, y }));
     });
     document.addEventListener('pointerup', () => {
@@ -917,6 +922,8 @@
         if (wasMoved) {
             btn.classList.add('just-dragged');
             setTimeout(() => btn.classList.remove('just-dragged'), 60);
+        } else {
+            togglePanel();
         }
     });
     try {
@@ -925,6 +932,8 @@
             const size = btn.offsetWidth;
             btn.style.left = Math.min(Math.max(parseInt(saved.x), 10), window.innerWidth - size - 10) + 'px';
             btn.style.top = Math.min(Math.max(parseInt(saved.y), 10), window.innerHeight - size - 10) + 'px';
+            btn.style.right = 'auto';
+            btn.style.bottom = 'auto';
         }
     } catch (e) {}
     sessionsToggle.addEventListener('click', () => { listMode = !listMode; setView(); });
