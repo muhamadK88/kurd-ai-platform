@@ -246,6 +246,46 @@
         cursor: pointer; transition: all 0.2s;
     }
     .suggestions button:hover { background: rgba(0,240,255,0.2); box-shadow: 0 0 10px rgba(0,240,255,0.4); }
+    .day-divider { text-align: center; font-size: 11px; color: #6b6b78; margin: 4px 0 2px; }
+    .day-divider span { background: rgba(255,255,255,0.05); padding: 3px 14px; border-radius: 999px; }
+    .followups { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .followups button {
+        background: rgba(176,38,255,0.08); border: 1px solid rgba(176,38,255,0.35);
+        color: #c9a8ff; border-radius: 999px; padding: 5px 12px; font-size: 12px;
+        cursor: pointer; transition: all 0.2s;
+    }
+    .followups button:hover { background: rgba(176,38,255,0.2); box-shadow: 0 0 10px rgba(176,38,255,0.4); }
+    #kurdai-scroll-down {
+        position: absolute; right: 14px; bottom: 128px; z-index: 5;
+        width: 36px; height: 36px; border-radius: 50%;
+        background: rgba(12,12,18,0.95); border: 1px solid var(--neon-cyan);
+        color: var(--neon-cyan); cursor: pointer; display: none; align-items: center; justify-content: center;
+        box-shadow: 0 0 12px rgba(0,240,255,0.4); transition: all 0.2s;
+    }
+    #kurdai-scroll-down.show { display: flex; }
+    #kurdai-scroll-down:hover { background: rgba(0,240,255,0.15); }
+    #kurdai-scroll-down svg { width: 18px; height: 18px; }
+    #kurdai-search-wrap {
+        display: none; align-items: center; gap: 8px; padding: 12px 14px 4px; flex-shrink: 0;
+    }
+    #kurdai-search-wrap input {
+        flex: 1; border: 1px solid rgba(0,240,255,0.3); border-radius: 10px;
+        padding: 9px 13px; font-size: 13.5px; background: #0c0c12; color: #e6feff; outline: none;
+    }
+    #kurdai-search-wrap input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0,240,255,0.35); }
+    #kurdai-search-wrap svg { width: 16px; height: 16px; color: var(--neon-cyan); flex-shrink: 0; }
+    #kurdai-backdrop {
+        position: fixed; inset: 0; z-index: 9995; background: rgba(0,0,0,0.45);
+        opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    #kurdai-backdrop.show { opacity: 1; pointer-events: auto; }
+    #kurdai-sound-btn.muted { opacity: 0.55; }
+    #kurdai-sound-btn.muted svg { position: relative; }
+    #kurdai-sound-btn.muted::after {
+        content: ''; position: absolute; width: 20px; height: 2px; background: #ff4444;
+        transform: rotate(-45deg); border-radius: 2px; box-shadow: 0 0 6px #ff4444;
+    }
+    #kurdai-chat-body { position: relative; }
     .copy-toast {
         position: fixed; bottom: 130px; right: 60px; z-index: 10000;
         background: rgba(57,255,20,0.15); border: 1px solid var(--neon-green);
@@ -288,6 +328,12 @@
         <button id="kurdai-new-session" class="hdr-btn" title="گفتوگۆی نوێ">
             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
         </button>
+        <button id="kurdai-share-btn" class="hdr-btn" title="کۆپی کردنی گفتوگۆ">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+        </button>
+        <button id="kurdai-sound-btn" class="hdr-btn" title="دەنگی وەڵام">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </button>
         <button id="kurdai-fs-btn" class="hdr-btn" title="پڕ شاشە">
             <svg id="kurdai-fs-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
         </button>
@@ -296,6 +342,13 @@
         </button>
     </div>
     <div id="kurdai-chat-body">
+        <button id="kurdai-scroll-down" title="بۆ خوارەوە">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+        </button>
+        <div id="kurdai-search-wrap">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.35-5.4a6.75 6.75 0 11-13.5 0 6.75 6.75 0 0113.5 0z"/></svg>
+            <input id="kurdai-search" placeholder="" autocomplete="off">
+        </div>
         <div id="kurdai-session-list" style="display:none;"></div>
         <div id="kurdai-chat-messages"></div>
         <div id="kurdai-chat-input-wrap">
@@ -328,6 +381,7 @@
     </div>
     <div id="kurdai-footer">کورد ئەی ئای — یاریدەدەری ژیری دەستکرد</div>
 </div>
+<div id="kurdai-backdrop"></div>
 
 <script type="module">
 (async function () {
@@ -350,31 +404,88 @@
     const badgeEl = document.getElementById('kurdai-badge');
     const fsBtn = document.getElementById('kurdai-fs-btn');
     const fsIcon = document.getElementById('kurdai-fs-icon');
-
-    const FS_EXPAND = '<path stroke-linecap="round" stroke-linejoin="round" d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/>';
-    const FS_BACK = '<path stroke-linecap="round" stroke-linejoin="round" d="M8 3v5H3M16 3v5h5M8 21v-5H3M16 21v-5h5"/>';
-
-    function setFullscreen(on) {
-        panel.classList.toggle('fullscreen', on);
-        fsIcon.innerHTML = on ? FS_BACK : FS_EXPAND;
-        fsBtn.title = on ? t('fs_exit') : t('fs_enter');
-    }
+    const shareBtn = document.getElementById('kurdai-share-btn');
+    const soundBtn = document.getElementById('kurdai-sound-btn');
+    const searchInput = document.getElementById('kurdai-search');
+    const scrollDownBtn = document.getElementById('kurdai-scroll-down');
+    const backdrop = document.getElementById('kurdai-backdrop');
 
     let unreadCount = 0;
+    let lastMsgDay = null;
+    let searchQuery = '';
+    let soundEnabled = localStorage.getItem('kurdai_sound') !== 'off';
+    soundBtn.classList.toggle('muted', !soundEnabled);
+    soundBtn.title = soundEnabled ? t('sound_on') : t('sound_off');
+
+    const DIGITS = '٠١٢٣٤٥٦٧٨٩';
+    const fmtN = n => String(n).padStart(2, '0').replace(/\d/g, c => DIGITS[c]);
 
     function fmtTime(date) {
-        const d = n => String(n).padStart(2, '0').replace(/\d/g, c => '٠١٢٣٤٥٦٧٨٩'[c]);
-        return d(date.getHours()) + ':' + d(date.getMinutes());
+        return fmtN(date.getHours()) + ':' + fmtN(date.getMinutes());
+    }
+    function fmtDate(date) {
+        return date.getFullYear() + '/' + fmtN(date.getMonth() + 1) + '/' + fmtN(date.getDate());
+    }
+    function dayKey(date) {
+        return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+    }
+    function addDayDivider(date) {
+        const k = dayKey(date);
+        if (k === lastMsgDay) return;
+        lastMsgDay = k;
+        const todayK = dayKey(new Date());
+        const yestK = dayKey(new Date(Date.now() - 86400000));
+        const label = k === todayK ? t('today') : k === yestK ? t('yesterday') : fmtDate(date);
+        const d = document.createElement('div'); d.className = 'day-divider';
+        const s = document.createElement('span'); s.textContent = label; d.appendChild(s);
+        messagesEl.appendChild(d);
     }
     function addTime(el, date) {
         const tm = document.createElement('div');
         tm.className = 'msg-time'; tm.textContent = fmtTime(date || new Date());
         el.appendChild(tm);
     }
+    function addFollowUps(el) {
+        const wrap = document.createElement('div'); wrap.className = 'followups';
+        [t('follow_1'), t('follow_2'), t('follow_3')].forEach(text => {
+            const chip = document.createElement('button'); chip.textContent = text;
+            chip.addEventListener('click', () => { input.value = text; autosizeInput(); sendMessage(); });
+            wrap.appendChild(chip);
+        });
+        el.appendChild(wrap);
+    }
     function clearUnread() { unreadCount = 0; badgeEl.classList.remove('show'); }
+
+    let audioCtx = null;
+    function playPing() {
+        if (!soundEnabled) return;
+        try {
+            const AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return;
+            audioCtx = audioCtx || new AC();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const t0 = audioCtx.currentTime;
+            const blip = (freq, at, dur) => {
+                const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+                o.type = 'sine'; o.frequency.value = freq;
+                g.gain.setValueAtTime(0.0001, t0 + at);
+                g.gain.exponentialRampToValueAtTime(0.12, t0 + at + 0.02);
+                g.gain.exponentialRampToValueAtTime(0.0001, t0 + at + dur);
+                o.connect(g); g.connect(audioCtx.destination);
+                o.start(t0 + at); o.stop(t0 + at + dur + 0.05);
+            };
+            blip(880, 0, 0.18); blip(1174.66, 0.12, 0.22);
+        } catch (e) {}
+    }
+
+    function closePanel() {
+        panel.classList.remove('open');
+        backdrop.classList.remove('show');
+    }
 
     function openPanel() {
         panel.classList.add('open');
+        backdrop.classList.add('show');
         clearUnread();
         if (!messagesEl.children.length) { addMessage('bot', t('welcome')); addSuggestions(); }
         refreshUiTexts(); loadSessions(); input.focus();
@@ -383,6 +494,15 @@
     function autosizeInput() {
         input.style.height = 'auto';
         input.style.height = Math.min(input.scrollHeight, 140) + 'px';
+    }
+
+    const FS_EXPAND = '<path stroke-linecap="round" stroke-linejoin="round" d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/>';
+    const FS_BACK = '<path stroke-linecap="round" stroke-linejoin="round" d="M8 3v5H3M16 3v5h5M8 21v-5H3M16 21v-5h5"/>';
+
+    function setFullscreen(on) {
+        panel.classList.toggle('fullscreen', on);
+        fsIcon.innerHTML = on ? FS_BACK : FS_EXPAND;
+        fsBtn.title = on ? t('fs_exit') : t('fs_enter');
     }
 
     const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
@@ -401,6 +521,10 @@
             run: '▶ کارپێکردن', file_attached: 'فایل: ',
             grammar_on: 'مۆدی ڕێزمان: ئین', grammar_off: 'مۆدی ڕێزمان: دامە',
             suggestions: ['چۆن خۆم بۆ ئیمتێحانی زانکۆ ئامادە بکەم؟', 'چۆن ڕاپۆرتێکی زانستی بنووسم؟', 'زانکۆکانی کوردستان چین؟', 'چۆن بۆ خوێندن کاتەکانم ڕێک بخەم؟'],
+            today: 'ئەمڕۆ', yesterday: 'دوێنێ', you: 'تۆ', bot_name: 'کورد ئەی ئای',
+            share_empty: 'هیچ گفتوگۆیەک نییە بۆ کۆپی', search_ph: 'گەڕان لە گفتوگۆکان...',
+            follow_1: 'زیاتر ڕوون بکەرەوە', follow_2: 'نموونەی کۆد بدە', follow_3: 'کورتتر کەرەوە',
+            sound_on: 'دەنگ: کراوە', sound_off: 'دەنگ: داخراو',
         },
         ba: {
             welcome: 'سڵاو! ئەز یاریدەدەری کورد ئەی ئای م. بۆ فێربوونا پرۆگرامسازیێ، ژیرییا دەستکرد یان هەر پرسیارەکا تر ب کوردی پرسیارە ژ من بکە 😊',
@@ -414,6 +538,10 @@
             run: '▶ کاردان', file_attached: 'فایل: ',
             grammar_on: 'مۆدێ ڕێزمان: ئین', grammar_off: 'مۆدێ ڕێزمان: دامە',
             suggestions: ['چاوا خۆ دژ ئیمتێحانێن زانکۆ ئامادە کەم؟', 'چاوا ڕاپۆرتەکا زانستی بنڤێسم؟', 'زانکۆیێن کوردستان چین؟', 'چاوا خۆ ژ بۆ خوێندنێ ڕێک خەم؟'],
+            today: 'ئەڤرۆ', yesterday: 'دوێنێ', you: 'تو', bot_name: 'کورد ئەی ئای',
+            share_empty: 'چ گفتوگۆیەک نینە د بۆ کۆپی', search_ph: 'گەڕان د گفتوگۆیان...',
+            follow_1: 'زیاتر ڕوون بکە', follow_2: 'نموونەی کۆد بدە', follow_3: 'کورتتر کە',
+            sound_on: 'دەنگ: ئین', sound_off: 'دەنگ: دامە',
         },
     };
 
@@ -433,6 +561,7 @@
     function refreshUiTexts() {
         statusEl.textContent = listMode ? t('status_list') : t('status');
         input.placeholder = t('placeholder');
+        searchInput.placeholder = t('search_ph');
         grammarBtn.classList.toggle('active', grammarMode);
     }
 
@@ -475,12 +604,12 @@
         return el;
     }
 
-    async function typeEffect(el, text, speed = 22) {
+    async function typeEffect(content, text, speed = 22) {
         return new Promise(resolve => {
             let i = 0;
             const interval = setInterval(() => {
-                if (i < text.length) { el.textContent += text[i]; i++; messagesEl.scrollTop = messagesEl.scrollHeight; }
-                else { clearInterval(interval); el.innerHTML = renderMarkdown(text); el.dataset.raw = text; resolve(); }
+                if (i < text.length) { content.textContent += text[i]; i++; messagesEl.scrollTop = messagesEl.scrollHeight; }
+                else { clearInterval(interval); content.innerHTML = renderMarkdown(text); resolve(); }
             }, speed);
         });
     }
@@ -488,13 +617,18 @@
     function addMessage(role, text, opts = {}) {
         const el = document.createElement('div');
         el.className = 'chat-msg ' + role;
+        addDayDivider(opts.time ? new Date(opts.time) : new Date());
+
+        const content = document.createElement('div');
+        content.className = 'msg-content';
+        el.appendChild(content);
 
         if (opts.animate) {
-            el.textContent = '';
+            el.dataset.raw = text;
             messagesEl.appendChild(el); messagesEl.scrollTop = messagesEl.scrollHeight;
-            typeEffect(el, text);
+            typeEffect(content, text);
         } else {
-            el.innerHTML = renderMarkdown(text); el.dataset.raw = text;
+            content.innerHTML = renderMarkdown(text); el.dataset.raw = text;
             messagesEl.appendChild(el); messagesEl.scrollTop = messagesEl.scrollHeight;
         }
 
@@ -593,7 +727,7 @@
         listEl.dataset.emptyText = t('empty');
         if (!sessions.length) return;
         const ordered = [...sessions].sort((a, b) => (b.pinned - a.pinned) || (b.updated_at > a.updated_at ? 1 : -1));
-        ordered.forEach(s => {
+        ordered.filter(s => !searchQuery || (s.title || '').toLowerCase().includes(searchQuery.toLowerCase())).forEach(s => {
             const row = document.createElement('div');
             row.className = 'session-row' + (current?.id === s.id ? ' active' : '');
             const pin = document.createElement('button');
@@ -613,7 +747,7 @@
                 const r = await api('/api/chat/sessions/' + s.id + '?user_key=' + encodeURIComponent(userKey), { method: 'DELETE' });
                 if (r.status === 200) {
                     sessions = sessions.filter(x => x.id !== s.id);
-                    if (current?.id === s.id) { current = null; messagesEl.innerHTML = ''; addMessage('bot', t('welcome')); addSuggestions(); }
+                    if (current?.id === s.id) { current = null; messagesEl.innerHTML = ''; lastMsgDay = null; addMessage('bot', t('welcome')); addSuggestions(); }
                     renderSessions();
                 }
             });
@@ -640,14 +774,14 @@
         if (r.status !== 200) return;
         const data = r.data;
         current = { id: data.id, title: data.title, pinned: data.pinned };
-        messagesEl.innerHTML = '';
+        messagesEl.innerHTML = ''; lastMsgDay = null;
         if (!data.messages?.length) { addMessage('bot', t('welcome')); addSuggestions(); }
         else { data.messages.forEach(msg => addMessage(msg.role === 'user' ? 'user' : 'bot', msg.content, { messageId: msg.id, reaction: msg.reaction, time: msg.created_at })); }
         listMode = false; setView();
     }
 
     function newSession() {
-        current = null; messagesEl.innerHTML = '';
+        current = null; messagesEl.innerHTML = ''; lastMsgDay = null;
         addMessage('bot', t('welcome')); addSuggestions();
         listMode = false; setView(); input.focus();
     }
@@ -691,11 +825,13 @@
             const r = await api('/api/chat', { method: 'POST', body });
             typing.remove(); clearWait();
             if (r.status !== 200) { addMessage('bot', r.data?.reply || t('network_error')); return; }
-            addMessage('bot', r.data.reply || t('network_error'), { animate: true });
+            const botEl = addMessage('bot', r.data.reply || t('network_error'), { animate: true });
+            addFollowUps(botEl);
             if (!panel.classList.contains('open')) {
                 unreadCount++;
                 badgeEl.textContent = unreadCount;
                 badgeEl.classList.add('show');
+                playPing();
             }
             if (r.data.session_id) { current = { id: r.data.session_id, title: message?.slice(0, 60), pinned: false }; loadSessions(); }
         } catch (e) { typing.remove(); clearWait(); addMessage('bot', t('network_error')); }
@@ -707,18 +843,51 @@
         messagesEl.style.display = listMode ? 'none' : 'flex';
         toolBar.style.display = listMode ? 'none' : 'flex';
         document.getElementById('kurdai-input-bar').style.display = listMode ? 'none' : 'flex';
+        document.getElementById('kurdai-search-wrap').style.display = listMode ? 'flex' : 'none';
         refreshUiTexts();
         if (listMode) renderSessions();
         else messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
+    function updateScrollBtn() {
+        const nearBottom = messagesEl.scrollHeight - messagesEl.scrollTop - messagesEl.clientHeight < 200;
+        scrollDownBtn.classList.toggle('show', !nearBottom && messagesEl.scrollHeight > messagesEl.clientHeight + 200);
+    }
+
     btn.addEventListener('click', () => {
         if (btn.classList.contains('dragging') || btn.classList.contains('just-dragged')) return;
-        if (panel.classList.contains('open')) { panel.classList.remove('open'); return; }
+        if (panel.classList.contains('open')) { closePanel(); return; }
         openPanel();
     });
-    closeBtn.addEventListener('click', () => panel.classList.remove('open'));
+    closeBtn.addEventListener('click', closePanel);
+    backdrop.addEventListener('click', closePanel);
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && panel.classList.contains('open')) closePanel();
+    });
     fsBtn.addEventListener('click', () => setFullscreen(!panel.classList.contains('fullscreen')));
+
+    shareBtn.addEventListener('click', () => {
+        const msgs = [...messagesEl.querySelectorAll('.chat-msg')];
+        if (!msgs.length) { showToast(t('share_empty')); return; }
+        const lines = msgs.map(m =>
+            (m.classList.contains('user') ? t('you') : t('bot_name')) + ': ' + (m.querySelector('.msg-content')?.textContent || m.dataset.raw || '').replace(/\s+/g, ' ').trim());
+        navigator.clipboard.writeText(lines.join('\n\n')).then(() => showToast(t('copied'))).catch(() => showToast(t('share_empty')));
+    });
+
+    soundBtn.addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        localStorage.setItem('kurdai_sound', soundEnabled ? 'on' : 'off');
+        soundBtn.classList.toggle('muted', !soundEnabled);
+        soundBtn.title = soundEnabled ? t('sound_on') : t('sound_off');
+    });
+
+    searchInput.addEventListener('input', () => {
+        searchQuery = searchInput.value.trim();
+        renderSessions();
+    });
+
+    messagesEl.addEventListener('scroll', updateScrollBtn);
+    scrollDownBtn.addEventListener('click', () => messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' }));
 
     let dragState = null;
     btn.addEventListener('pointerdown', e => {
