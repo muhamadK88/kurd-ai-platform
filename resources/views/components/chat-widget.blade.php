@@ -122,6 +122,11 @@
     .chat-typing span:nth-child(2) { animation-delay: 0.15s; background: var(--neon-pink); box-shadow: 0 0 8px var(--neon-pink); }
     .chat-typing span:nth-child(3) { animation-delay: 0.3s; background: var(--neon-purple); box-shadow: 0 0 8px var(--neon-purple); }
     @keyframes chatTyping { 0%,60%,100%{transform:translateY(0);opacity:0.4} 30%{transform:translateY(-6px);opacity:1} }
+    .chat-wait-hint {
+        display: none; text-align: center; color: #8b8b9e; font-size: 12px;
+        padding: 4px 10px; margin: 2px auto; border-radius: 10px;
+        background: rgba(255,255,255,0.04); max-width: 90%;
+    }
     .chat-msg-actions { display: flex; gap: 4px; margin-top: 6px; opacity: 0; transition: opacity 0.2s; }
     .chat-msg:hover .chat-msg-actions { opacity: 1; }
     .chat-msg-actions button {
@@ -196,12 +201,6 @@
         background: linear-gradient(135deg, rgba(0,240,255,0.06), rgba(176,38,255,0.06));
         border: 1px dashed rgba(0,240,255,0.4); border-radius: 16px;
         padding: 16px; font-size: 14px; line-height: 1.8; color: #b8f8ff;
-    }
-    .chat-quota {
-        align-self: center; font-size: 11px; color: var(--neon-green);
-        text-shadow: 0 0 8px rgba(57,255,20,0.5);
-        background: rgba(57,255,20,0.07); border: 1px solid rgba(57,255,20,0.3);
-        border-radius: 999px; padding: 4px 14px;
     }
     .suggestions { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 0; justify-content: center; }
     .suggestions button {
@@ -306,7 +305,8 @@
             untitled: 'گفتوگۆی بێ ناو', now: 'ئێستا',
             delete_confirm: 'ئەم گفتوگۆیە بسڕینەوە؟', pin_on: 'لێکردنەوە لە پین', pin_off: 'پینکردن',
             delete: 'سڕینەوە', empty: 'هیچ گفتوگۆیەک نییە',
-            quota: 'ماوە: ', network_error: 'ببورە، کێشەیەک ڕوویدا لە پەیوەندیدا.',
+            network_error: 'ببورە، کێشەیەک ڕوویدا لە پەیوەندیدا.', wait_hint: 'ببورە، کەمێک درێژە دەکێشێت، تکایە چاوەڕێ بکە...',
+
             copied: 'کۆپی کرا!', voice_not_avail: 'دەنگ ناڤێ نا', voice_listening: 'گوێ بگرە...',
             run: '▶ کارپێکردن', file_attached: 'فایل: ',
             grammar_on: 'مۆدی ڕێزمان: ئین', grammar_off: 'مۆدی ڕێزمان: دامە',
@@ -319,7 +319,7 @@
             untitled: 'گفتوگۆیەکا بێ ناڤ', now: 'نوکە',
             delete_confirm: 'ئەڤ گفتوگۆیا ب سڕینەوە؟', pin_on: 'ژ پین دەرخستن', pin_off: 'پینکرن',
             delete: 'سڕینەوە', empty: 'چ گفتوگۆیەک نینە',
-            quota: 'مایین: ', network_error: 'ببورە، کێشەیەک ڕوویدا د گرێدانێ دا.',
+            network_error: 'ببورە، کێشەیەک ڕوویدا د گرێدانێ دا.', wait_hint: 'ببورە، دەمەکێک درێژ دکەت، تکایە چاڤڕێ بکە...',
             copied: 'کۆپی کرا!', voice_not_avail: 'دەنگ ناڤێ نا', voice_listening: 'گوێ بگرە...',
             run: '▶ کاردان', file_attached: 'فایل: ',
             grammar_on: 'مۆدێ ڕێزمان: ئین', grammar_off: 'مۆدێ ڕێزمان: دامە',
@@ -580,6 +580,14 @@
         const typing = showTyping();
         sendBtn.disabled = true;
 
+        const waitHint = document.createElement('div');
+        waitHint.className = 'chat-wait-hint';
+        waitHint.textContent = t('wait_hint');
+        messagesEl.appendChild(waitHint);
+        const waitTimer = setTimeout(() => { waitHint.style.display = 'block'; messagesEl.scrollTop = messagesEl.scrollHeight; }, 20000);
+
+        function clearWait() { clearTimeout(waitTimer); waitHint.remove(); }
+
         const body = {
             message: message || 'وەڵام بە ئەم وێنەیەدا بدە',
             user_key: userKey, user_id: userId, session_id: current?.id || null,
@@ -590,22 +598,12 @@
 
         try {
             const r = await api('/api/chat', { method: 'POST', body });
-            typing.remove();
-            if (r.status === 429) { addMessage('bot', r.data?.reply || t('network_error')); if (r.data?.remaining !== undefined) showQuota(r.data.remaining); return; }
+            typing.remove(); clearWait();
             if (r.status !== 200) { addMessage('bot', r.data?.reply || t('network_error')); return; }
             addMessage('bot', r.data.reply || t('network_error'), { animate: true });
-            if (r.data.remaining !== undefined) showQuota(r.data.remaining);
             if (r.data.session_id) { current = { id: r.data.session_id, title: message?.slice(0, 60), pinned: false }; loadSessions(); }
-        } catch (e) { typing.remove(); addMessage('bot', t('network_error')); }
+        } catch (e) { typing.remove(); clearWait(); addMessage('bot', t('network_error')); }
         finally { sendBtn.disabled = false; attachedFile = null; attachedImage = null; previewEl.style.display = 'none'; previewEl.textContent = ''; }
-    }
-
-    function showQuota(r) {
-        if (r == null) return;
-        const old = messagesEl.querySelector('.chat-quota'); if (old) old.remove();
-        const el = document.createElement('div'); el.className = 'chat-quota';
-        el.textContent = t('quota') + r + '/3';
-        messagesEl.insertBefore(el, messagesEl.firstChild);
     }
 
     function setView() {
