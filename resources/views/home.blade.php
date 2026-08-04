@@ -224,7 +224,7 @@
                 <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-400 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                 </div>
-                <h4 class="text-xl font-black mb-3 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors lang-str" data-so="فێرگەی پرۆگرامسازی" data-ba="فێرگەها پرۆگرامسازیێ">فێرگەی پرۆگرامسازی</h4>
+                <h4 class="text-xl font-black mb-3 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors lang-str" data-so="فێرگەی پڕۆگرامزاسی و ژیری دەستکرد" data-ba="فێرگەیا پڕۆگرامزاسی و ژیری دەستکرد">فێرگەی پرۆگرامسازی</h4>
                 <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm lang-str" data-so="فێربوونی زمانەکانی پڕۆگرامینگ لەگەڵ تاقیکردنەوەی کۆدەکان ڕاستەوخۆ لەناو وێبسایتەکەدا." data-ba="فێربوونا زمانێن پڕۆگرامینگ دگەل تاقیکرنا کۆدان ڕاستەوخۆ د ناڤ وێبسایتێ دا.">فێربوونی زمانەکانی پڕۆگرامینگ لەگەڵ تاقیکردنەوەی کۆدەکان ڕاستەوخۆ لەناو وێبسایتەکەدا.</p>
             </a>
 

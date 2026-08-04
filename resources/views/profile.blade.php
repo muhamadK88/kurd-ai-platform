@@ -291,39 +291,13 @@
                 <div id="ferga-progress-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
 
-            <!-- کارتی زیادە: سەرکەوتنەکان -->
-            <div class="glass-card rounded-[2rem] p-8 md:p-10 shadow-xl border border-white/30 dark:border-gray-700/30 backdrop-blur-xl animate-slide-up animation-delay-600">
+            <!-- کارتی زیادە: باجەکانی فێرگە -->
+            <div id="ferga-badges-card" class="glass-card rounded-[2rem] p-8 md:p-10 shadow-xl border border-white/30 dark:border-gray-700/30 backdrop-blur-xl animate-slide-up animation-delay-500">
                 <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-6 text-center flex items-center justify-center gap-3">
-                    <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
-                    <span class="lang-str" data-so="سەرکەوتن و دەستکەوتەکان" data-ba="سەرکەفتن و دەستکەفتن">سەرکەوتن و دەستکەوتەکان</span>
+                    <span class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-yellow-600 flex items-center justify-center text-xl shadow-inner">🏆</span>
+                    <span class="lang-str" data-so="باجەکانی فێرگە" data-ba="باجێن فێرگە">باجەکانی فێرگە</span>
                 </h3>
-                
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="text-center p-4">
-                        <div class="w-14 h-14 mx-auto mb-3 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl flex items-center justify-center opacity-40">
-                            <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-                        </div>
-                        <p class="text-xs font-bold text-gray-400 dark:text-gray-500 lang-str" data-so="بەخێربێیت" data-ba="بەخێر هاتی">بەخێربێیت</p>
-                    </div>
-                    <div class="text-center p-4">
-                        <div class="w-14 h-14 mx-auto mb-3 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl flex items-center justify-center opacity-40">
-                            <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        </div>
-                        <p class="text-xs font-bold text-gray-400 dark:text-gray-500 lang-str" data-so="یەکەم کۆرس" data-ba="کۆرسێ یەکێ">یەکەم کۆرس</p>
-                    </div>
-                    <div class="text-center p-4">
-                        <div class="w-14 h-14 mx-auto mb-3 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl flex items-center justify-center opacity-40">
-                            <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </div>
-                        <p class="text-xs font-bold text-gray-400 dark:text-gray-500 lang-str" data-so="١ کاتژمێر" data-ba="١ دەمژمێر">١ کاتژمێر</p>
-                    </div>
-                    <div class="text-center p-4">
-                        <div class="w-14 h-14 mx-auto mb-3 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl flex items-center justify-center opacity-40">
-                            <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
-                        </div>
-                        <p class="text-xs font-bold text-gray-400 dark:text-gray-500 lang-str" data-so="نوێ" data-ba="نو">نوێ</p>
-                    </div>
-                </div>
+                <div id="ferga-badges-list" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
             </div>
 
             <!-- بەشی دڵخوازەکان (Favorites) -->
@@ -501,10 +475,23 @@
         let fergaProgressData = {};
         let fergaLangNames = {};
 
+        const AI_TOPIC_FALLBACK = {
+            ai_intro: { name_so: 'پێشەکی بۆ ژیری دەستکرد', name_ba: 'دەستپێک بۆ زیرەکییا دەستکرد', icon: '🧠' },
+            ai_data: { name_so: 'داتا و شیکردنەوەی داتا', name_ba: 'داتا و شیکرنا داتایان', icon: '📊' },
+            ai_algo: { name_so: 'بنەڕەتەکانی ئالگۆریتم', name_ba: 'بنەڕەتێن ئالگۆریتم', icon: '⚙️' },
+            ai_ml: { name_so: 'فێربوونی ئامێر (Machine Learning)', name_ba: 'فێربوونا ماکین (Machine Learning)', icon: '🤖' },
+            ai_dl: { name_so: 'فێربوونی قووڵ (Deep Learning)', name_ba: 'فێربوونا کور (Deep Learning)', icon: '🧠' },
+            ai_cv: { name_so: 'بینینی کۆمپیوتەر (Computer Vision)', name_ba: 'دیتنا کۆمپیوتەر (Computer Vision)', icon: '👁️' },
+            ai_nlp: { name_so: 'پرۆسێسکردنی زمان (NLP)', name_ba: 'پێڤاجۆکیرنا زمان (NLP)', icon: '💬' },
+            ai_llm: { name_so: 'مۆدێلی زمانی گەورە و AI پراکتیکی', name_ba: 'مۆدێلێن زمانێن مەزن و AI پراکتیک', icon: '🚀' },
+        };
+
         function fergaLangName(langId) {
             const l = fergaLangNames[langId];
-            if (!l) return langId;
-            return currentLang === 'ba' && l.name_ba ? l.name_ba : (l.name_so || l.name || langId);
+            if (l) return currentLang === 'ba' && l.name_ba ? l.name_ba : (l.name_so || l.name || langId);
+            const fb = AI_TOPIC_FALLBACK[langId];
+            if (fb) return currentLang === 'ba' ? (fb.name_ba || fb.name_so) : fb.name_so;
+            return langId;
         }
 
         function renderFergaProgress() {
@@ -530,7 +517,7 @@
                 html += `
                 <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-5 border border-gray-100/50 dark:border-gray-700/50">
                     <div class="flex items-center justify-between mb-3">
-                        <span class="font-black text-gray-900 dark:text-white">${fergaLangName(langId)}</span>
+                        <span class="font-black text-gray-900 dark:text-white flex items-center gap-2">${fergaLangName(langId)}${(total > 0 && completed >= total) ? '<span class="text-base" title="' + (currentLang === 'so' ? 'تەواو بوو' : 'دووماهی بوو') + '">' + fergaBadgeMeta(langId).icon + '</span>' : ''}</span>
                         <span class="text-xs font-black px-3 py-1 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 rounded-full">${completed}/${total}</span>
                     </div>
                     <p class="text-xs text-gray-500 dark:text-gray-400 font-bold mb-3">${currentLang === 'so' ? 'گەیشتووەتە وانەی' : 'گەهیشتایە وانەیێ'} ${Math.min(last, total) || 0} ${currentLang === 'so' ? 'لە' : 'ژ'} ${total}</p>
@@ -541,6 +528,55 @@
                 </div>`;
             });
             if (summaryEl) summaryEl.innerText = currentLang === 'so' ? `کۆی گشتی: ${totalCompleted} وانە لە ${totalAll}` : `کۆڤکا گشتی: ${totalCompleted} وانەی ژ ${totalAll}`;
+            container.innerHTML = html;
+        }
+
+        // --- باجەکانی فێرگە ---
+        const PROFILE_BADGE_META = {
+            py: { icon: '🐍', grad: 'from-blue-500 to-cyan-400' },
+            cpp: { icon: '⚡', grad: 'from-indigo-500 to-purple-600' },
+            js: { icon: '🟨', grad: 'from-yellow-400 to-amber-500' },
+            php: { icon: '🐘', grad: 'from-indigo-400 to-violet-600' },
+            java: { icon: '☕', grad: 'from-red-500 to-rose-600' },
+            rs: { icon: '🦀', grad: 'from-orange-500 to-red-600' },
+            cs: { icon: '💜', grad: 'from-purple-500 to-fuchsia-600' },
+            'html+css': { icon: '🎨', grad: 'from-orange-400 to-pink-500' },
+        };
+        let fergaBadgesData = {};
+
+        function fergaBadgeMeta(langId) {
+            const l = fergaLangNames[langId];
+            if (l && l.is_ai) return { icon: l.icon || '🤖', grad: 'from-emerald-500 to-cyan-500' };
+            if (AI_TOPIC_FALLBACK[langId]) return { icon: AI_TOPIC_FALLBACK[langId].icon || '🤖', grad: 'from-emerald-500 to-cyan-500' };
+            const ext = (l && l.ext) ? String(l.ext).replace('.', '').toLowerCase() : '';
+            return PROFILE_BADGE_META[ext] || { icon: '🏆', grad: 'from-blue-500 to-indigo-600' };
+        }
+
+        function renderFergaBadges() {
+            const container = document.getElementById('ferga-badges-list');
+            if (!container) return;
+            const earnedIds = new Set(Object.keys(fergaBadgesData).filter(id => fergaBadgesData[id]));
+            const lp = fergaProgressData.lessonProgress || {};
+            Object.keys(lp).forEach(id => {
+                const p = lp[id] || {};
+                if ((p.total || 0) > 0 && (p.completed || 0) >= p.total) earnedIds.add(id);
+            });
+            if (earnedIds.size === 0) {
+                container.innerHTML = `<div class="col-span-2 md:col-span-4 text-center py-8 text-sm font-bold text-gray-400 dark:text-gray-500">${currentLang === 'so' ? 'هێشتا هیچ باجێکت بەدەست نەهێناوە — لە فێرگە زمانێک بە تەواوی تەواو بکە!' : 'هێشتا چ باجەکە نەدستی نەکەتیە — د فێرگە زوانەک ب تەمامی دووماهی بکە!'}</div>`;
+                return;
+            }
+            let html = '';
+            earnedIds.forEach(id => {
+                const meta = fergaBadgeMeta(id);
+                html += `
+                <div class="group bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-5 border border-gray-100/50 dark:border-gray-700/50 flex flex-col items-center text-center gap-2 hover:-translate-y-1 hover:shadow-lg transition-all cursor-default">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br ${meta.grad} flex items-center justify-center text-4xl shadow-lg ring-4 ring-amber-200/40 dark:ring-amber-900/40">
+                        ${meta.icon}
+                    </div>
+                    <span class="text-[10px] font-black text-amber-600 dark:text-amber-400">${currentLang === 'so' ? '🏅 باجی تەواوکراو' : '🏅 باجا دووماهی'}</span>
+                    <h4 class="font-black text-xs text-gray-800 dark:text-gray-200">${fergaLangName(id)}</h4>
+                </div>`;
+            });
             container.innerHTML = html;
         }
 
@@ -602,10 +638,16 @@
                     const statXp = document.getElementById('stat-xp');
                     if (statXp) statXp.textContent = data.xp || 0;
                     renderFergaProgress();
+                    renderFergaBadges();
+                });
+                onValue(ref(db, 'users/' + user.uid + '/ferga_badges'), (snap) => {
+                    fergaBadgesData = snap.val() || {};
+                    renderFergaBadges();
                 });
                 onValue(ref(db, 'ferga_languages'), (snap) => {
                     fergaLangNames = snap.val() || {};
                     renderFergaProgress();
+                    renderFergaBadges();
                 });
 
                 applyLanguage();

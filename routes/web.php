@@ -20,7 +20,16 @@ Route::get('/', function () {
 });
 
 // پەڕەکانی چوونەژوورەوە و پڕۆفایل
-Route::get('/login', [AdminController::class, 'showLogin'])->name('login');
+Route::get('/login', function () {
+    // ئەم دێڕە زیاد بکە
+    dd('سڵاو، ئەگەر ئەمە دەبینیت واتە ڕاوتەکە کار دەکات و فایلە ڕاستەکە دەستکاری دەکەین!');
+
+    return response(view('login'))->withHeaders([
+        'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+        'Pragma' => 'no-cache',
+        'Expires' => '0',
+    ]);
+})->name('login');
 Route::get('/profile', function () {
     return view('profile');
 })->name('profile');
