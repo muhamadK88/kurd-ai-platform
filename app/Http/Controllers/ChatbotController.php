@@ -127,9 +127,10 @@ class ChatbotController extends Controller
         $lastBody = '';
 
         foreach ($providers as $provider) {
+            $maxTokens = $provider['max_tokens'] ?? 1200;
             $models = $isVision
-                ? array_values(array_unique(array_filter([$provider['vision_model'] ?? null, $provider['model'] ?? null, $provider['fallback_model'] ?? null])))
-                : array_values(array_unique(array_filter([$provider['model'], $provider['fallback_model'] ?? null])));
+                ? array_values(array_unique(array_filter([$provider['vision_model'] ?? null, $provider['model'] ?? null, $provider['fallback_model'] ?? null, $provider['fallback_model2'] ?? null])))
+                : array_values(array_unique(array_filter([$provider['model'], $provider['fallback_model'] ?? null, $provider['fallback_model2'] ?? null])));
 
             foreach ($models as $attemptModel) {
                 try {
@@ -139,7 +140,7 @@ class ChatbotController extends Controller
                             'model' => $attemptModel,
                             'messages' => $apiMessages,
                             'temperature' => 0.7,
-                            'max_tokens' => 1200,
+                            'max_tokens' => $maxTokens,
                         ]);
                 } catch (\Exception $e) {
                     Log::warning('AI provider connection failed', [
