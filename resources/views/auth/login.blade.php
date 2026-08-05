@@ -173,7 +173,7 @@
                             <input type="tel" id="phone" placeholder="7xx xxx xxxx" inputmode="tel" autocomplete="tel"
                                 class="flex-1 px-4 py-3.5 bg-transparent outline-none text-left" dir="ltr">
                         </div>
-                        <p class="text-xs text-gray-400 dark:text-gray-500 font-bold mt-1.5 text-left lang-str" data-so="تەنها بەشی ژمارەکە بنووسە — +964 خۆکارانە زیاد دەکرێت." data-ba="تەنها پشکا ژمارێ بنڤیسە — +964 ئۆتۆماتیک زێدە دبیت.">تەنها بەشی ژمارەکە بنووسە — +964 خۆکارانە زیاد دەکرێت.</p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 font-bold mt-1.5 text-left lang-str" data-so="تەنها بەشی ژمارەکە بنووسە — +964 خۆکارانە زیاد دەکرێت." data-ba="تنێ پشکا ژمارێ بنڤیسە — +964 ئۆتۆماتیک زێدە دبیت.">تەنها بەشی ژمارەکە بنووسە — +964 خۆکارانە زیاد دەکرێت.</p>
                     </div>
                     <div id="recaptcha-container"></div>
 

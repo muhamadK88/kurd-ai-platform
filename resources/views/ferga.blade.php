@@ -554,7 +554,7 @@
             <h2 id="badge-title" class="relative text-3xl font-black text-gray-900 dark:text-white mb-3"></h2>
             <p id="badge-lang-chip" class="relative inline-block mb-4 px-5 py-1.5 rounded-full text-sm font-black border bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-700/50"></p>
             <p id="badge-desc" class="relative text-gray-500 dark:text-gray-400 font-bold leading-relaxed mb-8"></p>
-            <button onclick="closeBadgeModal()" class="relative w-full py-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white rounded-2xl font-black text-lg shadow-lg transition-all hover:-translate-y-1 lang-str" data-so="باشە، زۆر سوپاس!" data-ba="باشە، زۆر سوپاس!">باشە، زۆر سوپاس!</button>
+            <button onclick="closeBadgeModal()" class="relative w-full py-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white rounded-2xl font-black text-lg shadow-lg transition-all hover:-translate-y-1 lang-str" data-so="باشە، زۆر سوپاس!" data-ba="باشە، گەلەک سوپاس!">باشە، زۆر سوپاس!</button>
         </div>
     </div>
 
