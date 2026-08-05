@@ -10,19 +10,22 @@
 #   - 0 keys added or removed (no data loss)
 #   - every HTML tag and code token preserved byte-for-byte across 225 changed fields
 #
-# A full pre-change backup of all 8 nodes lives in:
-#   storage/backups/firebase-PRE-badini-fix-20260805-163653/
+# Permanent locations (all gitignored, local to this machine):
+#   storage/backups/firebase-PRE-badini-fix-20260805-163653/  full pre-change backup
+#   storage/backups/badini-original-snapshot/                 original text, as downloaded
+#   storage/backups/badini-corrected-20260805/                corrected payloads this script sends
+#   storage/backups/badini-tools/                             analyzer + fixer + verifiers
 #
-# To undo: re-PUT the JSON files from that backup directory.
+# To undo: run rollback_badini_fix.sh, or re-PUT the JSON files from the
+# firebase-PRE-badini-fix-* directory.
 #
 set -euo pipefail
 
 DB="https://ai-platform-adb1b-default-rtdb.firebaseio.com"
-SRC="/tmp/badini/out"
+SRC="$(cd "$(dirname "$0")" && pwd)/storage/backups/badini-corrected-20260805"
 
 if [ ! -d "$SRC" ]; then
   echo "ERROR: corrected payloads not found at $SRC" >&2
-  echo "Ask Claude to regenerate them (python3 /tmp/badini/fix.py /tmp/badini/out)" >&2
   exit 1
 fi
 
