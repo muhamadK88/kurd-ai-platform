@@ -65,6 +65,8 @@
             border: 1px solid rgba(75, 85, 99, 0.5);
         }
     </style>
+
+    @include('partials.kurdai-design')
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">

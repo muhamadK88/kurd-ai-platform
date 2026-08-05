@@ -29,6 +29,8 @@
             document.documentElement.classList.remove('dark');
         }
     </script>
+
+    @include('partials.kurdai-design')
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white min-h-screen transition-colors duration-300" style="display: none;">

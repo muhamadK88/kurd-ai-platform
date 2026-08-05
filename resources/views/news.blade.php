@@ -79,6 +79,8 @@
         .animation-delay-4000 { animation-delay: 4s; }
         .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
     </style>
+
+    @include('partials.kurdai-design')
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">

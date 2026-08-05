@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>زیادکردنی کۆرس</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    @include('partials.kurdai-design')
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen font-sans">
 

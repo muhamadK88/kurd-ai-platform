@@ -113,6 +113,8 @@
         .ai-shine { position: absolute; top: 0; bottom: 0; width: 45%; background: linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 100%); transform: skewX(-18deg); animation: aiShine 1.8s ease-in-out 0.3s infinite; }
         .ai-pulse-ring { animation: badgeRingPulse 1.8s ease-out infinite; }
     </style>
+
+    @include('partials.kurdai-design')
 </head>
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
 

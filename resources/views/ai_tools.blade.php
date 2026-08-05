@@ -122,6 +122,8 @@
             opacity: 0;
         }
     </style>
+
+    @include('partials.kurdai-design')
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
