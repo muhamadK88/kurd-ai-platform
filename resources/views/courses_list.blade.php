@@ -117,7 +117,7 @@
 
         <div class="relative z-10 text-center max-w-4xl mx-auto">
             <h2 class="text-5xl md:text-7xl font-black mb-6 tracking-tight text-gray-900 dark:text-white leading-tight lang-str" data-so="کۆرسەکانمان" data-ba="کۆرسێن مە">کۆرسەکانمان</h2>
-            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium lang-str" data-so="پەرە بە تواناکانت بدە لەگەڵ باشترین کورسەکانی زیرەکی دەستکرد و پروگرامسازی" data-ba="شیانێن خۆ پێشبیخە دگەل باشترین کۆرسێن زیرەکیا دەستکرد و پروگرامسازییێ">پەرە بە تواناکانت بدە لەگەڵ باشترین کورسەکانی زیرەکی دەستکرد و پروگرامسازی</p>
+            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium lang-str" data-so="پەرە بە تواناکانت بدە لەگەڵ باشترین کورسەکانی زیرەکی دەستکرد و پروگرامسازی" data-ba="شیانێن خۆ پێشڤە ببە دگەل باشترین کۆرسێن زیرەکیا دەستکرد و پڕۆگرامسازیێ">پەرە بە تواناکانت بدە لەگەڵ باشترین کورسەکانی زیرەکی دەستکرد و پروگرامسازی</p>
         </div>
     </header>
 
@@ -147,7 +147,7 @@
         <div class="glass-card p-8 md:p-12 rounded-[2.5rem] shadow-2xl max-w-4xl mx-auto border-t-4 border-indigo-600 relative overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500 opacity-5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
 
-            <h3 class="text-3xl font-black mb-8 text-center text-gray-900 dark:text-white lang-str" data-so="زیادکردنی کۆرسی نوێ (ئەدمین)" data-ba="زیدەکرنا کۆرسێ نوی (ئەدمین)">زیادکردنی کۆرسی نوێ</h3>
+            <h3 class="text-3xl font-black mb-8 text-center text-gray-900 dark:text-white lang-str" data-so="زیادکردنی کۆرسی نوێ (ئەدمین)" data-ba="زێدەکرنا کۆرسێ نوی (ئەدمین)">زیادکردنی کۆرسی نوێ</h3>
             
             <form id="upload-form" class="relative z-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">

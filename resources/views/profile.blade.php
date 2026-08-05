@@ -123,14 +123,14 @@
                 <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
                 <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
                 <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
-                <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەرباری مە">دەرباری ئێمە</a>
+                <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەربارەی مە">دەرباری ئێمە</a>
             </div>
             
             <div class="flex items-center gap-2.5">
                 <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
                 <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
                 <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-blue-600 text-white font-bold rounded-xl text-xs shadow-lg shadow-blue-500/30 lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
-                <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="چنە دەر">دەرچوون</button>
+                <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</button>
             </div>
         </div>
     </nav>
@@ -195,9 +195,9 @@
                     <div class="text-center mb-8">
                         <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-black mb-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                            <span class="lang-str" data-so="پەنێڵی بەڕێوەبردن" data-ba="پەنەلێ بڕێڤەبرنێ">پەنێڵی بەڕێوەبردن</span>
+                            <span class="lang-str" data-so="پەنێڵی بەڕێوەبردن" data-ba="پانێلا بڕێڤەبرنێ">پەنێڵی بەڕێوەبردن</span>
                         </div>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm lang-str" data-so="لێرەوە دەستگەیشتنی خێرا بۆ بەشەکانی بەڕێوەبردنی ماڵپەڕ." data-ba="ژ ڤێرێ دەستگەهشتنەکا لەز بۆ بەشێن بڕێڤەبرنا مالپەری.">لێرەوە دەستگەیشتنی خێرا بۆ بەشەکانی بەڕێوەبردنی ماڵپەڕ.</p>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm lang-str" data-so="لێرەوە دەستگەیشتنی خێرا بۆ بەشەکانی بەڕێوەبردنی ماڵپەڕ." data-ba="ژ ڤێرێ دەستگەهشتنەکا لەز بۆ بەشێن بڕێڤەبرنا ماڵپەڕی.">لێرەوە دەستگەیشتنی خێرا بۆ بەشەکانی بەڕێوەبردنی ماڵپەڕ.</p>
                     </div>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -242,7 +242,7 @@
                         </div>
                         <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
                             <div id="stat-streak" class="text-3xl md:text-4xl font-black text-purple-500 mb-1">٠</div>
-                            <div class="text-xs text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="ڕۆژی بەشداری" data-ba="ڕۆژێن پشکداری">ڕۆژی بەشداری</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="ڕۆژی بەشداری" data-ba="ڕۆژا پشکداریێ">ڕۆژی بەشداری</div>
                         </div>
                         <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
                             <div id="stat-xp" class="text-3xl md:text-4xl font-black text-cyan-500 mb-1">-</div>
@@ -263,7 +263,7 @@
                     <div class="space-y-5">
                         <div class="flex items-center justify-between p-4 bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl border border-gray-100/50 dark:border-gray-700/50">
                             <span class="text-gray-500 dark:text-gray-400 font-bold text-sm lang-str" data-so="جۆری هەژمار" data-ba="جۆرێ هەژمارێ">جۆری هەژمار</span>
-                            <span id="account-type" class="font-black text-gray-800 dark:text-white lang-str" data-so="بەکارهێنەر" data-ba="بکارهێنەر">بەکارهێنەر</span>
+                            <span id="account-type" class="font-black text-gray-800 dark:text-white lang-str" data-so="بەکارهێنەر" data-ba="بکارئینەر">بەکارهێنەر</span>
                         </div>
                         <div class="flex items-center justify-between p-4 bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl border border-gray-100/50 dark:border-gray-700/50">
                             <span class="text-gray-500 dark:text-gray-400 font-bold text-sm lang-str" data-so="بەشداریکردن" data-ba="پشکداریکرن">بەشداریکردن</span>
@@ -285,7 +285,7 @@
             <div id="ferga-progress-card" class="glass-card rounded-[2rem] p-8 md:p-10 shadow-xl border border-white/30 dark:border-gray-700/30 backdrop-blur-xl animate-slide-up animation-delay-400">
                 <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2 text-center flex items-center justify-center gap-3">
                     <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
-                    <span class="lang-str" data-so="پێشکەوتنی فێرگە" data-ba="پێشکەفتنا فێرگە">پێشکەوتنی فێرگە</span>
+                    <span class="lang-str" data-so="پێشکەوتنی فێرگە" data-ba="پێشکەفتنا فێرگەهێ">پێشکەوتنی فێرگە</span>
                 </h3>
                 <p id="ferga-progress-summary" class="text-center text-sm text-gray-500 dark:text-gray-400 font-bold mb-6"></p>
                 <div id="ferga-progress-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
@@ -295,7 +295,7 @@
             <div id="ferga-badges-card" class="glass-card rounded-[2rem] p-8 md:p-10 shadow-xl border border-white/30 dark:border-gray-700/30 backdrop-blur-xl animate-slide-up animation-delay-500">
                 <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-6 text-center flex items-center justify-center gap-3">
                     <span class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-yellow-600 flex items-center justify-center text-xl shadow-inner">🏆</span>
-                    <span class="lang-str" data-so="باجەکانی فێرگە" data-ba="باجێن فێرگە">باجەکانی فێرگە</span>
+                    <span class="lang-str" data-so="باجەکانی فێرگە" data-ba="باجێن فێرگەهێ">باجەکانی فێرگە</span>
                 </h3>
                 <div id="ferga-badges-list" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
             </div>
@@ -319,7 +319,7 @@
                     <div id="fav-tools" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 hidden"></div>
                     <div id="fav-empty" class="text-center py-10">
                         <svg class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                        <p class="text-gray-400 dark:text-gray-500 font-bold lang-str" data-so="هێشتا هیچ دڵخوازێکی نییە" data-ba="هێشتا چ دڵخواز نینە">هێشتا هیچ دڵخوازێکی نییە</p>
+                        <p class="text-gray-400 dark:text-gray-500 font-bold lang-str" data-so="هێشتا هیچ دڵخوازێکی نییە" data-ba="هێشتا چ دڵخواز نینن">هێشتا هیچ دڵخوازێکی نییە</p>
                         <p class="text-gray-300 dark:text-gray-600 text-sm mt-2 lang-str" data-so="لە کۆرس یان ئامرازەکاندا کرتە لەسەر دڵ بکە بۆ زیادکردن" data-ba="د کۆرس یان ئامرازان دا کرتە لسەر دڵ بکە بۆ زێدەکرن">لە کۆرس یان ئامرازەکاندا کرتە لەسەر دڵ بکە بۆ زیادکردن</p>
                     </div>
                 </div>

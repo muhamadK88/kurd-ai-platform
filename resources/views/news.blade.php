@@ -113,7 +113,7 @@
     <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
     <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
     <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
-    <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەرباری مە">دەرباری ئێمە</a>
+    <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەربارەی مە">دەرباری ئێمە</a>
 </div>
 
             <!-- بەشی ئامرازەکان -->
@@ -121,7 +121,7 @@
                 <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
                 <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
                 <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50 lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
-                <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="چنە دەر">دەرچوون</button>
+                <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</button>
             </div>
             
         </div>
@@ -138,10 +138,10 @@
         <div class="relative z-10 text-center max-w-4xl mx-auto">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-50 dark:bg-sky-900/30 border border-sky-200 dark:border-sky-700/50 text-sky-700 dark:text-sky-300 font-bold text-sm mb-6 shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15"></path></svg>
-                <span class="lang-str" data-so="نوێترین زانیاری و گۆڕانکارییەکان" data-ba="نویترین پێزانین و گۆڕانکاری">نوێترین زانیاری و گۆڕانکارییەکان</span>
+                <span class="lang-str" data-so="نوێترین زانیاری و گۆڕانکارییەکان" data-ba="دوماهیک پێزانین و گۆڕانکاری">نوێترین زانیاری و گۆڕانکارییەکان</span>
             </div>
             <h2 class="text-5xl md:text-7xl font-black mb-4 tracking-tight text-gray-900 dark:text-white leading-tight lang-str" data-so="هەواڵ و پێشهاتەکان" data-ba="نووچە و پێشهات">هەواڵ و پێشهاتەکان</h2>
-            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium lang-str" data-so="ئاگاداری نوێترین هەواڵەکانی تەکنەلۆژیا و ژیریی دەستکرد بە" data-ba="ئاگاداری نویترین نووچەیێن تەکنەلۆژیا و ژیرییا دەستکرد بە">ئاگاداری نوێترین هەواڵەکانی تەکنەلۆژیا و ژیریی دەستکرد بە</p>
+            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium lang-str" data-so="ئاگاداری نوێترین هەواڵەکانی تەکنەلۆژیا و ژیریی دەستکرد بە" data-ba="ئاگاداری دوماهیک نووچەیێن تەکنەلۆژیا و ژیرییا دەستکرد ب">ئاگاداری نوێترین هەواڵەکانی تەکنەلۆژیا و ژیریی دەستکرد بە</p>
         </div>
     </header>
 
@@ -150,7 +150,7 @@
         <div class="glass-card p-8 rounded-[2rem] shadow-xl max-w-4xl mx-auto border-t-4 border-sky-500 relative overflow-hidden">
             <h3 class="text-2xl font-black mb-6 text-gray-900 dark:text-white flex items-center gap-2">
                 <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                <span class="lang-str" data-so="بڵاوکردنەوەی هەواڵی نوێ (ئەدمین)" data-ba="بەلاڤکرنا نووچەیێ نوی (ئەدمین)">بڵاوکردنەوەی هەواڵی نوێ (ئەدمین)</span>
+                <span class="lang-str" data-so="بڵاوکردنەوەی هەواڵی نوێ (ئەدمین)" data-ba="بەلاڤکرنا نووچەیا نوی (ئەدمین)">بڵاوکردنەوەی هەواڵی نوێ (ئەدمین)</span>
             </h3>
             
             <form id="add-news-form">
@@ -280,7 +280,7 @@
                             <textarea id="edit_news_content_ba" required rows="4" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all text-sm resize-none custom-scrollbar"></textarea>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 text-center lang-str" data-so="وێنەکە لە کاتی دەستکاری دا ناگۆڕدرێت" data-ba="وێنە ل دەمێ دەستکاریێ دا ناگوهۆڕیت">وێنەکە لە کاتی دەستکاری دا ناگۆڕدرێت</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 text-center lang-str" data-so="وێنەکە لە کاتی دەستکاری دا ناگۆڕدرێت" data-ba="وێنە د دەمێ دەستکاریێ دا ناهێتە گوهۆڕین">وێنەکە لە کاتی دەستکاری دا ناگۆڕدرێت</p>
                     <button type="submit" id="edit-news-submit-btn" class="w-full bg-gradient-to-r from-sky-500 to-blue-600 text-white py-3.5 rounded-xl font-black hover:shadow-lg hover:shadow-sky-500/30 hover:-translate-y-0.5 transition-all lang-str" data-so="پاشەکەوتکردن" data-ba="پاشەکەوتکرن">پاشەکەوتکردن</button>
                 </form>
             </div>

@@ -112,13 +112,13 @@
     <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
     <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
     <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
-    <a href="/about" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەرباری مە">دەرباری ئێمە</a>
+    <a href="/about" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەربارەی مە">دەرباری ئێمە</a>
 </div>
             <div class="flex items-center gap-2.5">
                 <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
                 <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
                 <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50 lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
-                <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="چنە دەر">دەرچوون</button>
+                <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</button>
             </div>
         </div>
     </nav>
@@ -138,7 +138,7 @@
                 <span class="lang-str" data-so="تیمی پەرەپێدەرانی کورد ئەی ئای" data-ba="تیمێ پێشڤەبەرێن کورد ئەی ئای">تیمی پەرەپێدەرانی کورد ئەی ئای</span>
             </div>
             <h2 class="text-5xl md:text-7xl font-black mb-6 tracking-tight text-gray-900 dark:text-white leading-tight lang-str" data-so="دەربارەی ئێمە و تیمەکەمان" data-ba="دەربارەی مە و تیمێ مە">دەربارەی ئێمە و تیمەکەمان</h2>
-            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium max-w-3xl mx-auto leading-relaxed lang-str" data-so="ناساندنی ئەندامانی تیمی پڕۆژە، زانکۆ و زانیارییە پەیوەندییەکان بۆ هاوکاری و ڕاوێژ" data-ba="ناساندنا ئەندامێن تیمێ پروژەی، زانکۆ و زانیاریێن پەیوەندیێ بۆ هاریوکاری و ڕاوێژێ">ناساندنی ئەندامانی تیمی پڕۆژە، زانکۆ و زانیارییە پەیوەندییەکان بۆ هاوکاری و ڕاوێژ</p>
+            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium max-w-3xl mx-auto leading-relaxed lang-str" data-so="ناساندنی ئەندامانی تیمی پڕۆژە، زانکۆ و زانیارییە پەیوەندییەکان بۆ هاوکاری و ڕاوێژ" data-ba="ناساندنا ئەندامێن تیمێ پڕۆژەی، زانکۆ و زانیاریێن پەیوەندیێ بۆ هاریکاری و ڕاوێژێ">ناساندنی ئەندامانی تیمی پڕۆژە، زانکۆ و زانیارییە پەیوەندییەکان بۆ هاوکاری و ڕاوێژ</p>
         </div>
     </header>
 
@@ -147,8 +147,8 @@
         
         <!-- Section Title -->
         <div class="text-center mb-16">
-            <h3 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4 lang-str" data-so="ئەندامانی سەرەکی پڕۆژە" data-ba="ئەندامێن سەرەکی یێن پروژەی">ئەندامانی سەرەکی پڕۆژە</h3>
-            <p class="text-gray-600 dark:text-gray-400 font-medium lang-str" data-so="بۆ پەیوەندی کردن و بەسەرکردنەوەی زانیاری ئەندامان دەتوانیت لە ڕێگەی ئیمێڵ، ژمارە موبایل یان فەیسبووکەوە پەیوەندی بکەیت" data-ba="بۆ پەیوەندی کرن و دیتنا زانیاریێن ئەندامان دشێی ب رێکا ئیمێلی، ژمارا موبایلی یان فەیسبووکی پەیوەندیێ بکەی">بۆ پەیوەندی کردن و بەسەرکردنەوەی زانیاری ئەندامان دەتوانیت لە ڕێگەی ئیمێڵ، ژمارە موبایل یان فەیسبووکەوە پەیوەندی بکەیت</p>
+            <h3 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4 lang-str" data-so="ئەندامانی سەرەکی پڕۆژە" data-ba="ئەندامێن سەرەکی یێن پڕۆژەی">ئەندامانی سەرەکی پڕۆژە</h3>
+            <p class="text-gray-600 dark:text-gray-400 font-medium lang-str" data-so="بۆ پەیوەندی کردن و بەسەرکردنەوەی زانیاری ئەندامان دەتوانیت لە ڕێگەی ئیمێڵ، ژمارە موبایل یان فەیسبووکەوە پەیوەندی بکەیت" data-ba="بۆ پەیوەندیکرن و دیتنا زانیاریێن ئەندامان دشێی ب ڕێکا ئیمێلی، ژمارا موبایلی یان فەیسبووکی پەیوەندیێ بکەی">بۆ پەیوەندی کردن و بەسەرکردنەوەی زانیاری ئەندامان دەتوانیت لە ڕێگەی ئیمێڵ، ژمارە موبایل یان فەیسبووکەوە پەیوەندی بکەیت</p>
         </div>
 
         <!-- 3 Team Members Cards Grid -->
@@ -164,7 +164,7 @@
                     </div>
                     <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">محمد کامران حمەساڵح</h4>
                     <p class="text-blue-600 dark:text-blue-400 font-bold text-center text-sm mb-6">زانکۆی ئاکرێ بۆ زانستە کردارییەکان - قۆناغی سێیەم</p>
-<p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="خوێندکاری بەشی ژیریی دەستکرد لە زانکۆی ئاکرێ و دامەزرێنەری پلاتفۆرمی کورد ئەی ئای. پەرەپێدەرێکی لێهاتووی سیستەمە زیرەکەکان و وێب، ئامانجی سەرەکی دروستکردنی ئامرازی پێشکەوتوو و ئاسانکردنی ژیانی ئەکادیمییە بۆ فێرخوازان." data-ba="قوتابیێ بەشێ ژیرییا دەستکرد ل زانکۆیا ئاکرێ و دامەزرێنەرێ پلاتفۆرمێ کورد ئەی ئای. پێشڤەبەرەکێ لێهاتی یێ سیستەمێن زیرەک و وێبی، ئارمانجا سەرەکی دروستکرنا ئامرازێن پێشکەفتی و ب ساناھیکرنا ژیانا ئەکادیمییە بۆ قوتابیان.">خوێندکاری بەشی ژیریی دەستکرد لە زانکۆی ئاکرێ و دامەزرێنەری پلاتفۆرمی کورد ئەی ئای. پەرەپێدەرێکی لێهاتووی سیستەمە زیرەکەکان و وێب، ئامانجی سەرەکی دروستکردنی ئامرازی پێشکەوتوو و ئاسانکردنی ژیانی ئەکادیمییە بۆ فێرخوازان.</p>                </div>
+<p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="خوێندکاری بەشی ژیریی دەستکرد لە زانکۆی ئاکرێ و دامەزرێنەری پلاتفۆرمی کورد ئەی ئای. پەرەپێدەرێکی لێهاتووی سیستەمە زیرەکەکان و وێب، ئامانجی سەرەکی دروستکردنی ئامرازی پێشکەوتوو و ئاسانکردنی ژیانی ئەکادیمییە بۆ فێرخوازان." data-ba="قوتابیێ بەشێ ژیرییا دەستکرد ل زانکۆیا ئاکرێ و دامەزرێنەرێ پلاتفۆرمێ کورد ئەی ئای. پێشڤەبەرەکێ لێهاتی یێ سیستەمێن زیرەک و وێبی، ئارمانجا سەرەکی چێکرنا ئامرازێن پێشکەفتی و ساناهیکرنا ژیانا ئەکادیمی یە بۆ قوتابیان.">خوێندکاری بەشی ژیریی دەستکرد لە زانکۆی ئاکرێ و دامەزرێنەری پلاتفۆرمی کورد ئەی ئای. پەرەپێدەرێکی لێهاتووی سیستەمە زیرەکەکان و وێب، ئامانجی سەرەکی دروستکردنی ئامرازی پێشکەوتوو و ئاسانکردنی ژیانی ئەکادیمییە بۆ فێرخوازان.</p>                </div>
                 
                 <div class="space-y-3 pt-6 border-t border-gray-200/50 dark:border-gray-700/50">
                     <a href="mailto:mahamadkamaran890@gmail.com" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
@@ -193,8 +193,8 @@
                     <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">ڕاستگۆ تۆفیق حسێن</h4>
                     <p class="text-purple-600 dark:text-purple-400 font-bold text-center text-sm mb-6">زانکۆی زاخۆ-قۆناغی دووەم</p>
                     <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="جێبەجێکاری لایەنی هونەری و نوسەری ناوەڕۆک و  بڵاوکراوەکانی کورد ئەی ئای شارەزا لە بواری سیستەمی پەروەردە و خوێندنی باڵا 
-Tech Evangelism& AI Literacy." data-ba="جێبەجێکاری لایەنی هونەری و نوسەری ناوەڕۆک و  بڵاوکراوەکانی کورد ئەی ئای شارەزا لە بواری سیستەمی پەروەردە و خوێندنی باڵا 
-Tech Evangelism& AI Literacy.">جێبەجێکاری لایەنی هونەری و نوسەری ناوەڕۆک و  بڵاوکراوەکانی کورد ئەی ئای شارەزا لە بواری سیستەمی پەروەردە و خوێندنی باڵا 
+Tech Evangelism& AI Literacy." data-ba="جێبەجێکارێ لایەنێ هونەری و نڤیسەرێ ناڤەرۆکێ و بەلاڤکرییێن کورد ئەی ئای، شارەزا د بوارێ سیستەمێن پەروەردەیێ و خواندنا بلند دا
+Tech Evangelism &amp; AI Literacy.">جێبەجێکاری لایەنی هونەری و نوسەری ناوەڕۆک و  بڵاوکراوەکانی کورد ئەی ئای شارەزا لە بواری سیستەمی پەروەردە و خوێندنی باڵا 
 Tech Evangelism& AI Literacy.</p>
                 </div>
                 
@@ -225,8 +225,7 @@ Tech Evangelism& AI Literacy.</p>
                     <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">علی عارف محمد </h4>
                     <p class="text-teal-600 dark:text-teal-400 font-bold text-center text-sm mb-6">زانکۆی زاخۆ-قۆناغی سێیەم</p>
                     <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="
-جێبەجێکارێ تەکنیکی  و شارەزا د بوارێ سیستەم و ئوتومەیشن بتایبەت سیستەمێن لینوکس" data-ba="
-جێبەجێکارێ تەکنیکی  و شارەزا د بوارێ سیستەم و ئوتومەیشن بتایبەت سیستەمێن لینوکس."></p>
+جێبەجێکارێ تەکنیکی  و شارەزا د بوارێ سیستەم و ئوتومەیشن بتایبەت سیستەمێن لینوکس" data-ba="جێبەجێکارێ تەکنیکی و شارەزا د بوارێ سیستەم و ئوتومەیشنێ دا، ب تایبەتی سیستەمێن لینوکسێ."></p>
                 </div>
                 
                 <div class="space-y-3 pt-6 border-t border-gray-200/50 dark:border-gray-700/50">

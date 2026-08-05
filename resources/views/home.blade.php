@@ -214,7 +214,7 @@
         <div class="text-center mb-16">
             <span class="inline-block px-4 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-black rounded-full mb-4">بەشەکان</span>
             <h3 class="text-4xl md:text-5xl font-black mb-4 text-gray-900 dark:text-white lang-str" data-so="بەشەکانی پلاتفۆرمی کورد ئەی ئای" data-ba="بەشێن پلاتفۆرما کورد ئەی ئای">بەشەکانی پلاتفۆرمی کورد ئەی ئای</h3>
-            <p class="text-gray-500 dark:text-gray-400 text-lg max-w-2xl mx-auto lang-str" data-so="هەموو ئەوەی پێویستە بۆ فێربوون و پەرەپێدان لە بواری ژیریی دەستکرددا، لە یەک شوێن." data-ba="هەمی ئەوا پێدڤیە بۆ فێربوون و پێشڤەبرنێ د بوارێ ژیرییا دەستکرد دا، ل ئێک جه‌.">هەموو ئەوەی پێویستە بۆ فێربوون و پەرەپێدان لە بواری ژیریی دەستکرددا، لە یەک شوێن.</p>
+            <p class="text-gray-500 dark:text-gray-400 text-lg max-w-2xl mx-auto lang-str" data-so="هەموو ئەوەی پێویستە بۆ فێربوون و پەرەپێدان لە بواری ژیریی دەستکرددا، لە یەک شوێن." data-ba="هەمی ئەوا پێدڤی بۆ فێربوون و پێشڤەبرنێ د بوارێ ژیرییا دەستکرد دا، د ئێک جهی دا.">هەموو ئەوەی پێویستە بۆ فێربوون و پەرەپێدان لە بواری ژیریی دەستکرددا، لە یەک شوێن.</p>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -224,7 +224,7 @@
                 <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-400 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                 </div>
-                <h4 class="text-xl font-black mb-3 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors lang-str" data-so="فێرگەی پڕۆگرامزاسی و ژیری دەستکرد" data-ba="فێرگەیا پڕۆگرامزاسی و ژیری دەستکرد">فێرگەی پرۆگرامسازی</h4>
+                <h4 class="text-xl font-black mb-3 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors lang-str" data-so="فێرگەی پڕۆگرامزاسی و ژیری دەستکرد" data-ba="فێرگەها پڕۆگرامسازیێ و ژیرییا دەستکرد">فێرگەی پرۆگرامسازی</h4>
                 <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm lang-str" data-so="فێربوونی زمانەکانی پڕۆگرامینگ لەگەڵ تاقیکردنەوەی کۆدەکان ڕاستەوخۆ لەناو وێبسایتەکەدا." data-ba="فێربوونا زمانێن پڕۆگرامینگ دگەل تاقیکرنا کۆدان ڕاستەوخۆ د ناڤ وێبسایتێ دا.">فێربوونی زمانەکانی پڕۆگرامینگ لەگەڵ تاقیکردنەوەی کۆدەکان ڕاستەوخۆ لەناو وێبسایتەکەدا.</p>
             </a>
 
@@ -261,7 +261,7 @@
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                 </div>
                 <h4 class="text-xl font-black mb-3 text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors lang-str" data-so="زانکۆکانی زیرەکی دەستکرد" data-ba="زانکۆیێن زیرەکیا دەستکرد">زانکۆکانی زیرەکی دەستکرد</h4>
-                <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm lang-str" data-so="دۆزینەوەی ئەو زانکۆیانەی بەشی AI یان هەیە لەگەڵ خشتەی وانەکانی." data-ba="دیتنا وان زانکۆیێن بەشێ AI هەی دگەل خشتەیا وانەیان.">دۆزینەوەی ئەو زانکۆیانەی بەشی AI یان هەیە لەگەڵ خشتەی وانەکانی.</p>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm lang-str" data-so="دۆزینەوەی ئەو زانکۆیانەی بەشی AI یان هەیە لەگەڵ خشتەی وانەکانی." data-ba="دیتنا وان زانکۆیێن کو بەشێ AI هەی، دگەل خشتەیا وانەیان.">دۆزینەوەی ئەو زانکۆیانەی بەشی AI یان هەیە لەگەڵ خشتەی وانەکانی.</p>
             </a>
             
             <!-- 6. هەواڵەکان (NEW) -->
@@ -270,8 +270,8 @@
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
                 </div>
                 <h4 class="text-xl font-black mb-3 text-gray-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors lang-str" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</h4>
-                <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm lang-str" data-so="دوایین هەواڵ و ڕووداوەکانی جیهانی تەکنەلۆژیا و زیرەکی دەستکرد." data-ba="نووچە و ڕوودایێن جیهانا تەکنەلۆژیایێ و ژیرییا دەستکرد.">دوایین هەواڵ و ڕووداوەکانی جیهانی تەکنەلۆژیا و زیرەکی دەستکرد.</p>
-                <span class="inline-block mt-4 px-3 py-1 bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 text-xs font-black rounded-full lang-str" data-so="بەردەوام نوێ دەکرێتەوە" data-ba="بەردەوام نوێ دبيتە">بەردەوام نوێ دەکرێتەوە</span>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm lang-str" data-so="دوایین هەواڵ و ڕووداوەکانی جیهانی تەکنەلۆژیا و زیرەکی دەستکرد." data-ba="دوماهیک نووچە و ڕووداوێن جیهانا تەکنەلۆژیایێ و ژیرییا دەستکرد.">دوایین هەواڵ و ڕووداوەکانی جیهانی تەکنەلۆژیا و زیرەکی دەستکرد.</p>
+                <span class="inline-block mt-4 px-3 py-1 bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 text-xs font-black rounded-full lang-str" data-so="بەردەوام نوێ دەکرێتەوە" data-ba="بەردەوام دهێتە نویکرن">بەردەوام نوێ دەکرێتەوە</span>
             </a>
 
             <!-- 7. دەربارەی ئێمە (NEW) -->
@@ -295,7 +295,7 @@
     <div class="container mx-auto max-w-7xl relative z-10">
         <div class="text-center mb-16">
             <span class="inline-block px-4 py-1.5 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-black rounded-full mb-4 lang-str" data-so="بۆچی کورد ئەی ئای؟" data-ba="بۆچی کورد ئەی ئای؟">بۆچی کورد ئەی ئای؟</span>
-            <h3 class="text-4xl md:text-5xl font-black mb-4 text-gray-900 dark:text-white lang-str" data-so="بۆچی ئێمە هەڵبژێرین؟" data-ba="بۆچی مە هەلبژێرن؟">بۆچی ئێمە هەڵبژێرین؟</h3>
+            <h3 class="text-4xl md:text-5xl font-black mb-4 text-gray-900 dark:text-white lang-str" data-so="بۆچی ئێمە هەڵبژێرین؟" data-ba="بۆچی مە هەڵبژێری؟">بۆچی ئێمە هەڵبژێرین؟</h3>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -324,8 +324,8 @@
                 <div class="w-16 h-16 mx-auto mb-5 bg-gradient-to-br from-teal-400 to-emerald-400 rounded-2xl flex items-center justify-center shadow-lg shadow-teal-500/30">
                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
-                <h4 class="text-lg font-black mb-2 text-gray-900 dark:text-white lang-str" data-so="بەردەوام نوێکردنەوە" data-ba="بەردەوام نویکرن">بەردەوام نوێکردنەوە</h4>
-                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed lang-str" data-so="زیادکردنی کۆرس و ئامرازی نوێ بە بەردەوامی." data-ba="زێدەکرنا کۆرس و ئامرازێن نو ب بەردەوامی.">زیادکردنی کۆرس و ئامرازی نوێ بە بەردەوامی.</p>
+                <h4 class="text-lg font-black mb-2 text-gray-900 dark:text-white lang-str" data-so="بەردەوام نوێکردنەوە" data-ba="نویکرنا بەردەوام">بەردەوام نوێکردنەوە</h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed lang-str" data-so="زیادکردنی کۆرس و ئامرازی نوێ بە بەردەوامی." data-ba="زێدەکرنا کۆرس و ئامرازێن نوی ب بەردەوامی.">زیادکردنی کۆرس و ئامرازی نوێ بە بەردەوامی.</p>
             </div>
         </div>
     </div>
@@ -339,7 +339,7 @@
     </div>
     <div class="relative container mx-auto max-w-4xl text-center z-10">
         <h3 class="text-4xl md:text-5xl font-black mb-6 text-white lang-str" data-so="ئامادەییت بۆ دەستپێکردن؟" data-ba="ئامادەیی بۆ دەستپێکرنێ؟">ئامادەییت بۆ دەستپێکردن؟</h3>
-        <p class="text-xl text-blue-100 mb-10 max-w-2xl mx-auto lang-str" data-so="بەشداربە لە گەشەپێدانی تواناکانت لە بواری ژیریی دەستکرددا، بە تەواوی خۆڕایی." data-ba="بەشداربە د پێشڤەبرنا شیانێن خو دا د بوارێ ژیرییا دەستکرد دا، ب تەواوی بێ بەرامبەر.">بەشداربە لە گەشەپێدانی تواناکانت لە بواری ژیریی دەستکرددا، بە تەواوی خۆڕایی.</p>
+        <p class="text-xl text-blue-100 mb-10 max-w-2xl mx-auto lang-str" data-so="بەشداربە لە گەشەپێدانی تواناکانت لە بواری ژیریی دەستکرددا، بە تەواوی خۆڕایی." data-ba="بەشداربە د پێشڤەبرنا شیانێن خۆ دا د بوارێ ژیرییا دەستکرد دا، ب تەواوی بێ بەرامبەر.">بەشداربە لە گەشەپێدانی تواناکانت لە بواری ژیریی دەستکرددا، بە تەواوی خۆڕایی.</p>
         <div class="flex flex-wrap justify-center gap-4">
             <a href="/ferga" class="px-10 py-4 bg-white text-indigo-700 font-black rounded-2xl text-lg shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all lang-str" data-so="دەستپێبکە ئێستا" data-ba="دەستپێبکە نوکە">دەستپێبکە ئێستا</a>
             <a href="/about" class="px-10 py-4 bg-white/10 text-white font-black rounded-2xl text-lg border border-white/30 hover:bg-white/20 hover:-translate-y-1 transition-all lang-str" data-so="زیاتر بزانە" data-ba="زێدەتر بزانە">زیاتر بزانە</a>
@@ -385,7 +385,7 @@
         </div>
     </div>
     <div class="border-t border-gray-800 py-6">
-        <p class="text-center text-sm text-gray-500 lang-str" data-so="گەشەپێدراوە لەلایەن تیمی کورد ئەی ئای &copy; ٢٠٢٦" data-ba="پێشڤەبرییە ژ لایێ تیما کورد ئەی ئای &copy; ٢٠٢٦">گەشەپێدراوە لەلایەن تیمی کورد ئەی ئای &copy; ٢٠٢٦</p>
+        <p class="text-center text-sm text-gray-500 lang-str" data-so="گەشەپێدراوە لەلایەن تیمی کورد ئەی ئای &copy; ٢٠٢٦" data-ba="هاتیە پێشڤەبرن ژ لایێ تیمێ کورد ئەی ئای &copy; ٢٠٢٦">گەشەپێدراوە لەلایەن تیمی کورد ئەی ئای &copy; ٢٠٢٦</p>
     </div>
 </footer>
 

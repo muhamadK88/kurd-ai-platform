@@ -116,7 +116,7 @@
                         <img src="logo.jpg" alt="KURD AI" class="relative w-20 h-20 md:w-24 md:h-24 object-contain dark:invert rounded-2xl drop-shadow-lg">
                     </div>
                     <h2 class="text-3xl md:text-4xl font-black mt-5 text-center"><span class="lang-str" data-so="بەخێربێیت بۆ" data-ba="بەخێرهاتی بۆ">بەخێربێیت بۆ</span> <span class="gradient-text">KURD AI</span></h2>
-                    <p class="text-gray-500 dark:text-gray-400 mt-2.5 font-bold text-sm text-center lang-str" data-so="بچۆ ژوورەوە یان هەژمارێکی نوێ دروستبکە" data-ba="بچۆ ناڤ هەژماری یان هەژمارەکە نوی بچێخە">بچۆ ژوورەوە یان هەژمارێکی نوێ دروستبکە</p>
+                    <p class="text-gray-500 dark:text-gray-400 mt-2.5 font-bold text-sm text-center lang-str" data-so="بچۆ ژوورەوە یان هەژمارێکی نوێ دروستبکە" data-ba="بچۆ ناڤ هەژمارا خۆ یان هەژمارەکێ نوی چێکە">بچۆ ژوورەوە یان هەژمارێکی نوێ دروستبکە</p>
                 </div>
 
                 <div id="error-message" class="hidden bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-300 text-sm font-bold p-3.5 rounded-2xl mb-4 text-center border border-red-100 dark:border-red-800/50 leading-relaxed animate-fade-up"></div>
@@ -124,10 +124,10 @@
 
                 <!-- یارمەتی پشتڕاستکردنەوەی ئیمێڵ -->
                 <div id="verify-help" class="hidden bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-sm font-bold p-4 rounded-2xl mb-4 text-center border border-amber-200 dark:border-amber-800/50 shadow-sm leading-relaxed animate-fade-up">
-                    <p id="verify-help-text" class="lang-str" data-so="ئیمێڵەکەت هێشتا پشتڕاست نەکراوەتەوە." data-ba="ئیمێلە تە هێشتا ڤەگەڕاندن نەبوو.">ئیمێڵەکەت هێشتا پشتڕاست نەکراوەتەوە.</p>
+                    <p id="verify-help-text" class="lang-str" data-so="ئیمێڵەکەت هێشتا پشتڕاست نەکراوەتەوە." data-ba="ئیمێلا تە هێشتا نەهاتیە پشتڕاستکرن.">ئیمێڵەکەت هێشتا پشتڕاست نەکراوەتەوە.</p>
                     <div class="flex gap-2 justify-center mt-3">
-                        <button id="resend-verify-btn" type="button" class="flex-1 bg-amber-500 text-white py-2.5 rounded-xl font-bold text-xs hover:bg-amber-600 transition shadow lang-str" data-so="دووبارە ناردنەوە" data-ba="دوبارە شاندنەوە">دووبارە ناردنەوە</button>
-                        <button id="cancel-verify-btn" type="button" class="flex-1 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 py-2.5 rounded-xl font-bold text-xs hover:bg-gray-300 dark:hover:bg-gray-600 transition lang-str" data-so="دەرچوون" data-ba="چنە دەر">دەرچوون</button>
+                        <button id="resend-verify-btn" type="button" class="flex-1 bg-amber-500 text-white py-2.5 rounded-xl font-bold text-xs hover:bg-amber-600 transition shadow lang-str" data-so="دووبارە ناردنەوە" data-ba="دوبارە شاندن">دووبارە ناردنەوە</button>
+                        <button id="cancel-verify-btn" type="button" class="flex-1 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 py-2.5 rounded-xl font-bold text-xs hover:bg-gray-300 dark:hover:bg-gray-600 transition lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</button>
                     </div>
                 </div>
 
@@ -140,7 +140,7 @@
                 <!-- پەڕەی ئیمێڵ -->
                 <div id="panel-email" class="space-y-5">
                     <div>
-                        <label class="block text-sm font-black text-gray-700 dark:text-gray-300 mb-2 lang-str" data-so="ئیمەیڵ" data-ba="ئیمەیڵ">ئیمەیڵ</label>
+                        <label class="block text-sm font-black text-gray-700 dark:text-gray-300 mb-2 lang-str" data-so="ئیمەیڵ" data-ba="ئیمێل">ئیمەیڵ</label>
                         <input type="email" id="email" placeholder="you@example.com" autocomplete="email"
                             class="w-full px-4 py-3.5 bg-gray-50 dark:bg-gray-700/60 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-left" dir="ltr">
                     </div>
@@ -152,14 +152,14 @@
                             <button id="toggle-password" type="button" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-xl transition" title="نیشاندان/شاردنەوە">👁️</button>
                         </div>
                         <div class="text-left mt-2">
-                            <button id="forgot-password-btn" type="button" class="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition lang-str" data-so="وشەی نهێنیت بیرچووە؟" data-ba="پەیڤا نهێنی یا تە بیرچووی؟">وشەی نهێنیت بیرچووە؟</button>
+                            <button id="forgot-password-btn" type="button" class="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition lang-str" data-so="وشەی نهێنیت بیرچووە؟" data-ba="پەیڤا نهێنی یا تە ژبیر چوویە؟">وشەی نهێنیت بیرچووە؟</button>
                         </div>
                     </div>
 
                     <button id="email-submit-btn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-2xl font-black text-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5 flex items-center justify-center gap-2 lang-str" data-so="چوونەژورەوە" data-ba="چوونا ژوورێ">
                         چوونەژوورەوە
                     </button>
-                    <p class="text-center text-xs text-gray-400 dark:text-gray-500 font-bold lang-str" data-so="ئەگەر هەژمارت نەبێت، بە هەمان زانیارییەوە ئۆتۆماتیکی دروستدەکرێت." data-ba="ئەگەر هەژمارا تە نەبیت، ب هەمان زانیاریانە ئۆتۆماتیک تێ چێکرێت.">ئەگەر هەژمارت نەبێت، بە هەمان زانیارییەوە ئۆتۆماتیکی دروستدەکرێت.</p>
+                    <p class="text-center text-xs text-gray-400 dark:text-gray-500 font-bold lang-str" data-so="ئەگەر هەژمارت نەبێت، بە هەمان زانیارییەوە ئۆتۆماتیکی دروستدەکرێت." data-ba="ئەگەر هەژمارا تە نەبیت، ب هەمان زانیاریان ئۆتۆماتیک دهێتە چێکرن.">ئەگەر هەژمارت نەبێت، بە هەمان زانیارییەوە ئۆتۆماتیکی دروستدەکرێت.</p>
                 </div>
 
                 <!-- پەڕەی مۆبایل -->
@@ -173,31 +173,31 @@
                             <input type="tel" id="phone" placeholder="7xx xxx xxxx" inputmode="tel" autocomplete="tel"
                                 class="flex-1 px-4 py-3.5 bg-transparent outline-none text-left" dir="ltr">
                         </div>
-                        <p class="text-xs text-gray-400 dark:text-gray-500 font-bold mt-1.5 text-left lang-str" data-so="تەنها بەشی ژمارەکە بنووسە — +964 خۆکارانە زیاد دەکرێت." data-ba="تەنها پارچەیا ژمارێ بنڤیسە — +964 ئۆتۆماتیک زێدە دبیت.">تەنها بەشی ژمارەکە بنووسە — +964 خۆکارانە زیاد دەکرێت.</p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 font-bold mt-1.5 text-left lang-str" data-so="تەنها بەشی ژمارەکە بنووسە — +964 خۆکارانە زیاد دەکرێت." data-ba="تەنها پشکا ژمارێ بنڤیسە — +964 ئۆتۆماتیک زێدە دبیت.">تەنها بەشی ژمارەکە بنووسە — +964 خۆکارانە زیاد دەکرێت.</p>
                     </div>
                     <div id="recaptcha-container"></div>
 
-                    <button id="phone-send-btn" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-4 rounded-2xl font-black text-lg hover:from-emerald-700 hover:to-teal-700 transition-all shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:-translate-y-0.5 flex items-center justify-center gap-2 lang-str" data-so="ناردنی کۆدی پشتڕاستکردنەوە" data-ba="شاندنا کۆدی ڤەگەڕاندنەوێ">
+                    <button id="phone-send-btn" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-4 rounded-2xl font-black text-lg hover:from-emerald-700 hover:to-teal-700 transition-all shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:-translate-y-0.5 flex items-center justify-center gap-2 lang-str" data-so="ناردنی کۆدی پشتڕاستکردنەوە" data-ba="شاندنا کۆدێ پشتڕاستکرنێ">
                         ناردنی کۆدی پشتڕاستکردنەوە
                     </button>
 
                     <div id="otp-wrap" class="hidden space-y-3 border-t border-gray-100 dark:border-gray-700 pt-5 animate-fade-up">
                         <div>
-                            <label class="block text-sm font-black text-gray-700 dark:text-gray-300 mb-2 lang-str" data-so="کۆدی پشتڕاستکردنەوە" data-ba="کۆدی ڤەگەڕاندنەوە">کۆدی پشتڕاستکردنەوە</label>
+                            <label class="block text-sm font-black text-gray-700 dark:text-gray-300 mb-2 lang-str" data-so="کۆدی پشتڕاستکردنەوە" data-ba="کۆدێ پشتڕاستکرنێ">کۆدی پشتڕاستکردنەوە</label>
                             <input type="text" id="otp" placeholder="000000" inputmode="numeric" maxlength="6"
                                 class="otp-input w-full px-4 py-3.5 bg-gray-50 dark:bg-gray-700/60 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition text-center text-lg font-black text-left" dir="ltr">
-                            <p class="text-xs text-gray-400 dark:text-gray-500 font-bold mt-1.5 lang-str" data-so="کۆدەکە لە ڕێگەی پیامەکەوە (SMS) بۆ ژمارەکەت دەنێردرێت." data-ba="کۆد ب رێکا پیڤامێ (SMS) بۆ ژمارا تە دشێندرێت.">کۆدەکە لە ڕێگەی پیامەکەوە (SMS) بۆ ژمارەکەت دەنێردرێت.</p>
+                            <p class="text-xs text-gray-400 dark:text-gray-500 font-bold mt-1.5 lang-str" data-so="کۆدەکە لە ڕێگەی پیامەکەوە (SMS) بۆ ژمارەکەت دەنێردرێت." data-ba="کۆد ب ڕێکا پەیامێ (SMS) بۆ ژمارا تە دهێتە شاندن.">کۆدەکە لە ڕێگەی پیامەکەوە (SMS) بۆ ژمارەکەت دەنێردرێت.</p>
                         </div>
-                        <button id="phone-verify-btn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3.5 rounded-2xl font-black hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/30 hover:-translate-y-0.5 flex items-center justify-center gap-2 lang-str" data-so="پشتڕاستکردنەوە و چوونەژوورەوە" data-ba="ڤەگەڕاندنەوە و چوونە ناڤ">
+                        <button id="phone-verify-btn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3.5 rounded-2xl font-black hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/30 hover:-translate-y-0.5 flex items-center justify-center gap-2 lang-str" data-so="پشتڕاستکردنەوە و چوونەژوورەوە" data-ba="پشتڕاستکرن و چوونا ژوورێ">
                             پشتڕاستکردنەوە و چوونەژوورەوە
                         </button>
-                        <button id="phone-resend-btn" type="button" class="w-full text-sm font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 transition py-1 lang-str" data-so="دووبارە ناردنەوەی کۆدەکە" data-ba="دوبارە شاندنا کۆدی">دووبارە ناردنەوەی کۆدەکە</button>
+                        <button id="phone-resend-btn" type="button" class="w-full text-sm font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 transition py-1 lang-str" data-so="دووبارە ناردنەوەی کۆدەکە" data-ba="دوبارە شاندنا کۆدێ">دووبارە ناردنەوەی کۆدەکە</button>
                     </div>
                 </div>
 
                 <div class="mt-7 flex items-center justify-between">
                     <hr class="w-full border-gray-200 dark:border-gray-700">
-                    <span class="px-3 text-gray-400 dark:text-gray-500 text-sm font-bold whitespace-nowrap lang-str" data-so="یان بەکارهێنانی" data-ba="یان ب کارئینان">یان بەکارهێنانی</span>
+                    <span class="px-3 text-gray-400 dark:text-gray-500 text-sm font-bold whitespace-nowrap lang-str" data-so="یان بەکارهێنانی" data-ba="یان ب بکارئینانا">یان بەکارهێنانی</span>
                     <hr class="w-full border-gray-200 dark:border-gray-700">
                 </div>
 
@@ -209,7 +209,7 @@
         <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
         <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
     </svg>
-    <span class="lang-str" data-so="بەردەوامبوون لەگەڵ گووگڵ  " data-ba="بەردەوامبونا دگەل گووگڵ">بەردەوامبوون لەگەڵ گووگڵ</span>
+    <span class="lang-str" data-so="بەردەوامبوون لەگەڵ گووگڵ  " data-ba="بەردەوامبوون دگەل گووگڵ">بەردەوامبوون لەگەڵ گووگڵ</span>
 </button>
 
 <button id="facebook-login-btn" class="w-full flex items-center justify-center gap-3 bg-[#1877F2] text-white py-3.5 rounded-2xl font-bold hover:bg-[#166FE5] hover:shadow-lg hover:shadow-[#1877F2]/30 hover:-translate-y-0.5 transition-all group">
@@ -217,11 +217,11 @@
         <!-- تەنها پیتی (f) ماوەتەوە -->
         <path fill="#fff" d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z"/>
     </svg>
-    <span class="lang-str" data-so="بەردەوامبوون لەگەڵ فەیسبووک" data-ba="بەردەوامبونا دگەل فەیسبووک">بەردەوامبوون لەگەڵ فەیسبووک</span>
+    <span class="lang-str" data-so="بەردەوامبوون لەگەڵ فەیسبووک" data-ba="بەردەوامبوون دگەل فەیسبووک">بەردەوامبوون لەگەڵ فەیسبووک</span>
 </button>
 
                 <p class="text-center mt-8 text-sm font-bold">
-                    <a href="/" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition lang-str" data-so="← گەڕانەوە بۆ سەرەتا" data-ba="←زڤڕین بۆ دەستپێکێ ">← گەڕانەوە بۆ سەرەتا</a>
+                    <a href="/" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition lang-str" data-so="← گەڕانەوە بۆ سەرەتا" data-ba="← زڤڕین بۆ دەستپێکێ">← گەڕانەوە بۆ سەرەتا</a>
                 </p>
             </div>
         </div>

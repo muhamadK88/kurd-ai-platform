@@ -161,15 +161,15 @@
         </div>
 
         <div class="relative z-10 text-center mb-16 w-full max-w-4xl mx-auto">
-            <h2 class="text-5xl md:text-6xl font-black mb-6 tracking-tight text-gray-900 dark:text-white leading-tight lang-str" data-so="فێرگەی پڕۆگرامسازی و ژیری دەستکرد" data-ba="فێرگەها پرۆگرامسازییێ و ژیریا دەستکرد">فێرگەی پرۆگرامسازی</h2>
-            <p id="home-hero-subtitle" class="text-xl text-gray-600 dark:text-gray-300 font-medium lang-str" data-so="ئەو زمانە هەڵبژێرە کە دەتەوێت لێیەوە دەست پێ بکەیت و هەنگاو بە هەنگاو فێربە." data-ba="وێ زمانێ هەلبژێرە کو دڤێت ژێ دەستپێبکەی و پێنگاڤ ب پێنگاڤ فێرببە.">ئەو زمانە هەڵبژێرە کە دەتەوێت لێیەوە دەست پێ بکەیت و هەنگاو بە هەنگاو فێربە.</p>
+            <h2 class="text-5xl md:text-6xl font-black mb-6 tracking-tight text-gray-900 dark:text-white leading-tight lang-str" data-so="فێرگەی پڕۆگرامسازی و ژیری دەستکرد" data-ba="فێرگەها پڕۆگرامسازیێ و ژیرییا دەستکرد">فێرگەی پرۆگرامسازی</h2>
+            <p id="home-hero-subtitle" class="text-xl text-gray-600 dark:text-gray-300 font-medium lang-str" data-so="ئەو زمانە هەڵبژێرە کە دەتەوێت لێیەوە دەست پێ بکەیت و هەنگاو بە هەنگاو فێربە." data-ba="وی زمانی هەڵبژێرە کو دڤێت ژێ دەستپێبکەی و پێنگاڤ ب پێنگاڤ فێرببە.">ئەو زمانە هەڵبژێرە کە دەتەوێت لێیەوە دەست پێ بکەیت و هەنگاو بە هەنگاو فێربە.</p>
         </div>
 
         <!-- ناوەڕۆکی بەشەکان (Categories) -->
         <div id="category-nav" class="relative z-10 w-full max-w-6xl mx-auto mb-10 hidden">
             <button onclick="window.goToCategories()" class="glass-card text-gray-700 dark:text-gray-300 px-5 py-2.5 rounded-full shadow-lg font-bold flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all hover:-translate-x-1 mb-7">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                <span class="lang-str" data-so="گەڕانەوە بۆ بەشەکان" data-ba="زڤڕینە بەشان">گەڕانەوە بۆ بەشەکان</span>
+                <span class="lang-str" data-so="گەڕانەوە بۆ بەشەکان" data-ba="زڤڕین بۆ بەشان">گەڕانەوە بۆ بەشەکان</span>
             </button>
             <h2 id="category-title" class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white leading-tight"></h2>
             <p id="category-subtitle" class="mt-3 text-lg text-gray-600 dark:text-gray-300 font-medium"></p>
@@ -314,7 +314,7 @@
                 <div class="flex items-center gap-3">
                     <span class="text-3xl filter drop-shadow-md">⭐</span>
                     <div class="flex flex-col">
-                        <span class="text-[10px] text-gray-500 uppercase tracking-widest font-black lang-str" data-so="خاڵەکان" data-ba="خاڵان">خاڵەکان</span>
+                        <span class="text-[10px] text-gray-500 uppercase tracking-widest font-black lang-str" data-so="خاڵەکان" data-ba="خاڵ">خاڵەکان</span>
                         <span id="xp-counter" class="text-xl font-black text-blue-500">0</span>
                     </div>
                 </div>
@@ -331,7 +331,7 @@
                 <div class="admin-only hidden mb-4 flex justify-end">
                     <button onclick="window.openEditLessonModal(window.currentLessonId)" class="flex items-center gap-2 px-4 py-2 bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400 hover:bg-amber-100 rounded-xl font-bold text-sm transition border border-amber-200 dark:border-amber-800/50">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                        <span class="lang-str" data-so="دەستکاری وانەکە" data-ba="دەستکاری وانەیێ">دەستکاری وانەکە</span>
+                        <span class="lang-str" data-so="دەستکاری وانەکە" data-ba="دەستکاریا وانەیێ">دەستکاری وانەکە</span>
                     </button>
                 </div>
                 
@@ -361,7 +361,7 @@
                                 <div class="w-3 h-3 rounded-full bg-red-500"></div>
                                 <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
                                 <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                                <span class="text-[10px] text-gray-500 mr-3 font-bold uppercase tracking-wider lang-str" data-so="نمونەی CSS" data-ba="نمونەی CSS">نمونەی CSS</span>
+                                <span class="text-[10px] text-gray-500 mr-3 font-bold uppercase tracking-wider lang-str" data-so="نمونەی CSS" data-ba="نمونا CSS">نمونەی CSS</span>
                                 <span class="text-xs font-mono text-gray-400">style.css</span>
                             </div>
                         </div>
@@ -390,7 +390,7 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
                         </div>
                         <div>
-                            <h3 class="text-lg font-black text-gray-800 dark:text-white lang-str" data-so="ئێستا تۆ تاقیبکەوە" data-ba="ئێستا تۆ تاقیبکەوە">ئێستا تۆ تاقیبکەوە</h3>
+                            <h3 class="text-lg font-black text-gray-800 dark:text-white lang-str" data-so="ئێستا تۆ تاقیبکەوە" data-ba="نوکە تۆ تاقی بکە">ئێستا تۆ تاقیبکەوە</h3>
                             <p class="text-xs text-gray-500 dark:text-gray-400 font-medium lang-str" data-so="وەڵامی ئەم پرسیارە بدەوە" data-ba="وڵامێ ڤی پرسیارێ بدەوە">وەڵامی ئەم پرسیارە بدەوە</p>
                         </div>
                     </div>
@@ -435,13 +435,13 @@
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
                             <div>
-                                <span class="text-[11px] text-gray-400 font-bold tracking-widest mb-1 block lang-str" data-so="ئەرکی تۆ لەم وانەیە:" data-ba="ئەرکێ تە دڤێ وانەیێ دا:">ئەرکی تۆ لەم وانەیە:</span>
+                                <span class="text-[11px] text-gray-400 font-bold tracking-widest mb-1 block lang-str" data-so="ئەرکی تۆ لەم وانەیە:" data-ba="ئەرکێ تە د ڤێ وانەیێ دا:">ئەرکی تۆ لەم وانەیە:</span>
                                 <p id="compiler-challenge-desc" class="text-sm text-gray-200 font-bold leading-relaxed"></p>
                                 <p id="compiler-attempt-hint" class="mt-2 text-[12px] font-bold text-amber-400"></p>
                                 <div id="correct-answer-box" class="mt-3 hidden">
                                     <div class="flex items-center gap-1.5 text-emerald-400 text-[11px] font-black tracking-widest mb-1">
                                         <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.2l-3.5-3.5L4 14.2 9 19.2l11-11-1.5-1.5L9 16.2z"/></svg>
-                                        <span class="lang-str" data-so="وەڵامی ڕاست" data-ba="بەرسڤێ راست">وەڵامی ڕاست</span>
+                                        <span class="lang-str" data-so="وەڵامی ڕاست" data-ba="بەرسڤا ڕاست">وەڵامی ڕاست</span>
                                     </div>
                                     <pre id="correct-answer-code" class="bg-[#1e1e1e] border border-emerald-700/50 rounded-lg p-3 overflow-x-auto text-[12px] text-emerald-200 font-mono max-h-40 overflow-y-auto leading-relaxed"></pre>
                                 </div>
@@ -504,12 +504,12 @@
             <div class="bg-white dark:bg-[#111827] rounded-[2rem] shadow-2xl w-full max-w-2xl p-8 relative overflow-hidden border border-gray-100 dark:border-gray-800">
             <div class="absolute top-0 right-0 w-full h-1.5 bg-gray-100 dark:bg-gray-800"><div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-blue-500 to-indigo-500 w-0 transition-all duration-500 rounded-r-full"></div></div>
             <div class="flex justify-between items-center mb-10 mt-2">
-                <h2 class="text-2xl font-black text-gray-800 dark:text-white lang-str" data-so="تاقیکردنەوەی وانە" data-ba="تاقیکرنا وانەیێ">تاقیکردنەوەی وانە</h2>
+                <h2 class="text-2xl font-black text-gray-800 dark:text-white lang-str" data-so="تاقیکردنەوەی وانە" data-ba="تاقیکرنا وانەیا">تاقیکردنەوەی وانە</h2>
                 <span id="quiz-counter" class="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold px-4 py-1.5 rounded-full text-sm border border-blue-100 dark:border-blue-800/50"></span>
             </div>
             <div id="quiz-notice" class="hidden mb-6 flex items-center gap-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/50 rounded-xl px-4 py-3">
                 <span class="text-amber-500 text-lg shrink-0">⚠️</span>
-                <p class="text-sm font-bold text-amber-700 dark:text-amber-300 lang-str" data-so="دەبێت پرسیارەکە جواب بدەیتەوە بۆ وانەی داهاتوو" data-ba="دڤێت بەرسڤا پرسیارێ بدەی بو وانەیا داهاتی">دەبێت پرسیارەکە جواب بدەیتەوە بۆ وانەی داهاتوو</p>
+                <p class="text-sm font-bold text-amber-700 dark:text-amber-300 lang-str" data-so="دەبێت پرسیارەکە جواب بدەیتەوە بۆ وانەی داهاتوو" data-ba="دڤێت بەرسڤا پرسیارێ بدەی بۆ وانەیا داهاتی">دەبێت پرسیارەکە جواب بدەیتەوە بۆ وانەی داهاتوو</p>
             </div>
             <div id="quiz-content">
                 <h3 id="quiz-question-text" class="text-xl md:text-2xl font-bold mb-8 text-gray-800 dark:text-gray-100 leading-relaxed"></h3>
@@ -520,7 +520,7 @@
                 <div class="w-24 h-24 bg-green-100 dark:bg-green-900/30 text-green-500 rounded-full flex items-center justify-center mx-auto mb-8 text-5xl font-black shadow-inner">
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                 </div>
-                <h3 id="quiz-success-title" class="text-3xl font-black mb-4 text-gray-800 dark:text-white lang-str" data-so="ئافەرین! تەواوت کرد" data-ba="ئافەرم! تە ب دووماهی ئینا">ئافەرین! تەواوت کرد</h3>
+                <h3 id="quiz-success-title" class="text-3xl font-black mb-4 text-gray-800 dark:text-white lang-str" data-so="ئافەرین! تەواوت کرد" data-ba="ئافەرین! تە ب دوماهی ئینا">ئافەرین! تەواوت کرد</h3>
                 <p id="quiz-score-text" class="text-xl text-gray-500 dark:text-gray-400 mb-10 font-medium"></p>
                 <button id="btn-quiz-next" onclick="finishQuizAndContinue()" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-lg w-full transition-all hover:-translate-y-1 lang-str" data-so="بڕۆ بۆ وانەی داهاتوو" data-ba="هەڕە بۆ وانەیا داهاتی">بڕۆ بۆ وانەی داهاتوو</button>
             </div>
@@ -567,9 +567,9 @@
                     <svg class="w-12 h-12 drop-shadow" fill="currentColor" viewBox="0 0 24 24"><path d="M18 8h-1V6a5 5 0 00-10 0v2H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zm-6 9a2 2 0 110-4 2 2 0 010 4zm3.5-9h-7V6a3.5 3.5 0 117 0v2z"/></svg>
                 </div>
             </div>
-            <h3 id="member-modal-title" class="text-3xl font-black mb-3 text-gray-900 dark:text-white lang-str" data-so="بە نزیکترین کات بەردەست دەبێت" data-ba="د نزیکترین دەمێدا بەردەست دبیت">بە نزیکترین کات بەردەست دەبێت</h3>
+            <h3 id="member-modal-title" class="text-3xl font-black mb-3 text-gray-900 dark:text-white lang-str" data-so="بە نزیکترین کات بەردەست دەبێت" data-ba="د نزیکترین دەمی دا بەردەست دبیت">بە نزیکترین کات بەردەست دەبێت</h3>
             <p id="member-modal-lang" class="inline-block mb-5 px-4 py-1.5 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 rounded-full text-sm font-black border border-amber-200 dark:border-amber-700/50"></p>
-            <p class="text-gray-500 dark:text-gray-400 leading-relaxed mb-8 lang-str" data-so="ئەم زمانە لە ئێستادا لە جێگیربوونە. بە نزیکترین کات بەردەست دەبێت." data-ba="ئەڤ زمانە د ڤێ گەڤەلێ دا نڤێستینە. د نزیکترین کاتێ دا بەردەست دبیت.">ئەم زمانە لە ئێستادا لە جێگیربوونە. بە نزیکترین کات بەردەست دەبێت.</p>
+            <p class="text-gray-500 dark:text-gray-400 leading-relaxed mb-8 lang-str" data-so="ئەم زمانە لە ئێستادا لە جێگیربوونە. بە نزیکترین کات بەردەست دەبێت." data-ba="ئەڤ زمانە د ڤێ گاڤێ دا تێتە ئامادەکرن. د نزیکترین دەمی دا بەردەست دبیت.">ئەم زمانە لە ئێستادا لە جێگیربوونە. بە نزیکترین کات بەردەست دەبێت.</p>
             <button onclick="closeMembershipModal()" class="w-full py-4 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-2xl font-black hover:bg-gray-200 dark:hover:bg-gray-700 transition-all lang-str" data-so="باشە" data-ba="باشە">باشە</button>
         </div>
     </div>
@@ -596,7 +596,7 @@
             <p id="ai-unlock-desc" class="relative text-gray-500 dark:text-gray-400 font-bold leading-relaxed mb-5"></p>
             <p id="ai-unlock-cost" class="relative inline-block mb-8 px-5 py-2 rounded-full text-base font-black border bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700/50"></p>
             <div class="relative flex gap-3">
-                <button onclick="closeAIUnlockModal()" class="flex-1 py-4 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-2xl font-black hover:bg-gray-200 dark:hover:bg-gray-700 transition-all lang-str" data-so="هەڵوەشاندنەوە" data-ba="بەتاڵکرن">هەڵوەشاندنەوە</button>
+                <button onclick="closeAIUnlockModal()" class="flex-1 py-4 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-2xl font-black hover:bg-gray-200 dark:hover:bg-gray-700 transition-all lang-str" data-so="هەڵوەشاندنەوە" data-ba="بەتالکرن">هەڵوەشاندنەوە</button>
                 <button id="ai-unlock-confirm-btn" onclick="confirmAIUnlock()" class="relative flex-1 py-4 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white rounded-2xl font-black shadow-lg shadow-emerald-500/30 transition-all hover:-translate-y-1 overflow-hidden"></button>
             </div>
         </div>
