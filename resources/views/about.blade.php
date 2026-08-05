@@ -225,9 +225,8 @@ Tech Evangelism& AI Literacy.</p>
                         <img src="ali.jpg" alt="Member 3" class="relative w-28 h-28 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg">
                     </div>
                     <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">علی عارف محمد </h4>
-                    <p class="text-teal-600 dark:text-teal-400 font-bold text-center text-sm mb-6">زانکۆی زاخۆ-قۆناغی سێیەم</p>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="
-جێبەجێکارێ تەکنیکی  و شارەزا د بوارێ سیستەم و ئوتومەیشن بتایبەت سیستەمێن لینوکس" data-ba="جێبەجێکارێ تەکنیکی و شارەزا د بوارێ سیستەم و ئوتومەیشنێ دا، ب تایبەتی سیستەمێن لینوکسێ."></p>
+                    <p class="text-teal-600 dark:text-teal-400 font-bold text-center text-sm mb-6">AI engineering 3rd grade</p>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="جێبەجێکارێ تەکنیکی و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکر" data-ba="جێبەجێکارێ تەکنیکی و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکر">جێبەجێکارێ تەکنیکی و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکر</p>
                 </div>
                 
                 <div class="space-y-3 pt-6 border-t border-gray-200/50 dark:border-gray-700/50">
