@@ -33,5 +33,6 @@ storage/framework/sessions/*
 storage/framework/views/*
 storage/logs/*
 firebase_credentials.json
+.firebase-admin.env
 storage/app/ai
 storage/backups
