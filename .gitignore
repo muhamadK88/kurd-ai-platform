@@ -36,3 +36,19 @@ firebase_credentials.json
 .firebase-admin.env
 storage/app/ai
 storage/backups
+
+# Local dev / deploy scaffolding (keep the repository clean — not part of the app)
+/.claude
+/.devcontainer
+/Dockerfile
+/README-Docker.md
+/docker-compose.yml
+/docker-php-ext-xdebug.ini
+/add_csharp_lessons_v2.php
+/full_verify.py
+/gen_all_seeders.py
+/gen_all_v2.py
+/gen_cpp.py
+/gen_seeders.py
+/gen_v2.py
+/show_ctx.py
