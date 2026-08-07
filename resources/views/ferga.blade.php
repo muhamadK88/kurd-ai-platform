@@ -515,6 +515,13 @@
             </div>
             <div id="quiz-content">
                 <h3 id="quiz-question-text" class="text-xl md:text-2xl font-bold mb-8 text-gray-800 dark:text-gray-100 leading-relaxed"></h3>
+                <div id="quiz-code-block" class="hidden mb-6">
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        <span class="text-xs font-black text-orange-600 dark:text-orange-400 tracking-wider uppercase">کۆد</span>
+                    </div>
+                    <pre id="quiz-code-pre" class="bg-[#1e1e1e] border border-orange-700/50 rounded-xl p-4 overflow-x-auto text-[13px] text-orange-100 font-mono max-h-64 overflow-y-auto leading-relaxed" dir="ltr"></pre>
+                </div>
                 <div id="quiz-options" class="space-y-4"></div>
                 <div id="quiz-feedback" class="hidden mt-6 rounded-xl px-4 py-3 text-lg font-black text-center"></div>
             </div>
@@ -1444,6 +1451,9 @@ print(project("data"))`,
             if (ext === 'py' || ext === 'python') {
                 return '# ' + msg + '\n';
             }
+            if (ext === 'php') {
+                return '';
+            }
             return '// ' + msg + '\n';
         }
 
@@ -1710,6 +1720,81 @@ ${code}
             }
             out.classList.remove("animate-pulse");
         }
+
+        // --- ئەنجامی کۆد بۆ پرسیاری "ئەنجامی ئەم کۆدە چییە؟" ---
+        async function fetchCodeOutput(code, ext) {
+            ext = (ext || 'py').toLowerCase().replace('.', '');
+            if (ext === 'py' || ext === 'python') {
+                await initPyodide();
+                pyodide.runPython("import sys\nfrom io import StringIO\nsys.stdout = StringIO()");
+                await pyodide.runPythonAsync(code);
+                return pyodide.runPython("sys.stdout.getvalue()") || '';
+            }
+            if (ext === 'cpp') {
+                const res = await fetch("https://godbolt.org/api/compiler/g142/compile", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                    body: JSON.stringify({ source: code, compiler: "g142", options: { userArguments: "-std=c++17 -O2", filters: { execute: true, binary: false } } })
+                });
+                const data = await res.json();
+                let output = "";
+                if (data.execResult && data.execResult.stdout) output = data.execResult.stdout.map(o => o.text).join("");
+                if (data.execResult && data.execResult.stderr && data.execResult.stderr.length) output += "\n" + data.execResult.stderr.map(o => o.text).join("");
+                if (!output && data.stderr && data.stderr.length) output = data.stderr.map(o => o.text).join("");
+                if (data.code && data.code !== 0) output = "Compilation error\n" + output;
+                return output;
+            }
+            let prepared = code;
+            if (ext === 'php') prepared = preparePhpCode(code);
+            if (['php', 'js', 'java', 'rs', 'cs'].includes(ext)) {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') : '';
+                const res = await fetch("/ferga/run-cloud", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "X-CSRF-TOKEN": csrfToken },
+                    body: JSON.stringify({ language: ext, code: prepared })
+                });
+                const data = await res.json();
+                let output = "";
+                if (data.message) output = data.message;
+                else if (String(data.status) !== "0") output = (data.compiler_error || data.compiler_message || data.program_error || "").trim();
+                else output = (data.program_output || "").trim();
+                return output;
+            }
+            const csrfToken = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') : '';
+            const res = await fetch("/ferga/run-code", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "X-CSRF-TOKEN": csrfToken },
+                body: JSON.stringify({ language: ext, code: code })
+            });
+            const data = await res.json();
+            return data.output || '';
+        }
+
+        window.previewQuizCodeOutput = async function() {
+            const status = document.getElementById('quiz-output-preview-status');
+            const codeEl = document.getElementById('modal_quiz_code');
+            const code = codeEl ? codeEl.value : '';
+            if (!code || !String(code).trim()) {
+                if (status) status.textContent = currentLang === 'so' ? '⚠️ سەرەتا کۆدەکە بنووسە' : '⚠️ بەری هەمی کۆد بنڤێسە';
+                return;
+            }
+            const langSel = document.getElementById('modal_lesson_lang_select');
+            let ext = 'py';
+            if (langSel && langSel.value && languagesData[langSel.value] && languagesData[langSel.value].ext) {
+                ext = String(languagesData[langSel.value].ext).toLowerCase().replace('.', '');
+            }
+            if (status) status.textContent = currentLang === 'so' ? '⚡ خەریکە کارپێدەکرێت...' : '⚡ مژویلی کارپێکرنێیە...';
+            try {
+                const output = await fetchCodeOutput(code, ext);
+                const sel = document.getElementById('modal_quiz_output_correct');
+                const idx = sel ? parseInt(sel.value, 10) : 0;
+                const target = document.getElementById(`modal_quiz_output_opt${idx}`);
+                if (target) target.value = (output || '').replace(/\s+$/, '');
+                if (status) status.textContent = currentLang === 'so' ? '✅ ئەنجامەکە هاتە خوارەوە' : '✅ ئەنجام هاتە دامە';
+            } catch (err) {
+                if (status) status.textContent = currentLang === 'so' ? '❌ نەتوانرا ئەنجام بهێنرێت: ' + err : '❌ نەشێیا ئەنجام بێت: ' + err;
+            }
+        };
 
         // --- Preview checks (HTML/CSS) ---
         function parsePreviewChecks(raw) {
@@ -2853,7 +2938,8 @@ ${code}
                     question_ba: lesson.quiz_question_ba || '',
                     options_so: Array.isArray(lesson.quiz_options_so) ? lesson.quiz_options_so : [],
                     options_ba: Array.isArray(lesson.quiz_options_ba) ? lesson.quiz_options_ba : [],
-                    correct: lesson.quiz_correct !== undefined && lesson.quiz_correct !== null ? String(lesson.quiz_correct) : '0'
+                    correct: lesson.quiz_correct !== undefined && lesson.quiz_correct !== null ? String(lesson.quiz_correct) : '0',
+                    code: lesson.quiz_code || ''
                 };
             }
             if (quizzesData && typeof quizzesData === 'object') {
@@ -2932,7 +3018,7 @@ ${code}
 
             if (hasChallenge) {
                 document.getElementById('challenge-container').classList.remove('hidden');
-                if (questionType === 'choice') {
+                if (questionType === 'choice' || questionType === 'output') {
                     const quiz = window.getLessonQuiz(lesson);
                     document.getElementById('challenge-text').innerHTML = loc(lesson, 'quiz_question') || (quiz ? (currentLang === 'so' ? quiz.question_so : quiz.question_ba) : '');
                     document.getElementById('btn-submit-challenge').classList.add('hidden');
@@ -3143,6 +3229,17 @@ ${code}
             document.getElementById('quiz-progress-bar').style.width = `${((activeQuizIndex) / activeQuizQuestions.length) * 100}%`;
             document.getElementById('quiz-counter').innerText = `${activeQuizIndex + 1} / ${activeQuizQuestions.length}`;
             document.getElementById('quiz-question-text').innerText = currentLang === 'so' ? q.question_so : q.question_ba;
+            const quizCodeBlock = document.getElementById('quiz-code-block');
+            const quizCodePre = document.getElementById('quiz-code-pre');
+            if (quizCodeBlock && quizCodePre) {
+                const codeVal = (q && q.code && String(q.code).trim()) ? String(q.code) : '';
+                if (codeVal) {
+                    quizCodeBlock.classList.remove('hidden');
+                    quizCodePre.textContent = codeVal;
+                } else {
+                    quizCodeBlock.classList.add('hidden');
+                }
+            }
             const feedback = document.getElementById('quiz-feedback');
             if (feedback) { feedback.classList.add('hidden'); feedback.textContent = ''; }
             
@@ -3507,8 +3604,10 @@ ${code}
             const type = (document.querySelector('input[name="modal_quiz_type"]:checked') || {}).value || 'none';
             const choiceFields = document.getElementById('quiz-choice-fields');
             const codeFields = document.getElementById('quiz-code-fields');
+            const outputFields = document.getElementById('quiz-output-fields');
             if (choiceFields) choiceFields.classList.toggle('hidden', type !== 'choice');
             if (codeFields) codeFields.classList.toggle('hidden', type !== 'code');
+            if (outputFields) outputFields.classList.toggle('hidden', type !== 'output');
         };
 
         window.openEditLessonModal = function(lessonId) {
@@ -3545,6 +3644,13 @@ ${code}
                 document.getElementById(`modal_quiz_opt${i}_ba`).value = (d.quiz_options_ba || (legacyQuiz ? (legacyQuiz.options_ba || legacyQuiz.options) : null) || [])[i] || '';
             }
             document.getElementById('modal_quiz_correct').value = d.quiz_correct !== undefined && d.quiz_correct !== null ? String(d.quiz_correct) : (legacyQuiz ? (legacyQuiz.correct || '0') : '0');
+
+            document.getElementById('modal_quiz_code').value = d.quiz_code || '';
+            const outOpts = Array.isArray(d.quiz_options_so) ? d.quiz_options_so : [];
+            for (let i = 0; i < 4; i++) document.getElementById(`modal_quiz_output_opt${i}`).value = outOpts[i] || '';
+            document.getElementById('modal_quiz_output_correct').value = d.quiz_correct !== undefined && d.quiz_correct !== null ? String(d.quiz_correct) : '0';
+            document.getElementById('modal_quiz_output_question_so').value = d.quiz_question_so || 'ئەنجامی ئەم کۆدە چییە؟';
+            document.getElementById('modal_quiz_output_question_ba').value = d.quiz_question_ba || 'ئەنجامێ ڤی کۆدی چییە؟';
 
             let qtype = d.quiz_type || '';
             if (!qtype && (d.quiz_question_so || d.quiz_question_ba)) qtype = 'choice';
@@ -3605,6 +3711,11 @@ ${code}
                 document.getElementById(`modal_quiz_opt${i}_ba`).value = '';
             }
             document.getElementById('modal_quiz_correct').value = '0';
+            document.getElementById('modal_quiz_code').value = '';
+            document.getElementById('modal_quiz_output_correct').value = '0';
+            for (let i = 0; i < 4; i++) document.getElementById(`modal_quiz_output_opt${i}`).value = '';
+            document.getElementById('modal_quiz_output_question_so').value = 'ئەنجامی ئەم کۆدە چییە؟';
+            document.getElementById('modal_quiz_output_question_ba').value = 'ئەنجامێ ڤی کۆدی چییە؟';
             const radio = document.querySelector('input[name="modal_quiz_type"][value="none"]');
             if (radio) radio.checked = true;
             window.toggleQuizType();
@@ -3626,6 +3737,12 @@ ${code}
             submitBtn.classList.add('opacity-70', 'cursor-wait');
             try {
                 const quizType = (document.querySelector('input[name="modal_quiz_type"]:checked') || {}).value || 'none';
+                let outputOptionsSo = [];
+                let outputCorrect = '0';
+                if (quizType === 'output') {
+                    outputOptionsSo = [0, 1, 2, 3].map(i => document.getElementById(`modal_quiz_output_opt${i}`).value);
+                    outputCorrect = document.getElementById('modal_quiz_output_correct').value;
+                }
                 const updates = {
                     langId: document.getElementById('modal_lesson_lang_select').value,
                     order: document.getElementById('modal_lesson_order').value,
@@ -3647,11 +3764,12 @@ ${code}
                     allow_show_answer: document.getElementById('modal_lesson_allow_show_answer').value === '1',
                     xp_cost: parseInt(document.getElementById('modal_lesson_xp_cost').value, 10) || 0,
                     quiz_type: quizType,
-                    quiz_question_so: document.getElementById('modal_quiz_question_so').value,
-                    quiz_question_ba: document.getElementById('modal_quiz_question_ba').value,
-                    quiz_options_so: [0,1,2,3].map(i => document.getElementById(`modal_quiz_opt${i}_so`).value),
-                    quiz_options_ba: [0,1,2,3].map(i => document.getElementById(`modal_quiz_opt${i}_ba`).value),
-                    quiz_correct: document.getElementById('modal_quiz_correct').value
+                    quiz_question_so: quizType === 'output' ? document.getElementById('modal_quiz_output_question_so').value : document.getElementById('modal_quiz_question_so').value,
+                    quiz_question_ba: quizType === 'output' ? document.getElementById('modal_quiz_output_question_ba').value : document.getElementById('modal_quiz_question_ba').value,
+                    quiz_options_so: quizType === 'output' ? outputOptionsSo : [0,1,2,3].map(i => document.getElementById(`modal_quiz_opt${i}_so`).value),
+                    quiz_options_ba: quizType === 'output' ? outputOptionsSo : [0,1,2,3].map(i => document.getElementById(`modal_quiz_opt${i}_ba`).value),
+                    quiz_correct: quizType === 'output' ? outputCorrect : document.getElementById('modal_quiz_correct').value,
+                    quiz_code: quizType === 'output' ? document.getElementById('modal_quiz_code').value : null
                 };
                 if (isNew) {
                     const newRef = push(dbRef(db, 'ferga_lessons'));
@@ -3849,7 +3967,7 @@ ${code}
                             <!-- جۆری پرسیار -->
                             <div>
                                 <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-2">جۆری پرسیار</label>
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                                     <label class="flex items-center gap-3 p-3.5 rounded-xl border-2 border-gray-200 dark:border-gray-700 cursor-pointer hover:border-gray-400 dark:hover:border-gray-500 transition bg-white/50 dark:bg-gray-900/30">
                                         <input type="radio" name="modal_quiz_type" value="none" checked onchange="toggleQuizType()" class="w-4 h-4 accent-green-600 shrink-0">
                                         <span class="text-sm font-bold text-gray-700 dark:text-gray-300">🚫 هیچ پرسیارێک</span>
@@ -3861,6 +3979,10 @@ ${code}
                                     <label class="flex items-center gap-3 p-3.5 rounded-xl border-2 border-gray-200 dark:border-gray-700 cursor-pointer hover:border-purple-400 dark:hover:border-purple-600 transition bg-white/50 dark:bg-gray-900/30">
                                         <input type="radio" name="modal_quiz_type" value="code" onchange="toggleQuizType()" class="w-4 h-4 accent-purple-600 shrink-0">
                                         <span class="text-sm font-bold text-gray-700 dark:text-gray-300">💻 مەشق (نمونەی کۆد)</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3.5 rounded-xl border-2 border-gray-200 dark:border-gray-700 cursor-pointer hover:border-orange-400 dark:hover:border-orange-600 transition bg-white/50 dark:bg-gray-900/30">
+                                        <input type="radio" name="modal_quiz_type" value="output" onchange="toggleQuizType()" class="w-4 h-4 accent-orange-600 shrink-0">
+                                        <span class="text-sm font-bold text-gray-700 dark:text-gray-300">🧪 ئەنجامی ئەم کۆدە چییە</span>
                                     </label>
                                 </div>
                             </div>
@@ -3947,6 +4069,51 @@ ${code}
                                 <div>
                                     <label class="block text-emerald-700 dark:text-emerald-300 font-bold text-sm mb-1">وەڵامی ڕاست (CSS — تەنها بۆ HTML + CSS)</label>
                                     <textarea id="modal_lesson_answer_code_css" rows="5" dir="ltr" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-emerald-300 dark:border-emerald-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all text-sm font-mono text-left"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- بەشی ئەنجامی کۆد -->
+                            <div id="quiz-output-fields" class="hidden space-y-4 rounded-2xl border-2 border-orange-300 dark:border-orange-700 p-5 bg-orange-50/40 dark:bg-orange-900/10">
+                                <div class="text-xs font-black text-orange-700 dark:text-orange-300 flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                    <span>پرسیاری ئەنجامی کۆد — کۆدێک دەنووسیت و ٤ بژاردە دادەنێیت (ڕاستەکە خۆت هەڵدەبژێریت)</span>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">کۆدەکە (دەردەکەوێت لە پرسیارەکەدا)</label>
+                                    <textarea id="modal_quiz_code" rows="5" dir="ltr" class="w-full px-4 py-3 bg-[#1e1e1e] text-green-400 border border-gray-700 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all text-sm font-mono text-left" placeholder="# کۆدەکە لێرە بنووسە"></textarea>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <button type="button" onclick="previewQuizCodeOutput()" class="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-lg flex items-center gap-2 transition-all">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                        <span>کارپێکردن و هێنانی ئەنجام</span>
+                                    </button>
+                                    <span id="quiz-output-preview-status" class="text-xs font-bold text-gray-500 dark:text-gray-400"></span>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">بژاردەکان</label>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                        <input type="text" id="modal_quiz_output_opt0" placeholder="بژاردەی ١" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all text-sm">
+                                        <input type="text" id="modal_quiz_output_opt1" placeholder="بژاردەی ٢" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all text-sm">
+                                        <input type="text" id="modal_quiz_output_opt2" placeholder="بژاردەی ٣" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all text-sm">
+                                        <input type="text" id="modal_quiz_output_opt3" placeholder="بژاردەی ٤" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all text-sm">
+                                    </div>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">💡 دوای کرتەکردن لە «کارپێکردن و هێنانی ئەنجام»، ئەنجامە ڕاستەکە دەخرێتە ناو ئەو بژاردەیەی لە خوارەوە هەڵبژێردراوە</p>
+                                </div>
+                                <div class="md:w-1/2">
+                                    <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">وەڵامە ڕاستەکە</label>
+                                    <select id="modal_quiz_output_correct" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-green-300 dark:border-green-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none transition-all text-sm font-bold">
+                                        <option value="0">بژاردەی ١</option><option value="1">بژاردەی ٢</option><option value="2">بژاردەی ٣</option><option value="3">بژاردەی ٤</option>
+                                    </select>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">پرسیار (سۆرانی)</label>
+                                        <input type="text" id="modal_quiz_output_question_so" value="ئەنجامی ئەم کۆدە چییە؟" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">پرسیار (بادینی)</label>
+                                        <input type="text" id="modal_quiz_output_question_ba" value="ئەنجامێ ڤی کۆدی چییە؟" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all text-sm">
+                                    </div>
                                 </div>
                             </div>
                         </div>
