@@ -1,10 +1,19 @@
 /* ==========================================================================
-   KURD AI — Design System "Aurora Glass"
+   KURD AI — Design System "Aurora Glass v3 · Static Tech"
    Redesign layer only. Hooks the existing class vocabulary
    (.glass-card, .service-card, .tool-card, .cat-tab, .floating-shape,
    .gradient-text, .custom-scrollbar) so no page logic, tool, category
    or data has to change.
    Loaded AFTER Tailwind so it wins on equal specificity.
+
+   v3 (Performance Reset):
+     • Blobs / gooey aurora / grain / morph keyframes are GONE.
+     • Background is a solid canvas + static 44px tech grid on <html>
+       (CSS-only, zero repaints, no injected layers, no masking).
+     • backdrop-filter: blur() is allowed on exactly TWO surfaces:
+       .glass-card and the ka-nav component (foreground only).
+     • All large-layer blur removed (sections, old nav, reveals, veils).
+     • will-change is JS-managed only (set on hover, cleared on leave).
    ========================================================================== */
 
 /* ---------- 1. Tokens ---------- */
@@ -18,6 +27,7 @@
     --kai-ink-soft: #47536b;
     --kai-surface: #ffffff;
     --kai-canvas: #f5f7fb;
+    --kai-bg: #eef1f7;          /* solid canvas — light mode */
 
     --kai-glass-bg: rgba(255, 255, 255, 0.62);
     --kai-glass-brd: rgba(255, 255, 255, 0.75);
@@ -39,10 +49,10 @@
     --kai-spring: cubic-bezier(.34, 1.56, .64, 1);
     --kai-smooth: cubic-bezier(.4, 0, .2, 1);
 
-    --kai-aurora-1: rgba(37, 99, 235, .30);
-    --kai-aurora-2: rgba(6, 182, 212, .26);
-    --kai-aurora-3: rgba(124, 58, 237, .26);
-    --kai-aurora-4: rgba(236, 72, 153, .18);
+    /* static tech accents */
+    --kai-grid-line: rgba(120, 140, 180, .07);
+    --kai-nodule: rgba(37, 99, 235, .30);
+    --kai-ao: rgba(16, 24, 40, .05);
 }
 
 html.dark {
@@ -50,6 +60,7 @@ html.dark {
     --kai-ink-soft: #93a2bf;
     --kai-surface: #0f1626;
     --kai-canvas: #070b14;
+    --kai-bg: #070b14;          /* solid deep-navy canvas — dark mode */
 
     --kai-glass-bg: rgba(17, 25, 42, .58);
     --kai-glass-brd: rgba(122, 152, 214, .18);
@@ -60,16 +71,22 @@ html.dark {
     --kai-shadow-3: 0 6px 14px rgba(0, 0, 0, .5), 0 50px 90px -34px rgba(0, 0, 0, .9);
     --kai-glow: 0 0 0 1px rgba(56, 189, 248, .22), 0 22px 60px -20px rgba(56, 189, 248, .45);
 
-    --kai-aurora-1: rgba(37, 99, 235, .42);
-    --kai-aurora-2: rgba(6, 182, 212, .34);
-    --kai-aurora-3: rgba(124, 58, 237, .40);
-    --kai-aurora-4: rgba(236, 72, 153, .24);
+    --kai-grid-line: rgba(140, 160, 200, .06);
+    --kai-nodule: rgba(56, 189, 248, .34);
+    --kai-ao: rgba(0, 0, 0, .35);
 }
 
 /* ---------- 2. Base canvas ----------
-   The colour lives on <html> so the aurora (z-index:-1) can float above it
-   while staying behind every bit of page content. */
-html { background-color: var(--kai-canvas); }
+   The solid colour + static 44px tech grid live on <html> as a plain CSS
+   background. Fully static: paints once, tiles on scroll with zero repaints,
+   no injected layers, no masks, no backdrop-filter. */
+html {
+    background-color: var(--kai-bg);
+    background-image:
+        linear-gradient(to right, var(--kai-grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--kai-grid-line) 1px, transparent 1px);
+    background-size: 44px 44px;
+}
 
 body[class] {
     background-color: transparent !important;
@@ -80,13 +97,10 @@ body[class] {
     letter-spacing: -0.005em;
 }
 
-html.dark { background-color: var(--kai-canvas); }
 html.dark body[class] { color: var(--kai-ink); }
 
 /* Kurdish / Arabic script breathes better with a touch more leading */
-body[class] {
-    line-height: 1.75;
-}
+body[class] { line-height: 1.75; }
 
 h1, h2, h3, h4, h5 {
     line-height: 1.35;
@@ -109,128 +123,16 @@ html {
     border-radius: 6px;
 }
 
-/* ---------- 3. Aurora backdrop (injected by kurdai-ui.js) ---------- */
-/* The backdrop sits on its own layer *behind* all content: the canvas colour
-   lives on <html>, the aurora is a negative-z fixed layer above it, and <body>
-   is transparent. This deliberately avoids touching the z-index of anything
-   else on the page — the chat widget (z-index 9998) and every `z-50` modal
-   keep their own stacking exactly as authored. */
-#kai-aurora {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    overflow: hidden;
-    contain: strict;
-}
-
-#kai-aurora .kai-blob {
-    position: absolute;
-    filter: blur(70px);
-    opacity: .9;
-    will-change: transform, border-radius;
-    animation: kaiMorph 26s var(--kai-smooth) infinite,
-               kaiDrift 34s var(--kai-smooth) infinite;
-}
-
-#kai-aurora .kai-blob:nth-child(1) {
-    width: 46vw; height: 46vw; min-width: 320px; min-height: 320px;
-    top: -12vw; inset-inline-end: -10vw;
-    background: radial-gradient(circle at 30% 30%, var(--kai-aurora-1), transparent 70%);
-}
-#kai-aurora .kai-blob:nth-child(2) {
-    width: 40vw; height: 40vw; min-width: 280px; min-height: 280px;
-    bottom: -14vw; inset-inline-start: -8vw;
-    background: radial-gradient(circle at 60% 40%, var(--kai-aurora-3), transparent 70%);
-    animation-delay: -8s, -11s;
-}
-#kai-aurora .kai-blob:nth-child(3) {
-    width: 34vw; height: 34vw; min-width: 240px; min-height: 240px;
-    top: 32%; inset-inline-start: 28%;
-    background: radial-gradient(circle at 50% 50%, var(--kai-aurora-2), transparent 70%);
-    animation-delay: -16s, -22s;
-}
-#kai-aurora .kai-blob:nth-child(4) {
-    width: 28vw; height: 28vw; min-width: 200px; min-height: 200px;
-    top: 8%; inset-inline-start: 6%;
-    background: radial-gradient(circle at 50% 50%, var(--kai-aurora-4), transparent 70%);
-    animation-delay: -21s, -5s;
-}
-
-/* the "morph": organic, continuously reshaping blobs */
-@keyframes kaiMorph {
-    0%   { border-radius: 62% 38% 44% 56% / 48% 56% 44% 52%; }
-    20%  { border-radius: 38% 62% 58% 42% / 62% 38% 62% 38%; }
-    40%  { border-radius: 55% 45% 34% 66% / 40% 66% 34% 60%; }
-    60%  { border-radius: 44% 56% 66% 34% / 58% 42% 58% 42%; }
-    80%  { border-radius: 66% 34% 48% 52% / 36% 60% 40% 64%; }
-    100% { border-radius: 62% 38% 44% 56% / 48% 56% 44% 52%; }
-}
-
-@keyframes kaiDrift {
-    0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-    25%  { transform: translate3d(3vw, -4vh, 0) scale(1.08) rotate(40deg); }
-    50%  { transform: translate3d(-2vw, 3vh, 0) scale(.94) rotate(120deg); }
-    75%  { transform: translate3d(-4vw, -2vh, 0) scale(1.05) rotate(220deg); }
-    100% { transform: translate3d(0, 0, 0) scale(1) rotate(360deg); }
-}
-
-/* fine grid + grain so the gradients don't look flat */
-#kai-aurora .kai-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-        linear-gradient(to right, rgba(120, 140, 180, .07) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(120, 140, 180, .07) 1px, transparent 1px);
-    background-size: 44px 44px;
-    mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, #000 30%, transparent 78%);
-    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, #000 30%, transparent 78%);
-}
-
-#kai-aurora .kai-grain {
-    position: absolute;
-    inset: -200%;
-    opacity: .035;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
-    animation: kaiGrain 8s steps(6) infinite;
-}
-
-html.dark #kai-aurora .kai-grain { opacity: .05; }
-
-@keyframes kaiGrain {
-    0%, 100% { transform: translate(0, 0); }
-    16%  { transform: translate(-2%, -3%); }
-    33%  { transform: translate(3%, 2%); }
-    50%  { transform: translate(-1%, 4%); }
-    66%  { transform: translate(4%, -2%); }
-    83%  { transform: translate(-3%, 1%); }
-}
-
-/* the old inline blobs are superseded by the aurora layer */
-.floating-shape {
-    animation: kaiMorph 24s var(--kai-smooth) infinite, kaiDrift 30s var(--kai-smooth) infinite !important;
-    border-radius: 62% 38% 44% 56% / 48% 56% 44% 52% !important;
-    opacity: .10 !important;
-    filter: blur(72px) !important;
-}
-
-/* ---------- 3b. Let the aurora read through the page ----------
-   The markup paints every band with an opaque bg-gray-50 / bg-white.
-   Neutralise those so the backdrop stays continuous, and give the
-   alternating bands a frosted tint instead of a flat fill. */
-html header[class*="bg-gray-50"],
+/* ---------- 3. Section bands ----------
+   Static semi-opaque fills only — the grid shows through, but there is NO
+   backdrop-filter on any full-width band (blur is reserved for the small
+   foreground surfaces: .glass-card and ka-nav). */
 html section[class*="bg-gray-50"] {
-    background-color: transparent !important;
+    background-color: color-mix(in srgb, var(--kai-surface) 46%, transparent) !important;
 }
 
 html section[class*="bg-white"] {
-    background-color: color-mix(in srgb, var(--kai-surface) 42%, transparent) !important;
-    -webkit-backdrop-filter: blur(8px) saturate(140%);
-    backdrop-filter: blur(8px) saturate(140%);
-}
-
-/* soft hairlines instead of hard edges between bands */
-html section[class*="bg-white"] {
+    background-color: color-mix(in srgb, var(--kai-surface) 78%, transparent) !important;
     border-top: 1px solid var(--kai-glass-brd);
     border-bottom: 1px solid var(--kai-glass-brd);
 }
@@ -238,15 +140,50 @@ html section[class*="bg-white"] {
 /* the decorative wave divider assumed an opaque band underneath it */
 html header svg[viewBox="0 0 1200 120"] { display: none; }
 
-/* ---------- 4. Glass surfaces ---------- */
+/* legacy floating blobs in page markup — decorative only, gone for speed.
+   Fully neutralized (display + the page's own blur/animation rules) so not
+   a single paint or keyframe survives. */
+.floating-shape {
+    display: none !important;
+    filter: none !important;
+    animation: none !important;
+    opacity: 0 !important;
+}
+
+/* hero blob decorations on the live pages (animate-blob + blur-3xl/128px,
+   mix-blend) — the full-screen blur + morph layers, nuked. The selector is
+   exact: it can never match animation-delay-* or animate-ping/fade-in. */
+[class*="animate-blob"] {
+    display: none !important;
+    filter: none !important;
+    animation: none !important;
+    opacity: 0 !important;
+}
+
+/* ---------- 4. Deep glass surfaces ----------
+   Foreground only. ONE backdrop-filter pass per card (the dual-layer blur
+   is retired); the injected .kai-glass-layer now carries only the diagonal
+   sheen. Layers:
+     layer 0 (element)  — single backdrop-filter pass (frost)
+     layer 1 (.kai-glass-layer, JS child) — diagonal sheen, z:-1
+     layer 2 (element background-image) — micro-nodes + ambient occlusion
+     layer 3 (::before) — cursor spotlight
+     layer 4 (::after)  — sub-pixel edge lighting
+     layer 5 (.kai-grid-layer, JS child) — composited data-grid drift, z:-1
+     layer 6 (.kai-glare, JS child) — specular glare during tilt, z:3 */
 html .glass-card,
 html.dark .glass-card {
     position: relative;
-    background: var(--kai-glass-bg);
-    -webkit-backdrop-filter: blur(var(--kai-glass-blur)) saturate(180%);
-    backdrop-filter: blur(var(--kai-glass-blur)) saturate(180%);
+    background-color: var(--kai-glass-bg);
+    -webkit-backdrop-filter: blur(var(--kai-glass-blur)) saturate(180%) brightness(1.03);
+    backdrop-filter: blur(var(--kai-glass-blur)) saturate(180%) brightness(1.03);
     border: 1px solid var(--kai-glass-brd);
-    box-shadow: var(--kai-shadow-1);
+    box-shadow:
+        var(--kai-shadow-1),
+        /* ambient occlusion reacting to the brand gradient */
+        inset 0 1px 0 rgba(255, 255, 255, .30),
+        inset 0 -14px 34px -22px color-mix(in srgb, var(--kai-brand-1) 22%, transparent),
+        0 26px 60px -26px color-mix(in srgb, var(--kai-brand-1) 12%, transparent);
     transition:
         transform .55s var(--kai-ease),
         box-shadow .55s var(--kai-ease),
@@ -254,16 +191,69 @@ html.dark .glass-card {
         background-color .4s var(--kai-smooth);
     overflow: hidden;
     isolation: isolate;
+    /* keep layout + style recalc local to the card */
+    contain: layout style;
 }
 
-/* top light-catch edge — the detail that sells glass */
+/* glowing micro-nodes baked into the glass itself (composited once — the
+   drifting data grid lives on the separate .kai-grid-layer so the two never
+   moiré) */
+html .glass-card {
+    background-image:
+        radial-gradient(circle at 8% 12%,  var(--kai-nodule) 0 1.5px, transparent 2.5px),
+        radial-gradient(circle at 92% 8%,  var(--kai-nodule) 0 1.5px, transparent 2.5px),
+        radial-gradient(circle at 90% 88%, var(--kai-nodule) 0 1.5px, transparent 2.5px),
+        radial-gradient(circle at 10% 90%, var(--kai-nodule) 0 1.5px, transparent 2.5px);
+    background-size: auto, auto, auto, auto;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+    background-position: 0 0;
+}
+
+/* sheen layer — the second blur pass is dropped; this is a static gradient
+   (injected as first child by JS) */
+html .kai-glass-layer {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(120% 70% at 18% 0%, rgba(255, 255, 255, .14), transparent 55%),
+        linear-gradient(115deg, rgba(255, 255, 255, .05), transparent 40%);
+}
+
+/* data-grid layer — an oversized, repeating tile shifted by exactly one cell
+   via a composited transform (no background repaint per frame) */
+html .kai-grid-layer {
+    position: absolute;
+    inset: -22px;
+    border-radius: inherit;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, var(--kai-grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--kai-grid-line) 1px, transparent 1px);
+    background-size: 22px 22px;
+    animation: kaiGridMove 16s var(--kai-smooth) infinite;
+}
+
+@keyframes kaiGridMove {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(22px, 22px, 0); }
+}
+
+/* top light-catch edge — refined sub-pixel hairline: the 1px rim is drawn
+   with the mask-composite trick AND a fractional inner box-shadow so the
+   top edge stays sub-pixel and catches the brand light */
 .glass-card::after {
     content: '';
     position: absolute;
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(150deg, var(--kai-glass-hi), transparent 42%, transparent 60%, rgba(255, 255, 255, .28));
+    background:
+        linear-gradient(180deg, var(--kai-glass-hi), transparent 34%),
+        linear-gradient(150deg, var(--kai-glass-hi), transparent 42%, transparent 60%, rgba(255, 255, 255, .28));
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
@@ -271,13 +261,20 @@ html.dark .glass-card {
     pointer-events: none;
     z-index: 2;
     opacity: .9;
+    box-shadow:
+        inset 0 0.5px 0 rgba(255, 255, 255, .55),
+        inset 0 -1px 0 var(--kai-ao);
 }
 
 html.dark .glass-card::after {
-    background: linear-gradient(150deg, rgba(255, 255, 255, .16), transparent 40%, transparent 62%, rgba(120, 190, 255, .12));
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, .16), transparent 32%),
+        linear-gradient(150deg, rgba(255, 255, 255, .16), transparent 40%, transparent 62%, rgba(120, 190, 255, .12));
 }
 
-/* cursor-tracking spotlight (coords set by kurdai-ui.js) */
+.glass-card:hover::after { opacity: 1; }
+
+/* cursor-tracking spotlight (coords set by kurdai-ui.js inside a rAF flush) */
 .glass-card::before {
     content: '';
     position: absolute;
@@ -300,7 +297,11 @@ html.dark .glass-card::before {
 
 html .glass-card:hover {
     border-color: rgba(37, 99, 235, .30);
-    box-shadow: var(--kai-shadow-3), var(--kai-glow);
+    box-shadow:
+        var(--kai-shadow-3),
+        var(--kai-glow),
+        inset 0 1px 0 rgba(255, 255, 255, .5),
+        inset 0 -18px 44px -26px color-mix(in srgb, var(--kai-brand-3) 34%, transparent);
 }
 
 html.dark .glass-card:hover { border-color: rgba(56, 189, 248, .34); }
@@ -312,7 +313,7 @@ html.dark .glass-card:hover { border-color: rgba(56, 189, 248, .34); }
         transform .6s var(--kai-spring),
         box-shadow .6s var(--kai-ease),
         border-color .5s var(--kai-ease) !important;
-    will-change: transform;
+    contain: layout style;
 }
 
 .service-card:hover,
@@ -320,9 +321,11 @@ html.dark .glass-card:hover { border-color: rgba(56, 189, 248, .34); }
     transform: translateY(-10px) scale(1.015) !important;
 }
 
-/* 3D tilt applied by JS via custom props, layered on top of the lift */
+/* 3D tilt applied by JS via custom props, layered on top of the lift.
+   Baseline translate3d guarantees a composited layer the moment tilt starts. */
 .kai-tilt {
     transform:
+        translate3d(0, 0, 0)
         perspective(1100px)
         rotateX(var(--kai-rx, 0deg))
         rotateY(var(--kai-ry, 0deg))
@@ -335,6 +338,25 @@ html.dark .glass-card:hover { border-color: rgba(56, 189, 248, .34); }
     transition: transform .7s var(--kai-spring) !important;
 }
 
+/* specular glare — white/cyan light sweeping the glass as the card tilts.
+   Position is driven by the cursor (opposite the tilt) via CSS vars. */
+.kai-glare {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0;
+    background:
+        radial-gradient(240px circle at var(--kai-glare-x, 30%) var(--kai-glare-y, 30%),
+            rgba(255, 255, 255, .55), rgba(103, 232, 249, .16) 42%, transparent 64%),
+        linear-gradient(115deg, rgba(255, 255, 255, .10), transparent 38%, transparent 62%, rgba(103, 232, 249, .08));
+    mix-blend-mode: screen;
+    transition: opacity .35s var(--kai-smooth);
+}
+
+.kai-glare.kai-on { opacity: 1; }
+
 /* icon tiles inside cards get a soft halo */
 .service-card [class*="bg-gradient-to-br"],
 .tool-card [class*="bg-gradient-to-br"] {
@@ -346,7 +368,25 @@ html.dark .glass-card:hover { border-color: rgba(56, 189, 248, .34); }
     transform: translateY(-2px) scale(1.1) rotate(-6deg);
 }
 
-/* staggered entrance, driven by --kai-i set in JS */
+/* icon "state morph": when a glyph has two structurally-identical paths it
+   morphs its geometry; otherwise it springs scale/rotate + gets a tech glow */
+.tool-card svg path,
+.service-card svg path {
+    transition:
+        d .5s var(--kai-spring),
+        transform .5s var(--kai-spring),
+        fill .4s var(--kai-smooth),
+        stroke .4s var(--kai-smooth),
+        filter .4s var(--kai-smooth);
+}
+
+.tool-card:hover svg,
+.service-card:hover svg {
+    filter: drop-shadow(0 0 6px rgba(37, 99, 235, .35));
+}
+
+/* staggered entrance, driven by --kai-i set in JS — no blur (opacity + a
+   translate transform only, both compositor-friendly) */
 .tool-card,
 .cat-header {
     animation: kaiRise .7s var(--kai-ease) both !important;
@@ -354,11 +394,15 @@ html.dark .glass-card:hover { border-color: rgba(56, 189, 248, .34); }
 }
 
 @keyframes kaiRise {
-    from { opacity: 0; transform: translateY(26px) scale(.97); filter: blur(6px); }
-    to   { opacity: 1; transform: none; filter: blur(0); }
+    from { opacity: 0; transform: translateY(26px) scale(.97); }
+    to   { opacity: 1; transform: none; }
 }
 
-/* ---------- 6. Category tabs (morphing pill) ---------- */
+/* ---------- 6. Category tabs (FLIP morphing pill) ----------
+   JS injects a .cat-pill behind the tabs and FLIPs it between them on
+   click; the active tab's own gradient background is repainted onto the
+   pill (so the pill slides the *category colour* with it), and the tab
+   itself turns transparent. */
 .cat-tab {
     position: relative;
     border-radius: var(--kai-r-md) !important;
@@ -368,6 +412,7 @@ html.dark .glass-card:hover { border-color: rgba(56, 189, 248, .34); }
         background-color .35s var(--kai-smooth),
         color .35s var(--kai-smooth) !important;
     overflow: hidden;
+    contain: layout style;
 }
 
 .cat-tab::before {
@@ -420,11 +465,44 @@ html.dark .glass-card:hover { border-color: rgba(56, 189, 248, .34); }
     100% { inset-inline-start: 130%; }
 }
 
-/* ---------- 7. Navigation ---------- */
+/* ---- FLIP pill track (JS opts the wrapper in via .kai-tabs) ---- */
+.kai-tabs { position: relative; }
+
+.kai-tabs .cat-pill {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    border-radius: var(--kai-r-md);
+    box-shadow: 0 10px 30px -12px rgba(124, 58, 237, .55), var(--kai-shadow-1);
+    border: 1px solid rgba(255, 255, 255, .35);
+    /* size/pos are set by JS via FLIP; only the fade-in is CSS */
+    transition: opacity .3s var(--kai-smooth);
+}
+
+.kai-tabs .cat-pill.kai-pill-on { opacity: 1; }
+
+/* inside a FLIP track the pill owns the highlight — the active tab's own
+   gradient yields (its colour is copied onto the pill by JS) */
+.kai-tabs .cat-tab { z-index: 1; }
+.kai-tabs .cat-tab.active {
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+    color: #fff !important;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, .30);
+}
+.kai-tabs .cat-tab.active .tab-badge {
+    background: rgba(255, 255, 255, .22) !important;
+    color: #fff !important;
+}
+
+/* ---------- 7. Navigation (legacy nav.sticky, pre-ka-nav pages) ----------
+   Solid fill — no backdrop-filter (the ka-nav component carries the glass). */
 nav.sticky {
-    background: color-mix(in srgb, var(--kai-canvas) 72%, transparent) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    backdrop-filter: blur(20px) saturate(180%);
+    background: var(--kai-canvas) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
     border-bottom: 1px solid transparent !important;
     box-shadow: none !important;
     transition:
@@ -436,7 +514,6 @@ nav.sticky {
 
 /* condensed state toggled by JS on scroll */
 nav.sticky.kai-nav-scrolled {
-    background: color-mix(in srgb, var(--kai-canvas) 86%, transparent) !important;
     border-bottom-color: var(--kai-glass-brd) !important;
     box-shadow: 0 8px 30px -14px rgba(16, 24, 40, .28) !important;
 }
@@ -447,23 +524,15 @@ html.dark nav.sticky.kai-nav-scrolled {
 
 nav.sticky.kai-nav-scrolled > div { padding-top: .45rem; padding-bottom: .45rem; }
 
-/* the nav link group becomes the track for a morphing indicator */
+/* the nav link group becomes the track for the FLIP morphing pill.
+   (FLIP is JS-driven; these are the resting styles + a no-JS fallback.) */
 .kai-navtrack { position: relative; }
 
 .kai-navtrack .kai-pill {
     position: absolute;
-    top: 6px;
-    bottom: 6px;
-    inset-inline-start: 0;
-    width: 0;
     border-radius: 12px;
     background: var(--kai-surface);
     box-shadow: 0 4px 14px -6px rgba(16, 24, 40, .35);
-    /* the morph: width + position animate together */
-    transition:
-        transform .55s var(--kai-spring),
-        width .55s var(--kai-spring),
-        opacity .35s var(--kai-smooth);
     opacity: 0;
     z-index: 0;
     pointer-events: none;
@@ -499,6 +568,7 @@ button[class*="bg-gradient-to-r"] {
         box-shadow .45s var(--kai-ease),
         filter .35s var(--kai-smooth);
     isolation: isolate;
+    contain: layout style;
 }
 
 a[class*="bg-gradient-to-r"]::after,
@@ -546,23 +616,21 @@ button[class*="bg-gradient-to-r"]:active { transform: translateY(-1px) scale(.99
     to { background-position: 260% center; }
 }
 
-/* ---------- 10. Scroll reveal ---------- */
+/* ---------- 10. Scroll reveal ----------
+   Opacity + translate only — the blur stage is dropped so the reveal never
+   forces a filter layer. */
 .kai-reveal {
     opacity: 0;
     transform: translateY(30px);
-    filter: blur(8px);
     transition:
         opacity .85s var(--kai-ease),
-        transform .85s var(--kai-ease),
-        filter .85s var(--kai-ease);
+        transform .85s var(--kai-ease);
     transition-delay: var(--kai-d, 0ms);
-    will-change: opacity, transform;
 }
 
 .kai-reveal.kai-in {
     opacity: 1;
     transform: none;
-    filter: blur(0);
 }
 
 /* ---------- 11. Hero polish ---------- */
@@ -571,9 +639,9 @@ header h1 {
     text-wrap: balance;
 }
 
+/* solid glass-look chip — no backdrop-filter on large / repeated elements */
 header .inline-flex.items-center.gap-2.rounded-full {
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
+    background: var(--kai-glass-bg);
     box-shadow: var(--kai-shadow-1);
 }
 
@@ -633,6 +701,15 @@ footer {
     position: relative;
     background: linear-gradient(180deg, #0d1426, #060a14) !important;
     overflow: hidden;
+    contain: layout;
+}
+
+/* shared footer band — the solid gradient lives on <footer>; its translucent
+   overlay + backdrop-blur are dropped (no full-width blur layers) */
+footer > .relative {
+    background-color: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
 }
 
 footer::before {
@@ -670,7 +747,8 @@ html[dir="ltr"] footer a:hover { transform: translateX(4px); }
     transition: transform .5s var(--kai-spring), opacity .35s var(--kai-smooth);
 }
 
-/* ---------- 16. Page transition (View Transitions API) ---------- */
+/* ---------- 16. Page transition (View Transitions API) ----------
+   Opacity + scale only — blur is dropped so the veil never paints a filter. */
 @media (prefers-reduced-motion: no-preference) {
     ::view-transition-old(root) {
         animation: kaiVtOut .34s var(--kai-smooth) both;
@@ -681,11 +759,11 @@ html[dir="ltr"] footer a:hover { transform: translateX(4px); }
 }
 
 @keyframes kaiVtOut {
-    to { opacity: 0; transform: scale(.985) translateY(-8px); filter: blur(4px); }
+    to { opacity: 0; transform: scale(.985) translateY(-8px); }
 }
 
 @keyframes kaiVtIn {
-    from { opacity: 0; transform: scale(1.012) translateY(10px); filter: blur(6px); }
+    from { opacity: 0; transform: scale(1.012) translateY(10px); }
 }
 
 /* ---------- 17. Utility bits used by the markup polish ---------- */
@@ -699,8 +777,6 @@ html[dir="ltr"] footer a:hover { transform: translateX(4px); }
     font-size: .8125rem;
     background: var(--kai-glass-bg);
     border: 1px solid var(--kai-glass-brd);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
     box-shadow: var(--kai-shadow-1);
 }
 
@@ -709,7 +785,28 @@ html[dir="ltr"] footer a:hover { transform: translateX(4px); }
     background: linear-gradient(90deg, transparent, var(--kai-glass-brd), transparent);
 }
 
-/* ---------- 18. Motion accessibility ---------- */
+/* ---------- 18. Paint / layout containment on static boundaries ----------
+   Layout containment where it is SAFE: a `contain: layout` element becomes
+   a containing block for position:fixed descendants, so it cannot be applied
+   to page sections / <main> without breaking the fixed modals and sticky
+   navs that live inside them. Cards and the nav use `contain: layout style`
+   (keeps their outer glow shadows — paint containment would clip those).
+   The background is a static <html> CSS background — nothing to bound. */
+
+/* ---------- 19. Performance "lite" mode (enabled by JS on low-end hw) ----------
+   Lighter render without changing the visual design language. */
+html.kai-perf .kai-glass-layer { display: none; }
+html.kai-perf .kai-grid-layer { animation: none; }
+html.kai-perf .glass-card {
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
+}
+html.kai-perf .service-card,
+html.kai-perf .tool-card { transform: none !important; }
+html.kai-perf .kai-tilt { transform: none !important; }
+html.kai-perf .kai-glare { display: none; }
+
+/* ---------- 20. Motion accessibility ---------- */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -720,14 +817,14 @@ html[dir="ltr"] footer a:hover { transform: translateX(4px); }
         scroll-behavior: auto !important;
     }
 
-    .kai-reveal { opacity: 1; transform: none; filter: none; }
-    #kai-aurora .kai-grain { display: none; }
+    .kai-reveal { opacity: 1; transform: none; }
+    .kai-glare { display: none; }
 }
 
-/* ---------- 19. Small screens ---------- */
+/* ---------- 21. Small screens ---------- */
 @media (max-width: 768px) {
-    #kai-aurora .kai-blob { filter: blur(52px); }
     .service-card:hover,
     .tool-card:hover { transform: translateY(-5px) !important; }
     .kai-tilt { transform: none !important; }
+    .kai-glare { display: none; }
 }

@@ -76,6 +76,8 @@
         .animation-delay-400 { animation-delay: 0.4s; }
         .otp-input { letter-spacing: .5em; }
     </style>
+
+    @include('partials.kurdai-design')
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300">

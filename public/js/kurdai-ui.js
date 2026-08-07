@@ -1,8 +1,18 @@
 /* ==========================================================================
-   KURD AI — UI motion layer for the "Aurora Glass" redesign.
-   Purely additive: it attaches to classes that already exist in the markup
+   KURD AI — UI motion layer for "Aurora Glass v3 · Static Tech".
+   Purely additive: attaches to classes that already exist in the markup
    (.glass-card, .service-card, .tool-card, .cat-tab, nav links) so no page
    logic, tool, category or data is touched.
+
+   v3 performance contract:
+     • No background animation of any kind — the canvas is a static CSS grid.
+     • ONE rAF flush per frame — pointer events only *record*; all DOM reads
+       (rects) and DOM writes (--kai-* vars) happen inside the flush, so
+       read/write never interleave and layout thrash is impossible.
+     • will-change is applied by JS only while an element is actively hovered
+       / moving and removed when it goes idle (no VRAM leak).
+     • FLIP (First/Last/Invert/Play) via the Web Animations API for the nav
+       and category pills — compositor-driven, springy, never layout-driven.
    ========================================================================== */
 (function () {
     'use strict';
@@ -25,26 +35,45 @@
     }
 
     /* ======================================================================
-       1. Aurora backdrop
+       0. Single rAF scheduler — batches every DOM write into one frame.
        ====================================================================== */
-    function mountAurora() {
-        if (document.getElementById('kai-aurora')) return;
+    var frameHandlers = {};
+    var frameQueued = false;
 
-        var wrap = document.createElement('div');
-        wrap.id = 'kai-aurora';
-        wrap.setAttribute('aria-hidden', 'true');
+    function flushFrame() {
+        frameQueued = false;
+        var hs = frameHandlers;
+        frameHandlers = {};
+        for (var k in hs) { if (hs[k]) hs[k](); }
+    }
 
-        var html = '';
-        for (var i = 0; i < 4; i++) html += '<div class="kai-blob"></div>';
-        html += '<div class="kai-grid"></div>';
-        if (!reduced) html += '<div class="kai-grain"></div>';
-        wrap.innerHTML = html;
+    function enqueue(key, fn) {
+        frameHandlers[key] = fn;
+        if (!frameQueued) {
+            frameQueued = true;
+            requestAnimationFrame(flushFrame);
+        }
+    }
 
-        document.body.insertBefore(wrap, document.body.firstChild);
+    /* Dynamic will-change: on while active, '' (removed) when idle.
+       transform + opacity only — no filter layering in v3. */
+    function setWill(el, on) {
+        el.style.willChange = on ? 'transform, opacity' : '';
     }
 
     /* ======================================================================
-       2. Scroll progress bar
+       0b. Low-end device detection → html.kai-perf (lighter render path)
+       ====================================================================== */
+    function detectPerf() {
+        var low = false;
+        if (navigator.deviceMemory && navigator.deviceMemory < 4) low = true;
+        if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) low = true;
+        if (isTouch && !window.matchMedia('(hover: hover)').matches) low = true;
+        if (low) document.documentElement.classList.add('kai-perf');
+    }
+
+    /* ======================================================================
+       1. Scroll progress bar (will-change only while scrolling)
        ====================================================================== */
     function mountProgress() {
         if (document.getElementById('kai-progress')) return;
@@ -54,6 +83,7 @@
         document.body.appendChild(bar);
 
         var ticking = false;
+        var idleTimer = null;
         function update() {
             var h = document.documentElement.scrollHeight - window.innerHeight;
             var p = h > 0 ? window.scrollY / h : 0;
@@ -61,13 +91,16 @@
             ticking = false;
         }
         window.addEventListener('scroll', function () {
+            setWill(bar, true);
             if (!ticking) { ticking = true; requestAnimationFrame(update); }
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(function () { setWill(bar, false); }, 400);
         }, { passive: true });
         update();
     }
 
     /* ======================================================================
-       3. Page-exit / entrance veil  (attached to <html> so it survives the
+       2. Page-exit / entrance veil (attached to <html> so it survives the
           `body { display:none }` auth gate used on most pages)
        ====================================================================== */
     function mountVeil() {
@@ -84,7 +117,6 @@
 
         function lift() { veil.style.opacity = '0'; }
 
-        // whichever happens first — and a hard failsafe so it can never stick
         ready(function () { setTimeout(lift, 60); });
         window.addEventListener('load', lift);
         setTimeout(lift, 1400);
@@ -107,18 +139,25 @@
             out.style.opacity = '0';
             document.documentElement.appendChild(out);
             requestAnimationFrame(function () { out.style.opacity = '1'; });
+
+            /* let the nav wordmark do a tiny exit flourish */
+            document.documentElement.classList.add('kai-vt');
+            setTimeout(function () {
+                document.documentElement.classList.remove('kai-vt');
+            }, 700);
         }, true);
     }
 
     /* ======================================================================
-       4. Scroll reveal
+       3. Scroll reveal (will-change managed: on while animating, off after)
        ====================================================================== */
     var revealObserver = null;
 
-    /* Nothing may ever stay stuck at opacity:0 — if anything goes wrong,
-       show the content and drop the effect. */
     function revealAll() {
-        each('.kai-reveal', document, function (el) { el.classList.add('kai-in'); });
+        each('.kai-reveal', document, function (el) {
+            el.classList.add('kai-in');
+            setTimeout(function () { setWill(el, false); }, 900);
+        });
     }
 
     function initReveal() {
@@ -127,23 +166,28 @@
         revealObserver = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('kai-in');
-                    revealObserver.unobserve(entry.target);
+                    var el = entry.target;
+                    setWill(el, true);
+                    el.classList.add('kai-in');
+                    revealObserver.unobserve(el);
+                    setTimeout(function () { setWill(el, false); }, 900);
                 }
             });
         }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
 
         window.addEventListener('error', revealAll);
-        // failsafe: anything still hidden near the viewport after 6s gets shown
         setTimeout(function () {
             each('.kai-reveal:not(.kai-in)', document, function (el) {
                 var top = el.getBoundingClientRect().top;
-                if (top < window.innerHeight * 2) el.classList.add('kai-in');
+                if (top < window.innerHeight * 2) {
+                    setWill(el, true);
+                    el.classList.add('kai-in');
+                    setTimeout(function () { setWill(el, false); }, 900);
+                }
             });
         }, 6000);
     }
 
-    // elements worth revealing, without having to edit any markup
     var REVEAL_SELECTOR = [
         'section > .container > .text-center',
         'section .grid > a',
@@ -158,8 +202,7 @@
         if (!revealObserver) return;
         each(REVEAL_SELECTOR, root, function (el, i) {
             if (el.dataset.kaiReveal) return;
-            if (el.closest('#kai-aurora') || el.closest('#kurdai-chat-panel')) return;
-            // modals and overlays open instantly — they must never fade in
+            if (el.closest('#kurdai-chat-panel')) return;
             if (el.closest('.fixed')) return;
             el.dataset.kaiReveal = '1';
             el.classList.add('kai-reveal');
@@ -169,41 +212,96 @@
     }
 
     /* ======================================================================
-       5. Cursor spotlight + 3D tilt on cards
+       4. Deep-glass layers + cursor spotlight + 3D tilt + specular glare
+          All pointer input is recorded in the event and *applied* in the
+          single rAF flush — reads and writes never interleave.
        ====================================================================== */
+    function injectLayers(card) {
+        if (card.querySelector('.kai-glass-layer')) return;
+
+        var a = document.createElement('i');
+        a.className = 'kai-glass-layer';
+        a.setAttribute('aria-hidden', 'true');
+
+        var g = document.createElement('i');
+        g.className = 'kai-grid-layer';
+        g.setAttribute('aria-hidden', 'true');
+
+        card.insertBefore(a, card.firstChild);
+        card.insertBefore(g, a.nextSibling);
+
+        if (card.matches('.service-card, .tool-card') && !reduced && !isTouch) {
+            var gl = document.createElement('i');
+            gl.className = 'kai-glare';
+            gl.setAttribute('aria-hidden', 'true');
+            card.appendChild(gl);
+        }
+    }
+
+    function resetCard(card) {
+        card.classList.add('kai-tilt-reset');
+        card.style.setProperty('--kai-ry', '0deg');
+        card.style.setProperty('--kai-rx', '0deg');
+        card.style.setProperty('--kai-ty', '0px');
+        card.style.setProperty('--kai-sc', '1');
+        var glare = card.querySelector('.kai-glare');
+        if (glare) glare.classList.remove('kai-on');
+        setTimeout(function () {
+            card.classList.remove('kai-tilt');
+            setWill(card, false);
+        }, 700);
+    }
+
+    function updateCard(card, x, y) {
+        /* batched read — executed inside the flush, before any writes */
+        var r = card.getBoundingClientRect();
+        var mx = x - r.left;
+        var my = y - r.top;
+
+        card.style.setProperty('--kai-mx', mx + 'px');
+        card.style.setProperty('--kai-my', my + 'px');
+
+        if (isTouch || reduced) return;
+        if (!card.matches('.service-card, .tool-card')) return;
+
+        var px = (mx / r.width) - 0.5;
+        var py = (my / r.height) - 0.5;
+
+        card.classList.add('kai-tilt');
+        card.classList.remove('kai-tilt-reset');
+        card.style.setProperty('--kai-ry', (px * 9).toFixed(2) + 'deg');
+        card.style.setProperty('--kai-rx', (-py * 9).toFixed(2) + 'deg');
+        card.style.setProperty('--kai-ty', '-10px');
+        card.style.setProperty('--kai-sc', '1.015');
+
+        var glare = card.querySelector('.kai-glare');
+        if (glare) {
+            /* light reflects from the side opposite the tilt */
+            glare.style.setProperty('--kai-glare-x', ((0.5 - px) * 100 + 50).toFixed(1) + '%');
+            glare.style.setProperty('--kai-glare-y', ((0.5 - py) * 100 + 50).toFixed(1) + '%');
+        }
+    }
+
     function bindCard(card) {
         if (card.dataset.kaiCard) return;
         card.dataset.kaiCard = '1';
 
-        card.addEventListener('pointermove', function (e) {
-            var r = card.getBoundingClientRect();
-            var x = e.clientX - r.left;
-            var y = e.clientY - r.top;
+        injectLayers(card);
 
-            card.style.setProperty('--kai-mx', x + 'px');
-            card.style.setProperty('--kai-my', y + 'px');
+        var last = { x: 0, y: 0 };
 
-            if (isTouch || reduced) return;
-            if (!card.matches('.service-card, .tool-card')) return;
-
-            var px = (x / r.width) - 0.5;
-            var py = (y / r.height) - 0.5;
-            card.classList.add('kai-tilt');
-            card.classList.remove('kai-tilt-reset');
-            card.style.setProperty('--kai-ry', (px * 9).toFixed(2) + 'deg');
-            card.style.setProperty('--kai-rx', (-py * 9).toFixed(2) + 'deg');
-            card.style.setProperty('--kai-ty', '-10px');
-            card.style.setProperty('--kai-sc', '1.015');
-        }, { passive: true });
-
-        card.addEventListener('pointerleave', function () {
-            card.classList.add('kai-tilt-reset');
-            card.style.setProperty('--kai-ry', '0deg');
-            card.style.setProperty('--kai-rx', '0deg');
-            card.style.setProperty('--kai-ty', '0px');
-            card.style.setProperty('--kai-sc', '1');
-            setTimeout(function () { card.classList.remove('kai-tilt'); }, 700);
+        card.addEventListener('pointerenter', function () {
+            setWill(card, true);
+            var glare = card.querySelector('.kai-glare');
+            if (glare) glare.classList.add('kai-on');
         });
+        card.addEventListener('pointermove', function (e) {
+            last.x = e.clientX;
+            last.y = e.clientY;
+            /* record now, apply in the shared flush */
+            enqueue(card, function () { updateCard(card, last.x, last.y); });
+        }, { passive: true });
+        card.addEventListener('pointerleave', resetCard);
     }
 
     function scanCards(root) {
@@ -211,7 +309,7 @@
     }
 
     /* ======================================================================
-       6. Stagger index for dynamically rendered cards
+       5. Stagger index for dynamically rendered cards
        ====================================================================== */
     function scanStagger(root) {
         var containers = (root || document).querySelectorAll(
@@ -222,8 +320,6 @@
             var n = 0;
             for (var i = 0; i < kids.length; i++) {
                 if (kids[i].classList.contains('tool-card') || kids[i].classList.contains('cat-header')) {
-                    // cap the stagger: with a long tool list an uncapped index
-                    // would leave the last cards invisible for seconds
                     kids[i].style.setProperty('--kai-i', Math.min(n++, 10));
                 }
             }
@@ -231,7 +327,7 @@
     }
 
     /* ======================================================================
-       7. Magnetic pull on primary buttons
+       6. Magnetic pull on primary buttons (rAF-batched)
        ====================================================================== */
     function scanMagnetic(root) {
         if (isTouch || reduced) return;
@@ -239,21 +335,89 @@
             if (btn.dataset.kaiMag) return;
             btn.dataset.kaiMag = '1';
 
+            var last = { x: 0, y: 0 };
             btn.addEventListener('pointermove', function (e) {
-                var r = btn.getBoundingClientRect();
-                if (r.width > 420) return; // leave full-width form buttons alone
-                var x = (e.clientX - r.left - r.width / 2) / r.width;
-                var y = (e.clientY - r.top - r.height / 2) / r.height;
-                btn.style.transform = 'translate(' + (x * 8).toFixed(1) + 'px,' +
-                    (y * 8 - 3).toFixed(1) + 'px) scale(1.02)';
+                last.x = e.clientX;
+                last.y = e.clientY;
+                enqueue(btn, function () {
+                    var r = btn.getBoundingClientRect();
+                    if (r.width > 420) return;
+                    var x = (last.x - r.left - r.width / 2) / r.width;
+                    var y = (last.y - r.top - r.height / 2) / r.height;
+                    btn.style.transform = 'translate(' + (x * 8).toFixed(1) + 'px,' +
+                        (y * 8 - 3).toFixed(1) + 'px) scale(1.02)';
+                });
             }, { passive: true });
 
-            btn.addEventListener('pointerleave', function () { btn.style.transform = ''; });
+            btn.addEventListener('pointerenter', function () { setWill(btn, true); });
+            btn.addEventListener('pointerleave', function () {
+                btn.style.transform = '';
+                setTimeout(function () { setWill(btn, false); }, 300);
+            });
         });
     }
 
     /* ======================================================================
-       8. Navigation — condensed state + morphing pill indicator
+       7. FLIP primitives (shared with the ka-nav component via window.KaiUI)
+       ====================================================================== */
+    function placePill(pill, target) {
+        if (!target) return;
+        pill.style.width = target.offsetWidth + 'px';
+        pill.style.height = target.offsetHeight + 'px';
+        pill.style.left = target.offsetLeft + 'px';
+        pill.style.top = target.offsetTop + 'px';
+    }
+
+    /* animate `pill` onto `target`, inverting from the pill's current rect */
+    function morphPill(pill, target, dur) {
+        var first = pill.getBoundingClientRect();
+        var last = target.getBoundingClientRect();
+        if (!first.width || !last.width || !pill.animate) {
+            placePill(pill, target);
+            return;
+        }
+        placePill(pill, target); /* write final geometry first (Last) */
+        var ix = first.left - last.left;
+        var iy = first.top - last.top;
+        var sx = first.width / last.width;
+        var sy = first.height / last.height;
+        setWill(pill, true);
+        var anim = pill.animate([
+            { transform: 'translate(' + ix + 'px,' + iy + 'px) scale(' + sx + ',' + sy + ')', opacity: .999 },
+            { transform: 'translate(0,0) scale(1,1)', opacity: 1 }
+        ], { duration: dur || 560, easing: 'cubic-bezier(.34,1.56,.64,1)' });
+        anim.onfinish = function () {
+            pill.style.transform = '';
+            setWill(pill, false);
+        };
+    }
+
+    /* FLIP across a re-render: the pill element was destroyed and recreated,
+       so we supply the previous rect explicitly instead of reading the pill. */
+    function animateFromRect(pill, from, target) {
+        var last = target.getBoundingClientRect();
+        if (!from || !from.width || !last.width || !pill.animate) {
+            placePill(pill, target);
+            return;
+        }
+        placePill(pill, target);
+        var ix = from.left - last.left;
+        var iy = from.top - last.top;
+        var sx = from.width / last.width;
+        var sy = from.height / last.height;
+        setWill(pill, true);
+        var anim = pill.animate([
+            { transform: 'translate(' + ix + 'px,' + iy + 'px) scale(' + sx + ',' + sy + ')', opacity: .999 },
+            { transform: 'translate(0,0) scale(1,1)', opacity: 1 }
+        ], { duration: 520, easing: 'cubic-bezier(.34,1.56,.64,1)' });
+        anim.onfinish = function () {
+            pill.style.transform = '';
+            setWill(pill, false);
+        };
+    }
+
+    /* ======================================================================
+       8. Navigation — condensed state + FLIP morphing pill (live `nav.sticky`)
        ====================================================================== */
     function initNav() {
         var nav = document.querySelector('nav.sticky');
@@ -265,7 +429,6 @@
         window.addEventListener('scroll', onScroll, { passive: true });
         onScroll();
 
-        // find the link group: the container holding the main nav anchors
         var track = null;
         each('nav div', nav, function (div) {
             if (track) return;
@@ -282,8 +445,7 @@
         var pill = document.createElement('span');
         pill.className = 'kai-pill';
         pill.setAttribute('aria-hidden', 'true');
-        pill.style.left = '0px';
-        pill.style.right = 'auto';
+        pill.style.transformOrigin = 'top left';
         track.insertBefore(pill, track.firstChild);
 
         var links = track.querySelectorAll('a');
@@ -295,27 +457,28 @@
             if (lp === path) { active = links[i]; break; }
         }
 
-        // the current page's link already carries a solid background in the
-        // markup — hand that job over to the morphing pill instead
+        /* the pill owns the highlight now */
         if (active) {
             active.classList.remove('bg-white', 'dark:bg-gray-700', 'shadow-sm');
         }
 
-        function moveTo(el, show) {
-            if (!el || !track.offsetWidth) return;
-            pill.style.width = el.offsetWidth + 'px';
-            pill.style.transform = 'translateX(' + el.offsetLeft + 'px)';
-            pill.classList.toggle('kai-pill-on', show !== false);
+        function settle() {
+            if (!active || !track.offsetWidth) return;
+            placePill(pill, active);
+            pill.classList.add('kai-pill-on');
         }
 
-        function settle() { moveTo(active, !!active); }
-
         each('a', track, function (a) {
-            a.addEventListener('pointerenter', function () { moveTo(a, true); });
+            a.addEventListener('pointerenter', function () {
+                if (!track.offsetWidth) return;
+                morphPill(pill, a, 420);
+            });
         });
-        track.addEventListener('pointerleave', settle);
+        track.addEventListener('pointerleave', function () {
+            if (!active || !track.offsetWidth) return;
+            morphPill(pill, active);
+        });
 
-        // measure once the auth gate reveals the body, and on resize
         settle();
         setTimeout(settle, 250);
         window.addEventListener('resize', settle);
@@ -324,13 +487,68 @@
     }
 
     /* ======================================================================
-       9. Rescan whenever Firebase (or anything else) renders new DOM
+       9. Category tabs — FLIP morphing pill.
+          Survives `container.innerHTML` re-renders by capturing the active
+          tab's rect on click (before the page re-renders) and FLIPping the
+          fresh pill from that rect to the new active tab.
+       ====================================================================== */
+    var catFromRect = null;
+
+    function initCatTabs(root) {
+        if (reduced) return;
+        each('.cat-tab', root, function (tab) {
+            var w = tab.parentElement;
+            if (!w || w.classList.contains('kai-tabs')) return;
+
+            var active = w.querySelector('.cat-tab.active');
+
+            /* capture the category gradient BEFORE the strip rule applies */
+            if (active) {
+                var bg = window.getComputedStyle(active).backgroundImage;
+                if (bg && bg !== 'none') w.dataset.kaiPillBg = bg;
+            }
+
+            w.classList.add('kai-tabs');
+
+            var pill = w.querySelector('.cat-pill');
+            if (!pill) {
+                pill = document.createElement('span');
+                pill.className = 'cat-pill';
+                pill.setAttribute('aria-hidden', 'true');
+                pill.style.transformOrigin = 'top left';
+                w.appendChild(pill);
+            }
+            if (w.dataset.kaiPillBg) pill.style.background = w.dataset.kaiPillBg;
+
+            if (active) {
+                placePill(pill, active);
+                pill.classList.add('kai-pill-on');
+                if (catFromRect && catFromRect.width) {
+                    animateFromRect(pill, catFromRect, active);
+                    catFromRect = null;
+                }
+            }
+
+            /* capture pre-render rect on click (capture phase = before the
+               page's inline onclick re-renders the tab list) */
+            w.addEventListener('click', function (e) {
+                var t = e.target.closest('.cat-tab');
+                if (!t) return;
+                var cur = w.querySelector('.cat-tab.active');
+                if (cur && cur !== t) catFromRect = cur.getBoundingClientRect();
+            }, true);
+        });
+    }
+
+    /* ======================================================================
+       10. Rescan whenever Firebase (or anything else) renders new DOM
        ====================================================================== */
     function scanAll(root) {
         scanCards(root);
         scanStagger(root);
         scanMagnetic(root);
         scanReveal(root);
+        initCatTabs(root);
     }
 
     function watchDom() {
@@ -347,8 +565,6 @@
         }).observe(document.body, { childList: true, subtree: true });
     }
 
-    /* Most pages hide <body> until Firebase resolves auth; measurements taken
-       while hidden are all zero, so re-run everything once it appears. */
     function watchAuthGate() {
         if (document.body.style.display !== 'none') return;
 
@@ -365,12 +581,26 @@
     }
 
     /* ======================================================================
+       shared API for the ka-nav component
+       ====================================================================== */
+    window.KaiUI = {
+        reduced: reduced,
+        isTouch: isTouch,
+        ready: ready,
+        each: each,
+        enqueue: enqueue,
+        setWill: setWill,
+        placePill: placePill,
+        morphPill: morphPill
+    };
+
+    /* ======================================================================
        boot
        ====================================================================== */
+    detectPerf();
     mountVeil();
 
     ready(function () {
-        mountAurora();
         mountProgress();
         initReveal();
         initNav();

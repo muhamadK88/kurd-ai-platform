@@ -1,0 +1,241 @@
+/* ==========================================================================
+   KURD AI — ka-nav component ("Aurora Glass" navigation standard)
+   Wires the ka-* vocabulary used by resources/views/partials/nav.blade.php:
+     .ka-nav, .ka-nav__shell, .ka-navlinks, .ka-navlinks__pill,
+     .ka-navlink(.is-active), .ka-wordmark, .ka-gradient-text, .ka-icon-btn,
+     .ka-burger, .ka-drawer, .ka-glass
+   Same high-FPS glass / tech / FLIP treatment as kurdai-design.css.
+   Pure presentation: no markup, logic or data is touched.
+   ========================================================================== */
+
+/* ---------- tokens used by the nav partial's inline styles ---------- */
+:root {
+    --ka-brand-gradient: linear-gradient(120deg, #2563eb, #06b6d4, #7c3aed);
+    --ka-line-soft: rgba(120, 140, 180, .18);
+    --ka-ease: cubic-bezier(.22, 1, .36, 1);
+    --ka-spring: cubic-bezier(.34, 1.56, .64, 1);
+    --ka-glass-bg: rgba(255, 255, 255, .58);
+    --ka-glass-brd: rgba(255, 255, 255, .70);
+}
+
+html.dark {
+    --ka-line-soft: rgba(122, 152, 214, .16);
+    --ka-glass-bg: rgba(17, 25, 42, .55);
+    --ka-glass-brd: rgba(122, 152, 214, .16);
+}
+
+/* ---------- shell ---------- */
+.ka-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--kai-canvas, #f5f7fb) 70%, transparent);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    backdrop-filter: blur(22px) saturate(180%);
+    border-bottom: 1px solid transparent;
+    transition:
+        background-color .45s var(--ka-ease),
+        border-color .45s var(--ka-ease),
+        box-shadow .45s var(--ka-ease),
+        padding .45s var(--ka-ease);
+    contain: layout style;
+}
+
+/* condensed state toggled by kurdai-nav.js on scroll */
+.ka-nav.kai-nav-scrolled {
+    background: color-mix(in srgb, var(--kai-canvas, #f5f7fb) 86%, transparent);
+    border-bottom-color: var(--ka-line-soft);
+    box-shadow: 0 8px 30px -14px rgba(16, 24, 40, .22);
+}
+
+html.dark .ka-nav.kai-nav-scrolled {
+    box-shadow: 0 10px 34px -14px rgba(0, 0, 0, .75);
+}
+
+.ka-nav__shell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: .75rem;
+}
+
+.ka-nav.kai-nav-scrolled .ka-nav__shell { padding-block: .45rem; }
+
+/* ---------- wordmark ---------- */
+.ka-vt-logo img {
+    transition: transform .5s var(--ka-spring);
+}
+
+/* exit flourish while the page veil fades (class set by kurdai-ui.js) */
+.kai-vt .ka-vt-logo img {
+    animation: kaVtLogo .7s var(--ka-spring) both;
+}
+
+@keyframes kaVtLogo {
+    0%   { transform: rotate(0deg) scale(1); }
+    40%  { transform: rotate(-10deg) scale(1.14); }
+    100% { transform: rotate(0deg) scale(1); }
+}
+
+.ka-wordmark {
+    transition: color .3s var(--ka-ease);
+}
+
+.ka-gradient-text {
+    background: linear-gradient(110deg, var(--kai-brand-1, #2563eb), var(--kai-brand-2, #06b6d4), var(--kai-brand-3, #7c3aed));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 220% auto;
+    animation: kaGradShift 8s linear infinite;
+}
+
+@keyframes kaGradShift {
+    to { background-position: 220% center; }
+}
+
+/* ---------- desktop link track + FLIP pill ---------- */
+.ka-navlinks {
+    position: relative;
+    contain: layout style;
+}
+
+.ka-navlink {
+    position: relative;
+    z-index: 1;
+    transition:
+        color .3s var(--ka-ease),
+        transform .4s var(--ka-spring),
+        text-shadow .3s var(--ka-ease);
+}
+
+.ka-navlink:hover {
+    transform: translateY(-1px);
+    color: var(--kai-brand-1, #2563eb);
+}
+
+html.dark .ka-navlink:hover { color: #22d3ee; }
+
+.ka-navlink.is-active {
+    color: var(--kai-brand-1, #2563eb);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--kai-brand-1, #2563eb) 45%, transparent);
+}
+
+html.dark .ka-navlink.is-active { color: #22d3ee; }
+
+.ka-navlink:focus-visible {
+    outline: 2px solid var(--kai-brand-2, #06b6d4);
+    outline-offset: 2px;
+}
+
+/* the FLIP pill — geometry is driven by kurdai-nav.js (placePill/morphPill);
+   CSS owns only the surface + fade-in */
+.ka-navlinks__pill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: 14px;
+    background:
+        linear-gradient(120deg, rgba(37, 99, 235, .12), rgba(6, 182, 212, .10), rgba(124, 58, 237, .12)),
+        var(--ka-glass-bg);
+    border: 1px solid var(--ka-glass-brd);
+    box-shadow:
+        0 4px 16px -6px rgba(16, 24, 40, .30),
+        inset 0 1px 0 rgba(255, 255, 255, .45);
+    transition: opacity .3s var(--ka-ease);
+}
+
+html.dark .ka-navlinks__pill {
+    background:
+        linear-gradient(120deg, rgba(56, 189, 248, .10), rgba(124, 58, 237, .10)),
+        rgba(255, 255, 255, .06);
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, .10),
+        0 4px 18px -6px rgba(0, 0, 0, .6);
+}
+
+.ka-navlinks__pill.kai-pill-on { opacity: 1; }
+
+/* ---------- icon buttons (lang / theme / profile / logout / burger) ---------- */
+.ka-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    border-radius: 14px;
+    background: var(--ka-glass-bg);
+    border: 1px solid var(--ka-glass-brd);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    backdrop-filter: blur(14px) saturate(160%);
+    box-shadow: var(--kai-shadow-1, 0 1px 2px rgba(16, 24, 40, .05));
+    transition:
+        transform .4s var(--ka-spring),
+        box-shadow .4s var(--ka-ease),
+        border-color .35s var(--ka-ease),
+        color .3s var(--ka-ease),
+        background-color .3s var(--ka-ease);
+}
+
+.ka-icon-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--kai-shadow-2, 0 24px 48px -20px rgba(16, 24, 40, .22));
+}
+
+.ka-icon-btn:active { transform: translateY(-1px) scale(.97); }
+
+#ka-burger svg {
+    transition: transform .45s var(--ka-spring), color .3s var(--ka-ease);
+}
+
+/* burger → X state morph */
+.ka-nav.is-open #ka-burger svg {
+    transform: rotate(90deg) scale(.88);
+}
+
+.ka-theme-icon {
+    display: inline-block;
+    transition: transform .5s var(--ka-spring);
+}
+
+.ka-icon-btn:hover .ka-theme-icon { transform: rotate(25deg) scale(1.15); }
+
+/* ---------- mobile drawer ---------- */
+.ka-drawer-inner { display: none; }
+
+.ka-glass {
+    background: var(--ka-glass-bg);
+    border: 1px solid var(--ka-glass-brd);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    backdrop-filter: blur(22px) saturate(180%);
+    box-shadow: var(--kai-shadow-2, 0 24px 48px -20px rgba(16, 24, 40, .22));
+}
+
+#ka-drawer { max-height: 0; }
+#ka-drawer[aria-hidden="false"] { max-height: none; }
+
+#ka-drawer a {
+    transition:
+        transform .3s var(--ka-spring),
+        background-color .3s var(--ka-ease),
+        color .3s var(--ka-ease);
+}
+
+#ka-drawer a:hover { transform: translateY(-2px); }
+
+/* ---------- motion accessibility ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .ka-nav,
+    .ka-nav__shell,
+    .ka-navlinks__pill,
+    .ka-icon-btn,
+    .ka-navlink,
+    .ka-wordmark {
+        transition-duration: .001ms !important;
+    }
+    .ka-navlinks__pill { opacity: 1; }
+    .kai-vt .ka-vt-logo img { animation: none; }
+    .ka-gradient-text { animation: none; }
+}
