@@ -478,7 +478,7 @@
         let fergaLangNames = {};
 
         const AI_TOPIC_FALLBACK = {
-            ai_intro: { name_so: 'پێشەکی بۆ ژیری دەستکرد', name_ba: 'دەستپێک بۆ زیرەکییا دەستکرد', icon: '🧠' },
+            ai_intro: { name_so: 'پێشەکی بۆ ژیری دەستکرد', name_ba: 'دەستپێک بۆ زیرەکیا دەستکرد', icon: '🧠' },
             ai_data: { name_so: 'داتا و شیکردنەوەی داتا', name_ba: 'داتا و شیکرنا داتایان', icon: '📊' },
             ai_algo: { name_so: 'بنەڕەتەکانی ئالگۆریتم', name_ba: 'بنەڕەتێن ئالگۆریتم', icon: '⚙️' },
             ai_ml: { name_so: 'فێربوونی ئامێر (Machine Learning)', name_ba: 'فێربوونا ماکین (Machine Learning)', icon: '🤖' },

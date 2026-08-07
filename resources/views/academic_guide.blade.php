@@ -138,7 +138,7 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <textarea id="answer_so" placeholder="وەڵام (سۆرانی)" required rows="5" class="w-full px-6 py-5 rounded-2xl bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:ring-4 focus:ring-teal-500/20 outline-none transition-all"></textarea>
-                    <textarea id="answer_ba" placeholder="وەڵام (بادینی)" required rows="5" class="w-full px-6 py-5 rounded-2xl bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:ring-4 focus:ring-teal-500/20 outline-none transition-all"></textarea>
+                    <textarea id="answer_ba" placeholder="بەرسڤ (بادینی)" required rows="5" class="w-full px-6 py-5 rounded-2xl bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:ring-4 focus:ring-teal-500/20 outline-none transition-all"></textarea>
                 </div>
                 <button type="submit" id="submit-form-btn" class="w-full bg-gradient-to-r from-teal-600 to-cyan-600 text-white py-5 rounded-2xl font-black text-xl hover:shadow-2xl hover:shadow-teal-500/30 hover:-translate-y-1 transition-all">پاشەکەوتکردنی زانیارییەکان</button>
             </form>
@@ -172,7 +172,7 @@
                             <textarea id="edit_guide_answer_so" required rows="4" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none transition-all text-sm resize-none"></textarea>
                         </div>
                         <div>
-                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">وەڵام (بادینی)</label>
+                            <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">بەرسڤ (بادینی)</label>
                             <textarea id="edit_guide_answer_ba" required rows="4" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none transition-all text-sm resize-none"></textarea>
                         </div>
                     </div>

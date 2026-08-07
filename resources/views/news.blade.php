@@ -143,7 +143,7 @@
                 <span class="lang-str" data-so="نوێترین زانیاری و گۆڕانکارییەکان" data-ba="دوماهیک پێزانین و گۆڕانکاری">نوێترین زانیاری و گۆڕانکارییەکان</span>
             </div>
             <h2 class="text-5xl md:text-7xl font-black mb-4 tracking-tight text-gray-900 dark:text-white leading-tight lang-str" data-so="هەواڵ و پێشهاتەکان" data-ba="نووچە و پێشهات">هەواڵ و پێشهاتەکان</h2>
-            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium lang-str" data-so="ئاگاداری نوێترین هەواڵەکانی تەکنەلۆژیا و ژیریی دەستکرد بە" data-ba="ئاگاداری دوماهیک نووچەیێن تەکنەلۆژیا و ژیرییا دەستکرد ب">ئاگاداری نوێترین هەواڵەکانی تەکنەلۆژیا و ژیریی دەستکرد بە</p>
+            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium lang-str" data-so="ئاگاداری نوێترین هەواڵەکانی تەکنەلۆژیا و ژیریی دەستکرد بە" data-ba="ئاگاداری دوماهیک نووچەیێن تەکنەلۆژیا و ژیرییا دەستکرد ببە">ئاگاداری نوێترین هەواڵەکانی تەکنەلۆژیا و ژیریی دەستکرد بە</p>
         </div>
     </header>
 
@@ -152,7 +152,7 @@
         <div class="glass-card p-8 rounded-[2rem] shadow-xl max-w-4xl mx-auto border-t-4 border-sky-500 relative overflow-hidden">
             <h3 class="text-2xl font-black mb-6 text-gray-900 dark:text-white flex items-center gap-2">
                 <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                <span class="lang-str" data-so="بڵاوکردنەوەی هەواڵی نوێ (ئەدمین)" data-ba="بەلاڤکرنا نووچەیا نوی (ئەدمین)">بڵاوکردنەوەی هەواڵی نوێ (ئەدمین)</span>
+                <span class="lang-str" data-so="بڵاوکردنەوەی هەواڵی نوێ (ئەدمین)" data-ba="بەلاڤکرنا نووچەکا نوی (ئەدمین)">بڵاوکردنەوەی هەواڵی نوێ (ئەدمین)</span>
             </h3>
             
             <form id="add-news-form">

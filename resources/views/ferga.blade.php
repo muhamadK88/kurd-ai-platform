@@ -393,7 +393,7 @@
                         </div>
                         <div>
                             <h3 class="text-lg font-black text-gray-800 dark:text-white lang-str" data-so="ئێستا تۆ تاقیبکەوە" data-ba="نوکە تۆ تاقی بکە">ئێستا تۆ تاقیبکەوە</h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 font-medium lang-str" data-so="وەڵامی ئەم پرسیارە بدەوە" data-ba="وڵامێ ڤی پرسیارێ بدەوە">وەڵامی ئەم پرسیارە بدەوە</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 font-medium lang-str" data-so="وەڵامی ئەم پرسیارە بدەوە" data-ba="بەرسڤا ڤی پرسیارێ بدە">وەڵامی ئەم پرسیارە بدەوە</p>
                         </div>
                     </div>
                     <p id="challenge-text" class="text-gray-700 dark:text-gray-200 font-bold leading-relaxed bg-white/60 dark:bg-black/20 rounded-xl p-4 border border-purple-200/50 dark:border-purple-800/50"></p>
@@ -665,9 +665,9 @@
         // هەر بەشێک وەک زمانێک لە فایەربەیس دەهێڵدرێت (is_ai: true) و ئەدمین دەتوانێت بیگۆڕێت
         const AI_TOPICS = [
             { id: 'ai_intro', is_ai: true, ai_order: 1, unlock_cost: 1200, icon: '🧠', color: 'bg-emerald-100', grad: 'from-emerald-500 to-teal-500',
-              name_so: 'پێشەکی بۆ ژیری دەستکرد', name_ba: 'دەستپێک بۆ زیرەکییا دەستکرد',
+              name_so: 'پێشەکی بۆ ژیری دەستکرد', name_ba: 'دەستپێک بۆ زیرەکیا دەستکرد',
               desc_so: 'ژیری دەستکرد چییە، مێژووەکەی، جۆرەکانی و چۆنیەتی کارکردنی — بەشەکە بە پۆینت دەکرێتەوە و وانەکانی بەخۆڕایی فێردەبیت.',
-              desc_ba: 'زیرەکییا دەستکرد چ یە، دیرۆکا وێ، جۆرێن وێ و ڕێکا کارکردنا وێ — بەش ب پۆینتان ڤەدبیت و وانەیێن وێ بەلاش فێردبی.',
+              desc_ba: 'زیرەکیا دەستکرد چ یە، دیرۆکا وێ، جۆرێن وێ و ڕێکا کارکردنا وێ — بەش ب پۆینتان ڤەدبیت و وانەیێن وێ بەلاش فێردبی.',
               ext: 'py' },
             { id: 'ai_data', is_ai: true, ai_order: 2, unlock_cost: 1500, icon: '📊', color: 'bg-teal-100', grad: 'from-teal-500 to-cyan-500',
               name_so: 'داتا و شیکردنەوەی داتا', name_ba: 'داتا و شیکرنا داتایان',
@@ -710,31 +710,31 @@
         const AI_SAMPLE_LESSONS = [
             // --- پێشەکی بۆ ژیری دەستکرد ---
             { id: 'ai_intro_01', langId: 'ai_intro', order: 1, xp_cost: 800, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
-              title_so: 'AI چییە؟ — بنەڕەتەکان', title_ba: 'AI çi ye? — بنەڕەت',
+              title_so: 'AI چییە؟ — بنەڕەتەکان', title_ba: 'AI چی یە؟ — بنەڕەت',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ژیری دەستکرد چییە؟</h3>
 <p><b>ژیری دەستکرد (AI)</b> توانایەکە بۆ ئامێر کە کارێک وەک مرۆڤ ئەنجام دەدات: تێگەیشتن، بیرکردنەوە و بڕیاردان. لە جیاتی ڕێنمایی ڕاستەوخۆ، مۆدێلەکە لە داتا فێردەبێت.</p>
 <p>سێ ئاست هەیە: <b>Narrow AI</b> (تایبەت بە کارێک، وەک ناسینەوەی ڕووخسار)، <b>General AI</b> (وەک مرۆڤ لە هەموو کارێکدا) و <b>Super AI</b> (لە مرۆڤ باشتر). ئێمە ئەمڕۆ لە ئاستی یەکەمداین.</p>
 <p>لەم بەشەدا فێردەبین کە مۆدێل چۆن لە ژمارەکان و ڕێساکان دروست دەکرێت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Zîrekiya destçêkirî çi ye?</h3>
-<p><b>Zîrekiya destçêkirî (AI)</b> jêhatîbûneke ji bo amrêzê ko karekî wek mirov dike: têgihiştin، fikirkirin û biryardan. Li şûna rêbernameya rasterast، model ji daneyan hîn dibe.</p>
-<p>Sê ast hene: <b>Narrow AI</b>، <b>General AI</b> û <b>Super AI</b>. Em îro di asta yekem de ne.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">زیرەکیا دەستکرد چی یە؟</h3>
+<p><b>زیرەکیا دەستکرد (AI)</b> جەهاتیبونەکە ژبۆ ئامرازێ کو کارەکێ وەک مرۆڤ دکەت: تێگهیشتن، بیرکرن و بریاردان. ل شوونا ڕێنماییا ڕاستەخۆ، مۆدێل ژ دانایان فێر دبیت.</p>
+<p>سێ ئاست هەنە: <b>Narrow AI</b>، <b>General AI</b> و <b>Super AI</b>. ئەم ئەڤرۆ د ئاستا یەکێ د نینە.</p>`,
               code: `x = 5
 y = 7
 print(x + y)`,
               challenge_desc_so: 'دوو گۆڕاو دروست بکە بە ناوی a=3 و b=4 — ئینجا کۆی گشتییان چاپ بکە.',
-              challenge_desc_ba: 'Du guherbar çêke bi navê a=3 û b=4 — paşê koma wan çap bike.',
+              challenge_desc_ba: 'دوو گۆڕاڤان چێکە ب ناڤێ a=3 و b=4 — پشتی کۆما وان چاپ بکە.',
               expected_output: '7', example_output: '12' },
             { id: 'ai_intro_02', langId: 'ai_intro', order: 2, xp_cost: 820, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
               title_so: 'مێژووی AI — لە بیردۆزەوە بۆ ئەمڕۆ', title_ba: 'دیرۆکا AI — ژ بیردۆزێ ھەتا ئەڤرۆ',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">AI لە کوێوە هاتووە؟</h3>
 <p>بیرۆکەی ئامێری بیرکەرەوە دەگەڕێتەوە بۆ ساڵانی ١٩٥٠. لە ساڵی ١٩٥٦دا <b>John McCarthy</b> ناوی "ژیری دەستکرد" دانا. لەم چەند دەیەیەدا بەهۆی داتای زۆر و کۆمپیوتەری خێراتر، AI بە تەقینەوە گەشەی کرد.</p>
 <p>ئەمڕۆ مۆدێلەکان لە وێنە، دەنگ و زمان تێدەگەن — بەڵام هەموویان پشت بە <b>ژمارە</b> دەبەستن. هەر بەرنامەیەکی کوردی بە پایتۆن دەست پێ دەکەین.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">AI ji kû derê hat?</h3>
-<p>Ramanê amrêzê ko difikire vedigere salên 1950. Di sala 1956 da <b>John McCarthy</b> navê "Zîrekiya destçêkirî" danî. Bi saya dane û komputerên lezgîntir، AI pir pêşve çû.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">AI ژ کو هات؟</h3>
+<p>بیرۆکا ئامرازێ کو دفیكریت دگەریتەڤە بۆ سالێن 1950. د سالا 1956 دا <b>John McCarthy</b> ناڤێ "زیرەکیا دەستکرد" دانا. ژ بەر دانایان و کۆمپیوتەرێن زێدە لەزگین، AI گەلەک پێشڤە چوو.</p>`,
               code: `history = ["1950", "1956", "2020"]
 print(len(history))`,
               challenge_desc_so: 'لیستەیەک دروست بکە بە سێ ساڵ: ["1950", "1960", "2024"] — ئینجا ژمارەی ئەندامەکان چاپ بکە.',
-              challenge_desc_ba: 'Listeyek çêke bi sê salan: ["1950", "1960", "2024"] — paşê hejmara endaman çap bike.',
+              challenge_desc_ba: 'لیستەکێ چێکە ب سێ سالان: ["1950", "1960", "2024"] — پشتی هەژمارا ئەندامان چاپ بکە.',
               expected_output: '3', example_output: '4' },
             { id: 'ai_intro_03', langId: 'ai_intro', order: 3, xp_cost: 840, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
               title_so: 'جۆرەکانی AI — Narrow, General, Super', title_ba: 'جۆرێن AI — Narrow, General, Super',
@@ -742,9 +742,9 @@ print(len(history))`,
 <p><b>Narrow AI</b> تەنها لە کارێکی تایبەتدا شارەزایە: ئامۆژگاریی وەرگێڕان، سیستەمی پێشنیار و ناسینەوەی ڕووخسار. زۆربەی سیستەمەکانی ئەمڕۆ لەم جۆرەیان.</p>
 <p><b>General AI</b> دەتوانێت هەر کارێکی فکری وەک مرۆڤ بکات (هێشتا نەگەیشتووە) و <b>Super AI</b> لە هەموو بوارێکدا لە مرۆڤ باشترە (بیردۆزە).</p>
 <p>لە بەرنامەنووسیدا، جۆرەکە بە <b>مۆدێل</b> دەناسرێت — بۆ نموونە مۆدێلێک کە تەنها وێنە دەبینێت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Sê curên AI</h3>
-<p><b>Narrow AI</b> tenê di karekî taybet da pis e: wergerîn، pergala pêşniyarê û naskirina rûan. Piraniya pergalan ji vî curî ne.</p>
-<p><b>General AI</b> dikare her karekî wek mirov bike (hê jî negihîştîye) û <b>Super AI</b> di her warî da ji mirov çêtir e (raman).</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">سێ جۆرێن AI</h3>
+<p><b>Narrow AI</b> تەنێ د کارەکێ تایبەت دا پسە: وەرگێران، سیستەما پێشنیارێ و ناسکرنا ڕووان. پیرانیا سیستەمان ژ ڤی جۆری نە.</p>
+<p><b>General AI</b> دشێت هەر کارەکێ وەک مرۆڤ بکەت (هێشتا نەگهیشتیە) و <b>Super AI</b> د هەر وەری دا ژ مرۆڤ چێترە (بیردۆز).</p>`,
               code: `def narrow_ai(task):
     if task == "image":
         return "recognizes faces"
@@ -752,16 +752,16 @@ print(len(history))`,
 
 print(narrow_ai("image"))`,
               challenge_desc_so: 'فەنکشنێک بنووسە بە ناوی check کە ئەگەر task == "text" بوو، "NLP" بگەڕێنێتەوە — ئینجا check("text") چاپ بکە.',
-              challenge_desc_ba: 'Fonksiyonek binivîse bi navê check ko eger task == "text" بیت، "NLP" vegerîne — paşê check("text") çap bike.',
+              challenge_desc_ba: 'فەنکشنەکێ بنڤیسە ب ناڤێ check کو هەکە task == "text" بیت، "NLP" ڤەگەڕینە — پشتی check("text") چاپ بکە.',
               expected_output: 'NLP', example_output: 'recognizes faces' },
             { id: 'ai_intro_04', langId: 'ai_intro', order: 4, xp_cost: 860, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
               title_so: 'داتا — بەنزینی AI', title_ba: 'داتا — بەنزینا AI',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">داتا چییە و بۆچی گرنگە؟</h3>
 <p>هەموو مۆدێلەکانی AI بە <b>داتا</b> فێردەبن. داتا دەتوانێت ژمارە، دەق، وێنە یان دەنگ بێت. بە شێوەی <b>لیست</b>، <b>فەرهەنگ (dict)</b> و <b>ئارای (array)</b> هەڵدەگیرێت.</p>
 <p>ئەگەر داتا خراپ بێت، مۆدێلەکەش خراپ دەبێت — "Garbage in, garbage out". لەم وانەیەدا فێردەبین داتا چۆن لە پایتۆندا هەڵدەگیرێت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Dane çi ye û çima giring e?</h3>
-<p>Hemû modelên AI bi <b>dane</b> hîn dibin. Dane dikare jmar، nivîs، wêne yan deng bit. Bi şiklê <b>liste</b>، <b>ferheng (dict)</b> û <b>array</b> tê hilanîn.</p>
-<p>Eger dane xirab bin، model jî xirab dibe — "Garbage in, garbage out".</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">دانە چی یە و جیما گرینگە؟</h3>
+<p>هەمی مۆدێلێن AI ب <b>دانایان</b> فێر دبن. دانە دشێت ژمارە، نڤیس، وێنە یان دەنگ بیت. ب شێوەی <b>لیستە</b>، <b>فەرهەنگ (dict)</b> و <b>array</b> دێتە هەلگرتن.</p>
+<p>هەکە دانە خراب بن، مۆدێل ژی خراب دبیت — "Garbage in, garbage out".</p>`,
               code: `data = {
     "name": "Ava",
     "age": 22,
@@ -769,22 +769,22 @@ print(narrow_ai("image"))`,
 }
 print(data["age"])`,
               challenge_desc_so: 'فەرهەنگێک دروست بکە بە ناوی car و دوو نیشانە: "model" و "year". year = 2022 — ئینجا نرخی year چاپ بکە.',
-              challenge_desc_ba: 'Ferhengek çêke bi navê car û du stûn: "model" û "year". year = 2022 — paşê nirxê year çap bike.',
+              challenge_desc_ba: 'فەرهەنگەکێ چێکە ب ناڤێ car و دوو ستون: "model" و "year". year = 2022 — پشتی نێرخێ year چاپ بکە.',
               expected_output: '2022', example_output: '22' },
             { id: 'ai_intro_05', langId: 'ai_intro', order: 5, xp_cost: 880, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
-              title_so: 'مۆدێل چۆن فێردەبێت؟ — بینینی گشتی', title_ba: 'Model çawa hîn dibe? — دیتنا گشتی',
+              title_so: 'مۆدێل چۆن فێردەبێت؟ — بینینی گشتی', title_ba: 'مۆدێل چەوا فێر دبیت؟ — دیتنا گشتی',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ئامێر چۆن فێردەبێت؟</h3>
 <p>بە شێوەیەکی سادە: ئامێرەکە وەڵامێک دەدات، <b>هەڵەکە</b> دەپێوێت، ئینجا بە بەراوردی وەڵامەکە لەگەڵ وەڵامی ڕاست، خۆی <b>ڕاستدەکاتەوە</b>. ئەمە چەندین جار دووبارە دەکرێتەوە.</p>
 <p>بۆ نموونە: مۆدێلێک کە نرخی ماڵ پێشبینی دەکات — بە نرخەکانی پێشوو فێردەبێت. لەم وانەیەدا ڕێسایەکی سادە دەنووسین.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Makîne çawa hîn dibe?</h3>
-<p>Bi awayekî sade: makîne bersivekê dide، <b>xeletîyê</b> dipîve، paşê bi berawirdkirina bersivê bi bersiva rast re، xwe <b>rast dike</b>. Ev gelek caran tê dubarekirin.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ماکین چەوا فێر دبیت؟</h3>
+<p>ب ڕیەکا سادە: ماکین بەرسڤەکێ ددەت، <b>شاشتیا</b> دیپێڤیت، پشتی ب بەراوردکرنا بەرسڤێ دگەل بەرسڤا ڕاست، خوە <b>ڕاست دکەت</b>. ئەڤە گەلەک جاران دێتە دووبارەکرن.</p>`,
               code: `def learn(expected, got):
     return abs(expected - got)
 
 error = learn(100, 90)
 print(error)`,
               challenge_desc_so: 'بە فەنکشنێک هەڵەکە هەژمار بکە: learn(50, 45) — ئینجا ئەنجامەکە چاپ بکە.',
-              challenge_desc_ba: 'Bi fonksiyonek xeletîyê hesab bike: learn(50, 45) — paşê encamê çap bike.',
+              challenge_desc_ba: 'ب فەنکشنەکێ شاشتیا حساب بکە: learn(50, 45) — پشتی ئەنجامێ چاپ بکە.',
               expected_output: '5', example_output: '10' },
 
             // --- داتا و شیکردنەوەی داتا ---
@@ -794,23 +794,23 @@ print(error)`,
 <p><b>NumPy</b> کتێبخانەی سەرەکیی پایتۆنه بۆ کارکردن لەگەڵ داتای ژمارەیی. ئامرازی سەرەکییەکەی <b>ئارای (Array)</b>ە کە ڕێگەت دەدات بە خێرایی لەگەڵ ژمارە زۆرەکان کار بکەیت.</p>
 <p>بە <code>np.array([...])</code> ئارایەک دروست دەکرێت. فەنکشنەکانی وەک <code>sum()</code>، <code>mean()</code>، <code>max()</code> و <code>min()</code> ڕێگەت دەدەن بەسەر داتاکەدا بپەڕیتەوە.</p>
 <p>ئەم کتێبخانەیە بناغەی زۆربەی ئامرازەکانی داتا و ژیری دەستکردە.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">NumPy çi ye?</h3>
-<p><b>NumPy</b> kîtêbxaneya sereke ya Python e ji bo xebata bi daneyên jimêrkî. Amraza wê ya sereke <b>Array</b> ye.</p>
-<p>Bi <code>np.array([...])</code> arrayek tê damezrandin. Fonksiyonên wek <code>sum()</code> û <code>mean()</code> rê didin te ku bi daneyan re bixebitî.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">NumPy چی یە؟</h3>
+<p><b>NumPy</b> کیتەبخانا سەرەکیا Python یە ژبۆ کارکرنا دگەل دانایێن ژمێرکی. ئامرازا وی یا سەرەکی <b>Array</b> یە.</p>
+<p>ب <code>np.array([...])</code> arrayەک دێتە دامەزراندن. فەنکشنا وەک <code>sum()</code> و <code>mean()</code> ڕێ ددەنە تە کو دگەل دانایان بکاربێیت.</p>`,
               code: `import numpy as np
 a = np.array([10, 20, 30])
 print(a.sum())`,
               challenge_desc_so: 'بە NumPy ئارایەک دروست بکە بەم ژمارانە: 1, 2, 3 — ئینجا کۆی گشتییان چاپ بکە.',
-              challenge_desc_ba: 'ب NumPy arrayek damezrîne bi van jmaran: 1, 2, 3 — paşê koma wan çap bike.',
+              challenge_desc_ba: 'ب NumPy arrayەکێ دامەزرینە ب ڤان ژماران: 1, 2, 3 — پشتی کۆما وان چاپ بکە.',
               expected_output: '6', example_output: '60' },
             { id: 'ai_data_02', langId: 'ai_data', order: 2, xp_cost: 920, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
               title_so: 'ناساندنی Pandas — DataFrames', title_ba: 'ناساندنا Pandas — DataFrames',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Pandas چییە؟</h3>
 <p><b>Pandas</b> ئامرازی سەرەکی داتا لە پایتۆندا. داتایەک بە شێوەی <b>DataFrame</b> هەڵدەگرێت — خشتەیەک وەک Excel بە ڕیز و ستوون.</p>
 <p>بە <code>pd.DataFrame({...})</code> خشتەیەک دروست دەکرێت، بە <code>df.head()</code> سەرەتاکەی و بە <code>df.describe()</code> پوختەی ئاماری دەبینیت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Pandas çi ye?</h3>
-<p><b>Pandas</b> amraza sereke ya dane di Python de ye. Daneyan bi şiklê <b>DataFrame</b> digire — tabloyek wek Excel bi rêz û stûnan.</p>
-<p>Bi <code>pd.DataFrame({...})</code> tabloyek tê damezrandin û bi <code>df.head()</code> serê wê tê dîtin.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Pandas چی یە؟</h3>
+<p><b>Pandas</b> ئامرازا سەرەکیا دانایان د Python دایە. دانایان ب شێوەی <b>DataFrame</b> دگەرت — خشتەکێ وەک Excel ب ڕێز و ستونان.</p>
+<p>ب <code>pd.DataFrame({...})</code> خشتەک دێتە دامەزراندن و ب <code>df.head()</code> سەرێ وی دێتە دیتن.</p>`,
               code: `import pandas as pd
 df = pd.DataFrame({
     "naw": ["Soran", "Ava"],
@@ -818,41 +818,41 @@ df = pd.DataFrame({
 })
 print(df["score"].sum())`,
               challenge_desc_so: 'بە Pandas خشتەیەک دروست بکە بە ستوونی "score" بە نرخەکانی 50 و 60 — ئینجا کۆی score چاپ بکە.',
-              challenge_desc_ba: 'Bi Pandas tabloyek çêke bi stûna "score" bi nirxên 50 û 60 — paşê koma score çap bike.',
+              challenge_desc_ba: 'ب Pandas خشتەکێ چێکە ب ستونا "score" ب نێرخێن 50 و 60 — پشتی کۆما score چاپ بکە.',
               expected_output: '110', example_output: '170' },
             { id: 'ai_data_03', langId: 'ai_data', order: 3, xp_cost: 940, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
-              title_so: 'پاککردنەوەی داتا — نرخە ونبووەکان', title_ba: 'پاقژکرنا داتایان — نیرخێن وندا',
+              title_so: 'پاککردنەوەی داتا — نرخە ونبووەکان', title_ba: 'پاقژکرنا داتایان — نێرخێن وندا',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">بەکوژکردنەوەی نرخە ونبووەکان</h3>
 <p>زۆرجار لە داتا دا <b>None</b> یان نرخێکی ونبوو هەیە. بە <code>df.isnull().sum()</code> ژمارەی نرخە ونبووەکان لە هەر ستوونێکدا دەبینیت.</p>
 <p>دوای دۆزینەوەیان، بە <code>df.dropna()</code> ڕیزەکان دەسڕدرێنەوە یان بە <code>df.fillna(0)</code> نرخێک لە شوێنیان دادەنرێت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Çareserkirina nirxên winda</h3>
-<p>Pir caran di dane da <b>None</b> an nirxêkî winda heye. Bi <code>df.isnull().sum()</code> hejmara nirxên winda tê dîtin.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">چارەسەرکرنا نێرخێن وندا</h3>
+<p>گەلەک جاران د دانایان دا <b>None</b> یان نێرخەکێ وندا هەیە. ب <code>df.isnull().sum()</code> هەژمارا نێرخێن وندا دێتە دیتن.</p>`,
               code: `import pandas as pd
 df = pd.DataFrame({"x": [1, 2, None, 4]})
 print(df.isnull().sum())`,
               challenge_desc_so: 'بە Pandas لیستەیەک دروست بکە: [1, None, 3] — ئینجا ژمارەی نرخە ونبووەکان چاپ بکە.',
-              challenge_desc_ba: 'Bi Pandas listeyek çêke: [1, None, 3] — paşê hejmara nirxên winda çap bike.',
+              challenge_desc_ba: 'ب Pandas لیستەکێ چێکە: [1, None, 3] — پشتی هەژمارا نێرخێن وندا چاپ بکە.',
               expected_output: '1', example_output: '2' },
             { id: 'ai_data_04', langId: 'ai_data', order: 4, xp_cost: 960, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'ئاماری سەرەکی — mean و median', title_ba: 'ئامارێن سەرەکی — mean û median',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">پێوانەکانی ناوەند</h3>
 <p><b>Mean (تێکڕا)</b> کۆی ژمارەکان دابەش بە ژمارەیان. <b>Median</b> نرخی ناوەڕاستە دوای ڕیزکردن. <b>Mode</b> ئەو نرخەیە کە زۆرترین جار دووبارە بووەتەوە.</p>
 <p>بە کتێبخانەی <code>statistics</code> بە ئاسانی دەتوانیت ئەم پێوانانە هەژمار بکەیت. ئەمە بناغەی شیکردنەوەی داتایە.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Pîvanên navendê</h3>
-<p><b>Mean</b> koma jmaran dabeşî hejmara wan. <b>Median</b> nirxê navê piştî rêzkirinê. Bi kîtêbxana <code>statistics</code> bi hêsanî ev tên hesabkirin.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">پێڤانێن ناڤەندێ</h3>
+<p><b>Mean</b> کۆما ژماران دابەش ب هەژمارا وان. <b>Median</b> نێرخێ ناڤێ پشتی ڕێزکرنێ. ب کیتەبخانا <code>statistics</code> ب ساناهی ئەڤە دێنە حسابکرن.</p>`,
               code: `import statistics
 nums = [2, 4, 6]
 print(statistics.mean(nums))`,
               challenge_desc_so: 'بە statistics تێکڕای [10, 20, 30] هەژمار بکە — ئینجا چاپی بکە.',
-              challenge_desc_ba: 'Bi statistics navînîya [10, 20, 30] hesab bike — paşê çap bike.',
+              challenge_desc_ba: 'ب statistics ناڤینجیا [10, 20, 30] حساب بکە — پشتی چاپ بکە.',
               expected_output: '20', example_output: '4' },
             { id: 'ai_data_05', langId: 'ai_data', order: 5, xp_cost: 980, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'وێنەکێشانی داتا — Matplotlib', title_ba: 'وێنەکێشانا داتایان — Matplotlib',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">چارت بۆ بینینی داتا</h3>
 <p><b>Matplotlib</b> ئامرازی وێنەکێشانە لە پایتۆندا. بە <code>plt.plot(x, y)</code> هێڵێک و بە <code>plt.bar(...)</code> ستوون دروست دەکرێت.</p>
 <p>چارت ڕێگەت دەدات داتاکەت بە چاو ببینیت — ئەمەش بناغەی شیکردنەوەی داتایە (EDA).</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Nexşe ji bo dîtina dane</h3>
-<p><b>Matplotlib</b> amraza wênekêşana Python e. Bi <code>plt.plot(x, y)</code> xêzek û bi <code>plt.bar(...)</code> stûn tên damezrandin.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">نەخشە ژبۆ دیتنا دانایان</h3>
+<p><b>Matplotlib</b> ئامرازا وێنەکێشانا Python یە. ب <code>plt.plot(x, y)</code> خێزەک و ب <code>plt.bar(...)</code> ستون دێنە دامەزراندن.</p>`,
               code: `import matplotlib.pyplot as plt
 x = [1, 2, 3]
 y = [4, 5, 6]
@@ -860,31 +860,31 @@ plt.plot(x, y)
 plt.title("Example")
 print(len(x))`,
               challenge_desc_so: 'لیستی x بەم شێوەیە: [1, 2, 3, 4]. تەنها ژمارەی ئەندامەکانی x چاپ بکە بە len().',
-              challenge_desc_ba: 'Lista x bi vî şiklî ye: [1, 2, 3, 4]. Tenê hejmara endamên x çap bike bi len().',
+              challenge_desc_ba: 'لیستا x ب ڤی شێوەی یە: [1, 2, 3, 4]. تەنێ هەژمارا ئەندامێن x چاپ بکە ب len().',
               expected_output: '4', example_output: '3' },
 
             // --- بنەڕەتەکانی ئالگۆریتم ---
             { id: 'ai_algo_01', langId: 'ai_algo', order: 1, xp_cost: 1000, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
-              title_so: 'ئالگۆریتم چییە؟', title_ba: 'ئالگۆریتم چ یە؟',
+              title_so: 'ئالگۆریتم چییە؟', title_ba: 'ئالگۆریتم چی یە؟',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ئالگۆریتم چییە؟</h3>
 <p><b>ئالگۆریتم</b> ڕێنمایی هەنگاو بە هەنگاوە بۆ چارەسەری کێشەیەک. هەموو سیستەمەکانی ژیری دەستکرد پشتیان بە ئالگۆریتمە بەهێزەکانە.</p>
 <p>نموونە: چارەسەری <b>کۆکردنەوە</b> ئالگۆریتمێکە. ئالگۆریتمەکە دەبێت <b>ڕوون</b>، <b>تەواو</b> و <b>کۆتایی</b> هەبێت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Algorîtm çi ye?</h3>
-<p><b>Algorîtm</b> rêberiya gav bi gav e ji bo çareserkirina pirsgirêkê. Hemû pergalên zîrekiya destçêkirî bi algorîtman ve girêdayî ne.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ئالگۆریتم چی یە؟</h3>
+<p><b>ئالگۆریتم</b> ڕێبەریا گاڤ ب گاڤە ژبۆ چارەسەرکرنا ئاریشەکێ. هەمی سیستەمێن زیرەکیا دەستکرد دگەل ئالگۆریتان ڤە گرێدایی نە.</p>`,
               code: `def add(a, b):
     return a + b
 
 print(add(15, 27))`,
               challenge_desc_so: 'فەنکشنێک بنووسە بە ناوی mul کە دوو ژمارە لێکدەدات — ئینجا mul(6, 7) چاپ بکە.',
-              challenge_desc_ba: 'Fonksiyonek binivîse bi navê mul ko du jmaran lêk dixe — paşê mul(6, 7) çap bike.',
+              challenge_desc_ba: 'فەنکشنەکێ بنڤیسە ب ناڤێ mul کو دوو ژماران لێک دخەت — پشتی mul(6, 7) چاپ بکە.',
               expected_output: '42', example_output: '42' },
             { id: 'ai_algo_02', langId: 'ai_algo', order: 2, xp_cost: 1020, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
               title_so: 'گەڕانی ڕیزبەندی — Linear Search', title_ba: 'گەڕانا ڕیزبەندی — Linear Search',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">گەڕانی هێڵی</h3>
 <p><b>Linear Search</b> سادەترین ڕێگای گەڕانە: لە سەرەتای لیستەکەوە دەست پێ دەکات و هەر ئەندامێک بەراورد دەکات بە نرخی داواکراو. ئەگەر دۆزرایەوە، <b>ژمارەی شوێنەکەی (index)</b> دەگەڕێنێتەوە.</p>
 <p>بۆ لیستە گەورەکان ئەم ڕێگایە خاوە، بەڵام بناغەی تێگەیشتنی گەڕانە لە AI دا.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Gerrîna xêzikî</h3>
-<p><b>Linear Search</b> hêsantirîn rêya gerrînê ye: ji serê listeyê dest pê dike û her endamekê berawird dike bi nirxê daxwazkirî re.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">گەڕانا خێزیکی</h3>
+<p><b>Linear Search</b> هەرە ساناهترین ڕێیا گەڕانێ یە: ژ سەرێ لیستێ دەست پێ دکەت و هەر ئەندامەکێ بەراورد دکەت دگەل نێرخێ داواکرێ.</p>`,
               code: `def linear_search(lst, target):
     for i in range(len(lst)):
         if lst[i] == target:
@@ -893,15 +893,15 @@ print(add(15, 27))`,
 
 print(linear_search([10, 20, 30, 40], 30))`,
               challenge_desc_so: 'بە گەڕانی هێڵی لە [5, 15, 25] بۆ 25 بگەڕێ — ئینجا ژمارەی شوێنەکەی چاپ بکە.',
-              challenge_desc_ba: 'Bi gerrîna xêzikî di [5, 15, 25] da li 25 bigerre — paşê jimara şûnê çap bike.',
+              challenge_desc_ba: 'ب گەڕانا خێزیکی د [5, 15, 25] دا ل 25 بیگەڕە — پشتی ژمارا شوونێ چاپ بکە.',
               expected_output: '2', example_output: '2' },
             { id: 'ai_algo_03', langId: 'ai_algo', order: 3, xp_cost: 1040, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'گەڕانی دوایین — Binary Search', title_ba: 'گەڕانا دواییان — Binary Search',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">گەڕانی دوایین</h3>
 <p><b>Binary Search</b> لە لیستێکی ڕێکخراو دا بە نیمچەبەشکردن لە هەر هەنگاوێکدا کار دەکات. ئەگەر نرخی ناوەڕاست بچووکتر بێت، نیوەی ڕاست و ئەگەر گەورەتر، نیوەی چەپ لەبەر دەچێت.</p>
 <p>ئەم ئالگۆریتمە زۆر خێراترە — لە جیاتی پشکنینی هەموو ئەندامان، تەنها <b>log(n)</b> هەنگاو دەوێت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Gerrîna duyayî</h3>
-<p><b>Binary Search</b> di listeyek rêzkirî da bi nîvkirinê di her gavê da dixebite. Ev algorîtm pir lezgîntir e — tenê <b>log(n)</b> gav divêt.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">گەڕانا دویایی</h3>
+<p><b>Binary Search</b> د لیستەکێ ڕێزکرێ دا ب نیڤکرنێ د هەر گاڤێ دا دشخڤیت. ئەڤ ئالگۆریتم گەلەک لەزگینترە — تەنێ <b>log(n)</b> گاڤ دڤێت.</p>`,
               code: `def binary_search(a, target):
     lo, hi = 0, len(a) - 1
     while lo <= hi:
@@ -916,15 +916,15 @@ print(linear_search([10, 20, 30, 40], 30))`,
 
 print(binary_search([1, 3, 5, 7, 9], 9))`,
               challenge_desc_so: 'بە Binary Search لە [2, 4, 6, 8] بۆ 4 بگەڕێ — ئینجا ژمارەی شوێنەکەی چاپ بکە.',
-              challenge_desc_ba: 'Bi Binary Search di [2, 4, 6, 8] da li 4 bigerre — paşê jimara şûnê çap bike.',
+              challenge_desc_ba: 'ب Binary Search د [2, 4, 6, 8] دا ل 4 بیگەڕە — پشتی ژمارا شوونێ چاپ بکە.',
               expected_output: '1', example_output: '3' },
             { id: 'ai_algo_04', langId: 'ai_algo', order: 4, xp_cost: 1060, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'ڕیزکردن — Bubble Sort', title_ba: 'ڕێزکرن — Bubble Sort',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ڕیزکردنی بڵبڵ</h3>
 <p><b>Bubble Sort</b> سادەترین ئالگۆریتمی ڕیزکردنە: دوانە دوانە بەراورد دەکات و ئەگەر ڕیزەکە هەڵە بوو، شوێنەکانیان دەگۆڕێت — هەتا لیستەکە ڕێک دەبێت.</p>
 <p>لە هر گەشتنێکدا گەورەترین نرخ "بەسەرەوە" دەڕوات — وەک بڵبڵێک لە ئاودا. ئەمە ڕێگایەکی باشە بۆ تێگەیشتن لە ڕیزکردن.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Rêzkirina bi bullbuli</h3>
-<p><b>Bubble Sort</b> hêsantirîn algorîtma rêzkirinê ye: dûcarî berawird dike û eger rêz xelet bîtiya، şûna wan diguhere — heta ku liste rêz dibe.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ڕێزکرنا ب بلبلە</h3>
+<p><b>Bubble Sort</b> هەرە ساناهترین ئالگۆریتما ڕێزکرنێ یە: دوجاران بەراورد دکەت و هەکە ڕێز شاشت بیت، شوونا وان دگوهۆڕیت — هەتا کو لیستە ڕێز دبیت.</p>`,
               code: `def bubble_sort(a):
     for i in range(len(a)):
         for j in range(len(a) - 1):
@@ -934,82 +934,82 @@ print(binary_search([1, 3, 5, 7, 9], 9))`,
 
 print(bubble_sort([3, 1, 2]))`,
               challenge_desc_so: 'لیستەکە ڕیز بکە بە کۆدی خۆت: [5, 3, 4] — ئینجا بە sorted() چاپی بکە.',
-              challenge_desc_ba: 'Listeyê rêz bike bi koda xwe: [5, 3, 4] — paşê bi sorted() çap bike.',
+              challenge_desc_ba: 'لیستێ ڕێز بکە ب کۆدا خوە: [5, 3, 4] — پشتی ب sorted() چاپ بکە.',
               expected_output: '[3, 4, 5]', example_output: '[1, 2, 3]' },
             { id: 'ai_algo_05', langId: 'ai_algo', order: 5, xp_cost: 1080, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'ئاڵۆزی — ناساندنی Big O', title_ba: 'ئالۆزی — ناساندنا Big O',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Big O چییە؟</h3>
 <p><b>Big O</b> پێوانەیەکە بۆ خێرایی ئالگۆریتم. <code>O(1)</code> هەمیشە یەک هەنگاوە، <code>O(n)</code> بەپێی ئەندامەکان دەگۆڕێت، و <code>O(n²)</code> بۆ لیستە گەورەکان زۆر خاوە.</p>
 <p>ئەمە گرنگە چونکە مۆدێلەکانی AI لەسەر داتای گەورە کار دەکەن — دەبێت ئالگۆریتمەکە خێرا بێت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Big O çi ye?</h3>
-<p><b>Big O</b> pîvanek e ji bo leza algorîtmê. <code>O(1)</code> hertim yek gav، <code>O(n)</code> li gorî endaman diguhere.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Big O چی یە؟</h3>
+<p><b>Big O</b> پێڤانەکە ژبۆ لەزا ئالگۆریتمێ. <code>O(1)</code> هەرتیم یەک گاڤ، <code>O(n)</code> ل گۆر ئەندامان دگوهۆڕیت.</p>`,
               code: `def operations(n):
     return 2 * n + 1
 
 print(operations(10))`,
               challenge_desc_so: 'بە فەنکشنێک ژمارەی ئۆپەراسیۆنەکان هەژمار بکە: operations(5) کە دەگەڕێنێتەوە 2*n+1 — ئینجا چاپی بکە.',
-              challenge_desc_ba: 'Bi fonksiyonek hejmara operasyonan hesab bike: operations(5) ko 2*n+1 vedigerîne — paşê çap bike.',
+              challenge_desc_ba: 'ب فەنکشنەکێ هەژمارا ئۆپراسیونان حساب بکە: operations(5) کو 2*n+1 ڤەدگەڕینیت — پشتی چاپ بکە.',
               expected_output: '11', example_output: '21' },
 
             // --- فێربوونی ئامێر (ML) ---
             { id: 'ai_ml_01', langId: 'ai_ml', order: 1, xp_cost: 1100, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
-              title_so: 'فێربوونی ئامێر چییە؟ — Supervised vs Unsupervised', title_ba: 'فێربوونا ماکین چ یە؟ — Supervised vs Unsupervised',
+              title_so: 'فێربوونی ئامێر چییە؟ — Supervised vs Unsupervised', title_ba: 'فێربوونا ماکین چی یە؟ — Supervised vs Unsupervised',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">فێربوونی ئامێر چییە؟</h3>
 <p><b>فێربوونی ئامێر (ML)</b> ئەوەیە کە کۆمپیوتەر لە داتاوە فێردەبێت لە جیاتی ئەوەی ڕێنمایی بە دەست بدرێت.</p>
 <p><b>Supervised</b>: وەڵامی ڕاست هەیە و ئامێر فێردەبێت (پێشبینی نرخ). <b>Unsupervised</b>: ئامێرەکە بە خۆی شێواز دەدۆزێتەوە (جیاکردنەوەی کڕیارەکان).</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Fêrbûna makînê çi ye?</h3>
-<p><b>Fêrbûna makînê (ML)</b> ew e ku komputer ji daneyan hîn dibe li şûna rêbernameya destê.</p>
-<p><b>Supervised</b>: bersiva rast heye. <b>Unsupervised</b>: makîne bi xwe şêwazan dibîne.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">فێربوونا ماکین چی یە؟</h3>
+<p><b>فێربوونا ماکین (ML)</b> ئەوە کو کۆمپیوتەر ژ دانایان فێر دبیت ل شوونا ڕێبەریا دەستی.</p>
+<p><b>Supervised</b>: بەرسڤا ڕاست هەیە. <b>Unsupervised</b>: ماکین ب خوە شێوازان ددۆزیتەڤە.</p>`,
               code: `def predict(price, ratio):
     return price * ratio
 
 new_price = predict(100, 1.1)
 print(round(new_price))`,
               challenge_desc_so: 'بە فەنکشنێک پێشبینی بکە: predict(200, 0.5) — ئینجا ئەنجامەکە چاپ بکە.',
-              challenge_desc_ba: 'Bi fonksiyonek pêşbîniyê bike: predict(200, 0.5) — paşê encamê çap bike.',
+              challenge_desc_ba: 'ب فەنکشنەکێ پێشبینییێ بکە: predict(200, 0.5) — پشتی ئەنجامێ چاپ بکە.',
               expected_output: '100', example_output: '110' },
             { id: 'ai_ml_02', langId: 'ai_ml', order: 2, xp_cost: 1120, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
-              title_so: 'ڕیگرێشنی هێڵی — Linear Regression', title_ba: 'ڕیگرێشنا خێزیکî — Linear Regression',
+              title_so: 'ڕیگرێشنی هێڵی — Linear Regression', title_ba: 'ڕیگرێشنا خێزیکی — Linear Regression',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ڕیگرێشنی هێڵی</h3>
 <p><b>Linear Regression</b> پێشبینی نرخێک دەکات بە هێڵێک: <code>y = w*x + b</code>. لێرە <b>w</b> کێشە (slope) و <b>b</b> قەتئینە (intercept).</p>
 <p>مۆدێلەکە بۆ w و b واتایەک دەدۆزێتەوە کە هێڵەکە بە باشترین شێوە بەناو داتاکەدا تێپەڕێت — پاشان بۆ نرخە نوێکان پێشبینی دەکات.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Regressiona xêzikî</h3>
-<p><b>Linear Regression</b> bi xêzekê nirxekî pêşbînî dike: <code>y = w*x + b</code>. Model ji bo w û b nirxekî çêtirîn dibîne.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ڕیگرێشنا خێزیکی</h3>
+<p><b>Linear Regression</b> ب خێزەکێ نێرخەکێ پێشبینی دکەت: <code>y = w*x + b</code>. مۆدێل ژبۆ w و b نێرخەکێ چێترین ددۆزیتەڤە.</p>`,
               code: `w = 2
 b = 3
 x = 5
 y = w * x + b
 print(y)`,
               challenge_desc_so: 'بە w=3، b=1 و x=4 نرخی y هەژمار بکە بە فۆرمولەکە — ئینجا چاپی بکە.',
-              challenge_desc_ba: 'Bi w=3، b=1 û x=4 nirxê y hesab bike bi formula — paşê çap bike.',
+              challenge_desc_ba: 'ب w=3، b=1 و x=4 نێرخێ y حساب بکە ب فۆرمولێ — پشتی چاپ بکە.',
               expected_output: '13', example_output: '13' },
             { id: 'ai_ml_03', langId: 'ai_ml', order: 3, xp_cost: 1140, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'پێوانەکردنی مۆدێل — Accuracy', title_ba: 'پێڤانەکرنا مۆدێل — Accuracy',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">دروستی مۆدێل چۆن دەپێورێت؟</h3>
 <p><b>Accuracy</b> بریتییە لە ژمارەی پێشبینییە ڕاستەکان دابەش بە کۆی گشتی: <code>accuracy = correct / total</code>.</p>
 <p>بۆ نموونە ئەگەر مۆدێلێک لە ٤ نموونەدا ٣ی ڕاست پێشبینی کردبێت، دروستیەکەی ٠.٧٥ە. هەرچی بەرزتر، باشتر.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Duristiya model çawa tê pîvan?</h3>
-<p><b>Accuracy</b> hejmara pêşbîniyên rast dabeşî giştiyê ye: <code>accuracy = correct / total</code>.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ڕاستیا مۆدێل چەوا دێتە پێڤانکرن؟</h3>
+<p><b>Accuracy</b> هەژمارا پێشبینیێن ڕاست دابەش ب گشتییێ یە: <code>accuracy = correct / total</code>.</p>`,
               code: `def accuracy(correct, total):
     return correct / total
 
 print(accuracy(3, 4))`,
               challenge_desc_so: 'بە فەنکشنێک دروستی هەژمار بکە: accuracy(5, 10) — ئینجا ئەنجامەکە چاپ بکە.',
-              challenge_desc_ba: 'Bi fonksiyonek duristiyê hesab bike: accuracy(5, 10) — paşê encamê çap bike.',
+              challenge_desc_ba: 'ب فەنکشنەکێ ڕاستیێ حساب بکە: accuracy(5, 10) — پشتی ئەنجامێ چاپ بکە.',
               expected_output: '0.5', example_output: '0.75' },
             { id: 'ai_ml_04', langId: 'ai_ml', order: 4, xp_cost: 1160, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'دابەشکردنی داتا — Train/Test', title_ba: 'دابەشکرنا داتایان — Train/Test',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">بۆچی داتا دابەش دەکرێت؟</h3>
 <p>داتاکە دابەش دەکرێت بە دوو بەش: <b>Train</b> (فێربوون) و <b>Test</b> (تاقیکردنەوە). مۆدێلەکە لە بەشی یەکەم فێردەبێت و لە بەشی دووەم تاقی دەکرێتەوە.</p>
 <p>ئەمە ڕێگری دەکات لە <b>overfitting</b> — ئەوەی مۆدێلەکە داتاکە بە دڵ بکات بەڵام لە داتای نوێ هەڵە بکات.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Çima dane tê dabeşkirin?</h3>
-<p>Dane bi du beşan tê dabeşkirin: <b>Train</b> (fêrbûn) û <b>Test</b> (ceribandin). Ev rê li ber <b>overfitting</b> digire.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">جیما دانە دێتە دابەشکرن؟</h3>
+<p>دانە ب دوو بەشان دێتە دابەشکرن: <b>Train</b> (فێربوون) و <b>Test</b> (ئەزموون). ئەڤ ڕێ ل بەر <b>overfitting</b> دگرت.</p>`,
               code: `data = [1, 2, 3, 4, 5, 6, 7, 8]
 train = data[:6]
 test = data[6:]
 print(len(train))`,
               challenge_desc_so: 'لیستەکە دابەش بکە: train = data[:4] — ئینجا ژمارەی ئەندامەکانی train چاپ بکە.',
-              challenge_desc_ba: 'Listeyê dabeş bike: train = data[:4] — paşê hejmara endamên train çap bike.',
+              challenge_desc_ba: 'لیستێ دابەش بکە: train = data[:4] — پشتی هەژمارا ئەندامێن train چاپ بکە.',
               expected_output: '4', example_output: '6' },
             { id: 'ai_ml_05', langId: 'ai_ml', order: 5, xp_cost: 1180, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'پۆلێنکردن — ناساندنی KNN', title_ba: 'پۆلێنکرن — ناساندنا KNN',
@@ -1017,7 +1017,7 @@ print(len(train))`,
 <p><b>KNN</b> ئالگۆریتمێکی پۆلێنکردنە: بۆ نموونەیەکی نوێ، نزیکترین K نموونە دەدۆزێتەوە و دەنگدانەوە دەکات.</p>
 <p>بۆ "نزیکی" پێوانەی <b>مەودای ئیقلیدسی</b> بەکاردەهێنرێت. لەم وانەیەدا مەودا هەژمار دەکەین — بناغەی KNN.</p>`,
               content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">K-Nearest Neighbors</h3>
-<p><b>KNN</b> algorîtmeke polênkirinê ye: ji bo mînakek nû، nêzîktirîn K mînak dibîne û dengdan dike.</p>`,
+<p><b>KNN</b> ئالگۆریتمەکا پۆلێنکرنێ یە: ژبۆ نموونەکا نو، نێزیکترین K نموونە ددۆزیتەڤە و دەنگدان دکەت.</p>`,
               code: `import math
 
 def distance(a, b):
@@ -1025,7 +1025,7 @@ def distance(a, b):
 
 print(round(distance([0, 0], [3, 4]), 2))`,
               challenge_desc_so: 'بە مەودای ئیقلیدسی مەودای [0, 0] و [4, 3] هەژمار بکە — ئینجا چاپی بکە.',
-              challenge_desc_ba: 'Bi dûrahiya Euclidean dûrahiya [0, 0] û [4, 3] hesab bike — paşê çap bike.',
+              challenge_desc_ba: 'ب دووریا Euclidean دووریا [0, 0] و [4, 3] حساب بکە — پشتی چاپ بکە.',
               expected_output: '5.0', example_output: '5.0' },
 
             // --- فێربوونی قووڵ (DL) ---
@@ -1034,8 +1034,8 @@ print(round(distance([0, 0], [3, 4]), 2))`,
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">تۆڕی دەمار چییە؟</h3>
 <p><b>تۆڕی دەمار (Neural Network)</b> نەخشەکێشانە لە مێشکی مرۆڤ. پێکهاتووە لە چینی <b>نووسین (Input)</b>، چینی <b>شاراوە (Hidden)</b> و چینی <b>دەرچوون (Output)</b>.</p>
 <p>لە هەر دەمارێکدا کۆی کێشەکان هەژمار دەکرێت و دەردەچوونەکە دەردەکرێت. ئەم کارە بە <b>هەژماری دەمار (Neuron)</b> دەناسرێت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Tora demaran çi ye?</h3>
-<p><b>Tora demaran</b> nexşe ye ji mêjiyê mirov. Ji çîna <b>Input</b>، <b>Hidden</b> û <b>Output</b> pêk tê.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">تۆڕا دەماران چی یە؟</h3>
+<p><b>تۆڕا دەماران</b> نەخشە یە ژ مێژیێ مرۆڤ. ژ چینا <b>Input</b>، <b>Hidden</b> و <b>Output</b> پێکهاتیە.</p>`,
               code: `import numpy as np
 x = np.array([1.0, 0.5])
 w = np.array([0.4, 0.6])
@@ -1043,15 +1043,15 @@ b = 0.1
 out = np.dot(x, w) + b
 print(round(out, 2))`,
               challenge_desc_so: 'بە numpy هەژمارەکە بکە: np.dot([1, 2], [3, 4]) — ئینجا ئەنجامەکە چاپ بکە.',
-              challenge_desc_ba: 'Bi numpy hesabê bike: np.dot([1, 2], [3, 4]) — paşê encamê çap bike.',
+              challenge_desc_ba: 'ب numpy حساب بکە: np.dot([1, 2], [3, 4]) — پشتی ئەنجاما چاپ بکە.',
               expected_output: '11', example_output: '0.8' },
             { id: 'ai_dl_02', langId: 'ai_dl', order: 2, xp_cost: 1220, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'دەمار و activation — Sigmoid', title_ba: 'دەمار و activation — Sigmoid',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">فەنکشنی چالاککردن</h3>
 <p>دوای کۆکردنەوەی کێشەکان، دەمارەکە بە فەنکشنێکی <b>activation</b> بڕیار دەدات. <b>Sigmoid</b> ئەنجامەکە دەگۆڕێت بە ژمارەیەک لە نێوان ٠ و ١.</p>
 <p>ئەمە بۆ پۆلێنکردن بەکاردەهێنرێت: نزیک لە ١ واتە "بەڵێ" و نزیک لە ٠ واتە "نەخێر".</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Fonksiyona çalakkirinê</h3>
-<p>Piştî kombûna kêşan، demar bi fonksiyonek <b>activation</b> biryar dide. <b>Sigmoid</b> encamê dibe jmarek di navbera 0 û 1 da.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">فەنکشنا چالاککرنێ</h3>
+<p>پشتی کۆمبوونا کێشان، دەمار ب فەنکشنەک <b>activation</b> بڕیار ددەت. <b>Sigmoid</b> ئەنجام دبیتە ژمارەک د ناڤبەرا 0 و 1 دا.</p>`,
               code: `import math
 
 def sigmoid(z):
@@ -1059,62 +1059,62 @@ def sigmoid(z):
 
 print(round(sigmoid(0), 2))`,
               challenge_desc_so: 'بە فەنکشنی sigmoid، sigmoid(0) هەژمار بکە — ئینجا بە round(..., 2) چاپی بکە.',
-              challenge_desc_ba: 'Bi fonksiyona sigmoid، sigmoid(0) hesab bike — paşê bi round(..., 2) çap bike.',
+              challenge_desc_ba: 'ب فەنکشنا sigmoid، sigmoid(0) حساب بکە — پشتی ب round(..., 2) چاپ بکە.',
               expected_output: '0.5', example_output: '0.5' },
             { id: 'ai_dl_03', langId: 'ai_dl', order: 3, xp_cost: 1240, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'چینەکان و کێشەکان', title_ba: 'چین و کێشان',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">چینەکان چۆن کار دەکەن؟</h3>
 <p>هەر چینێک <b>کێشەکان (weights)</b> و <b>bias</b>ی تایبەت بە خۆی هەیە. دەرچوونی چینێک دەبێتە نووسینی چینەکەی داهاتوو.</p>
 <p>هەرچەن چین زۆرتر بێت، تۆڕەکە دەتوانێت شێوازە ئاڵۆزەکان فێربێت — ئەمەش بناغەی <b>فێربوونی قووڵ</b>ە.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Çîn çawa dixebitin?</h3>
-<p>Her çîneke <b>kêş (weights)</b> û bias ê taybet heye. Derketina çînekê dibe têketina çîna din.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">چین چەوا کار دکەن؟</h3>
+<p>هەر چینەک <b>کێش (weights)</b> و biasەک تایبەت هەیە. دەرکەتنا چینەکێ دبیتە تێکەتنا چینا دین.</p>`,
               code: `x = 1.0
 w = 0.4
 b = 0.1
 out = w * x + b
 print(round(out, 2))`,
               challenge_desc_so: 'بە w=0.5، x=2 و b=0.2 دەرچوونی دەمارەکە هەژمار بکە — ئینجا چاپی بکە.',
-              challenge_desc_ba: 'Bi w=0.5، x=2 û b=0.2 derketina demarê hesab bike — paşê çap bike.',
+              challenge_desc_ba: 'ب w=0.5، x=2 و b=0.2 دەرکەتنا دەمارێ حساب بکە — پشتی چاپ بکە.',
               expected_output: '1.2', example_output: '0.5' },
             { id: 'ai_dl_04', langId: 'ai_dl', order: 4, xp_cost: 1260, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'فێربوون — چەمکی Backpropagation', title_ba: 'فێربوون — چەمکا Backpropagation',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">تۆڕ چۆن فێردەبێت؟</h3>
 <p><b>Backpropagation</b> ڕێگایەکە بۆ ڕاستکردنەوەی کێشەکان: هەڵەکە دەپێورێت و لە کۆتایییەوە بۆ سەرەتا بڵاودەبێتەوە، هەر کێشەیەک کەمێک ڕاستدەکرێتەوە.</p>
 <p>ئەم ڕاستکردنەوانە بە <b>Gradient Descent</b> ئەنجام دەدرێن — نیشتنەوە لە ناو قەڵایی هەڵەکەدا.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Tora çawa hîn dibe?</h3>
-<p><b>Backpropagation</b> rêyeke ji bo rastkirina kêşan: xeletî tê pîvan û ji dawiyê ber bi serê da belav dibe.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">تۆڕ چەوا فێر دبی؟</h3>
+<p><b>Backpropagation</b> ڕێکەک ژبۆ ڕاستکرنا کێشان: خەلەتی دێتە پێڤان و ژ داوەیێ بەر ب سەرێ دا بەلاڤ دبی.</p>`,
               code: `w = 0.5
 error = 0.2
 lr = 0.1
 w_new = w - lr * error
 print(round(w_new, 2))`,
               challenge_desc_so: 'بە Gradient Descent کێشەکە نوێ بکە: w=1، error=0.2 و lr=0.1 — ئینجا w_new چاپ بکە.',
-              challenge_desc_ba: 'Bi Gradient Descent kêşê nû bike: w=1، error=0.2 û lr=0.1 — paşê w_new çap bike.',
+              challenge_desc_ba: 'ب Gradient Descent کێشێ نو بکە: w=1، error=0.2 و lr=0.1 — پشتی w_new چاپ بکە.',
               expected_output: '0.98', example_output: '0.48' },
             { id: 'ai_dl_05', langId: 'ai_dl', order: 5, xp_cost: 1280, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
-              title_so: 'TensorFlow و PyTorch — چوارچێوەکان', title_ba: 'TensorFlow û PyTorch — چوارچیوەکان',
+              title_so: 'TensorFlow و PyTorch — چوارچێوەکان', title_ba: 'TensorFlow و PyTorch — چوارچیوەکان',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ئامرازەکانی فێربوونی قووڵ</h3>
 <p><b>TensorFlow</b> و <b>PyTorch</b> بەناوبانگترین چوارچێوەکانی فێربوونی قووڵن. بەوانە تۆڕی دەمار بە چەند ڕیزی کۆد دروست دەکرێت.</p>
 <p>لەم وانەیەدا تەنها چەمکەکە فێردەبین — بەڵام هەموو ئەم چوارچێوەیانە لەسەر هەمان بنەمای ژمارەیی کە فێرمان، دروست دەبن.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Amrazên fêrbûna kûr</h3>
-<p><b>TensorFlow</b> û <b>PyTorch</b> navdarîntirîn çarçoveyên fêrbûna kûr in. Bi wan tora demaran bi çend rêzên kodê tê çêkirin.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ئامرازێن فێربوونا کور</h3>
+<p><b>TensorFlow</b> و <b>PyTorch</b> ناڤدارترین چوارچیوەیێن فێربوونا کور ین. ب وان تۆڕا دەماران ب چەند ڕێزێن کۆدێ دێتە چێکرن.</p>`,
               code: `def forward(x, w, b):
     return x * w + b
 
 out = forward(2, 3, 1)
 print(out)`,
               challenge_desc_so: 'بە forward، forward(3, 2, 1) هەژمار بکە — ئینجا ئەنجامەکە چاپ بکە.',
-              challenge_desc_ba: 'Bi forward، forward(3, 2, 1) hesab bike — paşê encamê çap bike.',
+              challenge_desc_ba: 'ب forward، forward(3, 2, 1) حساب بکە — پشتی ئەنجاما چاپ بکە.',
               expected_output: '7', example_output: '7' },
 
             // --- بینینی کۆمپیوتەر (CV) ---
             { id: 'ai_cv_01', langId: 'ai_cv', order: 1, xp_cost: 1300, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
-              title_so: 'بینینی کۆمپیوتەر چییە؟', title_ba: 'دیتنا کۆمپیوتەر چ یە؟',
+              title_so: 'بینینی کۆمپیوتەر چییە؟', title_ba: 'دیتنا کۆمپیوتەر چی یە؟',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">بینینی کۆمپیوتەر</h3>
 <p><b>Computer Vision (بینینی کۆمپیوتەر)</b>: مۆدێل لە وێنە و ڤیدیۆ تێدەگات — ناسینەوەی ڕووخسار، ڕووکەش و دۆزینەوەی شت.</p>
 <p>ئەم بوارە لە پزیشکی (دۆزینەوەی نەخۆشی لە وێنە) و ئۆتۆمۆبیل (ئۆتۆمۆبیلی بێ شۆفێر) بەکاردەهێنرێت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Dîtina komputerê</h3>
-<p><b>Computer Vision</b>: model ji wêne û vîdyoyan têdigihê — naskirina rûan û dîtina tiştan.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">دیتنا کۆمپیوتەرێ</h3>
+<p><b>Computer Vision</b>: مۆدێل ژ وێنە و ڤیدیۆیان تێدگەهیت — ناسکرنا ڕوان و دیتنا تشتان.</p>`,
               code: `image = [
     [0, 0, 0],
     [0, 255, 0],
@@ -1122,201 +1122,201 @@ print(out)`,
 ]
 print(len(image))`,
               challenge_desc_so: 'وێنەیەک بەم شێوەیە هەیە کە 4 ڕیزە. تەنها ژمارەی ڕیزەکان چاپ بکە بە len().',
-              challenge_desc_ba: 'Wêne bi vî şiklî heye ko 4 rêz in. Tenê hejmara rêzan çap bike bi len().',
+              challenge_desc_ba: 'وێنە ب ڤی شەکلی هەیە کو 4 ڕێز ین. تەنیا هەژمارا ڕێزان چاپ بکە ب len().',
               expected_output: '3', example_output: '4' },
             { id: 'ai_cv_02', langId: 'ai_cv', order: 2, xp_cost: 1320, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'وێنە وەک ئارای ژمارە — پیکسڵ', title_ba: 'وێنە وەک ئارایێن ژماران — پیکسڵ',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">پیکسڵ چییە؟</h3>
 <p>وێنەیەکی ڕەش و سپی وەک خشتەیەک لە ژمارە دەردەکەوێت: ٠ بۆ ڕەش و ٢٥٥ بۆ سپی. لە وێنەی ڕەنگدا هەر پیکسڵ ٣ ژمارەیە (R, G, B).</p>
 <p>مۆدێلەکە وێنەکە وەک ئەم خشتە ژمارانە دەبینێت و شێوازەکانی تێیدا فێردەبێت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Pixel çi ye?</h3>
-<p>Wêneyek reş û spî wek tabloyek ji jmaran tê dîtin: 0 ji bo reş û 255 ji bo spî. Model wêneyî wek van tabloyan dibîne.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">پیکسڵ چی یە؟</h3>
+<p>وێنەکەک رەش و سپی وەک تابلۆیەک ژ ژماران دێتە دیتن: 0 ژبۆ رەش و 255 ژبۆ سپی. مۆدێل وێنێ وەک ڤان تابلۆیان دبینیت.</p>`,
               code: `pixels = [0, 50, 200, 255]
 print(max(pixels))`,
               challenge_desc_so: 'لیستی پیکسڵەکان: [0, 100, 255] — بە max() گەورەترینیان چاپ بکە.',
-              challenge_desc_ba: 'Lista pixelan: [0, 100, 255] — bi max() meztirîn wan çap bike.',
+              challenge_desc_ba: 'لیستا پیکسڵان: [0, 100, 255] — ب max() مەزترین وان چاپ بکە.',
               expected_output: '255', example_output: '200' },
             { id: 'ai_cv_03', langId: 'ai_cv', order: 3, xp_cost: 1340, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
-              title_so: 'فیلتەر و دۆزینەوەی قەراغ', title_ba: 'فیلتر و دیتنا قەراجان',
+              title_so: 'فیلتەر و دۆزینەوەی قەراغ', title_ba: 'فیلتەر و دیتنا قەراجان',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">فیلتەر چییە؟</h3>
 <p><b>فیلتەر (Kernel)</b> خشتەیەکی بچووکە کە بەسەر وێنەکەدا دەخزێت و گۆڕانکاری دەکات. فیلتەری قەراغ شوێنی گۆڕانی ناگەهانی ڕووناکی دەدۆزێتەوە.</p>
 <p>ئەمە بناغەی <b>Convolutional Neural Networks (CNN)</b>ە — بناغەی زۆربەی مۆدێلەکانی بینین.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Fîlter çi ye?</h3>
-<p><b>Fîlter (Kernel)</b> tabloyek biçûk e ko li ser wêneyî dixe. Ev bingeha <b>CNN</b> e.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">فیلتەر چی یە؟</h3>
+<p><b>فیلتەر (Kernel)</b> تابلۆیەک بیچووکە کو ل سەر وێنێ دچیت. ئەڤ بناغەیا <b>CNN</b> ە.</p>`,
               code: `pixels = [0, 255, 0, 255]
 bright = sum(1 for p in pixels if p > 100)
 print(bright)`,
               challenge_desc_so: 'لیستی پیکسڵەکان: [0, 200, 0, 255] — ژمارەی پیکسڵە ڕووناکەکان (> 100) چاپ بکە.',
-              challenge_desc_ba: 'Lista pixelan: [0, 200, 0, 255] — hejmara pixelên ronahî (> 100) çap bike.',
+              challenge_desc_ba: 'لیستا پیکسڵان: [0, 200, 0, 255] — هەژمارا پیکسڵێن ڕۆناه (> 100) چاپ بکە.',
               expected_output: '2', example_output: '2' },
             { id: 'ai_cv_04', langId: 'ai_cv', order: 4, xp_cost: 1360, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'کۆنڤۆلوشن — CNN بناغەکان', title_ba: 'کۆنڤۆلوشن — بناغەیێن CNN',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">کۆنڤۆلوشن چۆن کاردەکات؟</h3>
 <p><b>Convolution</b>: فیلتەرەکە لە هەر شوێنێک دەنیشێت و ئەندامەکانی لەگەڵ پیکسڵەکانی ژێرەوەی لێکدەدات (multiply) و کۆیان دەکاتەوە.</p>
 <p>ئەم ئەنجامە خشتەیەکی نوێ دروست دەکات کە تایبەتمەندییە گرنگەکانی وێنەکە دەردەخات.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Convulusiyon çawa dixebite?</h3>
-<p><b>Convolution</b>: fîlter li her şûnekê dadineve û endamên xwe bi pixelan ve lêk dixe û kom dike.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">کۆنڤۆلوشن چەوا کار دکەت؟</h3>
+<p><b>Convolution</b>: فیلتەر ل هەر شوونەکێ دادینەڤیت و ئەندامێن خۆ ب پیکسڵان ڤە لێک دکەت و کۆم دکەت.</p>`,
               code: `pixels = [1, 2, 3]
 kernel = [1, 0, 1]
 s = sum(p * k for p, k in zip(pixels, kernel))
 print(s)`,
               challenge_desc_so: 'بە فیلتەری [1, 0, 1] لەسەر پیکسڵەکانی [2, 4, 2] کۆنڤۆلوشن بکە — ئینجا ئەنجامەکە چاپ بکە.',
-              challenge_desc_ba: 'Bi fîlter [1, 0, 1] li ser pixelên [2, 4, 2] konvulusiyonê bike — paşê encamê çap bike.',
+              challenge_desc_ba: 'ب فیلتەر [1, 0, 1] ل سەر پیکسڵێن [2, 4, 2] کۆنڤۆلوشنێ بکە — پشتی ئەنجاما چاپ بکە.',
               expected_output: '4', example_output: '4' },
             { id: 'ai_cv_05', langId: 'ai_cv', order: 5, xp_cost: 1380, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'دۆزینەوەی شت — Object Detection', title_ba: 'دیتنا شتیان — Object Detection',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">دۆزینەوەی شت</h3>
 <p><b>Object Detection</b> نەک تەنها شتەکە دەناسێتەوە بەڵکو <b>شوێنەکەشی</b> لە وێنەکەدا دیاری دەکات — بە بۆکسێک (bounding box).</p>
 <p>مۆدێلەکانی وەک <b>YOLO</b> بە خێرایی لە وێنەیەکدا چەندین شت دەدۆزنەوە — بۆ ئۆتۆمۆبیلی بێ شۆفێر و چاودێریی ڤیدیۆیی.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Dîtina tiştan</h3>
-<p><b>Object Detection</b> ne tenê tiştî nas dike lê <b>şûna wî</b> jî di wêneyî da diyar dike — bi qutiyekê.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">دیتنا تشتان</h3>
+<p><b>Object Detection</b> نە تەنیا تشتێ ناس دکەت بەلێ <b>شوونا وی</b> ژی د وێنێ دا دیار دکەت — ب قوتییەکێ.</p>`,
               code: `boxes = [
     {"label": "cat", "x": 10, "y": 20},
     {"label": "dog", "x": 40, "y": 50}
 ]
 print(len(boxes))`,
               challenge_desc_so: 'لیستەیەک بە 3 بۆکس دروست بکە — ئینجا ژمارەی ئەندامەکانی چاپ بکە.',
-              challenge_desc_ba: 'Listeyek bi 3 qutiyan çêke — paşê hejmara endaman çap bike.',
+              challenge_desc_ba: 'لیستەکەک ب 3 قوتییان چێکە — پشتی هەژمارا ئەندامان چاپ بکە.',
               expected_output: '2', example_output: '3' },
 
             // --- پرۆسێسکردنی زمان (NLP) ---
             { id: 'ai_nlp_01', langId: 'ai_nlp', order: 1, xp_cost: 1400, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
-              title_so: 'NLP چییە؟ — زمان و ئامێر', title_ba: 'NLP çi ye? — زمان و ماکین',
+              title_so: 'NLP چییە؟ — زمان و ئامێر', title_ba: 'NLP چی یە؟ — زمان و ماکین',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">پرۆسێسکردنی زمانی سروشتی</h3>
 <p><b>NLP (Natural Language Processing)</b>: مۆدێل لە زمان تێدەگات — وەرگێڕان، پوختەکردن و وەڵامدانەوە.</p>
 <p>زمان زۆر ئاڵۆزە بەڵام بۆ ئامێرەکە، دەق تەنها زنجیرەیەک لە وشەکانە کە دەبێت بگۆڕدرێن بە ژمارە.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Pêvajokirina zimanê xwezayî</h3>
-<p><b>NLP</b>: model ji ziman têdigihê — wergerandin، kurtkirin û bersivdan.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">پرۆسێسکرنا زمانێ سروشتی</h3>
+<p><b>NLP</b>: مۆدێل ژ زمان تێدگەهیت — وەرگێڕان، کورکرن و بەرسڤدان.</p>`,
               code: `text = "Ferga AI is great"
 words = text.split()
 print(len(words))`,
               challenge_desc_so: 'دەقەکە بکەرەوە بە وشە و ژمارەیان چاپ بکە: "Ferga is fun"',
-              challenge_desc_ba: 'Nivîsê li peyvan biqetîne û hejmara wan çap bike: "Ferga is fun"',
+              challenge_desc_ba: 'نڤیسێ ل پەیڤان بیقەتینە و هەژمارا وان چاپ بکە: "Ferga is fun"',
               expected_output: '3', example_output: '4' },
             { id: 'ai_nlp_02', langId: 'ai_nlp', order: 2, xp_cost: 1420, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'Tokenization — دابەشکردنی دەق', title_ba: 'Tokenization — دابەشکرنا نڤیسا',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Tokenization چییە؟</h3>
 <p><b>Tokenization</b> دەقەکە دەبڕێتەوە بە بەشە بچووکەکان (tokens) — وەک وشەکان. هەر tokenێک دەبێتە ژمارەیەک بۆ مۆدێلەکە.</p>
 <p>لە پایتۆندا، <code>text.split()</code> دەقەکە بە وشەکان دابەش دەکات — سادەترین جۆری tokenization.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Tokenization çi ye?</h3>
-<p><b>Tokenization</b> nivîsê li beşên biçûk (token) diqetîne — wek peyv. Her token dibe jmarek ji bo modelê.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Tokenization چی یە؟</h3>
+<p><b>Tokenization</b> نڤیسێ ل بەشێن بیچووک (token) دقەتینە — وەک پەیڤ. هەر token دبیتە ژمارەک ژبۆ مۆدێلێ.</p>`,
               code: `sentence = "salam heval çawa yi"
 tokens = sentence.split()
 print(len(tokens))`,
               challenge_desc_so: 'بە split() دەقەکە بکەرەوە و ژمارەی tokenەکان چاپ بکە: "kurdi ziman xwes e"',
-              challenge_desc_ba: 'Bi split() nivîsê biqetîne û hejmara tokenan çap bike: "kurdi ziman xwes e"',
+              challenge_desc_ba: 'ب split() نڤیسێ بیقەتینە و هەژمارا tokenان چاپ بکە: "kurdi ziman xwes e"',
               expected_output: '4', example_output: '4' },
             { id: 'ai_nlp_03', langId: 'ai_nlp', order: 3, xp_cost: 1440, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'پاککردنەوەی دەق — Stop Words', title_ba: 'پاقژکرنا نڤیسا — Stop Words',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Stop Words چیین؟</h3>
 <p><b>Stop Words</b> وشە باوەکانن وەک "و"، "بۆ"، "لە" کە نرخێکی زۆر نیان بۆ مۆدێلەکە — بۆیە لەبەر دەچن.</p>
 <p>پاککردنەوەی دەق ڕێگەت دەدات مۆدێلەکە لەسەر وشە گرنگەکان بڕۆێت — دەقەکە بەرزتر بەرزتر دەبێت بۆ فێربوون.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Stop Words çi ne?</h3>
-<p><b>Stop Words</b> peyvên pir tên bikaranîn in wek "و"، "بۆ" ko nirxeke mezin nîne — ji ber vê tên avêtin.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Stop Words چی نە؟</h3>
+<p><b>Stop Words</b> پەیڤێن پڕ دێنە بکارئینان ین وەک "و"، "بۆ" کو نرخەکە مەزین نینە — ژبەر وێ دێنە ئاڤێتن.</p>`,
               code: `words = ["kurdi", "u", "ziman", "ji"]
 stop = {"u", "ji"}
 clean = [w for w in words if w not in stop]
 print(len(clean))`,
               challenge_desc_so: 'لیستی وشەکان: ["ferga", "u", "xwes"] و stop: {"u"} — بە کۆدی خۆت، ژمارەی وشە پاکەکان چاپ بکە.',
-              challenge_desc_ba: 'Lista peyvan: ["ferga", "u", "xwes"] û stop: {"u"} — bi koda xwe، hejmara peyvên paqij çap bike.',
+              challenge_desc_ba: 'لیستا پەیڤان: ["ferga", "u", "xwes"] و stop: {"u"} — ب کۆدا خۆ، هەژمارا پەیڤێن پاقژ چاپ بکە.',
               expected_output: '2', example_output: '2' },
             { id: 'ai_nlp_04', langId: 'ai_nlp', order: 4, xp_cost: 1460, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'هەستەشیکاری — Sentiment Analysis', title_ba: 'هەستەشیکاری — Sentiment Analysis',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">مۆدێل هەست چۆن دەدۆزێتەوە؟</h3>
 <p><b>Sentiment Analysis</b>: مۆدێل دەستنیشان دەکات کە دەقێک ئەرێنی، نەرێنی یان بێلایەنە — بۆ شیکردنەوەی بۆچوونەکان.</p>
 <p>ڕێگایەکی سادە: ژماردنی وشە ئەرێنی و نەرێنییەکان و بەراوردکردنیان.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Model hest çawa dibîne?</h3>
-<p><b>Sentiment Analysis</b>: model diyar dike ko nivîs erênî، nerênî yan bêalî ye.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">مۆدێل هەست چەوا دبینیت؟</h3>
+<p><b>Sentiment Analysis</b>: مۆدێل دیار دکەت کو نڤیس ئەرێنی، نەرێنی یان بێئالی یە.</p>`,
               code: `positive = ["xosh", "baş", "xwes"]
 text = "xosh u baş"
 score = sum(1 for w in text.split() if w in positive)
 print(score)`,
               challenge_desc_so: 'بە ژماردنی وشە ئەرێنیەکان: دەق "xosh xwes" و لیستی ئەرێنی {"xosh"} — ئەنجامەکە چاپ بکە.',
-              challenge_desc_ba: 'Bi jimartina peyvên erênî: nivîs "xosh xwes" û lista erênî {"xosh"} — encamê çap bike.',
+              challenge_desc_ba: 'ب ژمارتنا پەیڤێن ئەرێنی: نڤیس "xosh xwes" و لیستا ئەرێنی {"xosh"} — ئەنجاما چاپ بکە.',
               expected_output: '1', example_output: '2' },
             { id: 'ai_nlp_05', langId: 'ai_nlp', order: 5, xp_cost: 1480, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'وەرگێڕان و پوختەکردن', title_ba: 'وەرگێڕان و کورکرن',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">مۆدێلی زمان چۆن وەرگێڕان دەکات؟</h3>
 <p>مۆدێلی وەرگێڕان زنجیرە وشەکان دەخوێنێتەوە و زنجیرەیەکی نوێ دروست دەکات بە زمانێکی تر — ئەمە پێی دەوترێت <b>Sequence-to-Sequence</b>.</p>
 <p>پوختەکردن هەمان کارە: دەقی درێژ دەخوێنێتەوە و کورتەگرتنەوەیەک دروست دەکات.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Modelê ziman çawa wergerîne dike?</h3>
-<p>Modelê wergerînê rêza peyvan dixwîne û rêzek nû bi zimanekî din çêdike — ev jê re <b>Sequence-to-Sequence</b> tê gotin.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">مۆدێلێ زمان چەوا وەرگێڕانێ دکەت؟</h3>
+<p>مۆدێلێ وەرگێڕانێ ڕێزا پەیڤان دخوانیت و ڕێزەک نو ب زمانەک دین چێدکەت — ئەڤ ژێ رە <b>Sequence-to-Sequence</b> دێتە گۆتن.</p>`,
               code: `words = ["hello", "world"]
 joined = " ".join(words)
 print(joined)`,
               challenge_desc_so: 'لیستی وشەکان: ["ferga", "kurdi"] — بە " ".join() یەکیان گرێ بدە و چاپی بکە.',
-              challenge_desc_ba: 'Lista peyvan: ["ferga", "kurdi"] — bi " ".join() li hev girê bide û çap bike.',
+              challenge_desc_ba: 'لیستا پەیڤان: ["ferga", "kurdi"] — ب " ".join() ل هەڤ گرێ بدە و چاپ بکە.',
               expected_output: 'ferga kurdi', example_output: 'hello world' },
 
             // --- مۆدێلی زمانی گەورە و AI پراکتیکی ---
             { id: 'ai_llm_01', langId: 'ai_llm', order: 1, xp_cost: 1480, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
-              title_so: 'مۆدێلی زمانی گەورە چییە؟ (LLM)', title_ba: 'مۆدێلێن زمانێن مەزن چ ین؟ (LLM)',
+              title_so: 'مۆدێلی زمانی گەورە چییە؟ (LLM)', title_ba: 'مۆدێلێن زمانێن مەزن چی ین؟ (LLM)',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">LLM چییە؟</h3>
 <p><b>LLM (Large Language Model)</b> وەک ChatGPT: مۆدێلێکی گەورەی NLP کە بە ملیاران پەیوەندی لەسەر دەقی زۆر فێرکراوە. لە وشەی پێشوو، وشەی داهاتوو پێشبینی دەکات.</p>
 <p>ئەم مۆدێلانە بە <b>Transformers</b> دروست دەبن — نەخشەکێشان لە ئاراستەکانی مێشکی مرۆڤەوە.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">LLM çi ye?</h3>
-<p><b>LLM</b> wek ChatGPT: modelek mezin a NLP ko bi milyaran têkiliyan li ser nivîsa pir hat fêrr kirin.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">LLM چی یە؟</h3>
+<p><b>LLM</b> وەک ChatGPT: مۆدێلەک مەزین ژ NLP کو ب ملیاران تێکلییان ل سەر نڤیسا پڕ هاتیە فێرکرن.</p>`,
               code: `text = "hello world from kurdistan"
 tokens = text.split()
 print(len(tokens))`,
               challenge_desc_so: 'دەقەکە بکەرەوە بە وشە و ژمارەیان چاپ بکە: "salam heval"',
-              challenge_desc_ba: 'Nivîsê li peyvan biqetîne û hejmara wan çap bike: "salam heval"',
+              challenge_desc_ba: 'نڤیسێ ل پەیڤان بیقەتینە و هەژمارا وان چاپ بکە: "salam heval"',
               expected_output: '2', example_output: '4' },
             { id: 'ai_llm_02', langId: 'ai_llm', order: 2, xp_cost: 1490, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'پێشبینی وشەی داهاتوو', title_ba: 'پێشبینییا پەیڤا هاتی',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">LLM چۆن وەڵام دەداتەوە؟</h3>
 <p>LLM لە وشە نووسراوەکان دەست پێ دەکات و بۆ هەر وشەیهەلێک <b>ئەگەر</b> دەخەمڵێنێت: ئەم وشەیە دوای ئەمەی پێشوو چەند جار هاتووە؟ و بەرزترین ئەگەر هەڵدەبژێرێت.</p>
 <p>وشە نوێیەکە زیاد دەکرێت و دووبارە پێشبینی دەکرێت — هەتا تەواو دەبێت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">LLM çawa bersiv dide?</h3>
-<p>LLM ji peyvên hatiye nivîsîn dest pê dike û ji bo her peyvê <b>ihtimalek</b> hesab dike û ya herî bilind hilbijêre.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">LLM چەوا بەرسڤ ددەت؟</h3>
+<p>LLM ژ پەیڤێن هاتیە نڤیسین دەست پێ دکەت و ژبۆ هەر پەیڤێ <b>ئه‌حتمالەک</b> حساب دکەت و یا هەرە بلند هەلبژێرە.</p>`,
               code: `counts = {"salam": 5, "xosh": 2}
 best = max(counts, key=counts.get)
 print(best)`,
               challenge_desc_so: 'فەرهەنگێک: {"salam": 5, "xosh": 2} — بە max() ئەو وشەیە چاپ بکە کە زۆرترین هاتووە.',
-              challenge_desc_ba: 'Ferhengek: {"salam": 5, "xosh": 2} — bi max() ew peyvê çap bike ko herî zêde hatîye.',
+              challenge_desc_ba: 'فەرهەنگەک: {"salam": 5, "xosh": 2} — ب max() وێ پەیڤێ چاپ بکە کو هەرە زێدە هاتیە.',
               expected_output: 'salam', example_output: 'salam' },
             { id: 'ai_llm_03', langId: 'ai_llm', order: 3, xp_cost: 1500, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'Prompt Engineering — ڕێنمایی ڕوون', title_ba: 'Prompt Engineering — ڕێبەریا روون',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Prompt چییە و بۆچی گرنگە؟</h3>
 <p><b>Prompt</b> ڕێنماییەکەی تۆیە بۆ مۆدێلەکە. هەرچی ڕوونتر و وردتر بێت، وەڵامەکە باشتر دەبێت.</p>
 <p>پێکهاتەیەکی باش: <b>ڕۆڵ</b> (تۆ فێرکاری کوردی)، <b>کار</b> (ئەم وانەیە ڕوون بکەرەوە) و <b>شێواز</b> (بە نمونە بۆم ڕوون بکە).</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Prompt çi ye û çima giring e?</h3>
-<p><b>Prompt</b> rêbernameya te ye ji bo modelê. Her ku ronîtir bit، bersiv jî çêtir dibe.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Prompt چی یە و جیما گرینگە؟</h3>
+<p><b>Prompt</b> ڕێبەرناما تە یە ژبۆ مۆدێلێ. هەر چەقە ڕۆناهتر بیت، بەرسڤ ژی چێتر دبی.</p>`,
               code: `role = "teacher"
 task = "explain"
 prompt = "You are an AI " + role + " for " + task
 print(prompt)`,
               challenge_desc_so: 'بە + دەقێک دروست بکە: "You are an AI " + "assistant" — ئینجا چاپی بکە.',
-              challenge_desc_ba: 'Bi + nivîsek çêke: "You are an AI " + "assistant" — paşê çap bike.',
+              challenge_desc_ba: 'ب + نڤیسەک چێکە: "You are an AI " + "assistant" — پشتی چاپ بکە.',
               expected_output: 'You are an AI assistant', example_output: 'You are an AI teacher for explain' },
             { id: 'ai_llm_04', langId: 'ai_llm', order: 4, xp_cost: 1500, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'RAG — زانینی تایبەت بە مۆدێل', title_ba: 'RAG — زانینا تایبەت ب مۆدێل',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">چۆن زانینی تایبەت بۆ LLM زیاد دەکرێت؟</h3>
 <p><b>RAG (Retrieval-Augmented Generation)</b>: پێش وەڵامدانەوە، مۆدێلەکە بە پاشخانێکدا دەگەڕێت و بەڵگەی پەیوەندیدار دەدۆزێتەوە — ئینجا وەڵامەکە لەسەر بنەمای ئەوە دەدات.</p>
 <p>بەم شێوەیە دەتوانیت مۆدێلێکی گشتی لەسەر داتای تایبەتی کۆمپانیاکەت بەکاربهێنیت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Çawa zanîna taybet ji bo LLM tê zêdekirin?</h3>
-<p><b>RAG</b>: berî bersivdanê، model di arşîvê da digere û belgeyên têkilîdar dibîne — paşê li ser wan bersivê dide.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">چەوا زانینا تایبەت ژبۆ LLM دێتە زێدەکرن؟</h3>
+<p><b>RAG</b>: بەری بەرسڤدانێ، مۆدێل د ئەرشیڤێ دا دگەڕیت و بەلگەیێن تێکلیدار دبینیت — پشتی ل سەر وان بەرسڤێ ددەت.</p>`,
               code: `docs = ["kurdi", "ziman", "slam"]
 query = "kurdi"
 match = docs[0] if query in docs else "not found"
 print(match)`,
               challenge_desc_so: 'لیستەیەک: ["ferga", "slam"] و query = "slam" — ئەگەر هەبوو، یەکەم هاتوو چاپ بکە، نەوەک "not found".',
-              challenge_desc_ba: 'Listeyek: ["ferga", "slam"] û query = "slam" — eger hebe، yekemîn hatinê çap bike، nexwe "not found".',
+              challenge_desc_ba: 'لیستەکەک: ["ferga", "slam"] و query = "slam" — هەکە هەبیت، یەکێمین هاتنێ چاپ بکە، نەخوە "not found".',
               expected_output: 'ferga', example_output: 'kurdi' },
             { id: 'ai_llm_05', langId: 'ai_llm', order: 5, xp_cost: 1500, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'کۆتا وانە — دروستکردنی پڕۆژەی AI', title_ba: 'وانەیێ داوی — دروستکرنا پرۆژەیا AI',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ڕێگای دروستکردنی پڕۆژەی AI</h3>
 <p>پڕۆژەیەکی AI بەم ڕیزەیە دروست دەکرێت: ١) کۆکردنەوەی داتا، ٢) پاککردنەوە، ٣) دروستکردنی مۆدێل، ٤) فێربوون و ٥) تاقیکردنەوە و جێگیرکردن.</p>
 <p>بە تەواوکردنی ئەم بەشە، باجی ژیری دەستکرد بەدەست دەهێنیت 🤖 — ئێستا دەتوانیت پڕۆژەی خۆت دەست پێ بکەیت!</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Rêya çêkirina projeyek AI</h3>
-<p>Projeyek AI bi vê rêzê tê çêkirin: 1) komkirina dane، 2) paqijkirin، 3) çêkirina modelê، 4) fêrbûn û 5) ceribandin û bicihkirin.</p>
-<p>Bi temamkirina vî beşî، badgeya zîrekiya destçêkirî bi dest tîne 🤖 — niha dikarî projeya xwe dest pê bikî!</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ڕێیا چێکرنا پرۆژەکەک AI</h3>
+<p>پرۆژەکەک AI ب ڤێ ڕێزێ دێتە چێکرن: 1) کۆمکرنا داتا، 2) پاقژکرن، 3) چێکرنا مۆدێلێ، 4) فێربوون و 5) سەریباندن و بجیهکرن.</p>
+<p>ب تەمامکرنا ڤی بەشی، باجیا ژیرییا دەستکرد ب دەست دتە 🤖 — نوکە دشێی پرۆژەیا خۆ دەست پێ بکەی!</p>`,
               code: `def project(step):
     return "step: " + step
 
 print(project("data"))`,
               challenge_desc_so: 'فەنکشنێک بنووسە بە ناوی run کە دەگەڕێنێتەوە "run: ok" — ئینجا run() چاپ بکە.',
-              challenge_desc_ba: 'Fonksiyonek binivîse bi navê run ko "run: ok" vedigerîne — paşê run() çap bike.',
+              challenge_desc_ba: 'فەنکشنەک بنڤیسە ب ناڤێ run کو "run: ok" ڤدگەڕینەت — پشتی run() چاپ بکە.',
               expected_output: 'run: ok', example_output: 'step: data' }
         ];
 
@@ -2430,7 +2430,7 @@ ${code}
             const heroSub = document.getElementById('home-hero-subtitle');
             if (homeView === 'ai') {
                 if (nav) nav.classList.remove('hidden');
-                if (titleEl) titleEl.textContent = currentLang === 'so' ? '🤖 فێربوونی ژیری دەستکرد' : '🤖 فێربوونا زیرەکییا دەستکرد';
+                if (titleEl) titleEl.textContent = currentLang === 'so' ? '🤖 فێربوونی ژیری دەستکرد' : '🤖 فێربوونا زیرەکیا دەستکرد';
                 if (subEl) subEl.textContent = currentLang === 'so'
                     ? 'بەشێک هەڵبژێرە و فێربوونەکەت دەست پێ بکە.'
                     : 'بەشەک هەلبژێرە و فێربوونا خۆ دەستپێبکە.';
@@ -2476,11 +2476,11 @@ ${code}
         window.openAIComingSoon = function() {
             showFlash(currentLang === 'so'
                 ? '🤖 بەشی ژیری دەستکرد بەم زوانە دەکرێتەوە'
-                : '🤖 بەشێ زیرەکییا دەستکرد د ڤێ زوویانە دا دێ ڤەبیت');
+                : '🤖 بەشێ زیرەکیا دەستکرد د ڤێ زوانێ دا دێ ڤەبیت');
         };
 
         window.openRoboticsComingSoon = function() {
-            showFlash(currentLang === 'so' ? '🦾 بەشی ڕۆبۆتیک بەمزووانە بەردەست دەبێت!' : '🦾 بەشێ ڕۆبۆتیک د نزیکترین دەمێدا بەردەست دبیت!');
+            showFlash(currentLang === 'so' ? '🦾 بەشی ڕۆبۆتیک بەمزووانە بەردەست دەبێت!' : '🦾 بەشێ ڕۆبۆتیک د نزیکترین دەمی دا بەردەست دبیت!');
         };
 
         function renderCategoriesGrid() {
@@ -2506,23 +2506,23 @@ ${code}
                 <div onclick="window.${window.isAdmin ? "openCategory('ai')" : 'openAIComingSoon()'}" class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-300 p-10 flex flex-col items-center text-center group hover:-translate-y-2 relative cursor-pointer overflow-hidden h-full">
                     <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500"></div>
                     <div class="w-24 h-24 bg-gradient-to-br from-emerald-400 to-cyan-500 rounded-[1.5rem] flex items-center justify-center text-6xl mb-8 mt-2 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">🤖</div>
-                    <h3 class="text-3xl font-black mb-3 text-gray-900 dark:text-white">${currentLang === 'so' ? 'فێربوونی ژیری دەستکرد' : 'فێربوونا زیرەکییا دەستکرد'}</h3>
+                    <h3 class="text-3xl font-black mb-3 text-gray-900 dark:text-white">${currentLang === 'so' ? 'فێربوونی ژیری دەستکرد' : 'فێربوونا زیرەکیا دەستکرد'}</h3>
                     ${window.isAdmin
                         ? `<p class="text-gray-500 dark:text-gray-400 text-sm leading-loose mb-1">${AI_TOPICS.length} ${currentLang === 'so' ? 'بەش' : 'بەش'} • ${AI_TOPICS.reduce((s, t) => s + sortedLangLessons(t.id).length, 0)} ${currentLang === 'so' ? 'وانە' : 'وانە'}</p>
                            <p class="text-gray-400 dark:text-gray-500 text-xs mb-6">${currentLang === 'so' ? 'داتا، ئالگۆریتم، ML، DL و LLM' : 'داتا، ئالگۆریتم، ML، DL و LLM'}</p>
                            <span class="inline-flex items-center gap-2 px-8 py-3 mt-auto bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بکەرەوە' : 'ڤەکە'}</span>`
-                        : `<p class="text-gray-500 dark:text-gray-400 text-sm leading-loose mb-1">${currentLang === 'so' ? 'بەم زوانە دەکرێتەوە' : 'د ڤێ زوویانە دا دێ ڤەبیت'}</p>
+                        : `<p class="text-gray-500 dark:text-gray-400 text-sm leading-loose mb-1">${currentLang === 'so' ? 'بەم زوانە دەکرێتەوە' : 'د ڤێ زوانێ دا دێ ڤەبیت'}</p>
                            <p class="text-gray-400 dark:text-gray-500 text-xs mb-6">${currentLang === 'so' ? '' : ''}</p>
-                           <span class="inline-flex items-center gap-2 px-8 py-3 mt-auto bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بەم زوانە دەکرێتەوە' : 'د ڤێ زوویانە دا دێ ڤەبیت'}</span>`
+                           <span class="inline-flex items-center gap-2 px-8 py-3 mt-auto bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بەم زوانە دەکرێتەوە' : 'د ڤێ زوانێ دا دێ ڤەبیت'}</span>`
                     }
                 </div>
                 <div onclick="window.openRoboticsComingSoon()" class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-rose-500/10 transition-all duration-300 p-10 flex flex-col items-center text-center group hover:-translate-y-2 relative cursor-pointer overflow-hidden h-full">
                     <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-rose-500 via-red-500 to-pink-500"></div>
                     <div class="w-24 h-24 bg-gradient-to-br from-rose-500 via-red-500 to-pink-600 rounded-[1.5rem] flex items-center justify-center text-6xl mb-8 mt-2 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">🦾</div>
                     <h3 class="text-3xl font-black mb-3 text-gray-900 dark:text-white">${currentLang === 'so' ? 'ڕۆبۆتیک' : 'ڕۆبۆتیک'}</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm leading-loose mb-1">${currentLang === 'so' ? 'بەمزووانە بەردەست دەبێت' : 'د نزیکترین دەمێدا بەردەست دبیت'}</p>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm leading-loose mb-1">${currentLang === 'so' ? 'بەمزووانە بەردەست دەبێت' : 'د نزیکترین دەمی دا بەردەست دبیت'}</p>
                     <p class="text-gray-400 dark:text-gray-500 text-xs mb-6">${currentLang === 'so' ? 'ڕۆبۆت، سینسۆر، مایکرۆکۆنترۆلەر و پرۆگرامسازی ڕۆبۆتەکان' : 'ڕۆبۆت، سینسۆر، مایکرۆکۆنترۆلەر و بەرنامەکیرنا ڕۆبۆتان'}</p>
-                    <span class="inline-flex items-center gap-2 px-8 py-3 mt-auto bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بەم زوانە بەردەست دەبێت' : 'د ڤێ زوویانە دا دێ بەردەست بیت'}</span>
+                    <span class="inline-flex items-center gap-2 px-8 py-3 mt-auto bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بەم زوانە بەردەست دەبێت' : 'د ڤێ زوانێ دا دێ بەردەست بیت'}</span>
                 </div>`;
         }
 

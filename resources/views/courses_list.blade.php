@@ -149,7 +149,7 @@
         <div class="glass-card p-8 md:p-12 rounded-[2.5rem] shadow-2xl max-w-4xl mx-auto border-t-4 border-indigo-600 relative overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500 opacity-5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
 
-            <h3 class="text-3xl font-black mb-8 text-center text-gray-900 dark:text-white lang-str" data-so="زیادکردنی کۆرسی نوێ (ئەدمین)" data-ba="زێدەکرنا کۆرسێ نوی (ئەدمین)">زیادکردنی کۆرسی نوێ</h3>
+            <h3 class="text-3xl font-black mb-8 text-center text-gray-900 dark:text-white lang-str" data-so="زیادکردنی کۆرسی نوێ (ئەدمین)" data-ba="زێدەکرنا کۆرسەکێ نوی (ئەدمین)">زیادکردنی کۆرسی نوێ</h3>
             
             <form id="upload-form" class="relative z-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">

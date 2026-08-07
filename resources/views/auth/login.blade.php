@@ -159,7 +159,7 @@
                     <button id="email-submit-btn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-2xl font-black text-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5 flex items-center justify-center gap-2 lang-str" data-so="چوونەژورەوە" data-ba="چوونا ژوورێ">
                         چوونەژوورەوە
                     </button>
-                    <p class="text-center text-xs text-gray-400 dark:text-gray-500 font-bold lang-str" data-so="ئەگەر هەژمارت نەبێت، بە هەمان زانیارییەوە ئۆتۆماتیکی دروستدەکرێت." data-ba="ئەگەر هەژمارا تە نەبیت، ب هەمان زانیاریان ئۆتۆماتیک دهێتە چێکرن.">ئەگەر هەژمارت نەبێت، بە هەمان زانیارییەوە ئۆتۆماتیکی دروستدەکرێت.</p>
+                    <p class="text-center text-xs text-gray-400 dark:text-gray-500 font-bold lang-str" data-so="ئەگەر هەژمارت نەبێت، بە هەمان زانیارییەوە ئۆتۆماتیکی دروستدەکرێت." data-ba="ئەگەر هەژمارا تە نەبیت، ب هەمان زانیاریان ئۆتۆماتیک دێتە چێکرن.">ئەگەر هەژمارت نەبێت، بە هەمان زانیارییەوە ئۆتۆماتیکی دروستدەکرێت.</p>
                 </div>
 
                 <!-- پەڕەی مۆبایل -->
@@ -186,7 +186,7 @@
                             <label class="block text-sm font-black text-gray-700 dark:text-gray-300 mb-2 lang-str" data-so="کۆدی پشتڕاستکردنەوە" data-ba="کۆدێ پشتڕاستکرنێ">کۆدی پشتڕاستکردنەوە</label>
                             <input type="text" id="otp" placeholder="000000" inputmode="numeric" maxlength="6"
                                 class="otp-input w-full px-4 py-3.5 bg-gray-50 dark:bg-gray-700/60 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition text-center text-lg font-black text-left" dir="ltr">
-                            <p class="text-xs text-gray-400 dark:text-gray-500 font-bold mt-1.5 lang-str" data-so="کۆدەکە لە ڕێگەی پیامەکەوە (SMS) بۆ ژمارەکەت دەنێردرێت." data-ba="کۆد ب ڕێکا پەیامێ (SMS) بۆ ژمارا تە دهێتە شاندن.">کۆدەکە لە ڕێگەی پیامەکەوە (SMS) بۆ ژمارەکەت دەنێردرێت.</p>
+                            <p class="text-xs text-gray-400 dark:text-gray-500 font-bold mt-1.5 lang-str" data-so="کۆدەکە لە ڕێگەی پیامەکەوە (SMS) بۆ ژمارەکەت دەنێردرێت." data-ba="کۆد ب ڕێکا پەیامێ (SMS) بۆ ژمارا تە دێتە شاندن.">کۆدەکە لە ڕێگەی پیامەکەوە (SMS) بۆ ژمارەکەت دەنێردرێت.</p>
                         </div>
                         <button id="phone-verify-btn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3.5 rounded-2xl font-black hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/30 hover:-translate-y-0.5 flex items-center justify-center gap-2 lang-str" data-so="پشتڕاستکردنەوە و چوونەژوورەوە" data-ba="پشتڕاستکرن و چوونا ژوورێ">
                             پشتڕاستکردنەوە و چوونەژوورەوە

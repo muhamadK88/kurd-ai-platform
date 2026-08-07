@@ -177,7 +177,7 @@
         <div class="relative z-10 text-center max-w-4xl mx-auto">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-700/50 text-purple-700 dark:text-purple-300 font-bold text-sm mb-6 shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                <span class="lang-str" data-so="ئامرازە زیرەکەکان بۆ ئاسانکردنی کارەکان" data-ba="ئامرازێن ژیر بۆ بساناهیکرنا کاران">ئامرازە زیرەکەکان بۆ ئاسانکردنی کارەکان</span>
+                <span class="lang-str" data-so="ئامرازە زیرەکەکان بۆ ئاسانکردنی کارەکان" data-ba="ئامرازێن ژیر بۆ ساناهیکرنا کاران">ئامرازە زیرەکەکان بۆ ئاسانکردنی کارەکان</span>
             </div>
             <h2 class="text-5xl md:text-7xl font-black mb-6 tracking-tight text-gray-900 dark:text-white leading-tight lang-str" data-so="تووڵەکانی ئەی ئای" data-ba="ئامرازێن ئەی ئای">تووڵەکانی ئەی ئای</h2>
             <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium lang-str" data-so="باشترین ئامرازەکانی زیرەکی دەستکرد بدۆزەرەوە بۆ بەرزکردنەوەی بەرهەمهێنانت" data-ba="باشترین ئامرازێن ژیرییا دەستکرد ببینە بۆ بڵندکرنا بەرهەمهێنانێ">باشترین ئامرازەکانی زیرەکی دەستکرد بدۆزەرەوە بۆ بەرزکردنەوەی بەرهەمهێنانت</p>
@@ -192,7 +192,7 @@
         <div class="glass-card p-8 md:p-12 rounded-[2.5rem] shadow-2xl max-w-4xl mx-auto border-t-4 border-purple-600 relative overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-purple-500 opacity-5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
 
-            <h3 class="text-3xl font-black mb-8 text-center text-gray-900 dark:text-white lang-str" data-so="زیادکردنی تووڵی نوێ (ئەدمین)" data-ba="زێدەکرنا ئامرازێ نوی (ئەدمین)">زیادکردنی تووڵی نوێ</h3>
+            <h3 class="text-3xl font-black mb-8 text-center text-gray-900 dark:text-white lang-str" data-so="زیادکردنی تووڵی نوێ (ئەدمین)" data-ba="زێدەکرنا ئامرازەکێ نوی (ئەدمین)">زیادکردنی تووڵی نوێ</h3>
             
             <form id="upload-form" class="relative z-10">
                 <input type="hidden" id="image_url_hidden">
@@ -236,12 +236,12 @@
                 </div>
 
                 <div class="mb-6">
-                    <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2 lang-str" data-so="بەستەری تووڵەکە (لینک)" data-ba="لینکا ئامرازی">بەستەری تووڵەکە (لینک)</label>
+                    <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2 lang-str" data-so="بەستەری تووڵەکە (لینک)" data-ba="لینکا ئامرازێ">بەستەری تووڵەکە (لینک)</label>
                     <input type="url" id="tool_url" required dir="ltr" class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all">
                 </div>
 
                 <div class="mb-8">
-                    <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2 lang-str" data-so="لۆگۆی تووڵەکە (ئەپڵۆدکردن)" data-ba="لۆگۆیێ ئامرازی">لۆگۆی تووڵەکە</label>
+                    <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2 lang-str" data-so="لۆگۆی تووڵەکە (ئەپڵۆدکردن)" data-ba="لۆگۆیێ ئامرازێ">لۆگۆی تووڵەکە</label>
                     <div class="relative border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl p-6 bg-white/30 dark:bg-gray-900/30 hover:bg-white/50 dark:hover:bg-gray-900/50 transition-colors">
                         <input type="file" id="tool_image_input" accept="image/*" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                         <div class="text-center pointer-events-none">
