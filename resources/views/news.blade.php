@@ -539,7 +539,8 @@
                 list.innerHTML = '';
                 const coms = snapshot.val();
                 if(!coms) {
-                    list.innerHTML = `<p class="text-gray-500 text-sm text-center py-4">هیچ بۆچوونێک نییە، یەکەم کەسبە بۆچوون بنووسیت.</p>`;
+                    const emptyComments = currentLang === 'so' ? 'هیچ بۆچوونێک نییە، یەکەم کەسبە بۆچوون بنووسیت.' : 'هێشتا چ بۆچوونێک نینە، ببە یەکەم کەس کو بۆچوونەک بنڤێسە.';
+                    list.innerHTML = `<p class="text-gray-500 text-sm text-center py-4">${emptyComments}</p>`;
                     return;
                 }
                 

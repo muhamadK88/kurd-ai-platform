@@ -126,7 +126,7 @@
     <!-- Language Filter Buttons -->
     <section class="relative z-10 container mx-auto px-4 pb-4">
         <div class="flex flex-wrap items-center justify-center gap-3 max-w-5xl mx-auto">
-            <button onclick="window.filterByLang('all')" class="lang-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 bg-blue-600 text-white shadow-lg shadow-blue-500/30" data-target="all">هەموو زمانەکان</button>
+            <button onclick="window.filterByLang('all')" class="lang-btn lang-str px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 bg-blue-600 text-white shadow-lg shadow-blue-500/30" data-target="all" data-so="هەموو زمانەکان" data-ba="هەمی زمانان">هەموو زمانەکان</button>
             <button onclick="window.filterByLang('sorani')" class="lang-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700" data-target="sorani">سۆرانی</button>
             <button onclick="window.filterByLang('badini')" class="lang-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700" data-target="badini">بادینی</button>
             <button onclick="window.filterByLang('arabic')" class="lang-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700" data-target="arabic">عەرەبی</button>

@@ -86,21 +86,21 @@
             </a>
 
             <div class="hidden lg:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
-                <a href="/" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm">سەرەکی</a>
-                <a href="/ferga" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm">فێرگە</a>
-                <a href="/courses" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm">کۆرسەکان</a>
-                <a href="/news" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm">هەواڵەکان</a>
-                <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm">تووڵەکان</a>
-                <a href="/academic-guide" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-teal-600 dark:text-teal-400 font-bold rounded-xl shadow-sm transition text-sm">ڕێنیشاندەر</a>
-                <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm">زانکۆکان</a>
-                <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm">دەربارەی ئێمە</a>
+                <a href="/" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
+                <a href="/ferga" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
+                <a href="/courses" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
+                <a href="/news" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>
+                <a href="/ai-tools" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
+                <a href="/academic-guide" class="lang-str px-3.5 py-2 bg-white dark:bg-gray-700 text-teal-600 dark:text-teal-400 font-bold rounded-xl shadow-sm transition text-sm" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
+                <a href="/universities" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
+                <a href="/about" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm" data-so="دەربارەی ئێمە" data-ba="دەربارەی مە">دەربارەی ئێمە</a>
             </div>
 
             <div class="flex items-center gap-2.5">
                 <button id="lang-toggle" class="px-3 py-2 bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 font-bold rounded-xl text-xs border border-teal-100 dark:border-teal-800/50 hover:bg-teal-100 transition"><span id="lang-text">Badini</span></button>
                 <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
-                <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">هەژمارەکەم</a>
-                <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50">دەرچوون</button>
+                <a href="/profile" class="lang-str hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
+                <button id="logout-btn" class="lang-str flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</button>
             </div>
         </div>
     </nav>
@@ -113,10 +113,10 @@
         </div>
         <div class="container mx-auto px-4 relative z-10">
             <div class="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-teal-50 dark:bg-teal-900/30 border border-teal-200 dark:border-teal-700/50 text-teal-700 dark:text-teal-300 font-black text-sm mb-8 shadow-sm">
-                <span>زانیارییە ئەکادیمییەکان و ڕێنمایی زانکۆ</span>
+                <span class="lang-str" data-so="زانیارییە ئەکادیمییەکان و ڕێنمایی زانکۆ" data-ba="زانیارییێن ئەکادیمی و ڕێنماییا زانکۆ">زانیارییە ئەکادیمییەکان و ڕێنمایی زانکۆ</span>
             </div>
-            <h2 class="text-5xl md:text-7xl font-black mb-6 text-gray-900 dark:text-white tracking-tight">ڕێنیشاندەری ئەکادیمی</h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-medium">هەموو ئەو پرس و ڕاوێژ و زانیارییانەی پێویستتە بۆ سەرکەوتن لە پرۆسەی خوێندنت لێرە بە شێوازێکی ڕوون بدۆزەرەوە.</p>
+            <h2 class="lang-str text-5xl md:text-7xl font-black mb-6 text-gray-900 dark:text-white tracking-tight" data-so="ڕێنیشاندەری ئەکادیمی" data-ba="ڕێبەرێ ئەکادیمی">ڕێنیشاندەری ئەکادیمی</h2>
+            <p class="lang-str text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-medium" data-so="هەموو ئەو پرس و ڕاوێژ و زانیارییانەی پێویستتە بۆ سەرکەوتن لە پرۆسەی خوێندنت لێرە بە شێوازێکی ڕوون بدۆزەرەوە." data-ba="هەمی ئەو پرس و ڕاوێژ و زانیارییێن پێدڤیت بۆ سەرکەوتنێ د پرۆسا خوێندنا تە دا، ل ڤێرێ ب شێوەیەکا ڕوون هەلبینە.">هەموو ئەو پرس و ڕاوێژ و زانیارییانەی پێویستتە بۆ سەرکەوتن لە پرۆسەی خوێندنت لێرە بە شێوازێکی ڕوون بدۆزەرەوە.</p>
         </div>
     </header>
 
@@ -197,13 +197,27 @@
         let editId = null;
         let currentLang = localStorage.getItem('site-lang') || 'so';
 
+        function applyLanguage() {
+            const langBtnText = document.getElementById('lang-text');
+            if (langBtnText) {
+                langBtnText.innerText = currentLang === 'so' ? 'Badini' : 'سۆرانی';
+            }
+            document.querySelectorAll('.lang-str').forEach(el => {
+                el.innerText = el.getAttribute(`data-${currentLang}`) || el.getAttribute('data-so');
+            });
+            renderGuide(firebaseDataCache);
+        }
+
         function renderGuide(data) {
             const container = document.getElementById('guide-container');
             if (!container) return;
             container.innerHTML = "";
-            
+
             if (!data || Object.keys(data).length === 0) {
-                container.innerHTML = `<div class="text-center py-20 glass-card rounded-3xl"><p class="text-gray-500 font-bold text-lg">هێشتا هیچ زانیارییەک لە ڕێنیشاندەردا نەهاتووە.</p></div>`;
+                const emptyText = currentLang === 'so'
+                    ? 'هێشتا هیچ زانیارییەک لە ڕێنیشاندەردا نەهاتووە.'
+                    : 'هێشتا چ زانیارییەک نینە د ڕێبەرێ دا.';
+                container.innerHTML = `<div class="text-center py-20 glass-card rounded-3xl"><p class="text-gray-500 font-bold text-lg">${emptyText}</p></div>`;
                 return;
             }
 
@@ -368,14 +382,13 @@
         document.getElementById('lang-toggle').addEventListener('click', () => {
             currentLang = currentLang === 'so' ? 'ba' : 'so';
             localStorage.setItem('site-lang', currentLang);
-            document.getElementById('lang-text').innerText = currentLang === 'so' ? 'Badini' : 'سۆرانی';
-            renderGuide(firebaseDataCache);
+            applyLanguage();
         });
 
         onAuthStateChanged(auth, (user) => {
             if(!user) window.location.href = "/login";
             document.body.style.display = 'block';
-            document.getElementById('lang-text').innerText = currentLang === 'so' ? 'Badini' : 'سۆرانی';
+            applyLanguage();
             if(["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
                 isAdmin = true;
                 document.querySelector('.admin-only').classList.remove('hidden');

@@ -92,21 +92,21 @@
             </a>
 
             <div class="hidden lg:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
-                <a href="/" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm">سەرەکی</a>
-                <a href="/ferga" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm">فێرگە</a>
-                <a href="/courses" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm">کۆرسەکان</a>
-                <a href="/news" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm">هەواڵەکان</a>
-                <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm">تووڵەکان</a>
-                <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm">ڕێنیشاندەر</a>
-                <a href="/universities" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm">زانکۆکان</a>
-                <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm">دەربارەی ئێمە</a>
+                <a href="/" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
+                <a href="/ferga" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
+                <a href="/courses" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
+                <a href="/news" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>
+                <a href="/ai-tools" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
+                <a href="/academic-guide" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
+                <a href="/universities" class="lang-str px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
+                <a href="/about" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm" data-so="دەربارەی ئێمە" data-ba="دەربارەی مە">دەربارەی ئێمە</a>
             </div>
 
             <div class="flex items-center gap-2.5">
                 <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
                 <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
-                <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">هەژمارەکەم</a>
-                <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50">دەرچوون</button>
+                <a href="/profile" class="lang-str hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
+                <button id="logout-btn" class="lang-str flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</button>
             </div>
         </div>
     </nav>
@@ -123,10 +123,10 @@
         <div class="relative z-10 text-center max-w-4xl mx-auto">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 dark:bg-orange-900/30 border border-orange-200 dark:border-orange-700/50 text-orange-700 dark:text-orange-300 font-bold text-sm mb-6 shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                <span>ڕێنمایی بۆ خوێندنی ئەکادیمی</span>
+                <span class="lang-str" data-so="ڕێنمایی بۆ خوێندنی ئەکادیمی" data-ba="ڕێنماییا بۆ خوێندنا ئەکادیمی">ڕێنمایی بۆ خوێندنی ئەکادیمی</span>
             </div>
-            <h2 class="text-5xl md:text-7xl font-black mb-6 tracking-tight text-gray-900 dark:text-white leading-tight">زانکۆکانی زیرەکی دەستکرد</h2>
-            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium">بەدوای ئەو زانکۆیانەدا بگەڕێ کە بەشی ژیریی دەستکردیان هەیە لەگەڵ خشتەی وانەکانیان</p>
+            <h2 class="lang-str text-5xl md:text-7xl font-black mb-6 tracking-tight text-gray-900 dark:text-white leading-tight" data-so="زانکۆکانی زیرەکی دەستکرد" data-ba="زانکۆیێن زیرەکیا دەستکرد">زانکۆکانی زیرەکی دەستکرد</h2>
+            <p class="lang-str text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium" data-so="بەدوای ئەو زانکۆیانەدا بگەڕێ کە بەشی ژیریی دەستکردیان هەیە لەگەڵ خشتەی وانەکانیان" data-ba="بەدوای وان زانکۆیاندا بگەڕە کو بەشێ زیرەکیا دەستکرد هەیە دگەل خشتەیێن وانەیان">بەدوای ئەو زانکۆیانەدا بگەڕێ کە بەشی ژیریی دەستکردیان هەیە لەگەڵ خشتەی وانەکانیان</p>
         </div>
     </header>
 
@@ -144,7 +144,7 @@
             </button>
             <div class="mb-4 pr-2">
                 <h3 id="planModalTitle" class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white">خشتەی وانەکان</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">وردەکاری قۆناغ و سمستەرەکانی خوێندن</p>
+                <p class="lang-str text-sm text-gray-500 dark:text-gray-400 mt-1" data-so="وردەکاری قۆناغ و سمستەرەکانی خوێندن" data-ba="وردەکاریێن قۆناغ و سمستەرێن خوێندنێ">وردەکاری قۆناغ و سمستەرەکانی خوێندن</p>
             </div>
             <div id="planModalBody" class="custom-scrollbar overflow-y-auto pr-2 flex-grow space-y-6 my-2">
                 <!-- داتای خشتەکە لێرە دەردەکەوێت -->
@@ -302,6 +302,9 @@
         function applyLanguage() {
             const langBtnText = document.getElementById('lang-text');
             if (langBtnText) langBtnText.innerText = currentLang === 'so' ? 'Badini' : 'سۆرانی';
+            document.querySelectorAll('.lang-str').forEach(el => {
+                el.innerText = el.getAttribute(`data-${currentLang}`) || el.getAttribute('data-so');
+            });
             renderUniversities();
         }
 

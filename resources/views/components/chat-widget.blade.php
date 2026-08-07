@@ -568,6 +568,10 @@
         input.placeholder = t('placeholder');
         searchInput.placeholder = t('search_ph');
         grammarBtn.classList.toggle('active', grammarMode);
+        const footerEl = document.getElementById('kurdai-footer');
+        if (footerEl) footerEl.innerText = lang() === 'ba'
+            ? 'کورد ئەی ئای — یاریدەدەری ژیرییا دەستکرد'
+            : 'کورد ئەی ئای — یاریدەدەری ژیری دەستکرد';
     }
 
     async function api(path, opts = {}) {
