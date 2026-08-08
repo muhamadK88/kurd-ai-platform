@@ -1,0 +1,465 @@
+/* ==========================================================================
+   KURD AI — فێرگە (Ferga) · Lesson experience design  ·  v2
+   Loaded ONLY on /ferga. Purely presentational.
+   Focus: the READING/LEARNING view — lesson title, rendered content,
+   code boxes, example output, challenge, action buttons, quiz, sidebar
+   timeline, compiler. The home-view grid/hero keeps its original design.
+   Graceful fallbacks: reduced-motion / no-JS (content always visible).
+   ========================================================================== */
+
+/* ---------- 1. Learning view entrance + ambient aurora ---------- */
+#learning-view { animation: kaiViewIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes kaiViewIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+#lesson-main::before {
+    content: "";
+    position: absolute;
+    top: -12%;
+    right: -8%;
+    width: 440px;
+    height: 440px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.14), transparent 65%);
+    filter: blur(44px);
+    pointer-events: none;
+    animation: kaiAura 12s ease-in-out infinite alternate;
+}
+.dark #lesson-main::before {
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.10), transparent 65%);
+}
+@keyframes kaiAura { from { opacity: 0.6; transform: translateY(0) scale(1); } to { opacity: 1; transform: translateY(14px) scale(1.08); } }
+
+/* ---------- 2. Reading progress bar (JS injects #kai-progress) ---------- */
+#kai-progress {
+    position: sticky;
+    top: 0;
+    height: 3px;
+    z-index: 40;
+    background: rgba(148, 163, 184, 0.18);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+#kai-progress-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 0%;
+    background: linear-gradient(90deg, #2563eb, #7c3aed, #ec4899, #06b6d4);
+    background-size: 220% auto;
+    animation: kaiFlow 6s linear infinite;
+    box-shadow: 0 0 14px rgba(124, 58, 237, 0.8);
+    transition: width 0.1s linear;
+}
+@keyframes kaiFlow { to { background-position: 220% center; } }
+
+#lesson-main.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #3b82f6, #a855f7);
+    border-radius: 20px;
+}
+
+/* ---------- 3. Lesson title ---------- */
+#display-title {
+    position: relative;
+    padding-bottom: 0.4em;
+    background-image: linear-gradient(90deg, #2563eb, #7c3aed 40%, #ec4899 75%, #06b6d4);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: kaiFlow 7s linear infinite;
+}
+#display-title::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #2563eb, #7c3aed, #ec4899, #06b6d4);
+    background-size: 220% auto;
+    animation: kaiFlow 7s linear infinite;
+    box-shadow: 0 4px 18px rgba(124, 58, 237, 0.5);
+}
+#display-title.kai-title-pop { animation: kaiPopIn 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* ---------- 4. Rendered lesson content ---------- */
+#display-content { line-height: 2; }
+
+#display-content h1, #display-content h2, #display-content h3 {
+    background-image: linear-gradient(90deg, #2563eb, #7c3aed, #ec4899);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 0.2em;
+}
+#display-content p { margin-bottom: 1.1em; }
+#display-content p strong, #display-content p b,
+#display-content li strong, #display-content li b {
+    background-image: linear-gradient(90deg, #2563eb, #a855f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}
+
+#display-content ul { list-style: none; padding-right: 0; margin: 0.6em 0 1.2em; }
+#display-content ul li { position: relative; padding-right: 1.7em; margin-bottom: 0.55em; }
+#display-content ul li::before {
+    content: "";
+    position: absolute;
+    right: 0.1em;
+    top: 0.68em;
+    width: 0.55em;
+    height: 0.55em;
+    border-radius: 3px;
+    background: linear-gradient(135deg, #3b82f6, #a855f7);
+    box-shadow: 0 0 8px rgba(139, 92, 246, 0.6);
+}
+#display-content ol { margin: 0.6em 0 1.2em; }
+#display-content ol li { margin-bottom: 0.5em; }
+
+#display-content blockquote {
+    border-right: 3px solid #a855f7;
+    background: linear-gradient(180deg, rgba(139, 92, 246, 0.08), transparent);
+    padding: 0.6em 1em;
+    border-radius: 0 12px 12px 0;
+    margin: 1em 0;
+    color: #6b7280;
+}
+.dark #display-content blockquote { color: #cbd5e1; }
+
+#display-content pre {
+    position: relative;
+    border: 1px solid rgba(99, 102, 241, 0.28);
+    border-radius: 14px;
+    background: #1b1b2f linear-gradient(180deg, rgba(56, 189, 248, 0.07), transparent 40%);
+    color: #d4d4ff;
+    box-shadow: 0 14px 40px -14px rgba(79, 70, 229, 0.35);
+    overflow: hidden;
+}
+#display-content pre::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+    opacity: 0.8;
+}
+#display-content pre code { color: inherit; }
+
+/* read-along reveal (JS adds .kai-reveal, IntersectionObserver adds .kai-on) */
+#display-content .kai-reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--kai-delay, 0s);
+}
+#display-content .kai-reveal.kai-on { opacity: 1; transform: none; }
+
+/* ---------- 5. Code boxes ---------- */
+#display-code-box .rounded-2xl,
+#display-css-code-box .rounded-2xl {
+    box-shadow: 0 18px 50px -14px rgba(56, 189, 248, 0.28), 0 0 0 1px rgba(56, 189, 248, 0.15);
+}
+#display-code.kai-anim > div,
+#display-css-code.kai-anim > div {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transition-delay: var(--kai-delay, 0s);
+}
+#display-code.kai-anim > div.kai-on,
+#display-css-code.kai-anim > div.kai-on {
+    opacity: 1;
+    transform: none;
+}
+/* blinking terminal caret after the last code line (JS marks it .kai-last-line) */
+#display-code > div.kai-last-line::after,
+#display-css-code > div.kai-last-line::after {
+    content: "▍";
+    margin-right: 2px;
+    color: #67d8ff;
+    text-shadow: 0 0 8px rgba(103, 216, 255, 0.8);
+    animation: kaiCaret 1.1s steps(1) infinite;
+}
+@keyframes kaiCaret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+/* ---------- 6. Example output + challenge ---------- */
+#example-output-box { animation: kaiPopIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes kaiPopIn { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: none; } }
+#display-example-output { box-shadow: inset 0 0 0 1px rgba(52, 211, 153, 0.2); }
+
+#challenge-container { position: relative; animation: kaiPopIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+#challenge-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(120deg, #a855f7, #6366f1, #ec4899, #06b6d4, #a855f7);
+    background-size: 300% 300%;
+    animation: kaiBorderFlow 6s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.85;
+}
+@keyframes kaiBorderFlow { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
+
+/* ---------- 7. Action buttons ---------- */
+#btn-action {
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(90deg, #2563eb, #7c3aed 50%, #db2777);
+    background-size: 220% 100%;
+    animation: kaiFlow 5s linear infinite;
+    box-shadow: 0 12px 34px -10px rgba(99, 102, 241, 0.65);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+#btn-action::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -80%;
+    width: 60%;
+    background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: skewX(-18deg);
+    animation: kaiShine 2.8s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes kaiShine { 0%, 55% { left: -80%; } 100% { left: 160%; } }
+#btn-action:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 18px 46px -12px rgba(124, 58, 237, 0.8); }
+#btn-action:disabled { filter: saturate(0.4) brightness(0.9); animation: none; }
+
+#btn-prev { transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease; }
+#btn-prev:hover { transform: translateY(-2px); box-shadow: 0 10px 26px -10px rgba(148, 163, 184, 0.6); }
+
+#btn-challenge-open { position: relative; overflow: hidden; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+#btn-challenge-open::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(120deg, #a855f7, #6366f1, #ec4899, #a855f7);
+    background-size: 300% 300%;
+    animation: kaiBorderFlow 5s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+#btn-challenge-open:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -10px rgba(168, 85, 247, 0.6); }
+
+/* ---------- 8. Quiz ---------- */
+#quiz-options .quiz-option {
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+#quiz-options .quiz-option:hover { transform: translateY(-2px); box-shadow: 0 8px 22px -8px rgba(59, 130, 246, 0.35); }
+#btn-quiz-next {
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(90deg, #2563eb, #7c3aed 50%, #db2777);
+    background-size: 220% 100%;
+    animation: kaiFlow 5s linear infinite;
+    box-shadow: 0 12px 34px -10px rgba(99, 102, 241, 0.6);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+#btn-quiz-next:hover { transform: translateY(-2px); box-shadow: 0 16px 40px -12px rgba(124, 58, 237, 0.8); }
+
+/* ---------- 9. Sidebar (timeline) ---------- */
+#learning-view aside > div:first-child {
+    background-image: linear-gradient(120deg, rgba(59, 130, 246, 0.10), rgba(168, 85, 247, 0.10), rgba(236, 72, 153, 0.10));
+}
+.timeline-dot { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.timeline-dot.current {
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.28), 0 0 16px rgba(59, 130, 246, 0.85);
+    animation: kaiDotPulse 2.2s ease-in-out infinite;
+}
+@keyframes kaiDotPulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.28), 0 0 10px rgba(59, 130, 246, 0.6); }
+    50% { box-shadow: 0 0 0 7px rgba(59, 130, 246, 0.12), 0 0 20px rgba(59, 130, 246, 1); }
+}
+.timeline-dot.completed { box-shadow: 0 0 12px rgba(16, 185, 129, 0.6), inset 0 0 4px rgba(255, 255, 255, 0.5); }
+#sidebar-content .group:hover .timeline-dot { transform: scale(1.3); }
+#sidebar-content button:not(.locked-lesson) { transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease; }
+#sidebar-content button:not(.locked-lesson):hover { transform: translateX(-5px); }
+#sidebar-content button[class*="bg-blue-50"] {
+    background-image: linear-gradient(90deg, rgba(59, 130, 246, 0.18), rgba(139, 92, 246, 0.18)) !important;
+    box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.25);
+}
+#sidebar-content .kai-side-row { animation: kaiRowIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--kai-delay, 0s); }
+@keyframes kaiRowIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: none; } }
+
+/* ---------- 10. Compiler / terminal ---------- */
+#compiler-modal > .rounded-2xl {
+    border-color: rgba(139, 92, 246, 0.5);
+    box-shadow: 0 0 70px -12px rgba(124, 58, 237, 0.40), 0 40px 90px -20px rgba(0, 0, 0, 0.65);
+}
+#user-code, #user-code-css { caret-color: #67d8ff; }
+#code-output::after {
+    content: "▍";
+    color: #34d399;
+    animation: kaiCaret 1.1s steps(1) infinite;
+}
+
+/* ---------- 11. Fallbacks ---------- */
+@media (prefers-reduced-motion: reduce) {
+    #learning-view, #example-output-box, #challenge-container,
+    #btn-action, #btn-action::after, #btn-quiz-next, #display-title,
+    #btn-challenge-open::before, #challenge-container::after,
+    #lesson-main::before, .timeline-dot.current, #kai-progress-fill,
+    #sidebar-content .kai-side-row,
+    #display-code > div.kai-last-line::after,
+    #display-css-code > div.kai-last-line::after,
+    #code-output::after { animation: none !important; }
+    #display-title, #display-content h1, #display-content h2, #display-content h3,
+    #display-content p strong, #display-content p b,
+    #display-content li strong, #display-content li b {
+        background-image: none;
+        -webkit-background-clip: border-box;
+        background-clip: border-box;
+        color: #111827;
+        -webkit-text-fill-color: #111827;
+    }
+    .dark #display-title, .dark #display-content h1, .dark #display-content h2,
+    .dark #display-content h3 { color: #fff; -webkit-text-fill-color: #fff; }
+    #display-content .kai-reveal { opacity: 1 !important; transform: none !important; }
+    #display-code > div, #display-css-code > div { opacity: 1 !important; transform: none !important; }
+}
+
+/* ==========================================================================
+   12. Home grid — 3D featured views (categories / langs / ai)
+       Scoped by #languages-grid[data-kai-view]. Pure CSS, no images:
+       rotating conic rings, flowing top bars, floating icon tiles,
+       breathing halos, shimmering progress bars.
+       Entrances are TRANSFORM-ONLY (never opacity) — nothing can vanish.
+       ========================================================================== */
+
+@property --kai-rot { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@keyframes kaiRingRotate { to { --kai-rot: 360deg; } }
+
+@keyframes kaiCardRise { from { transform: translateY(26px); } to { transform: none; } }
+@keyframes kaiFloatY { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-9px) rotate(2.5deg); } }
+
+#languages-grid[data-kai-view="categories"] > .glass-card,
+#languages-grid[data-kai-view="langs"] > .glass-card,
+#languages-grid[data-kai-view="ai"] > .ai-topic-card { border-color: transparent; }
+#languages-grid[data-kai-view="categories"] > .glass-card:hover,
+#languages-grid[data-kai-view="langs"] > .glass-card:hover { border-color: transparent; }
+
+/* ---- rotating conic rings (live on the shared ::after edge layer) ---- */
+#languages-grid[data-kai-view="categories"] > .glass-card::after {
+    background: conic-gradient(from var(--kai-rot, 0deg),
+        rgba(37,99,235,.95), rgba(6,182,212,.9) 25%,
+        rgba(124,58,237,.95) 50%, rgba(236,72,153,.9) 75%,
+        rgba(37,99,235,.95));
+    animation: kaiRingRotate 9s linear infinite;
+    padding: 2px;
+    opacity: 1;
+}
+#languages-grid[data-kai-view="langs"] > .glass-card::after {
+    background: conic-gradient(from var(--kai-rot, 0deg),
+        rgba(59,130,246,.75), rgba(139,92,246,.75) 45%,
+        rgba(6,182,212,.75) 75%, rgba(59,130,246,.75));
+    animation: kaiRingRotate 14s linear infinite;
+    padding: 2px;
+    opacity: 1;
+}
+#languages-grid[data-kai-view="ai"] > .ai-topic-card::after {
+    background: conic-gradient(from var(--kai-rot, 0deg),
+        rgba(16,185,129,.85), rgba(20,184,166,.85) 40%,
+        rgba(6,182,212,.85) 70%, rgba(16,185,129,.85));
+    animation: kaiRingRotate 8s linear infinite;
+    padding: 2px;
+    opacity: 1;
+}
+
+/* ---- flowing top accent bars ---- */
+#languages-grid[data-kai-view="categories"] > .glass-card > div[class*="absolute top-0"],
+#languages-grid[data-kai-view="ai"] > .ai-topic-card > div[class*="absolute top-0"] {
+    background-size: 200% auto;
+    animation: kaiFlow 4s linear infinite;
+}
+
+/* ---- staggered (transform-only) rises ---- */
+#languages-grid[data-kai-view="categories"] > .glass-card {
+    animation: kaiCardRise .6s var(--kai-ease) backwards,
+               kaiCardGlowPulse 4s ease-in-out infinite;
+}
+#languages-grid[data-kai-view="categories"] > .glass-card:nth-child(1) { --kai-glow-c: 37,99,235;   animation-delay: 0s, 0s; }
+#languages-grid[data-kai-view="categories"] > .glass-card:nth-child(2) { --kai-glow-c: 16,185,129; animation-delay: .09s, 0s; }
+#languages-grid[data-kai-view="categories"] > .glass-card:nth-child(3) { --kai-glow-c: 244,63,94;  animation-delay: .18s, 0s; }
+
+@keyframes kaiCardGlowPulse {
+    0%, 100% { box-shadow: var(--kai-shadow-1), 0 0 34px -10px rgba(var(--kai-glow-c, 37,99,235), .28); }
+    50%      { box-shadow: var(--kai-shadow-2), 0 0 58px -8px  rgba(var(--kai-glow-c, 37,99,235), .55); }
+}
+
+#languages-grid[data-kai-view="langs"] > .glass-card { animation: kaiCardRise .55s var(--kai-ease) backwards; }
+#languages-grid[data-kai-view="langs"] > .glass-card:nth-child(2) { animation-delay: .06s; }
+#languages-grid[data-kai-view="langs"] > .glass-card:nth-child(3) { animation-delay: .12s; }
+#languages-grid[data-kai-view="langs"] > .glass-card:nth-child(4) { animation-delay: .18s; }
+#languages-grid[data-kai-view="langs"] > .glass-card:nth-child(5) { animation-delay: .24s; }
+#languages-grid[data-kai-view="langs"] > .glass-card:nth-child(6) { animation-delay: .30s; }
+#languages-grid[data-kai-view="langs"] > .glass-card:nth-child(7) { animation-delay: .36s; }
+#languages-grid[data-kai-view="langs"] > .glass-card:nth-child(8) { animation-delay: .42s; }
+#languages-grid[data-kai-view="langs"] > .glass-card:nth-child(9) { animation-delay: .48s; }
+
+#languages-grid[data-kai-view="ai"] > .ai-topic-card { animation: kaiCardRise .6s var(--kai-ease) backwards; }
+
+/* ---- floating icon tiles + breathing halos ---- */
+#languages-grid[data-kai-view="categories"] > .glass-card > div[class*="-space-x-2"] {
+    animation: kaiFloatY 5s ease-in-out infinite;
+}
+#languages-grid[data-kai-view="categories"] > .glass-card > .w-24.h-24 {
+    animation: kaiFloatY 5s ease-in-out infinite;
+}
+#languages-grid[data-kai-view="langs"] > .glass-card > div[class*="w-24 h-24"] {
+    animation: kaiTileGlow 3.6s ease-in-out infinite;
+}
+@keyframes kaiTileGlow {
+    0%, 100% { transform: translateY(0) rotate(0deg); box-shadow: 0 0 0 1px rgba(59,130,246,.22), 0 12px 28px -12px rgba(59,130,246,.45); }
+    50%      { transform: translateY(-7px) rotate(3deg); box-shadow: 0 0 0 4px rgba(59,130,246,.12), 0 22px 44px -14px rgba(99,102,241,.65); }
+}
+#languages-grid[data-kai-view="ai"] .ai-topic-card .relative.w-24.h-24 {
+    animation: kaiAiIconFloat 4.5s ease-in-out infinite;
+}
+@keyframes kaiAiIconFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); box-shadow: 0 0 0 4px rgba(255,255,255,.22), 0 18px 44px -14px rgba(16,185,129,.55); }
+    50%      { transform: translateY(-9px) rotate(4deg);  box-shadow: 0 0 0 7px rgba(255,255,255,.10), 0 30px 60px -16px rgba(16,185,129,.85); }
+}
+
+/* ---- shimmering lesson-progress bars (ai topics) ---- */
+#languages-grid[data-kai-view="ai"] .ai-topic-card .h-2 > div {
+    background-size: 200% auto;
+    animation: kaiFlow 3s linear infinite;
+}
+
+/* ---- featured category buttons: shine sweep ---- */
+#languages-grid[data-kai-view="categories"] > .glass-card > span[class*="bg-gradient-to-r"] {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 16px 38px -14px rgba(var(--kai-glow-c, 37,99,235), .55);
+}
+#languages-grid[data-kai-view="categories"] > .glass-card > span[class*="bg-gradient-to-r"]::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -140%;
+    width: 55%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,.45), transparent);
+    transform: skewX(-18deg);
+    animation: kaiShine 2.8s ease-in-out infinite;
+    pointer-events: none;
+}

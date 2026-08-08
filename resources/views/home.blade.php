@@ -263,7 +263,7 @@
     <div class="container mx-auto max-w-7xl relative z-10">
         <div class="text-center mb-16">
             <span class="inline-block px-4 py-1.5 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-black rounded-full mb-4 lang-str" data-so="بۆچی کورد ئەی ئای؟" data-ba="بۆچی کورد ئەی ئای؟">بۆچی کورد ئەی ئای؟</span>
-            <h3 class="text-4xl md:text-5xl font-black mb-4 text-gray-900 dark:text-white lang-str" data-so="بۆچی ئێمە هەڵبژێرین؟" data-ba="بۆچی مە هەڵبژێری؟">بۆچی ئێمە هەڵبژێرین؟</h3>
+            <h3 class="text-4xl md:text-5xl font-black mb-4 text-gray-900 dark:text-white lang-str" data-so="بۆچی Kurd AI هەڵبژێرین؟" data-ba="بۆچی Kurd AI هەڵبژێری؟">بۆچی Kurd AI هەڵبژێرین؟</h3>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

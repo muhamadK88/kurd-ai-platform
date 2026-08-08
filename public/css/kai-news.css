@@ -1,0 +1,114 @@
+/* ==========================================================================
+   KURD AI — هەواڵەکان (News) · editorial design  ·  v1
+   Sky/blue "breaking news" look. Pure CSS — no image assets added.
+   ========================================================================== */
+
+/* ---------- shared keyframes ---------- */
+@keyframes kaiFlow { to { background-position: 220% center; } }
+@keyframes kaiShine { 0%, 55% { left: -80%; } 100% { left: 160%; } }
+@keyframes kaiPulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(0.8); }
+}
+
+/* ---------- hero ---------- */
+header .inline-flex { animation: kaiPopBadge 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+header .inline-flex::before {
+    content: "";
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #0ea5e9;
+    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.25), 0 0 12px rgba(14, 165, 233, 0.9);
+    animation: kaiPulseDot 1.6s ease-in-out infinite;
+    margin-inline-start: 2px;
+}
+@keyframes kaiPopBadge { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+
+header h2 {
+    background-image: linear-gradient(90deg, #0ea5e9, #2563eb 45%, #7c3aed 80%, #06b6d4);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: kaiHeadIn 0.9s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both, kaiFlow 8s linear infinite;
+}
+header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes kaiHeadIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* ---------- news cards ---------- */
+#news-container > .glass-card { position: relative; }
+#news-container > .glass-card::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 4px;
+    z-index: 5;
+    background: linear-gradient(90deg, #0ea5e9, #2563eb, #7c3aed, #06b6d4);
+    background-size: 220% auto;
+    animation: kaiFlow 6s linear infinite;
+}
+#news-container > .glass-card:hover::before { height: 5px; }
+#news-container > .glass-card:hover { box-shadow: 0 24px 60px -18px rgba(14, 165, 233, 0.45); }
+
+/* read-more button shine sweep */
+#news-container > .glass-card > div:last-child > button:first-of-type {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+#news-container > .glass-card > div:last-child > button:first-of-type::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: -80%;
+    width: 55%;
+    background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    transform: skewX(-18deg);
+    animation: kaiShine 3s ease-in-out infinite;
+    pointer-events: none;
+}
+#news-container > .glass-card > div:last-child > button:first-of-type:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -10px rgba(14, 165, 233, 0.6);
+    background-color: rgba(224, 242, 254, 0.9);
+}
+
+/* headline on card */
+#news-container > .glass-card h3 { transition: color 0.3s ease; }
+#news-container > .glass-card:hover h3 {
+    background-image: linear-gradient(90deg, #0284c7, #7c3aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+/* admin buttons keep readable */
+#news-container > .glass-card > div:last-child > div button { transition: transform 0.2s ease; }
+#news-container > .glass-card > div:last-child > div button:hover { transform: translateY(-1px); }
+
+/* ---------- modal polish ---------- */
+#newsModal .glass-card { border: 1px solid rgba(14, 165, 233, 0.35); }
+#newsModal .glass-card h2 { animation: kaiHeadIn 0.5s 0.1s both; }
+#comment-btn { position: relative; overflow: hidden; }
+#comment-btn::after {
+    content: "";
+    position: absolute; top: 0; bottom: 0; left: -80%;
+    width: 55%;
+    background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transform: skewX(-18deg);
+    animation: kaiShine 3.5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* ---------- fallbacks ---------- */
+@media (prefers-reduced-motion: reduce) {
+    header h2, header .inline-flex, header p,
+    #news-container > .glass-card::before,
+    #news-container > .glass-card > div:last-child > button:first-of-type::after,
+    #comment-btn::after, #newsModal .glass-card h2 { animation: none !important; }
+    header h2 {
+        background-image: none; -webkit-background-clip: border-box; background-clip: border-box;
+        color: #111827; -webkit-text-fill-color: #111827;
+    }
+    .dark header h2 { color: #fff; -webkit-text-fill-color: #fff; }
+}

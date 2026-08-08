@@ -1,0 +1,116 @@
+/* ==========================================================================
+   KURD AI — زانکۆکان (Universities) · academic design  ·  v1
+   Prestigious royal-blue + gold academic look. Pure CSS — no images added.
+   ========================================================================== */
+
+/* ---------- shared keyframes ---------- */
+@keyframes kaiFlow { to { background-position: 220% center; } }
+@keyframes kaiShine { 0%, 55% { left: -80%; } 100% { left: 160%; } }
+@keyframes kaiGoldPulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.35), 0 0 18px rgba(217, 119, 6, 0.5); }
+    50% { box-shadow: 0 0 0 6px rgba(217, 119, 6, 0.12), 0 0 28px rgba(217, 119, 6, 0.85); }
+}
+
+/* ---------- hero ---------- */
+header .inline-flex { animation: kaiPopBadge 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes kaiPopBadge { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+header h2 {
+    background-image: linear-gradient(90deg, #1d4ed8, #2563eb 40%, #d97706 75%, #2563eb);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: kaiHeadIn 0.9s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both, kaiFlow 8s linear infinite;
+}
+header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes kaiHeadIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* ---------- university cards ---------- */
+#uni-container > .glass-card {
+    position: relative;
+    border-top-width: 4px !important;
+    border-top-color: #d97706 !important;
+}
+#uni-container > .glass-card::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 4px;
+    z-index: 5;
+    background: linear-gradient(90deg, #1d4ed8, #d97706 45%, #2563eb 80%, #1d4ed8);
+    background-size: 220% auto;
+    animation: kaiFlow 7s linear infinite;
+}
+#uni-container > .glass-card:hover { box-shadow: 0 30px 70px -20px rgba(217, 119, 6, 0.45); }
+
+/* logo tile — gold crest ring */
+#uni-container .w-20.h-20 {
+    position: relative;
+    animation: kaiGoldPulse 3.2s ease-in-out infinite;
+    border-color: rgba(217, 119, 6, 0.4) !important;
+}
+#uni-container > .glass-card:hover .w-20.h-20 { animation: kaiGoldPulse 1.6s ease-in-out infinite; }
+
+/* degree badge */
+#uni-container span[class*="bg-orange-100"],
+#uni-container span[class*="bg-orange-900"] {
+    box-shadow: 0 3px 10px -2px rgba(217, 119, 6, 0.5);
+}
+
+/* name */
+#uni-container h3 { transition: color 0.3s ease; }
+#uni-container > .glass-card:hover h3 {
+    background-image: linear-gradient(90deg, #1d4ed8, #d97706);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+/* CTA — academic gold/blue with shine (overrides the default orange/red) */
+#uni-container > .glass-card > div:last-child > button {
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(90deg, #1d4ed8, #2563eb 45%, #d97706 80%, #1d4ed8) !important;
+    background-size: 220% auto !important;
+    animation: kaiFlow 5s linear infinite;
+}
+#uni-container > .glass-card > div:last-child > button::after {
+    content: "";
+    position: absolute; top: 0; bottom: 0; left: -80%;
+    width: 55%;
+    background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transform: skewX(-18deg);
+    animation: kaiShine 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* ---------- plan modal ---------- */
+#planModal .glass-card {
+    border: 1px solid rgba(217, 119, 6, 0.4);
+    box-shadow: 0 0 70px -14px rgba(217, 119, 6, 0.5), 0 40px 90px -20px rgba(0, 0, 0, 0.6);
+}
+#planModal h3 {
+    background-image: linear-gradient(90deg, #1d4ed8, #d97706);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ---------- fallbacks ---------- */
+@media (prefers-reduced-motion: reduce) {
+    header h2, header .inline-flex, header p,
+    #uni-container > .glass-card::before, #uni-container .w-20.h-20,
+    #uni-container > .glass-card > div:last-child > button,
+    #uni-container > .glass-card > div:last-child > button::after { animation: none !important; }
+    header h2, #planModal h3 {
+        background-image: none; -webkit-background-clip: border-box; background-clip: border-box;
+        color: #111827; -webkit-text-fill-color: #111827;
+    }
+    .dark header h2, .dark #planModal h3 { color: #fff; -webkit-text-fill-color: #fff; }
+    #uni-container > .glass-card > div:last-child > button {
+        background-image: linear-gradient(90deg, #1d4ed8, #2563eb) !important;
+    }
+}

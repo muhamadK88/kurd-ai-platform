@@ -161,31 +161,9 @@
     }
 
     function initReveal() {
-        if (reduced || !('IntersectionObserver' in window)) return;
-
-        revealObserver = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    var el = entry.target;
-                    setWill(el, true);
-                    el.classList.add('kai-in');
-                    revealObserver.unobserve(el);
-                    setTimeout(function () { setWill(el, false); }, 900);
-                }
-            });
-        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-
-        window.addEventListener('error', revealAll);
-        setTimeout(function () {
-            each('.kai-reveal:not(.kai-in)', document, function (el) {
-                var top = el.getBoundingClientRect().top;
-                if (top < window.innerHeight * 2) {
-                    setWill(el, true);
-                    el.classList.add('kai-in');
-                    setTimeout(function () { setWill(el, false); }, 900);
-                }
-            });
-        }, 6000);
+        /* Scroll-reveal disabled: sections no longer vanish/reappear.
+           revealObserver stays null, so scanReveal() becomes a no-op. */
+        return;
     }
 
     var REVEAL_SELECTOR = [
@@ -262,7 +240,7 @@
         card.style.setProperty('--kai-my', my + 'px');
 
         if (isTouch || reduced) return;
-        if (!card.matches('.service-card, .tool-card')) return;
+        if (!card.matches('.service-card, .tool-card, #languages-grid > .glass-card, #languages-grid > .ai-topic-card')) return;
 
         var px = (mx / r.width) - 0.5;
         var py = (my / r.height) - 0.5;

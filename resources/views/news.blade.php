@@ -81,6 +81,8 @@
     </style>
 
     @include('partials.kurdai-design')
+
+    <link rel="stylesheet" href="{{ asset('css/kai-news.css') }}?v=2">
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">

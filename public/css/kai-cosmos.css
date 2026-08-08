@@ -1,0 +1,111 @@
+/* ==========================================================================
+   KURD AI — "Cosmos" v4 · whole-site motion layer
+   Three.js particle constellation + floating aurora orbs + cursor glow +
+   sparkle trail + click bursts. Purely additive background magic — never
+   touches page logic, classes or data. Falls back gracefully for
+   reduced-motion / touch / low-end devices.
+   ========================================================================== */
+
+/* ---- fixed background universe (sits below all page content) ---- */
+#kai-cosmos {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background:
+        radial-gradient(130% 100% at 50% -10%, rgba(56, 189, 248, .12), transparent 58%),
+        radial-gradient(120% 100% at 88% 108%, rgba(124, 58, 237, .14), transparent 60%),
+        radial-gradient(120% 100% at 8% 108%, rgba(236, 72, 153, .12), transparent 60%);
+}
+html.dark #kai-cosmos {
+    background:
+        radial-gradient(130% 100% at 50% -10%, rgba(56, 189, 248, .16), transparent 58%),
+        radial-gradient(120% 100% at 88% 108%, rgba(124, 58, 237, .18), transparent 60%),
+        radial-gradient(120% 100% at 8% 108%, rgba(236, 72, 153, .15), transparent 60%);
+}
+#kai-cosmos canvas { display: block; width: 100%; height: 100%; }
+
+/* let the universe show through the mostly-opaque page heroes */
+html header[class*="bg-gray-50"],
+html header[class*="bg-white"],
+html header[class*="bg-slate"],
+html main[class*="bg-gray-50"] {
+    background-color: color-mix(in srgb, var(--kai-surface) 42%, transparent) !important;
+}
+html.dark header[class*="bg-gray-50"],
+html.dark header[class*="bg-white"],
+html.dark header[class*="bg-slate"],
+html.dark main[class*="bg-gray-50"] {
+    background-color: color-mix(in srgb, var(--kai-surface) 40%, transparent) !important;
+}
+
+/* ---- floating aurora orbs ---- */
+.kai-orb {
+    position: fixed;
+    z-index: -1;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: var(--kai-orb-o, .45);
+    pointer-events: none;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    animation: kaiOrbFloat var(--kai-orb-d, 28s) cubic-bezier(.45, 0, .25, 1) infinite;
+    animation-delay: var(--kai-orb-delay, 0s);
+}
+html.dark .kai-orb { opacity: calc(var(--kai-orb-o, .45) * 1.5); }
+
+@keyframes kaiOrbFloat {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    33%      { transform: translate3d(var(--kai-orb-x, 6vw), var(--kai-orb-y, -9vh), 0) scale(1.12); }
+    66%      { transform: translate3d(calc(var(--kai-orb-x, 6vw) * -0.55), calc(var(--kai-orb-y, 6vh) * -0.6), 0) scale(.9); }
+}
+
+/* ---- cursor glow ---- */
+#kai-cursor {
+    position: fixed;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .45s ease;
+    will-change: transform;
+    background: radial-gradient(circle, rgba(56, 189, 248, .14), transparent 62%);
+    mix-blend-mode: screen;
+}
+html.dark #kai-cursor {
+    background: radial-gradient(circle, rgba(129, 140, 248, .18), transparent 62%);
+}
+#kai-cursor.kai-on { opacity: 1; }
+
+/* ---- sparkles / click bursts ---- */
+.kai-spark {
+    position: fixed;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+    transform: translate3d(-50%, -50%, 0);
+    animation: kaiSpark var(--kai-spark-d, .7s) cubic-bezier(.22, 1, .36, 1) forwards;
+}
+@keyframes kaiSpark {
+    0%   { opacity: 1; transform: translate3d(-50%, -50%, 0) scale(1); }
+    100% { opacity: 0; transform: translate3d(calc(-50% + var(--kai-sdx, 30px)), calc(-50% + var(--kai-sdy, -40px)), 0) scale(0); }
+}
+
+/* ---- reduced motion / perf ---- */
+@media (prefers-reduced-motion: reduce) {
+    #kai-cosmos, .kai-orb, #kai-cursor, .kai-spark { display: none !important; }
+}
+html.kai-perf #kai-cosmos canvas { display: none; }
+html.kai-perf #kai-cosmos { background: none; }
+html.kai-perf .kai-orb { animation: none; opacity: .22; filter: blur(40px); }
+html.kai-perf #kai-cursor, html.kai-perf .kai-spark { display: none !important; }
+
+@media (max-width: 768px) {
+    .kai-orb { opacity: .30; }
+    #kai-cursor { display: none; }
+}

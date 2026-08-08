@@ -79,6 +79,8 @@
     </style>
 
     @include('partials.kurdai-design')
+
+    <link rel="stylesheet" href="{{ asset('css/kai-about.css') }}?v=2">
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300">
@@ -154,7 +156,7 @@
         </div>
 
         <!-- 3 Team Members Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div id="about-team-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             
             <!-- Member 1 -->
             <div class="glass-card p-8 rounded-[2.5rem] shadow-xl border-t-4 border-blue-600 flex flex-col justify-between hover:shadow-2xl transition-all duration-300 group">

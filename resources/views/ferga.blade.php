@@ -115,6 +115,8 @@
     </style>
 
     @include('partials.kurdai-design')
+    <link rel="stylesheet" href="/css/kai-ferga.css?v=4">
+    <script src="/js/kai-ferga.js?v=2" defer></script>
 </head>
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
 
@@ -349,6 +351,10 @@
                                 <span class="text-[10px] text-gray-500 mr-3 font-bold uppercase tracking-wider lang-str" data-so="نمونە" data-ba="نمونە">نمونە</span>
                                 <span id="code-filename-label" class="text-xs font-mono text-gray-400">main.py</span>
                             </div>
+                            <button onclick="openCodeEditor(false)" class="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white rounded-lg font-bold text-[11px] shadow transition-all hover:scale-105 border border-orange-400/50 shrink-0">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                <span class="lang-str" data-so="دەستکاری و ڕەنکردن" data-ba="دەستکاری و ڕەنکردن">دەستکاری و ڕەنکردن</span>
+                            </button>
                         </div>
                         <div class="p-5 overflow-x-auto" dir="ltr">
                             <div id="display-code" class="font-mono text-[15px] leading-relaxed space-y-1"></div>
@@ -366,10 +372,26 @@
                                 <span class="text-[10px] text-gray-500 mr-3 font-bold uppercase tracking-wider lang-str" data-so="نمونەی CSS" data-ba="نمونا CSS">نمونەی CSS</span>
                                 <span class="text-xs font-mono text-gray-400">style.css</span>
                             </div>
+                            <button onclick="openCodeEditor(true)" class="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white rounded-lg font-bold text-[11px] shadow transition-all hover:scale-105 border border-orange-400/50 shrink-0">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                <span class="lang-str" data-so="دەستکاری و ڕەنکردن" data-ba="دەستکاری و ڕەنکردن">دەستکاری و ڕەنکردن</span>
+                            </button>
                         </div>
                         <div class="p-5 overflow-x-auto" dir="ltr">
                             <div id="display-css-code" class="font-mono text-[15px] leading-relaxed space-y-1"></div>
                         </div>
+                    </div>
+                </div>
+
+                <div id="display-web-preview-box" class="hidden mb-6">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800 bg-white">
+                        <div class="bg-[#2d2d2d] px-4 py-3 flex items-center gap-2 border-b border-gray-800">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="text-[10px] text-gray-500 mr-3 font-bold uppercase tracking-wider lang-str" data-so="ئەنجام (بڕاوسەر)" data-ba="ئەنجام (بڕاوسەر)">ئەنجام (بڕاوسەر)</span>
+                        </div>
+                        <iframe id="display-web-preview" class="w-full h-[420px] bg-white" sandbox="allow-scripts allow-modals allow-forms"></iframe>
                     </div>
                 </div>
 
@@ -1946,6 +1968,41 @@ ${code}
             document.getElementById('compiler-modal').classList.add('flex');
         };
 
+        // دەستکاری و ڕەنکردنی کۆدی نموونە لەلایەن بەکارهێنەرەوە
+        window.openCodeEditor = function(fromCss) {
+            const lesson = currentLessonArray[currentLessonIndex];
+            if (!lesson) return;
+            const combined = isCombinedWebMode();
+            const tabs = document.getElementById('compiler-file-tabs');
+            if (tabs) tabs.classList.toggle('hidden', !combined);
+            if (combined) {
+                compilerHtmlBuffer = lesson.code || '';
+                compilerCssBuffer = lesson.code_css || '';
+                document.getElementById('user-code').value = compilerHtmlBuffer;
+                document.getElementById('user-code-css').value = compilerCssBuffer;
+                window.switchCompilerFile(fromCss ? 'css' : 'html');
+            } else {
+                document.getElementById('user-code-css').classList.add('hidden');
+                document.getElementById('user-code').classList.remove('hidden');
+                document.getElementById('user-code').value = lesson.code || '';
+            }
+            const panel = document.getElementById('compiler-challenge-panel');
+            if (panel) panel.classList.add('hidden');
+            const submitBtn = document.getElementById('btn-submit-challenge');
+            if (submitBtn) submitBtn.classList.add('hidden');
+            const showAnswerBtn = document.getElementById('btn-show-answer');
+            if (showAnswerBtn) showAnswerBtn.classList.add('hidden');
+            const answerBox = document.getElementById('correct-answer-box');
+            if (answerBox) answerBox.classList.add('hidden');
+            const hintEl = document.getElementById('compiler-attempt-hint');
+            if (hintEl) hintEl.textContent = '';
+            latestCompilerOutput = "";
+            document.getElementById('code-output').innerText = currentLang === 'so' ? 'ئامادەیە بۆ کارپێکردن...' : 'ئامادەیە بۆ کارپێکرنێ...';
+            const modal = document.getElementById('compiler-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        };
+
         window.closeTryItYourself = function() {
             const modal = document.getElementById('compiler-modal');
             modal.classList.add('hidden');
@@ -2513,6 +2570,8 @@ ${code}
             const titleEl = document.getElementById('category-title');
             const subEl = document.getElementById('category-subtitle');
             const heroSub = document.getElementById('home-hero-subtitle');
+            const grid = document.getElementById('languages-grid');
+            if (grid) grid.dataset.kaiView = homeView;
             if (homeView === 'ai') {
                 if (nav) nav.classList.remove('hidden');
                 if (titleEl) titleEl.textContent = currentLang === 'so' ? '🤖 فێربوونی ژیری دەستکرد' : '🤖 فێربوونا زیرەکیا دەستکرد';
@@ -3087,6 +3146,26 @@ ${code}
                 document.getElementById('display-css-code-box').classList.add('hidden');
             }
 
+            // HTML + CSS: ئەنجامەکە بەشێوەی بڕاوسەر — لە خوارەوەی کۆدەکە
+            const renderExt = currentLangExtValue();
+            const isWebRender = (isCombinedWebMode() || renderExt === 'html' || renderExt === 'htm') && lesson.code && lesson.code.trim() !== '';
+            const webPreviewBox = document.getElementById('display-web-preview-box');
+            if (isWebRender) {
+                let combined = lesson.code;
+                if (lesson.code_css && lesson.code_css.trim()) {
+                    if (/<\/head>/i.test(combined)) {
+                        combined = combined.replace(/<\/head>/i, `<style>\n${lesson.code_css}\n</style>\n</head>`);
+                    } else {
+                        combined += `\n<style>\n${lesson.code_css}\n</style>`;
+                    }
+                }
+                const pv = document.getElementById('display-web-preview');
+                if (pv) pv.srcdoc = combined;
+                if (webPreviewBox) webPreviewBox.classList.remove('hidden');
+            } else {
+                if (webPreviewBox) webPreviewBox.classList.add('hidden');
+            }
+
             if (lesson.example_output && lesson.example_output.trim() !== '') {
                 document.getElementById('example-output-box').classList.remove('hidden');
                 document.getElementById('display-example-output').innerText = lesson.example_output;
@@ -3610,6 +3689,129 @@ ${code}
             if (outputFields) outputFields.classList.toggle('hidden', type !== 'output');
         };
 
+        // --- HTML + CSS: داگرتنی پەڕە و نیشاندانی ڕاستەوخۆ (دەستکاری وانە) ---
+        function modalLangIsWeb() {
+            const langSel = document.getElementById('modal_lesson_lang_select');
+            const id = langSel ? langSel.value : '';
+            if (id && languagesData[id]) {
+                const ext = String(languagesData[id].ext || '').toLowerCase().replace('.', '');
+                return ext === 'html+css' || ext === 'htmlcss' || ext === 'html-css' || ext === 'web';
+            }
+            return false;
+        }
+
+        window.updateModalWebSection = function() {
+            const zone = document.getElementById('modal-web-zone');
+            if (zone) zone.classList.toggle('hidden', !modalLangIsWeb());
+        };
+
+        function handleModalFiles(files) {
+            const status = document.getElementById('modal-file-drop-status');
+            if (!files || !files.length) return;
+            Array.from(files).forEach(f => {
+                const name = (f.name || '').toLowerCase();
+                const isHtml = name.endsWith('.html') || name.endsWith('.htm');
+                const isCss = name.endsWith('.css');
+                if (!isHtml && !isCss) {
+                    if (status) status.textContent = currentLang === 'so' ? `⚠️ ${f.name} مۆڵەتی نییە — تەنها .html و .css` : `⚠️ ${f.name} مۆڵەت نینە — تەنها .html و .css`;
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const content = String(reader.result || '');
+                    if (isHtml) document.getElementById('modal_lesson_code').value = content;
+                    if (isCss) document.getElementById('modal_lesson_code_css').value = content;
+                    if (status) status.textContent = currentLang === 'so' ? `✅ ${f.name} خوێندرایەوە` : `✅ ${f.name} هاتیە خوێندن`;
+                    previewModalWebPage();
+                };
+                reader.onerror = () => { if (status) status.textContent = '❌ نەتوانرا فایلەکە بخوێنرێتەوە'; };
+                reader.readAsText(f);
+            });
+        }
+
+        window.previewModalWebPage = function() {
+            const html = document.getElementById('modal_lesson_code').value || '';
+            const css = document.getElementById('modal_lesson_code_css').value || '';
+            const pv = document.getElementById('modal-web-preview');
+            const status = document.getElementById('modal-web-preview-status');
+            if (!html.trim()) {
+                if (status) status.textContent = currentLang === 'so' ? '⚠️ سەرەتا کۆدی HTML بنووسە' : '⚠️ بەری هەمی کۆدێ HTML بنڤێسە';
+                return;
+            }
+            let combined = html;
+            if (css.trim()) {
+                if (/<\/head>/i.test(combined)) {
+                    combined = combined.replace(/<\/head>/i, `<style>\n${css}\n</style>\n</head>`);
+                } else {
+                    combined += `\n<style>\n${css}\n</style>`;
+                }
+            }
+            if (pv) {
+                pv.classList.remove('hidden');
+                pv.srcdoc = combined;
+            }
+            if (status) status.textContent = currentLang === 'so' ? '✅ پەڕەکە نیشان دەدرێت' : '✅ پەڕە د نیشاندانێدایە';
+        };
+
+        window.handleModalImage = async function(input) {
+            const status = document.getElementById('modal-image-status');
+            const file = input && input.files && input.files[0];
+            if (!file) {
+                if (status) status.textContent = '';
+                return;
+            }
+            if (!/^image\//.test(file.type)) {
+                if (status) status.textContent = currentLang === 'so' ? '⚠️ فایلێکی وێنە هەڵبژێرە (.jpg/.png/...)' : '⚠️ فایلەکێ وێنە هەلبژێرە (.jpg/.png/...)';
+                input.value = '';
+                return;
+            }
+            if (status) status.textContent = currentLang === 'so' ? '⏳ بەرز دەکرێتەوە...' : '⏳ هاتە بارکردن...';
+            try {
+                const url = await uploadImage(file);
+                const codeEl = document.getElementById('modal_lesson_code');
+                const imgTag = `<img src="${url}" style="max-width:100%;height:auto">`;
+                if (codeEl) {
+                    const start = codeEl.selectionStart != null ? codeEl.selectionStart : codeEl.value.length;
+                    const end = codeEl.selectionEnd != null ? codeEl.selectionEnd : codeEl.value.length;
+                    codeEl.value = codeEl.value.slice(0, start) + imgTag + codeEl.value.slice(end);
+                    codeEl.focus();
+                    codeEl.setSelectionRange(start + imgTag.length, start + imgTag.length);
+                }
+                if (status) status.textContent = currentLang === 'so' ? '✅ لینکی وێنەکە دانرا' : '✅ لینکا وێنە هاتە دانان';
+                previewModalWebPage();
+            } catch (err) {
+                if (status) status.textContent = currentLang === 'so' ? '❌ بارکردنەکە سەرکەوتوو نەبوو — ئینتەرنێتەکە بپشکنە' : '❌ بارکردن سەرکەوتوو نەبوو — ئینتەرنێت بپشکنە';
+            }
+            input.value = '';
+        };
+
+        (function initModalWebZone() {
+            const modalFileInput = document.getElementById('modal-file-input');
+            if (modalFileInput) modalFileInput.addEventListener('change', function() {
+                handleModalFiles(this.files);
+                this.value = '';
+            });
+            const modalImageInput = document.getElementById('modal-image-input');
+            if (modalImageInput) modalImageInput.addEventListener('change', function() {
+                handleModalImage(this);
+            });
+            const modalFileDrop = document.getElementById('modal-file-drop');
+            if (modalFileDrop) {
+                modalFileDrop.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    modalFileDrop.classList.add('border-blue-600', 'bg-blue-100/60', 'dark:bg-blue-900/20');
+                });
+                modalFileDrop.addEventListener('dragleave', () => {
+                    modalFileDrop.classList.remove('border-blue-600', 'bg-blue-100/60', 'dark:bg-blue-900/20');
+                });
+                modalFileDrop.addEventListener('drop', e => {
+                    e.preventDefault();
+                    modalFileDrop.classList.remove('border-blue-600', 'bg-blue-100/60', 'dark:bg-blue-900/20');
+                    handleModalFiles(e.dataTransfer.files);
+                });
+            }
+        })();
+
         window.openEditLessonModal = function(lessonId) {
             const d = lessonsData[lessonId];
             if (!d) return;
@@ -3659,6 +3861,7 @@ ${code}
             const radio = document.querySelector(`input[name="modal_quiz_type"][value="${qtype || 'none'}"]`);
             if (radio) radio.checked = true;
             window.toggleQuizType();
+            window.updateModalWebSection();
 
             const modal = document.getElementById('editLessonModal');
             const content = document.getElementById('editLessonModalContent');
@@ -3719,6 +3922,7 @@ ${code}
             const radio = document.querySelector('input[name="modal_quiz_type"][value="none"]');
             if (radio) radio.checked = true;
             window.toggleQuizType();
+            window.updateModalWebSection();
             const modal = document.getElementById('editLessonModal');
             const content = document.getElementById('editLessonModalContent');
             modal.classList.remove('hidden');
@@ -3891,7 +4095,7 @@ ${code}
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                                 <div class="md:col-span-1">
                                     <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">زمان</label>
-                                    <select id="modal_lesson_lang_select" required class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm"></select>
+                                    <select id="modal_lesson_lang_select" required onchange="updateModalWebSection()" class="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all text-sm"></select>
                                 </div>
                                 <div class="md:col-span-1">
                                     <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">ڕیزبەندی (ژمارە)</label>
@@ -3949,6 +4153,33 @@ ${code}
                             <div>
                                 <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-1">کۆدی CSS (style.css — تەنها بۆ HTML + CSS)</label>
                                 <textarea id="modal_lesson_code_css" rows="5" dir="ltr" class="w-full px-4 py-3 bg-[#1e1e1e] text-purple-400 border border-gray-700 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all text-sm font-mono text-left"></textarea>
+                            </div>
+
+                            <!-- بەشی HTML + CSS: داگرتنی پەڕە و نیشاندانی ڕاستەوخۆ -->
+                            <div id="modal-web-zone" class="hidden space-y-3">
+                                <div id="modal-file-drop" onclick="document.getElementById('modal-file-input').click()" class="border-2 border-dashed border-blue-400 dark:border-blue-600 hover:border-blue-500 bg-blue-50/40 dark:bg-blue-900/10 rounded-xl p-5 text-center cursor-pointer transition">
+                                    <input type="file" id="modal-file-input" accept=".html,.htm,.css" multiple class="hidden">
+                                    <svg class="w-8 h-8 text-blue-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                                    <p class="text-sm font-black text-blue-600 dark:text-blue-400">داگرە و دابنێ index.html یان style.css</p>
+                                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 mt-1">index.html → خانەی کۆد · style.css → خانەی CSS · دەتوانیت کرتەش بکەیت</p>
+                                </div>
+                                <p id="modal-file-drop-status" class="text-xs font-bold text-emerald-600 dark:text-emerald-400"></p>
+                                <div class="flex items-center gap-3 flex-wrap">
+                                    <input type="file" id="modal-image-input" accept="image/*" class="hidden">
+                                    <button type="button" onclick="document.getElementById('modal-image-input').click()" class="bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-lg flex items-center gap-2 transition-all">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                        <span class="lang-str" data-so="بارکردنی وێنە (لینکەکە دەخاتە کۆدەکە)" data-ba="بارکردنا وێنە (لینک دئێتە کۆد)">بارکردنی وێنە (لینکەکە دەخاتە کۆدەکە)</span>
+                                    </button>
+                                    <span id="modal-image-status" class="text-xs font-bold text-gray-500 dark:text-gray-400"></span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <button type="button" onclick="previewModalWebPage()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-lg flex items-center gap-2 transition-all">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path></svg>
+                                        <span class="lang-str" data-so="نیشاندانی پەڕەکە (ئەنجام)" data-ba="نیشاندانا پەڕە (ئەنجام)">نیشاندانی پەڕەکە (ئەنجام)</span>
+                                    </button>
+                                    <span id="modal-web-preview-status" class="text-xs font-bold text-gray-500 dark:text-gray-400"></span>
+                                </div>
+                                <iframe id="modal-web-preview" class="hidden w-full h-[360px] bg-white rounded-xl border-2 border-gray-200 dark:border-gray-700" sandbox="allow-scripts allow-modals allow-forms"></iframe>
                             </div>
                             <div>
                                 <label class="block text-blue-600 dark:text-blue-300 font-bold text-sm mb-1">ئەنجامی کۆدی نموونە (Example Output)</label>

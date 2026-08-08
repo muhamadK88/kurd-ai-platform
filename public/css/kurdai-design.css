@@ -616,22 +616,11 @@ button[class*="bg-gradient-to-r"]:active { transform: translateY(-1px) scale(.99
     to { background-position: 260% center; }
 }
 
-/* ---------- 10. Scroll reveal ----------
-   Opacity + translate only — the blur stage is dropped so the reveal never
-   forces a filter layer. */
-.kai-reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition:
-        opacity .85s var(--kai-ease),
-        transform .85s var(--kai-ease);
-    transition-delay: var(--kai-d, 0ms);
-}
-
-.kai-reveal.kai-in {
-    opacity: 1;
-    transform: none;
-}
+/* ---------- 10. Scroll reveal (disabled) ----------
+   Sections used to fade in on scroll (opacity 0 -> 1) and re-hide whenever
+   dynamic content re-rendered. Disabled: nothing starts hidden anymore. */
+.kai-reveal,
+.kai-reveal.kai-in { opacity: 1; transform: none; }
 
 /* ---------- 11. Hero polish ---------- */
 header h2,
