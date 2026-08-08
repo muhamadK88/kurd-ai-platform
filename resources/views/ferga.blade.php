@@ -78,6 +78,26 @@
         .xp-popup { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 9999; animation: slideUpFade 2.5s ease-out forwards; }
         @keyframes slideUpFade { 0% { opacity: 0; transform: translate(-50%, 20px); } 15% { opacity: 1; transform: translate(-50%, 0); } 85% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, -20px); } }
 
+        /* Glassmorphic linear progress bar — شریتێ پێشکەفتنێ */
+        .kai-progress-track { position: relative; height: 0.55rem; border-radius: 9999px; overflow: hidden;
+            background: rgba(15,23,42,0.08); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(15,23,42,0.08); box-shadow: inset 0 1px 2px rgba(0,0,0,0.12); }
+        .dark .kai-progress-track { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.25); }
+        .kai-progress-fill { position: absolute; inset-block: 0; inset-inline-start: 0; border-radius: 9999px;
+            transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1); overflow: hidden; }
+        /* moving light sheen sliding along the filled portion */
+        .kai-progress-fill::after { content: ''; position: absolute; inset: 0;
+            background: linear-gradient(100deg, transparent 20%, rgba(255,255,255,0.55) 50%, transparent 80%);
+            background-size: 200% 100%; animation: progressShimmer 2.4s linear infinite; }
+        /* soft top gloss so the fill reads like polished glass */
+        .kai-progress-fill::before { content: ''; position: absolute; inset: 0 0 55% 0; border-radius: 9999px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.45), transparent); z-index: 1; }
+        @keyframes progressShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        /* coming-soon cards: a slow glass sweep instead of a fixed value */
+        .kai-progress-indeterminate { animation: progressIndeterminate 2.8s ease-in-out infinite; }
+        @keyframes progressIndeterminate { 0%, 100% { inset-inline-start: -38%; } 50% { inset-inline-start: 100%; } }
+
         /* Quill Admin Overrides */
         .ql-toolbar { background: white; border-radius: 8px 8px 0 0; direction: ltr; text-align: left; }
         .ql-container { background: white; border-radius: 0 0 8px 8px; color: black; font-family: 'Noto Sans Arabic', sans-serif; font-size: 16px; }
@@ -2561,6 +2581,48 @@ ${code}
         });
 
         // --- Render UI ---
+
+        // شریتێ پێشکەفتنێ یێ شووشەیی (Glassmorphic linear progress bar)
+        // Reusable across category & language cards. `grad` = Tailwind gradient (e.g. 'from-cyan-400 to-blue-600'),
+        // `glow` = rgba() used for the neon drop-shadow so it matches each card's own glowing border.
+        // Structured so `pct` can be bound from Alpine.js (:style / x-bind) or a Blade echo later.
+        function glassProgressBar(pct, grad, glow, opts) {
+            opts = opts || {};
+            const p = Math.max(0, Math.min(100, Math.round(pct || 0)));
+            const soon = opts.soon === true;
+            const label = opts.labelText || (soon
+                ? (currentLang === 'so' ? 'بەمزووانە' : 'بەردەست دبیت')
+                : (currentLang === 'so' ? 'پێشکەوتن' : 'پێشکەفتن'));
+            // percentage caption floating above the bar, aligned to the reading edge
+            const rightChip = soon
+                ? `<span class="text-[11px] font-black text-gray-400 dark:text-gray-500">⏳</span>`
+                : `<span class="text-[11px] font-black bg-gradient-to-r ${grad} bg-clip-text text-transparent tabular-nums">${p}%</span>`;
+            const caption = opts.showLabel === false ? '' : `
+                <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">${label}</span>
+                    ${rightChip}
+                </div>`;
+            // filled portion: neon gradient + custom glow drop-shadow tuned to the card's border color.
+            // Coming-soon cards show an indeterminate glass sweep instead of a real value.
+            const fillShadow = `0 0 8px ${glow}, 0 0 16px ${glow}`;
+            const fill = soon
+                ? `<div class="kai-progress-fill kai-progress-indeterminate bg-gradient-to-r ${grad}" style="width:38%; opacity:.5; box-shadow:${fillShadow};"></div>`
+                : `<div class="kai-progress-fill bg-gradient-to-r ${grad}" style="width:${p}%; box-shadow:${fillShadow};"></div>`;
+            return `
+                <div class="w-full ${opts.wrapClass || 'mt-auto pt-1'}" role="progressbar" aria-valuenow="${soon ? 0 : p}" aria-valuemin="0" aria-valuemax="100" aria-label="${label}">
+                    ${caption}
+                    <div class="kai-progress-track">
+                        ${fill}
+                    </div>
+                </div>`;
+        }
+
+        // چ گرادیێنت و ڕەنگێ گڕدانێ بۆ هەر زمانەکێ — derive neon gradient + glow from the language badge
+        function langProgressStyle(id) {
+            const meta = badgeMetaFor(id) || FALLBACK_BADGE;
+            return { grad: meta.grad || 'from-cyan-400 to-blue-600', glow: meta.ring || 'rgba(96,165,250,0.55)' };
+        }
+
         function renderLanguagesGrid() {
             const grid = document.getElementById('languages-grid');
             if(!grid) return;
@@ -2573,6 +2635,14 @@ ${code}
                 const locked = l.locked === true;
                 const showLock = locked && !window.isAdmin;
                 const needsMembership = locked && !window.isAdmin && !window.isMember;
+                // پێشکەوتنی ئەم زمانە — completed lessons / total lessons
+                const langLessons = sortedLangLessons(id);
+                const langTotal = langLessons.length;
+                const langDone = langLessons.filter(le => completedLessons.includes(le.id)).length;
+                const langPct = langTotal ? Math.round((langDone / langTotal) * 100) : 0;
+                const ps = langProgressStyle(id);
+                const progressLabel = currentLang === 'so' ? `${langDone}/${langTotal} وانە` : `${langDone}/${langTotal} وانە`;
+                const progressBar = glassProgressBar(langPct, ps.grad, ps.glow, { labelText: progressLabel });
                 let iconHtml = l.logo_url ? `<img src="${l.logo_url}" class="w-full h-full object-contain p-2" alt="${name}">` : `<span class="text-3xl font-black text-gray-800">${name.charAt(0)}</span>`;
                 const openAction = needsMembership
                     ? `window.openMembershipModal('${id}')`
@@ -2598,8 +2668,9 @@ ${code}
                             <h3 class="text-2xl font-black mb-4 text-gray-900 dark:text-white"><bdi>${name}</bdi></h3>
                             <p class="text-gray-500 dark:text-gray-400 text-sm leading-loose line-clamp-3 mb-4">${desc}</p>
                         </div>
+                        ${progressBar}
                         ${window.isAdmin ? `
-                        <div class="flex items-center gap-2 w-full mt-auto pt-4 border-t border-gray-200/50 dark:border-gray-700/50">
+                        <div class="flex items-center gap-2 w-full pt-4 border-t border-gray-200/50 dark:border-gray-700/50">
                             <button onclick="event.stopPropagation(); window.toggleLanguageLock('${id}')" class="flex-1 flex justify-center items-center gap-2 py-2.5 ${locked ? 'bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400 hover:bg-green-100' : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400 hover:bg-gray-200'} rounded-xl font-bold text-xs transition border ${locked ? 'border-green-200 dark:border-green-800/50' : 'border-gray-200 dark:border-gray-700'}">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
                                 ${locked ? (currentLang === 'so' ? 'کردنەوە' : 'ڤەکرن') : (currentLang === 'so' ? 'قفڵکردن' : 'قفڵکرن')}
@@ -2690,6 +2761,23 @@ ${code}
             grid.innerHTML = '';
             const langIds = Object.keys(languagesData).filter(id => !languagesData[id].is_ai);
             const langCount = langIds.length;
+            // کۆی پێشکەوتنی هەموو زمانەکان — aggregate progress across every programming language
+            const allLangLessons = langIds.reduce((acc, id) => acc.concat(sortedLangLessons(id)), []);
+            const langTotalAll = allLangLessons.length;
+            const langDoneAll = allLangLessons.filter(le => completedLessons.includes(le.id)).length;
+            const langPctAll = langTotalAll ? Math.round((langDoneAll / langTotalAll) * 100) : 0;
+            // کۆی پێشکەوتنی بەشەکانی ژیری دەستکرد — aggregate AI progress (admins learn/track it)
+            const aiLessonsAll = AI_TOPICS.reduce((acc, t) => acc.concat(sortedLangLessons(t.id)), []);
+            const aiTotalAll = aiLessonsAll.length;
+            const aiDoneAll = aiLessonsAll.filter(le => completedLessons.includes(le.id)).length;
+            const aiPctAll = aiTotalAll ? Math.round((aiDoneAll / aiTotalAll) * 100) : 0;
+            // پێشکەوتنی کارتەکان — glassmorphic bars (per card gradient + glow to match its border)
+            const langsCatBar = glassProgressBar(langPctAll, 'from-cyan-400 to-indigo-600', 'rgba(99,102,241,0.55)',
+                { labelText: currentLang === 'so' ? `${langDoneAll}/${langTotalAll} وانە تەواو` : `${langDoneAll}/${langTotalAll} وانە دووماهی`, wrapClass: 'mt-auto pt-1 mb-5' });
+            const aiCatBarAdmin = glassProgressBar(aiPctAll, 'from-emerald-400 to-cyan-500', 'rgba(16,185,129,0.55)',
+                { labelText: currentLang === 'so' ? `${aiDoneAll}/${aiTotalAll} وانە تەواو` : `${aiDoneAll}/${aiTotalAll} وانە دووماهی`, wrapClass: 'mt-auto pt-1 mb-5' });
+            const aiCatBarSoon = glassProgressBar(0, 'from-emerald-400 to-cyan-500', 'rgba(16,185,129,0.55)', { soon: true, wrapClass: 'mt-auto pt-1 mb-5' });
+            const roboticsCatBar = glassProgressBar(0, 'from-rose-500 to-pink-600', 'rgba(244,63,94,0.55)', { soon: true, wrapClass: 'mt-auto pt-1 mb-5' });
             const langPreview = langIds.slice(0, 6).map(id => {
                 const l = languagesData[id];
                 const name = loc(l, 'name');
@@ -2702,7 +2790,8 @@ ${code}
                     <h3 class="text-3xl font-black mb-3 text-gray-900 dark:text-white">${currentLang === 'so' ? 'زمانەکانی پرۆگرامسازی' : 'زمانێن پرۆگرامسازی'}</h3>
                     <p class="text-gray-500 dark:text-gray-400 text-sm leading-loose mb-1">${langCount} ${currentLang === 'so' ? 'زمان' : 'زوان'}</p>
                     <p class="text-gray-400 dark:text-gray-500 text-xs mb-6">${currentLang === 'so' ? 'بنەڕەتەکانی پرۆگرامسازی فێربە' : 'بنەڕەتێن پرۆگرامسازی فێرببە'}</p>
-                    <span class="inline-flex items-center gap-2 px-8 py-3 mt-auto bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-black text-sm shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بکەرەوە' : 'ڤەکە'}</span>
+                    ${langsCatBar}
+                    <span class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-black text-sm shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بکەرەوە' : 'ڤەکە'}</span>
                 </div>
                 <div onclick="window.${window.isAdmin ? "openCategory('ai')" : 'openAIComingSoon()'}" class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-300 p-10 flex flex-col items-center text-center group hover:-translate-y-2 relative cursor-pointer overflow-hidden h-full">
                     <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500"></div>
@@ -2711,10 +2800,12 @@ ${code}
                     ${window.isAdmin
                         ? `<p class="text-gray-500 dark:text-gray-400 text-sm leading-loose mb-1">${AI_TOPICS.length} ${currentLang === 'so' ? 'بەش' : 'بەش'} • ${AI_TOPICS.reduce((s, t) => s + sortedLangLessons(t.id).length, 0)} ${currentLang === 'so' ? 'وانە' : 'وانە'}</p>
                            <p class="text-gray-400 dark:text-gray-500 text-xs mb-6">${currentLang === 'so' ? 'داتا، ئالگۆریتم، ML، DL و LLM' : 'داتا، ئالگۆریتم، ML، DL و LLM'}</p>
-                           <span class="inline-flex items-center gap-2 px-8 py-3 mt-auto bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بکەرەوە' : 'ڤەکە'}</span>`
+                           ${aiCatBarAdmin}
+                           <span class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بکەرەوە' : 'ڤەکە'}</span>`
                         : `<p class="text-gray-500 dark:text-gray-400 text-sm leading-loose mb-1">${currentLang === 'so' ? 'بەم زوانە دەکرێتەوە' : 'د ڤێ زوانێ دا دێ ڤەبیت'}</p>
                            <p class="text-gray-400 dark:text-gray-500 text-xs mb-6">${currentLang === 'so' ? '' : ''}</p>
-                           <span class="inline-flex items-center gap-2 px-8 py-3 mt-auto bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بەم زوانە دەکرێتەوە' : 'د ڤێ زوانێ دا دێ ڤەبیت'}</span>`
+                           ${aiCatBarSoon}
+                           <span class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بەم زوانە دەکرێتەوە' : 'د ڤێ زوانێ دا دێ ڤەبیت'}</span>`
                     }
                 </div>
                 <div onclick="window.openRoboticsComingSoon()" class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-rose-500/10 transition-all duration-300 p-10 flex flex-col items-center text-center group hover:-translate-y-2 relative cursor-pointer overflow-hidden h-full">
@@ -2723,7 +2814,8 @@ ${code}
                     <h3 class="text-3xl font-black mb-3 text-gray-900 dark:text-white">${currentLang === 'so' ? 'ڕۆبۆتیک' : 'ڕۆبۆتیک'}</h3>
                     <p class="text-gray-500 dark:text-gray-400 text-sm leading-loose mb-1">${currentLang === 'so' ? 'بەمزووانە بەردەست دەبێت' : 'د نزیکترین دەمی دا بەردەست دبیت'}</p>
                     <p class="text-gray-400 dark:text-gray-500 text-xs mb-6">${currentLang === 'so' ? 'ڕۆبۆت، سینسۆر، مایکرۆکۆنترۆلەر و پرۆگرامسازی ڕۆبۆتەکان' : 'ڕۆبۆت، سینسۆر، مایکرۆکۆنترۆلەر و بەرنامەکیرنا ڕۆبۆتان'}</p>
-                    <span class="inline-flex items-center gap-2 px-8 py-3 mt-auto bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بەم زوانە بەردەست دەبێت' : 'د ڤێ زوانێ دا دێ بەردەست بیت'}</span>
+                    ${roboticsCatBar}
+                    <span class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بەم زوانە بەردەست دەبێت' : 'د ڤێ زوانێ دا دێ بەردەست بیت'}</span>
                 </div>`;
         }
 
