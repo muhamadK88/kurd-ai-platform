@@ -112,6 +112,22 @@
         @keyframes aiShine { 0% { left: -80%; } 100% { left: 150%; } }
         .ai-shine { position: absolute; top: 0; bottom: 0; width: 45%; background: linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 100%); transform: skewX(-18deg); animation: aiShine 1.8s ease-in-out 0.3s infinite; }
         .ai-pulse-ring { animation: badgeRingPulse 1.8s ease-out infinite; }
+
+        /* --- Answer revealed → continue bar --- */
+        @keyframes answerBarIn { 0% { opacity: 0; transform: translateY(30px) scale(0.96); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes answerCheckPop { 0% { transform: scale(0) rotate(-25deg); opacity: 0; } 60% { transform: scale(1.25) rotate(8deg); opacity: 1; } 80% { transform: scale(0.92) rotate(-3deg); } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
+        @keyframes answerGlowPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.55), 0 0 24px rgba(16,185,129,0.35); } 50% { box-shadow: 0 0 0 9px rgba(16,185,129,0), 0 0 42px rgba(16,185,129,0.55); } }
+        @keyframes answerBorderFlow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+        @keyframes answerArrowNudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+        @keyframes answerBtnShine { 0% { left: -85%; } 100% { left: 155%; } }
+        @keyframes answerConfetti { 0% { opacity: 0; transform: translateY(-12px) rotate(0deg) scale(1); } 12% { opacity: 1; } 100% { opacity: 0; transform: translateY(110px) rotate(340deg) scale(0.7); } }
+        #answer-continue-bar { animation: answerBarIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+        #answer-continue-bar .continue-border { background: linear-gradient(110deg, #10b981, #06b6d4, #8b5cf6, #f59e0b, #10b981); background-size: 300% 300%; animation: answerBorderFlow 6s linear infinite; }
+        #answer-continue-bar .continue-badge { animation: answerCheckPop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s both, answerGlowPulse 2.4s ease-in-out 0.9s infinite; }
+        #answer-continue-bar .continue-arrow { animation: answerArrowNudge 1.3s ease-in-out infinite; }
+        #answer-continue-bar .continue-btn-shine { position: absolute; top: 0; bottom: 0; width: 45%; background: linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%); transform: skewX(-18deg); animation: answerBtnShine 2.2s ease-in-out infinite; pointer-events: none; }
+        #answer-continue-bar .continue-confetti { position: absolute; width: 8px; height: 12px; border-radius: 2px; animation: answerConfetti 1.9s ease-in forwards; pointer-events: none; }
+        @media (prefers-reduced-motion: reduce) { #answer-continue-bar, #answer-continue-bar * { animation: none !important; transition: none !important; } }
     </style>
 
     @include('partials.kurdai-design')
@@ -517,6 +533,33 @@
                     </div>
                     <pre id="code-output" class="flex-1 w-full text-green-400 font-mono text-[15px] leading-relaxed p-6 overflow-y-auto whitespace-pre-wrap text-left custom-scrollbar" dir="ltr"></pre>
                     <iframe id="code-preview" class="flex-1 w-full bg-white hidden" sandbox="allow-scripts allow-modals allow-forms"></iframe>
+                </div>
+            </div>
+
+            <!-- بەردەوامبوون بۆ وانەی داهاتوو — دوای بینینی وەڵام -->
+            <div id="answer-continue-bar" class="hidden relative shrink-0 bg-[#0d0d0d]/95 overflow-hidden border-t border-emerald-500/20">
+                <div class="continue-border absolute top-0 left-0 right-0 h-[3px] opacity-90"></div>
+                <span class="continue-confetti" style="left:5%; top:-10px; background:#10b981; animation-delay:0s;"></span>
+                <span class="continue-confetti" style="left:18%; top:-10px; background:#06b6d4; animation-delay:0.2s;"></span>
+                <span class="continue-confetti" style="left:38%; top:-10px; background:#8b5cf6; animation-delay:0.4s;"></span>
+                <span class="continue-confetti" style="left:62%; top:-10px; background:#f59e0b; animation-delay:0.6s;"></span>
+                <span class="continue-confetti" style="left:81%; top:-10px; background:#ec4899; animation-delay:0.8s;"></span>
+                <span class="continue-confetti" style="left:93%; top:-10px; background:#22d3ee; animation-delay:1s;"></span>
+                <div class="relative flex flex-wrap items-center gap-3 md:gap-5 px-4 py-3 md:px-6 justify-center md:justify-between">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="continue-badge w-11 h-11 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-emerald-300 font-black text-sm md:text-base leading-tight lang-str" data-so="وەڵامی ڕاستت بینی" data-ba="! تە بەرسڤا راست دیت">وەڵامی ڕاستت بینی</p>
+                            <p class="text-gray-400 text-[11px] md:text-xs font-medium mt-0.5 lang-str" data-so="کاتێک ئامادە بیت بڕۆ بۆ وانەی داهاتوو — وانەکەت تەواوە، بەڵام هیچ خاڵێک (XP) وەرناگریت" data-ba="دەمێ کە هەمادەبی بچە وانەیا داهاتی — وانە تەمامە، لێ چ خاڵان (XP) وەرناگری">کاتێک ئامادە بیت بڕۆ بۆ وانەی داهاتوو — وانەکەت تەواوە، بەڵام هیچ خاڵێک (XP) وەرناگریت</p>
+                        </div>
+                    </div>
+                    <button id="btn-answer-continue" onclick="window.continueAfterAnswer()" class="relative overflow-hidden group flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white px-6 py-3 rounded-full font-black text-sm shadow-[0_0_20px_rgba(16,185,129,0.35)] hover:shadow-[0_0_32px_rgba(16,185,129,0.6)] hover:scale-105 active:scale-95 transition-all border border-emerald-300/40 shrink-0">
+                        <span class="continue-btn-shine"></span>
+                        <span class="lang-str" data-so="بڕۆ بۆ وانەی داهاتوو" data-ba="هەڕە بۆ وانەیا داهاتی">بڕۆ بۆ وانەی داهاتوو</span>
+                        <svg class="w-4 h-4 continue-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
                 </div>
             </div>
         </div>
@@ -1635,9 +1678,9 @@ ${code}
                 });
                 const data = await res.json();
                 let output = "";
-                if (data.execResult && data.execResult.stdout) output = data.execResult.stdout.map(o => o.text).join("");
-                if (data.execResult && data.execResult.stderr && data.execResult.stderr.length) output += "\n" + data.execResult.stderr.map(o => o.text).join("");
-                if (!output && data.stderr && data.stderr.length) output = data.stderr.map(o => o.text).join("");
+                if (data.execResult && data.execResult.stdout) output = data.execResult.stdout.map(o => o.text).join("\n");
+                if (data.execResult && data.execResult.stderr && data.execResult.stderr.length) output += "\n" + data.execResult.stderr.map(o => o.text).join("\n");
+                if (!output && data.stderr && data.stderr.length) output = data.stderr.map(o => o.text).join("\n");
                 if (data.code && data.code !== 0) output = "Compilation error\n" + output;
                 latestCompilerOutput = output;
                 out.innerText = latestCompilerOutput || (currentLang === 'so' ? "(بێ دەرکەوتن)" : "(بێ دەرکەفتن)");
@@ -1760,9 +1803,9 @@ ${code}
                 });
                 const data = await res.json();
                 let output = "";
-                if (data.execResult && data.execResult.stdout) output = data.execResult.stdout.map(o => o.text).join("");
-                if (data.execResult && data.execResult.stderr && data.execResult.stderr.length) output += "\n" + data.execResult.stderr.map(o => o.text).join("");
-                if (!output && data.stderr && data.stderr.length) output = data.stderr.map(o => o.text).join("");
+                if (data.execResult && data.execResult.stdout) output = data.execResult.stdout.map(o => o.text).join("\n");
+                if (data.execResult && data.execResult.stderr && data.execResult.stderr.length) output += "\n" + data.execResult.stderr.map(o => o.text).join("\n");
+                if (!output && data.stderr && data.stderr.length) output = data.stderr.map(o => o.text).join("\n");
                 if (data.code && data.code !== 0) output = "Compilation error\n" + output;
                 return output;
             }
@@ -1939,6 +1982,8 @@ ${code}
             if (hintEl) hintEl.textContent = '';
             const answerBox = document.getElementById('correct-answer-box');
             if (answerBox) answerBox.classList.add('hidden');
+            const continueBar = document.getElementById('answer-continue-bar');
+            if (continueBar) continueBar.classList.add('hidden');
 
             // پاککردنەوەی دۆخە کۆنەکە — بۆ ئەوەی دوای وانەیەکی تەواوکراو، دەق/ڕەنگی دوگمەکە و دەرئەنجامی پێشوو نەمێننەوە
             latestCompilerOutput = "";
@@ -1996,6 +2041,8 @@ ${code}
             if (answerBox) answerBox.classList.add('hidden');
             const hintEl = document.getElementById('compiler-attempt-hint');
             if (hintEl) hintEl.textContent = '';
+            const continueBar = document.getElementById('answer-continue-bar');
+            if (continueBar) continueBar.classList.add('hidden');
             latestCompilerOutput = "";
             document.getElementById('code-output').innerText = currentLang === 'so' ? 'ئامادەیە بۆ کارپێکردن...' : 'ئامادەیە بۆ کارپێکرنێ...';
             const modal = document.getElementById('compiler-modal');
@@ -2007,6 +2054,8 @@ ${code}
             const modal = document.getElementById('compiler-modal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
+            const bar = document.getElementById('answer-continue-bar');
+            if (bar) bar.classList.add('hidden');
         };
 
         window.showCorrectAnswer = function() {
@@ -2044,9 +2093,17 @@ ${code}
             window.markLessonCompleted(lesson.id, false, 0);
             
             setTimeout(() => {
-                window.closeTryItYourself();
-                window.goToNextLesson();
-            }, 6000);
+                const bar = document.getElementById('answer-continue-bar');
+                if (bar) bar.classList.remove('hidden');
+            }, 700);
+        };
+
+        // بەردەوامبوونی دەستی — دوای بینینی وەڵام، بەکارهێنەر خۆی دەچێتە وانەی داهاتوو
+        window.continueAfterAnswer = function() {
+            const bar = document.getElementById('answer-continue-bar');
+            if (bar) bar.classList.add('hidden');
+            window.closeTryItYourself();
+            window.goToNextLesson();
         };
 
         window.verifyChallenge = async function() {
@@ -3335,7 +3392,7 @@ ${code}
                 optionsContainer.innerHTML += `
                     <div onclick="selectQuizOption(${idx})" id="opt-${idx}" class="quiz-option cursor-pointer border-2 border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 rounded-2xl p-5 text-lg font-bold text-gray-700 dark:text-gray-300 hover:border-blue-300 transition-all flex items-center gap-4">
                         <div class="w-6 h-6 rounded-full border-2 border-gray-300 dark:border-gray-600 flex items-center justify-center shrink-0 indicator-circle"></div>
-                        ${opt.text}
+                        <span class="min-w-0">${escapeHtml(opt.text)}</span>
                     </div>`;
             });
             

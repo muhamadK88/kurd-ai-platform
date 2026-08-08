@@ -35,4 +35,18 @@ return [
         ],
     ],
 
+    'whatsapp' => [
+        'token' => env('WHATSAPP_API_TOKEN'),
+        'phone_number_id' => env('WHATSAPP_PHONE_NUMBER_ID'),
+        'template_name' => env('WHATSAPP_TEMPLATE_NAME', 'otp_code'),
+        'template_language' => env('WHATSAPP_TEMPLATE_LANGUAGE', 'ar'),
+        'test_mode' => env('WHATSAPP_TEST_MODE', false),
+    ],
+
+    'otp' => [
+        'expires_minutes' => (int) env('OTP_EXPIRES_MINUTES', 10),
+        'cooldown_seconds' => (int) env('OTP_SEND_COOLDOWN_SECONDS', 60),
+        'max_attempts' => (int) env('OTP_MAX_ATTEMPTS', 5),
+    ],
+
 ];
