@@ -1034,5 +1034,42 @@
       ""
     ],
     "quiz_correct": ""
+  },
+  {
+    "langId": "-OysGzfS5Qi08XHYs_FL",
+    "order": 29,
+    "level_so": "بەشی ٩ - کلۆژەر و ئیتەرەیتەر",
+    "level_ba": "بەشا ٩ - کلۆژەر و ئیتەرەیتەر",
+    "title_so": "کلۆژەرەکان (Closures)",
+    "title_ba": "کلۆژەر (Closures)",
+    "content_so": "<p><strong>کلۆژەر (Closure)</strong> فەنکشنێکی بێناوە کە دەتوانیت لە ناو گۆڕاوێکدا هەڵیبگریت و دواتر بانگی بکەیت. جیاوازییەکەی لەگەڵ فەنکشنی ئاسایی ئەوەیە کە دەتوانێت گۆڕاوەکانی <strong>ژینگەی</strong> دەوروبەری خۆی بگرێت و بەکاریان بهێنێت.</p><p>شێوازی نووسین: پارامەترەکان لە نێوان دوو <code>|</code>دا دادەنێیت، پاشان جەستەی کلۆژەرەکە:</p><pre>let zyad = |a, b| a + b;\nprintln!(\"{}\", zyad(2, 3)); // 5</pre><ul><li><code>|a, b|</code> — پارامەترەکان</li><li>Rust زۆرجار جۆری پارامەتر و بەرهەم خۆی دادەنێت (type inference)</li><li>دەتوانێت گۆڕاوی دەرەکی بگرێت، بۆ نموونە:</li></ul><pre>let n = 10;\nlet zyad_n = |x| x + n; // n لە ژینگەوە گیراوە\nprintln!(\"{}\", zyad_n(5)); // 15</pre>",
+    "content_ba": "<p><strong>کلۆژەر (Closure)</strong> فەنکشنەکا بێ ناڤە کو تو دشێی د گۆڕاوەکێدا هەلگری و پاشی گازی بکەی. جیاوازیا وێ دگەل فەنکشنا ئاسایی ئەوە یە کو دشێت گۆڕاوێن <strong>ژینگەیا</strong> دەوروبەرا خۆ بگریت و بکار بینیت.</p><p>شێوازێ نڤیسینێ: پارامەتەران د ناڤبەرا دوو <code>|</code>دا دانێی، پاشی جەستەیێ کلۆژەری:</p><pre>let zyad = |a, b| a + b;\nprintln!(\"{}\", zyad(2, 3)); // 5</pre><ul><li><code>|a, b|</code> — پارامەتەر</li><li>Rust پیرانی جۆرێ پارامەتەر و بەرهەمی بخۆ دانێت (type inference)</li><li>دشێت گۆڕاوێ دەرەکی بگریت، بۆ نموونە:</li></ul><pre>let n = 10;\nlet zyad_n = |x| x + n; // n ژ ژینگەێ هاتییە گرتن\nprintln!(\"{}\", zyad_n(5)); // 15</pre>",
+    "code": "fn main() {\n    // کلۆژەرێک بۆ کۆکردنەوەی دوو ژمارە\n    let add = |a: i32, b: i32| a + b;\n\n    // کلۆژەرێک کە گۆڕاوی دەرەکی (bnema) دەگرێت\n    let bnema = 100;\n    let add_bnema = |x: i32| x + bnema;\n\n    println!(\"2 + 3 = {}\", add(2, 3));\n    println!(\"5 + bnema = {}\", add_bnema(5));\n}",
+    "code_css": "",
+    "example_output": "2 + 3 = 5\n5 + bnema = 105",
+    "max_attempts": 5,
+    "allow_show_answer": true,
+    "xp_cost": 0,
+    "quiz_type": "choice",
+    "challenge_desc_so": "",
+    "challenge_desc_ba": "",
+    "answer_code": "",
+    "expected_output": "",
+    "answer_code_css": "",
+    "quiz_question_so": "کلۆژەر (Closure) لە Rustدا چییە؟",
+    "quiz_question_ba": "کلۆژەر (Closure) د Rustدا چییە؟",
+    "quiz_options_so": [
+      "فەنکشنێکی بێناو کە دەتوانێت گۆڕاوەکانی ژینگەی دەوروبەری خۆی بگرێت",
+      "جۆرێکی داتا وەک ژمارەی تەواو (integer)",
+      "کتێبخانەیەک بۆ چاپکردن لە شاشەدا",
+      "فەرمانێک بۆ سڕینەوەی گۆڕاوەکان لە بیرگە"
+    ],
+    "quiz_options_ba": [
+      "فەنکشنەکا بێ ناڤ کو دشێت گۆڕاوێن ژینگەیا دەوروبەرا خۆ بگریت",
+      "جۆرەکێ داتایێ وەک ژمارا تەمام (integer)",
+      "کتێبخانەیەک بۆ چاپکرنێ ل سەر شاشێ",
+      "فەرمانەک بۆ ژێبرنا گۆڕاوان ژ بیرگەهێ"
+    ],
+    "quiz_correct": "1"
   }
 ]
