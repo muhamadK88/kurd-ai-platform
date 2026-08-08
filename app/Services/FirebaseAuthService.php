@@ -3,12 +3,28 @@
 namespace App\Services;
 
 use Kreait\Firebase\Contract\Auth as FirebaseAuth;
+use Kreait\Firebase\Auth\UserRecord;
 use Kreait\Firebase\Exception\Auth\UserNotFound;
 
 class FirebaseAuthService
 {
     public function __construct(private readonly FirebaseAuth $auth)
     {
+    }
+
+    public function getUserByEmail(string $email): UserRecord
+    {
+        return $this->auth->getUserByEmail($email);
+    }
+
+    public function createUserWithEmailAndPassword(string $email, string $password): UserRecord
+    {
+        return $this->auth->createUserWithEmailAndPassword($email, $password);
+    }
+
+    public function setPassword(string $uid, string $password): void
+    {
+        $this->auth->updateUser($uid, ['password' => $password]);
     }
 
     public function getOrCreateUser(string $method, string $identifier): string

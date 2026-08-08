@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
+use App\Http\Controllers\Auth\EmailAuthController;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -47,6 +48,10 @@ Route::middleware('guest')->group(function () {
     Route::post('auth/social', [SocialAuthController::class, 'exchange'])
         ->middleware('throttle:10,1')
         ->name('auth.social');
+
+    Route::post('auth/email', [EmailAuthController::class, 'login'])
+        ->middleware('throttle:10,1')
+        ->name('auth.email');
 });
 
 Route::middleware('auth')->group(function () {

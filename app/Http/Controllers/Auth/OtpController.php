@@ -47,12 +47,18 @@ class OtpController extends Controller
             'method' => ['required', Rule::in(OtpCode::CHANNELS)],
             'identifier' => ['required', 'string', 'max:255'],
             'code' => ['required', 'digits:6'],
+            'password' => ['sometimes', 'nullable', 'string', 'min:6', 'max:255'],
         ]);
 
         try {
             $identifier = $this->otp->normalize($data['method'], $data['identifier']);
             $this->otp->verify($data['method'], $identifier, $data['code']);
             $uid = $this->firebase->getOrCreateUser($data['method'], $identifier);
+
+            if (!empty($data['password'])) {
+                $this->firebase->setPassword($uid, $data['password']);
+            }
+
             $token = $this->firebase->customToken($uid);
         } catch (RuntimeException $e) {
             return response()->json(['message' => $e->getMessage()], 422);
