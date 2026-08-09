@@ -186,6 +186,8 @@
         </div>
     </header>
 
+    @include('partials.leaderboard')
+
     <section class="relative z-10 container mx-auto pb-24 px-4">
         <div id="tools-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"></div>
     </section>
@@ -284,6 +286,9 @@
             });
 
             renderTools(firebaseDataCache);
+
+            // let self-contained components (leaderboard) re-render their dynamic strings
+            window.dispatchEvent(new CustomEvent('kai:langchange', { detail: { lang: currentLang } }));
         }
 
         document.getElementById('lang-toggle').addEventListener('click', () => {

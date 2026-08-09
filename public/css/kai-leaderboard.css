@@ -1,0 +1,310 @@
+/* ==========================================================================
+   KURD AI — ڕێزبەندی (AI Leaderboard) · /ai-tools  ·  v1
+   Cosmic glass leaderboard. Pure CSS animation — no image assets, no JS libs.
+   Loaded after kai-tools.css so it wins on equal specificity.
+   ========================================================================== */
+
+/* ---------- keyframes ---------- */
+@keyframes lbFlow { to { background-position: 220% center; } }
+@keyframes lbShine { 0%, 55% { left: -80%; } 100% { left: 160%; } }
+@keyframes lbRowIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes lbPanelIn { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@keyframes lbCrownFloat {
+    0%, 100% { transform: translateY(0) rotate(-6deg); }
+    50%      { transform: translateY(-3px) rotate(6deg); }
+}
+@keyframes lbGoldPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(250, 204, 21, .45), 0 8px 22px -10px rgba(250, 204, 21, .8); }
+    100% { box-shadow: 0 0 0 12px rgba(250, 204, 21, 0), 0 8px 22px -10px rgba(250, 204, 21, .5); }
+}
+@keyframes lbBarSheen { 0%, 45% { transform: translateX(-120%) skewX(-18deg); } 100% { transform: translateX(420%) skewX(-18deg); } }
+@keyframes lbSpin { to { transform: rotate(360deg); } }
+
+/* ---------- section shell ---------- */
+#kai-leaderboard.lb-in > .lb-panel {
+    animation: lbPanelIn .8s var(--kai-ease, cubic-bezier(.22, 1, .36, 1)) both;
+}
+#kai-leaderboard .lb-panel {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+/* animated gradient hairline along the top edge.
+   Kept as a real child element, NOT ::before — .glass-card::before is the
+   design system's cursor-tracking spotlight and must stay untouched. */
+#kai-leaderboard .lb-edge {
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 3px;
+    z-index: 5;
+    pointer-events: none;
+    background: linear-gradient(90deg, #06b6d4, #a855f7, #6366f1, #06b6d4);
+    background-size: 220% auto;
+    animation: lbFlow 6s linear infinite;
+}
+/* soft cyan/purple corner glows */
+#kai-leaderboard .lb-glow {
+    position: absolute;
+    width: 22rem;
+    height: 22rem;
+    border-radius: 9999px;
+    filter: blur(80px);
+    opacity: .18;
+    pointer-events: none;
+    z-index: 0;
+}
+#kai-leaderboard .lb-glow-a { top: -8rem; inset-inline-end: -6rem; background: #06b6d4; }
+#kai-leaderboard .lb-glow-b { bottom: -9rem; inset-inline-start: -6rem; background: #a855f7; }
+html.dark #kai-leaderboard .lb-glow { opacity: .26; }
+
+/* ---------- heading ---------- */
+#kai-leaderboard .lb-title {
+    background-image: linear-gradient(90deg, #06b6d4, #a855f7 45%, #6366f1 75%, #ec4899);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: lbFlow 8s linear infinite;
+}
+
+/* ---------- category tabs ---------- */
+.lb-tab {
+    position: relative;
+    overflow: hidden;
+    transition: transform .3s var(--kai-ease, cubic-bezier(.22, 1, .36, 1)),
+                box-shadow .3s ease, background-color .3s ease, color .3s ease, border-color .3s ease;
+}
+.lb-tab:not(.active):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px -12px rgba(168, 85, 247, .55);
+}
+.lb-tab.active {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -8px rgba(124, 58, 237, .55);
+}
+.lb-tab.active::after {
+    content: "";
+    position: absolute; top: 0; bottom: 0; left: -80%;
+    width: 50%;
+    background: linear-gradient(105deg, transparent, rgba(255, 255, 255, .42), transparent);
+    transform: skewX(-18deg);
+    animation: lbShine 3.2s ease-in-out infinite;
+    pointer-events: none;
+}
+.lb-tab .lb-tab-icon { transition: transform .3s var(--kai-spring, cubic-bezier(.34, 1.56, .64, 1)); }
+.lb-tab:hover .lb-tab-icon { transform: scale(1.2) rotate(-8deg); }
+.lb-tab.active .lb-tab-icon { transform: scale(1.12); }
+
+/* ---------- table grid (shared by the header row and every data row) ---------- */
+.lb-grid {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1.4fr) minmax(0, 2fr) auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* ---------- rows ----------
+   Entrance is gated on `.lb-in`, which JS adds when the section actually
+   becomes visible. The host page keeps <body> display:none until Firebase
+   auth resolves, so without this gate every animation would finish while
+   the page is still hidden. */
+.lb-row {
+    position: relative;
+    opacity: 0;
+    transition: transform .35s var(--kai-ease, cubic-bezier(.22, 1, .36, 1)),
+                background-color .35s ease, box-shadow .35s ease;
+}
+#kai-leaderboard.lb-in .lb-row {
+    animation: lbRowIn .5s var(--kai-ease, cubic-bezier(.22, 1, .36, 1)) both;
+}
+/* RTL page: rows lift toward the reader's start edge */
+.lb-row:hover {
+    transform: translateX(-6px);
+    background: linear-gradient(90deg, rgba(6, 182, 212, .10), rgba(168, 85, 247, .10));
+    box-shadow: 0 14px 34px -20px rgba(124, 58, 237, .8);
+}
+html.dark .lb-row:hover {
+    background: linear-gradient(90deg, rgba(6, 182, 212, .14), rgba(168, 85, 247, .14));
+}
+/* left accent bar that grows in on hover */
+.lb-row::before {
+    content: "";
+    position: absolute;
+    inset-block: 10%;
+    inset-inline-end: 0;
+    width: 3px;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, #06b6d4, #a855f7);
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform .35s var(--kai-ease, cubic-bezier(.22, 1, .36, 1));
+}
+.lb-row:hover::before { transform: scaleY(1); }
+.lb-row .lb-model { transition: color .3s ease; }
+.lb-row:hover .lb-model { color: #7c3aed; }
+html.dark .lb-row:hover .lb-model { color: #67e8f9; }
+
+/* ---------- rank badges ---------- */
+.lb-rank {
+    transition: transform .35s var(--kai-spring, cubic-bezier(.34, 1.56, .64, 1)), box-shadow .35s ease;
+}
+.lb-row:hover .lb-rank { transform: scale(1.12) rotate(-4deg); }
+
+.lb-rank-1 {
+    background: linear-gradient(145deg, #fde68a, #f59e0b 55%, #b45309);
+    color: #422006;
+    animation: lbGoldPulse 2.4s ease-out infinite;
+}
+.lb-rank-2 {
+    background: linear-gradient(145deg, #f8fafc, #cbd5e1 55%, #94a3b8);
+    color: #1e293b;
+    box-shadow: 0 8px 22px -10px rgba(148, 163, 184, .9);
+}
+.lb-rank-3 {
+    background: linear-gradient(145deg, #fdba74, #d97706 55%, #92400e);
+    color: #431407;
+    box-shadow: 0 8px 22px -10px rgba(217, 119, 6, .9);
+}
+.lb-crown {
+    display: inline-block;
+    animation: lbCrownFloat 2.6s ease-in-out infinite;
+}
+
+/* ---------- score bar ---------- */
+.lb-bar-track {
+    position: relative;
+    overflow: hidden;
+    background: rgba(100, 116, 139, .16);
+}
+html.dark .lb-bar-track { background: rgba(148, 163, 184, .14); }
+
+.lb-bar-fill {
+    position: relative;
+    height: 100%;
+    width: 0;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #06b6d4, #6366f1 55%, #a855f7);
+    /* width is set inline by JS on the next frame → animates from 0 */
+    transition: width 1.1s var(--kai-ease, cubic-bezier(.22, 1, .36, 1));
+}
+.lb-bar-fill.lb-gold   { background: linear-gradient(90deg, #fbbf24, #f59e0b 55%, #ea580c); }
+.lb-bar-fill.lb-silver { background: linear-gradient(90deg, #e2e8f0, #94a3b8 55%, #64748b); }
+.lb-bar-fill.lb-bronze { background: linear-gradient(90deg, #fdba74, #d97706 55%, #b45309); }
+
+/* travelling sheen inside the fill */
+.lb-bar-fill::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 30%;
+    background: linear-gradient(105deg, transparent, rgba(255, 255, 255, .55), transparent);
+    animation: lbBarSheen 3.4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* ---------- license / provider tags ---------- */
+.lb-tag { transition: transform .3s var(--kai-spring, cubic-bezier(.34, 1.56, .64, 1)), box-shadow .3s ease; }
+.lb-row:hover .lb-tag { transform: translateY(-1px); }
+
+/* ---------- view toggle ---------- */
+.lb-toggle-btn { transition: all .3s var(--kai-ease, cubic-bezier(.22, 1, .36, 1)); }
+.lb-toggle-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 26px -12px rgba(6, 182, 212, .7); }
+
+/* collapse / expand */
+#kai-leaderboard .lb-body {
+    overflow: hidden;
+    transition: max-height .55s var(--kai-ease, cubic-bezier(.22, 1, .36, 1)), opacity .35s ease;
+}
+#kai-leaderboard.lb-collapsed .lb-body { max-height: 0 !important; opacity: 0; }
+#kai-leaderboard .lb-chevron { transition: transform .45s var(--kai-ease, cubic-bezier(.22, 1, .36, 1)); }
+#kai-leaderboard.lb-collapsed .lb-chevron { transform: rotate(-180deg); }
+
+/* ---------- loading / error states ---------- */
+.lb-spinner {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    border: 3px solid rgba(148, 163, 184, .25);
+    border-top-color: #a855f7;
+    animation: lbSpin .9s linear infinite;
+}
+.lb-skeleton {
+    background: linear-gradient(90deg, rgba(148,163,184,.12), rgba(148,163,184,.22), rgba(148,163,184,.12));
+    background-size: 220% auto;
+    animation: lbFlow 1.6s linear infinite;
+}
+
+/* ---------- responsive ----------
+   Desktop keeps the table grid; ≤768px each row becomes a stacked card. */
+@media (max-width: 768px) {
+    #kai-leaderboard .lb-head { display: none; }
+    .lb-row {
+        display: grid !important;
+        grid-template-columns: auto 1fr;
+        grid-template-areas:
+            "rank model"
+            "bar  bar"
+            "tags tags";
+        gap: .5rem .75rem;
+        align-items: center;
+    }
+    .lb-row:hover { transform: translateY(-2px); }
+    .lb-col-rank  { grid-area: rank; }
+    .lb-col-model { grid-area: model; min-width: 0; }
+    .lb-col-score { grid-area: bar; width: 100% !important; }
+    .lb-col-lic   { grid-area: tags; }
+}
+
+/* ---------- bottom CTA (link out to lmarena.ai) ---------- */
+.lb-cta {
+    position: relative;
+    overflow: hidden;
+    transition: transform .35s var(--kai-ease, cubic-bezier(.22, 1, .36, 1)),
+                box-shadow .35s ease;
+}
+.lb-cta::after {
+    content: "";
+    position: absolute; top: 0; bottom: 0; left: -80%;
+    width: 50%;
+    background: linear-gradient(105deg, transparent, rgba(255, 255, 255, .5), transparent);
+    transform: skewX(-18deg);
+    animation: lbShine 3.2s ease-in-out infinite;
+    pointer-events: none;
+}
+.lb-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 46px -14px rgba(168, 85, 247, .65);
+}
+.lb-cta .lb-cta-icon { transition: transform .35s var(--kai-spring, cubic-bezier(.34, 1.56, .64, 1)); }
+.lb-cta:hover .lb-cta-icon { transform: translateX(-4px) scale(1.1); }
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    #kai-leaderboard.lb-in > .lb-panel,
+    #kai-leaderboard.lb-in .lb-row,
+    #kai-leaderboard .lb-edge,
+    #kai-leaderboard .lb-title,
+    .lb-tab.active::after,
+    .lb-row,
+    .lb-rank-1,
+    .lb-crown,
+    .lb-bar-fill::after,
+    .lb-skeleton,
+    .lb-spinner { animation: none !important; }
+
+    /* rows normally reveal via the entrance animation; with animations off,
+       show them directly so they can't stay stuck at opacity:0 */
+    .lb-row { opacity: 1 !important; }
+
+    .lb-bar-fill { transition: none !important; }
+    .lb-row:hover, .lb-tab:hover, .lb-tab.active, .lb-toggle-btn:hover { transform: none !important; }
+    #kai-leaderboard .lb-title {
+        background-image: none;
+        -webkit-background-clip: border-box;
+        background-clip: border-box;
+        color: #111827;
+        -webkit-text-fill-color: #111827;
+    }
+    html.dark #kai-leaderboard .lb-title { color: #fff; -webkit-text-fill-color: #fff; }
+}
