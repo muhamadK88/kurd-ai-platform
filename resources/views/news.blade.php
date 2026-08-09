@@ -82,7 +82,7 @@
 
     @include('partials.kurdai-design')
 
-    <link rel="stylesheet" href="{{ asset('css/kai-news.css') }}?v=2">
+    <link rel="stylesheet" href="{{ asset('css/kai-news.css') }}?v=3">
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
@@ -189,9 +189,46 @@
                         </div>
                     </div>
                 </div>
-                
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">جۆر (Category)</label>
+                        <select id="news_category" class="w-full px-5 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-sky-500 outline-none">
+                            <option value="General AI">General AI</option>
+                            <option value="AI Agents">AI Agents</option>
+                            <option value="Image Generation">Image Generation</option>
+                            <option value="Finance & Business">Finance &amp; Business</option>
+                            <option value="LLMs & Base Models">LLMs &amp; Base Models</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">تاگەکان (بە کۆما جیابکەرەوە)</label>
+                        <input type="text" id="news_tags" placeholder="Base, Update, Research" class="w-full px-5 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-sky-500 outline-none">
+                    </div>
+                </div>
+
                 <button type="submit" id="submit-news-btn" class="w-full bg-gradient-to-r from-sky-500 to-blue-600 text-white py-3.5 rounded-xl font-black text-lg hover:shadow-lg hover:-translate-y-1 transition-all">بڵاوکردنەوە</button>
             </form>
+        </div>
+    </section>
+
+    <!-- فلتەرەکان: کاتەگۆری + بەروار -->
+    <section class="relative z-10 container mx-auto px-4 pb-8 max-w-7xl">
+        <div id="news-filters" class="glass-card rounded-[1.75rem] p-4 md:p-5 flex flex-col gap-4 shadow-lg">
+            <!-- فلتەری بەروار -->
+            <div class="flex flex-wrap items-center gap-2" id="date-filter" role="tablist">
+                <span class="text-xs font-black text-gray-400 dark:text-gray-500 ms-1 me-1 uppercase tracking-widest lang-str" data-so="کات" data-ba="دەم">کات</span>
+                <button data-range="all"       class="kai-chip is-active lang-str" data-so="هەموو" data-ba="هەمی">هەموو</button>
+                <button data-range="today"     class="kai-chip lang-str" data-so="ئەمڕۆ" data-ba="ئەڤرۆ">ئەمڕۆ</button>
+                <button data-range="yesterday" class="kai-chip lang-str" data-so="دوێنێ" data-ba="دهی">دوێنێ</button>
+                <button data-range="week"      class="kai-chip lang-str" data-so="ئەم هەفتەیە" data-ba="ڤێ هەفتیێ">ئەم هەفتەیە</button>
+            </div>
+            <!-- فلتەری کاتەگۆری -->
+            <div class="flex flex-wrap items-center gap-2 border-t border-gray-200/60 dark:border-gray-700/50 pt-4" id="category-filter">
+                <span class="text-xs font-black text-gray-400 dark:text-gray-500 ms-1 me-1 uppercase tracking-widest lang-str" data-so="جۆر" data-ba="جۆر">جۆر</span>
+                <button data-cat="all" class="kai-chip is-active lang-str" data-so="هەموو" data-ba="هەمی">هەموو</button>
+                <!-- کاتەگۆرییەکان بە جاڤاسکریپت دروست دەکرێن -->
+            </div>
         </div>
     </section>
 
@@ -224,9 +261,16 @@
                     </div>
                 </div>
 
+                <!-- زانیاری زیادە: جۆر، تاگ، سەرچاوە -->
+                <div class="px-6 md:px-8 pt-6 flex flex-wrap items-center gap-2" id="modalMeta"></div>
+
                 <!-- تێکستی هەواڵ -->
-                <div class="p-6 md:p-8">
+                <div class="p-6 md:p-8 pt-4">
                     <p id="modalBody" class="text-gray-800 dark:text-gray-200 leading-loose text-sm md:text-base whitespace-pre-wrap font-medium"></p>
+                    <a id="modalSource" href="#" target="_blank" rel="noopener noreferrer" class="hidden mt-6 items-center gap-2 text-sky-600 dark:text-sky-400 font-bold text-sm hover:underline">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        <span class="lang-str" data-so="سەرچاوەی هەواڵ" data-ba="سەرچاوا نووچەیێ">سەرچاوەی هەواڵ</span>
+                    </a>
                 </div>
 
                 <!-- بەشی کۆمێنتەکان -->
@@ -304,11 +348,46 @@
         const IMGBB_API_KEY = "947299981b43abca761315a1cd24c02a";
 
         let currentLang = localStorage.getItem('site-lang') || 'so';
-        let newsData = {}; 
+        let newsData = {};
         window.isAdmin = false;
         let currentUser = null;
 
+        // فلتەری چالاک
+        let activeRange = 'all';
+        let activeCategory = 'all';
+
+        // ناونیشانی کاتەگۆرییەکان بە هەردوو زاراوە (سۆرانی / بادینی)
+        const CATEGORY_LABELS = {
+            'AI Agents':            { so: 'ئەجێنتەکان',        ba: 'ئەجێنت' },
+            'Image Generation':     { so: 'دروستکردنی وێنە',   ba: 'دروستکرنا وێنەیان' },
+            'Finance & Business':   { so: 'دارایی و بازرگانی',  ba: 'دارایی و بازرگانی' },
+            'LLMs & Base Models':   { so: 'مۆدێلە زمانییەکان',  ba: 'مۆدێلێن زمانی' },
+            'General AI':           { so: 'ژیریی گشتی',        ba: 'ژیرییا گشتی' },
+        };
+        const catLabel = (cat) => (CATEGORY_LABELS[cat] ? CATEGORY_LABELS[cat][currentLang] || CATEGORY_LABELS[cat].so : cat);
+
         const loc = (obj, key) => currentLang === 'ba' && obj[key + '_ba'] ? obj[key + '_ba'] : obj[key + '_so'] || obj[key];
+
+        // بەرواری هەواڵ لە published_at (ISO) یان timestamp (ms) وەردەگرێت
+        const newsDate = (n) => n.published_at ? new Date(n.published_at) : (n.timestamp ? new Date(n.timestamp) : null);
+
+        function inRange(n, range) {
+            if (range === 'all') return true;
+            const d = newsDate(n);
+            if (!d) return false;
+            const now = new Date();
+            const startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            if (range === 'today') return d >= startToday;
+            if (range === 'yesterday') {
+                const startYest = new Date(startToday); startYest.setDate(startYest.getDate() - 1);
+                return d >= startYest && d < startToday;
+            }
+            if (range === 'week') {
+                const weekAgo = new Date(startToday); weekAgo.setDate(weekAgo.getDate() - 7);
+                return d >= weekAgo;
+            }
+            return true;
+        }
 
         function applyLanguage() {
             const langBtnText = document.getElementById('lang-text');
@@ -316,13 +395,56 @@
             document.querySelectorAll('.lang-str').forEach(el => {
                 el.innerText = el.getAttribute(`data-${currentLang}`) || el.getAttribute('data-so');
             });
+            buildCategoryChips();
             renderNews();
+        }
+
+        // دروستکردنی چیپەکانی کاتەگۆری لەسەر بنەمای ئەو هەواڵانەی هەن
+        function buildCategoryChips() {
+            const wrap = document.getElementById('category-filter');
+            if (!wrap) return;
+            const present = new Set();
+            Object.values(newsData).forEach(n => { if (n && n.category) present.add(n.category); });
+
+            // چیپی "هەموو" هەمیشە دەمێنێتەوە؛ ئەوانی تر لە نوێ دروست دەکرێن
+            wrap.querySelectorAll('[data-cat]:not([data-cat="all"])').forEach(el => el.remove());
+            present.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'kai-chip' + (activeCategory === cat ? ' is-active' : '');
+                btn.setAttribute('data-cat', cat);
+                btn.textContent = catLabel(cat);
+                wrap.appendChild(btn);
+            });
+            // نیشانکردنی چیپی چالاک
+            wrap.querySelectorAll('[data-cat]').forEach(el => {
+                el.classList.toggle('is-active', el.getAttribute('data-cat') === activeCategory);
+            });
         }
 
         document.getElementById('lang-toggle').addEventListener('click', () => {
             currentLang = currentLang === 'so' ? 'ba' : 'so';
             localStorage.setItem('site-lang', currentLang);
             applyLanguage();
+        });
+
+        // فلتەری بەروار (کلیک لەسەر چیپەکان)
+        document.getElementById('date-filter').addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-range]');
+            if (!btn) return;
+            activeRange = btn.getAttribute('data-range');
+            document.querySelectorAll('#date-filter [data-range]').forEach(el =>
+                el.classList.toggle('is-active', el === btn));
+            renderNews();
+        });
+
+        // فلتەری کاتەگۆری
+        document.getElementById('category-filter').addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-cat]');
+            if (!btn) return;
+            activeCategory = btn.getAttribute('data-cat');
+            document.querySelectorAll('#category-filter [data-cat]').forEach(el =>
+                el.classList.toggle('is-active', el === btn));
+            renderNews();
         });
 
         document.getElementById('theme-toggle').addEventListener('click', () => {
@@ -346,27 +468,64 @@
         function renderNews() {
             const container = document.getElementById('news-container');
             if(!container) return;
+
+            // FLIP: تۆمارکردنی شوێنی کارتەکان پێش نوێکردنەوە بۆ مۆرفی نەرم
+            const firstRects = {};
+            container.querySelectorAll('[data-fbid]').forEach(el => {
+                firstRects[el.getAttribute('data-fbid')] = el.getBoundingClientRect();
+            });
+
             container.innerHTML = '';
-            
-            const newsKeys = Object.keys(newsData).sort((a,b) => newsData[b].timestamp - newsData[a].timestamp);
+
+            let newsKeys = Object.keys(newsData).sort((a,b) => {
+                const db = (newsData[b].published_at ? Date.parse(newsData[b].published_at) : newsData[b].timestamp) || 0;
+                const da = (newsData[a].published_at ? Date.parse(newsData[a].published_at) : newsData[a].timestamp) || 0;
+                return db - da;
+            });
+
+            // جێبەجێکردنی فلتەرەکان
+            newsKeys = newsKeys.filter(id => {
+                const n = newsData[id];
+                if (!n) return false;
+                if (!inRange(n, activeRange)) return false;
+                if (activeCategory !== 'all' && n.category !== activeCategory) return false;
+                return true;
+            });
 
             if (newsKeys.length === 0) {
-                const emptyTxt = currentLang === 'so' ? 'هیچ هەواڵێک بوونی نییە.' : 'چ نووچە نە هەنە.';
+                const emptyTxt = currentLang === 'so' ? 'هیچ هەواڵێک بەم فلتەرە نەدۆزرایەوە.' : 'چ نووچە ب ڤی فلتەری نەهاتنە دیتن.';
                 container.innerHTML = `<div class="col-span-1 md:col-span-2 lg:col-span-3 text-center py-20 glass-card rounded-[2rem] border border-dashed border-gray-300 dark:border-gray-700"><p class="text-gray-500 font-bold">${emptyTxt}</p></div>`;
                 return;
             }
 
-            newsKeys.forEach(id => {
+            newsKeys.forEach((id, idx) => {
                 const n = newsData[id];
                 const title = loc(n, 'title');
                 const content = loc(n, 'content');
-                const dateStr = formatDate(n.timestamp);
+                const dateStr = formatDate(n.published_at ? Date.parse(n.published_at) : n.timestamp);
                 const btnTxt = currentLang === 'so' ? 'خوێندنەوە و بۆچوون' : 'خواندن و بۆچوون';
 
                 // پاککردنەوە بۆ ناو فەنکشن
                 const safeTitle = (title || "").replace(/"/g, '&quot;').replace(/'/g, "\\'");
                 const safeContent = (content || "").replace(/"/g, '&quot;').replace(/'/g, "\\'");
                 const safeImg = (n.image_url || "").replace(/"/g, '&quot;');
+
+                // بەیجی کاتەگۆری
+                let catBadge = '';
+                if (n.category) {
+                    catBadge = `<span class="kai-cat-badge">${catLabel(n.category)}</span>`;
+                }
+
+                // تاگەکان
+                let tagsHtml = '';
+                if (Array.isArray(n.tags) && n.tags.length) {
+                    tagsHtml = `<div class="flex flex-wrap gap-1.5 mb-3">` +
+                        n.tags.slice(0,3).map(t => `<span class="kai-tag">#${t}</span>`).join('') +
+                        `</div>`;
+                }
+
+                // نیشانەی هەواڵی خۆکار (AI)
+                const autoBadge = n.is_automated ? `<span class="kai-auto-badge" title="AI">AI</span>` : '';
 
                 let adminBtn = '';
                 if(window.isAdmin) {
@@ -384,25 +543,51 @@
                     `;
                 }
 
-                container.innerHTML += `
-                    <div class="glass-card rounded-[2rem] overflow-hidden flex flex-col group hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/10 transition-all duration-300">
-                        <div class="relative h-52 overflow-hidden bg-gray-200 dark:bg-gray-800 cursor-pointer" onclick="window.openNewsModal('${id}', '${safeTitle}', '${safeContent}', '${safeImg}', '${dateStr}')">
-                            <img src="${n.image_url}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                            <div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-lg">${dateStr}</div>
-                        </div>
-                        <div class="p-6 flex flex-col flex-grow bg-white/30 dark:bg-[#111827]/30">
-                            <h3 class="font-black text-xl mb-3 text-gray-900 dark:text-white line-clamp-2 leading-tight">${title}</h3>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm mb-5 line-clamp-3 leading-relaxed flex-grow font-medium">${content}</p>
-                            
-                            <button onclick="window.openNewsModal('${id}', '${safeTitle}', '${safeContent}', '${safeImg}', '${dateStr}')" class="w-full py-3 bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 font-bold rounded-xl hover:bg-sky-100 dark:hover:bg-sky-900/40 transition flex justify-center items-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                ${btnTxt}
-                            </button>
-                            ${adminBtn}
-                        </div>
+                const card = document.createElement('div');
+                card.className = 'kai-news-card glass-card rounded-[2rem] overflow-hidden flex flex-col group hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/10 transition-all duration-300';
+                card.setAttribute('data-fbid', id);
+                card.style.setProperty('--i', idx);
+                card.innerHTML = `
+                    <div class="relative h-52 overflow-hidden bg-gray-200 dark:bg-gray-800 cursor-pointer" onclick="window.openNewsModal('${id}', '${safeTitle}', '${safeContent}', '${safeImg}', '${dateStr}')">
+                        <img src="${n.image_url}" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-70 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="absolute top-3 right-3 flex items-center gap-2">${catBadge}${autoBadge}</div>
+                        <div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-lg">${dateStr}</div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow bg-white/30 dark:bg-[#111827]/30">
+                        ${tagsHtml}
+                        <h3 class="font-black text-xl mb-3 text-gray-900 dark:text-white line-clamp-2 leading-tight">${title}</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-5 line-clamp-3 leading-relaxed flex-grow font-medium">${content}</p>
+                        <button onclick="window.openNewsModal('${id}', '${safeTitle}', '${safeContent}', '${safeImg}', '${dateStr}')" class="w-full py-3 bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 font-bold rounded-xl hover:bg-sky-100 dark:hover:bg-sky-900/40 transition flex justify-center items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            ${btnTxt}
+                        </button>
+                        ${adminBtn}
                     </div>
                 `;
+                container.appendChild(card);
+            });
+
+            // FLIP: گواستنەوەی نەرم بۆ کارتەکانی پێشتر هەبوون + دەرکەوتنی زنجیرەیی بۆ نوێیەکان
+            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            container.querySelectorAll('[data-fbid]').forEach(el => {
+                const id = el.getAttribute('data-fbid');
+                const last = el.getBoundingClientRect();
+                const first = firstRects[id];
+                if (first && !reduce) {
+                    const dx = first.left - last.left;
+                    const dy = first.top - last.top;
+                    if (dx || dy) {
+                        el.style.transform = `translate(${dx}px, ${dy}px)`;
+                        el.style.transition = 'transform 0s';
+                        requestAnimationFrame(() => {
+                            el.style.transition = 'transform 0.5s cubic-bezier(.22,1,.36,1)';
+                            el.style.transform = '';
+                        });
+                    }
+                } else if (!first) {
+                    el.classList.add('kai-card-enter');
+                }
             });
         }
 
@@ -423,13 +608,20 @@
                     const rData = await res.json();
                     
                     if(rData.success) {
+                        const tags = (document.getElementById('news_tags').value || '')
+                            .split(',').map(t => t.trim()).filter(Boolean).slice(0, 3);
+                        const now = Date.now();
                         const data = {
                             title_so: document.getElementById('news_title_so').value,
                             title_ba: document.getElementById('news_title_ba').value,
                             content_so: document.getElementById('news_content_so').value,
                             content_ba: document.getElementById('news_content_ba').value,
                             image_url: rData.data.url,
-                            timestamp: Date.now()
+                            category: document.getElementById('news_category').value,
+                            tags: tags,
+                            status: 'published',
+                            published_at: new Date(now).toISOString(),
+                            timestamp: now
                         };
                         await set(push(dbRef(db, 'news')), data);
                         alert("هەواڵەکە بڵاوکرایەوە!");
@@ -494,14 +686,17 @@
             submitBtn.classList.add('opacity-70', 'cursor-wait');
 
             try {
-                await set(dbRef(db, 'news/' + newsId), {
-                    title_so: document.getElementById('edit_news_title_so').value,
-                    title_ba: document.getElementById('edit_news_title_ba').value,
-                    content_so: document.getElementById('edit_news_content_so').value,
-                    content_ba: document.getElementById('edit_news_content_ba').value,
-                    image_url: editNewsData.image_url || '',
-                    timestamp: editNewsData.timestamp || Date.now()
-                });
+                // فیلدەکانی خۆکار (category, tags, source_url, ...) دەپارێزرێن
+                const merged = { ...editNewsData };
+                delete merged.fb_id;
+                // comments دەمێننەوە وەک خۆیان (بەرزکردنەوەی کۆمێنتەکان)
+                merged.title_so = document.getElementById('edit_news_title_so').value;
+                merged.title_ba = document.getElementById('edit_news_title_ba').value;
+                merged.content_so = document.getElementById('edit_news_content_so').value;
+                merged.content_ba = document.getElementById('edit_news_content_ba').value;
+                merged.image_url = editNewsData.image_url || '';
+                merged.timestamp = editNewsData.timestamp || Date.now();
+                await set(dbRef(db, 'news/' + newsId), merged);
 
                 submitBtn.innerText = currentLang === 'so' ? 'پاشەکەوتکردن' : 'پاشەکەوتکرن';
                 submitBtn.classList.remove('opacity-70', 'cursor-wait');
@@ -523,7 +718,24 @@
             document.getElementById('modalBody').innerText = content;
             document.getElementById('modalDate').innerText = dateStr;
             document.getElementById('current_news_id').value = id;
-            
+
+            // زانیاری زیادە: جۆر + تاگ + سەرچاوە
+            const n = newsData[id] || {};
+            const meta = document.getElementById('modalMeta');
+            let metaHtml = '';
+            if (n.category) metaHtml += `<span class="kai-cat-badge kai-inline">${catLabel(n.category)}</span>`;
+            if (Array.isArray(n.tags)) metaHtml += n.tags.slice(0,3).map(t => `<span class="kai-tag">#${t}</span>`).join('');
+            if (n.is_automated) metaHtml += `<span class="kai-auto-badge">AI</span>`;
+            meta.innerHTML = metaHtml;
+
+            const src = document.getElementById('modalSource');
+            if (n.source_url) {
+                src.href = n.source_url;
+                src.classList.remove('hidden'); src.classList.add('inline-flex');
+            } else {
+                src.classList.add('hidden'); src.classList.remove('inline-flex');
+            }
+
             const modal = document.getElementById('newsModal');
             const modalContent = document.getElementById('modalContent');
             modal.classList.remove('hidden');

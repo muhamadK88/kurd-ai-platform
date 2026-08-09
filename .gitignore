@@ -37,6 +37,10 @@ firebase_credentials.json
 storage/app/ai
 storage/backups
 
+# Python pipeline build artifacts
+__pycache__/
+*.pyc
+
 # Local dev / deploy scaffolding (keep the repository clean — not part of the app)
 /.claude
 /.devcontainer

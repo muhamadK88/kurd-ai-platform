@@ -49,4 +49,25 @@ return [
         'max_attempts' => (int) env('OTP_MAX_ATTEMPTS', 5),
     ],
 
+    /*
+    | Shared secret for machine-to-machine endpoints — currently the
+    | automated AI news pipeline (POST /api/news/automated-store).
+    */
+    'website' => [
+        'api_secret' => env('WEBSITE_API_SECRET'),
+    ],
+
+    /*
+    | Firebase Realtime Database — the live news node the site renders from.
+    | Writes need auth: a service-account key is preferred, with an
+    | admin email/password sign-in as the fallback.
+    */
+    'firebase' => [
+        'database_url' => env('FIREBASE_DATABASE_URL', 'https://ai-platform-adb1b-default-rtdb.firebaseio.com'),
+        'credentials' => env('FIREBASE_SERVICE_ACCOUNT', base_path('firebase_credentials.json')),
+        'api_key' => env('FIREBASE_API_KEY', 'AIzaSyAizrzIAwVMDSXdu-Y0LYFDzwQPy79ThEs'),
+        'admin_email' => env('FIREBASE_ADMIN_EMAIL'),
+        'admin_password' => env('FIREBASE_ADMIN_PASSWORD'),
+    ],
+
 ];

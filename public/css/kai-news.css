@@ -100,12 +100,97 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
     pointer-events: none;
 }
 
+/* ---------- filter chips (date + category) ---------- */
+.kai-chip {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: 800;
+    font-size: 0.8rem;
+    line-height: 1;
+    color: #475569;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    transition: transform 0.25s var(--kai-spring, cubic-bezier(.34,1.56,.64,1)),
+                background-color 0.25s ease, color 0.25s ease,
+                box-shadow 0.25s ease, border-color 0.25s ease;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.dark .kai-chip { color: #cbd5e1; background: rgba(30, 41, 59, 0.55); border-color: rgba(71, 85, 105, 0.5); }
+.kai-chip:hover { transform: translateY(-2px); border-color: #7dd3fc; color: #0284c7; }
+.dark .kai-chip:hover { color: #38bdf8; }
+.kai-chip.is-active {
+    color: #fff;
+    background-image: linear-gradient(90deg, #0ea5e9, #2563eb);
+    border-color: transparent;
+    box-shadow: 0 10px 24px -10px rgba(14, 165, 233, 0.7);
+    transform: translateY(-1px);
+}
+
+/* ---------- badges & tags ---------- */
+.kai-cat-badge {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.28rem 0.7rem;
+    border-radius: 9999px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #fff;
+    background: rgba(2, 132, 199, 0.92);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 4px 12px -4px rgba(2, 132, 199, 0.8);
+    white-space: nowrap;
+}
+.kai-cat-badge.kai-inline { position: static; }
+
+.kai-auto-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.28rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.6rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    color: #fff;
+    background-image: linear-gradient(90deg, #7c3aed, #ec4899);
+    box-shadow: 0 4px 12px -4px rgba(124, 58, 237, 0.8);
+}
+
+.kai-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.18rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #0369a1;
+    background: rgba(14, 165, 233, 0.12);
+    border: 1px solid rgba(14, 165, 233, 0.25);
+}
+.dark .kai-tag { color: #7dd3fc; background: rgba(56, 189, 248, 0.12); border-color: rgba(56, 189, 248, 0.28); }
+
+/* ---------- staggered card entrance (morph-in) ---------- */
+@keyframes kaiCardEnter {
+    from { opacity: 0; transform: translateY(26px) scale(0.96); filter: blur(6px); }
+    to   { opacity: 1; transform: none; filter: blur(0); }
+}
+.kai-card-enter {
+    animation: kaiCardEnter 0.6s cubic-bezier(.22, 1, .36, 1) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+}
+/* keep the FLIP transform authoritative while a move is in flight */
+.kai-news-card { will-change: transform; }
+
 /* ---------- fallbacks ---------- */
 @media (prefers-reduced-motion: reduce) {
     header h2, header .inline-flex, header p,
     #news-container > .glass-card::before,
     #news-container > .glass-card > div:last-child > button:first-of-type::after,
-    #comment-btn::after, #newsModal .glass-card h2 { animation: none !important; }
+    #comment-btn::after, #newsModal .glass-card h2,
+    .kai-card-enter { animation: none !important; }
+    .kai-chip, .kai-news-card { transition: none !important; }
     header h2 {
         background-image: none; -webkit-background-clip: border-box; background-clip: border-box;
         color: #111827; -webkit-text-fill-color: #111827;
