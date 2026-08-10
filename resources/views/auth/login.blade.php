@@ -210,7 +210,6 @@
                     <button id="phone-send-btn" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-4 rounded-2xl font-black text-lg hover:from-emerald-700 hover:to-teal-700 transition-all shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:-translate-y-0.5 flex items-center justify-center gap-2 lang-str" data-so="ناردنی کۆد بۆ وەتسئەپ" data-ba="شاندنا کۆدێ بۆ وەتسئەپ">
                         ناردنی کۆد بۆ وەتسئەپ
                     </button>
-                    <p class="text-center text-xs text-gray-400 dark:text-gray-500 font-bold lang-str" data-so="کۆدەکە لە ڕێگەی وەتسئەپەوە دەنێردرێت بۆ ژمارەکەت. دڵنیابە وەتسئەپی لەسەر چالاک بێت." data-ba="کۆد ب ڕێکا وەتسئەپێ دێتە شاندن بۆ ژمارا تە. دڵنیا بە وەتسئەپ ل سر تە چالاک بیت.">کۆدەکە لە ڕێگەی وەتسئەپەوە دەنێردرێت بۆ ژمارەکەت. دڵنیابە وەتسئەپی لەسەر چالاک بێت.</p>
                 </div>
 
                 <!-- پەڕەی گووگڵ -->
@@ -224,7 +223,6 @@
                         </svg>
                         <span class="lang-str" data-so="بەردەوامبوون لەگەڵ گووگڵ" data-ba="بەردەوامبوون دگەل گووگڵ">بەردەوامبوون لەگەڵ گووگڵ</span>
                     </button>
-                    <p class="text-center text-xs text-gray-400 dark:text-gray-500 font-bold lang-str" data-so="ئەگەر یەکەم جارە، کۆدێک بۆ Gmailـەکەت دەنێردرێت بۆ پشتڕاستکردنەوە. دوای ئەوە ڕاستەوخۆ چوونەژوورەوە دەبیت." data-ba="ئەگەر جارا ئێکی، کۆدەک بۆ Gmailـا تە دێتە شاندن بۆ پشتڕاستکرنێ. پشتی وێ ڕاستەوخۆ دێیتە ژوورێ.">ئەگەر یەکەم جارە، کۆدێک بۆ Gmailـەکەت دەنێردرێت بۆ پشتڕاستکردنەوە. دوای ئەوە ڕاستەوخۆ چوونەژوورەوە دەبیت.</p>
                 </div>
 
                 <!-- پەڕەی فەیسبوک -->
@@ -235,7 +233,6 @@
                         </svg>
                         <span class="lang-str" data-so="بەردەوامبوون لەگەڵ فەیسبوک" data-ba="بەردەوامبوون دگەل فەیسبوک">بەردەوامبوون لەگەڵ فەیسبوک</span>
                     </button>
-                    <p class="text-center text-xs text-gray-400 dark:text-gray-500 font-bold lang-str" data-so="ئەگەر یەکەم جارە، کۆدێک بۆ ئیمێڵەکەت دەنێردرێت بۆ پشتڕاستکردنەوە. دوای ئەوە ڕاستەوخۆ چوونەژوورەوە دەبیت." data-ba="ئەگەر جارا ئێکی، کۆدەک بۆ ئیمێلا تە دێتە شاندن بۆ پشتڕاستکرنێ. پشتی وێ ڕاستەوخۆ دێیتە ژوورێ.">ئەگەر یەکەم جارە، کۆدێک بۆ ئیمێڵەکەت دەنێردرێت بۆ پشتڕاستکردنەوە. دوای ئەوە ڕاستەوخۆ چوونەژوورەوە دەبیت.</p>
                 </div>
 
                 <!-- پەڕەی کۆد -->
