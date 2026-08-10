@@ -5,10 +5,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\ChatSessionController;
-use App\Models\Faq;
+use App\Http\Controllers\FeedbackController;
 Route::get('/', function () {
-    $faqs = Faq::all(); // هەموو پرسیارەکان بهێنە
-    return view('home', compact('faqs')); // بینێرە بۆ home.blade.php
+    return view('home'); // بینێرە بۆ home.blade.php
 });
 
 // چاتبۆتی یاریدەدەری AI
@@ -19,16 +18,20 @@ Route::get('/api/chat/sessions/{id}/messages', [ChatSessionController::class, 'm
 Route::post('/api/chat/sessions/{id}/pin', [ChatSessionController::class, 'pin']);
 Route::delete('/api/chat/sessions/{id}', [ChatSessionController::class, 'destroy']);
 Route::post('/api/chat/messages/{id}/reaction', [ChatSessionController::class, 'react']);
+
+// ==========================================
+// بەشی فیدباک (Feedback)
+// ==========================================
+Route::post('/feedback/store', [FeedbackController::class, 'store']);
+Route::get('/feedback/mine', [FeedbackController::class, 'mine']);
+Route::get('/feedback/list', [FeedbackController::class, 'adminList']);
+Route::post('/feedback/{id}/read', [FeedbackController::class, 'markRead']);
+Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy']);
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 */
-
-// پەڕەی سەرەکی
-Route::get('/', function () {
-    return view('home');
-});
 
 // پەڕەکانی چوونەژوورەوە و پڕۆفایل
 Route::get('/profile', function () {
@@ -112,14 +115,7 @@ Route::get('/about', function () {
 Route::get('/news', function () {
     return view('news');
 });
-// ئەمە هێڵی ٩٠ بەدواوە بگۆڕە بۆ ئەمە:
 Route::get('/universities', function () {
     return view('universities');
 })->middleware('auth')->name('universities');
-Route::get('/universities', function () {
-    return view('universities');
-})->middleware('auth')->name('universities');
-Route::get('/universities', function () {
-    return view('universities');
-})->name('universities');
 require __DIR__.'/auth.php';

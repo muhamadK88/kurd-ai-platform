@@ -315,6 +315,9 @@
     </div>
 </section>
 
+<!-- ===== بەشی پێشنیار و تێبینییەکان (Feedback) ===== -->
+@include('partials.feedback-section')
+
 <!-- ===== فووتەری سەرەکی (Footer) ===== -->
 <footer class="bg-gray-900 dark:bg-[#050a18] text-gray-400">
     <div class="container mx-auto max-w-7xl px-4 py-16">
@@ -357,11 +360,12 @@
     </div>
 </footer>
 
+<script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    const firebaseConfig = { apiKey: "AIzaSyAizrzIAwVMDSXdu-Y0LYFDzwQPy79ThEs", authDomain: "ai-platform-adb1b.firebaseapp.com", databaseURL: "https://ai-platform-adb1b-default-rtdb.firebaseio.com", projectId: "ai-platform-adb1b", storageBucket: "ai-platform-adb1b.firebasestorage.app", messagingSenderId: "798560436587", appId: "1:798560436587:web:d4e3f4e5f862c7cbde0c2e" };
+    const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
@@ -406,6 +410,8 @@
         logoutBtn.addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
     }
 </script>
+
+@include('partials.feedback-scripts')
 
 @include('components.chat-widget')
 

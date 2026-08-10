@@ -25,7 +25,17 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-API_KEY="AIzaSyAizrzIAwVMDSXdu-Y0LYFDzwQPy79ThEs"
+# The Firebase API key is NOT hardcoded here. Read it from the same external
+# config the app uses (~/.config/kurd-ai/config.json) or FIREBASE_API_KEY env.
+KAI_CFG="${HOME:-$HOME}/.config/kurd-ai/config.json"
+API_KEY="${FIREBASE_API_KEY:-}"
+if [[ -z "$API_KEY" && -f "$KAI_CFG" ]]; then
+    API_KEY="$(python3 -c 'import json,sys;d=json.load(open(sys.argv[1]));print(d.get("firebase",{}).get("api_key",""))' "$KAI_CFG" 2>/dev/null || true)"
+fi
+if [[ -z "$API_KEY" ]]; then
+    echo "❌ No Firebase API key. Set FIREBASE_API_KEY or add ~/.config/kurd-ai/config.json (see config/kurdai.php)."
+    exit 1
+fi
 FIREBASE_URL="${FIREBASE_URL:-https://ai-platform-adb1b-default-rtdb.firebaseio.com}"
 DATA_DIR="${DATA_DIR:-storage/curriculum}"
 DRY_RUN="${DRY_RUN:-0}"

@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Http;
 use Kreait\Firebase\Contract\Auth as FirebaseAuth;
 use Kreait\Firebase\Auth\UserRecord;
 use Kreait\Firebase\Exception\Auth\UserNotFound;
+use Throwable;
 
 class FirebaseAuthService
 {
@@ -75,6 +77,48 @@ class FirebaseAuthService
         $token = $this->auth->verifyIdToken($idToken);
 
         return $token->payload();
+    }
+
+    /**
+     * REST-verified token payload (accounts:lookup) — no SDK credentials needed.
+     * Returns null on any failure so callers can fall back to verifyIdToken().
+     */
+    public function verifyIdTokenRest(string $idToken): ?array
+    {
+        try {
+            $apiKey = (string) config('kurdai.firebase.apiKey');
+
+            if ($apiKey === '') {
+                return null;
+            }
+
+            $response = Http::post(
+                'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' . $apiKey,
+                ['idToken' => $idToken]
+            );
+
+            if (!$response->successful()) {
+                return null;
+            }
+
+            $user = ($response->json('users') ?? [])[0] ?? null;
+
+            if (!$user) {
+                return null;
+            }
+
+            return [
+                'uid' => $user['localId'] ?? $user['uid'] ?? null,
+                'email' => isset($user['email'])
+                    ? strtolower(trim((string) $user['email']))
+                    : null,
+                'name' => isset($user['displayName'])
+                    ? trim((string) $user['displayName'])
+                    : null,
+            ];
+        } catch (Throwable) {
+            return null;
+        }
     }
 
     private function randomPassword(): string

@@ -107,6 +107,7 @@ class FergaSeedController extends Controller
 
     public function uploadPage()
     {
+        $fbConfigJson = json_encode(config('kurdai.firebase'), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         $html = <<<'HTML'
 <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
@@ -145,7 +146,7 @@ h1{color:#38bdf8}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getDatabase, ref, get, update, push } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-var firebaseConfig = { apiKey: "AIzaSyAizrzIAwVMDSXdu-Y0LYFDzwQPy79ThEs", authDomain: "ai-platform-adb1b.firebaseapp.com", databaseURL: "https://ai-platform-adb1b-default-rtdb.firebaseio.com", projectId: "ai-platform-adb1b" };
+var firebaseConfig = __FB_CONFIG__;
 var app = initializeApp(firebaseConfig);
 var auth = getAuth(app);
 var db = getDatabase(app);
@@ -217,7 +218,7 @@ window.start = async function(){
 </body>
 </html>
 HTML;
-        return response($html)->header('Content-Type', 'text/html; charset=UTF-8');
+        return response(str_replace('__FB_CONFIG__', $fbConfigJson, $html))->header('Content-Type', 'text/html; charset=UTF-8');
     }
 
     private function fixContent($html)

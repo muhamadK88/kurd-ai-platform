@@ -1,5 +1,6 @@
 <!-- ===== چاتبۆتی یاریدەدەری AI (Kurd AI) - Full Features ===== -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
+<meta name="kurdai-user-id" content="{{ auth()->id() ?? '' }}">
 <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
 
 <style>
@@ -558,7 +559,8 @@
         userKey = 'k-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
         localStorage.setItem('kurdai_user_key', userKey);
     }
-    const userId = @json(auth()->id());
+    const userIdMeta = document.querySelector('meta[name="kurdai-user-id"]');
+    const userId = userIdMeta && userIdMeta.content ? Number(userIdMeta.content) : null;
 
     let sessions = [], current = null, listMode = false, grammarMode = false,
         attachedFile = null, attachedImage = null, pyodideInstance = null, isRecording = false;

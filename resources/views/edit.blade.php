@@ -57,6 +57,7 @@
                     <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
                 </button>
                 <a href="/profile" class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-700 border border-blue-200 dark:border-gray-600 text-blue-800 dark:text-blue-300 rounded-xl hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 font-bold text-sm ml-2">هەژمارەکەم</a>
+                <a href="/#feedback-section" class="flex items-center gap-2 px-4 py-2 bg-rose-50 to-rose-100 dark:from-gray-800 dark:to-gray-700 border border-rose-200 dark:border-gray-600 text-rose-800 dark:text-rose-300 rounded-xl hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 font-bold text-sm">ڕەخنە</a>
             </div>
             
         </div>
@@ -144,6 +145,7 @@
     </div>
 
     <!-- کۆدی فایەربەیس بۆ دارک مۆد و لۆگین -->
+    <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -178,15 +180,7 @@
             }
         });
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAizrzIAwVMDSXdu-Y0LYFDzwQPy79ThEs",
-            authDomain: "ai-platform-adb1b.firebaseapp.com",
-            databaseURL: "https://ai-platform-adb1b-default-rtdb.firebaseio.com",
-            projectId: "ai-platform-adb1b",
-            storageBucket: "ai-platform-adb1b.firebasestorage.app",
-            messagingSenderId: "798560436587",
-            appId: "1:798560436587:web:d4e3f4e5f862c7cbde0c2e"
-        };
+        const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         

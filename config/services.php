@@ -63,9 +63,9 @@ return [
     | admin email/password sign-in as the fallback.
     */
     'firebase' => [
-        'database_url' => env('FIREBASE_DATABASE_URL', 'https://ai-platform-adb1b-default-rtdb.firebaseio.com'),
+        'database_url' => config('kurdai.firebase.databaseURL') ?: 'https://ai-platform-adb1b-default-rtdb.firebaseio.com',
         'credentials' => env('FIREBASE_SERVICE_ACCOUNT', base_path('firebase_credentials.json')),
-        'api_key' => env('FIREBASE_API_KEY', 'AIzaSyAizrzIAwVMDSXdu-Y0LYFDzwQPy79ThEs'),
+        'api_key' => config('kurdai.firebase.api_key'),
         'admin_email' => env('FIREBASE_ADMIN_EMAIL'),
         'admin_password' => env('FIREBASE_ADMIN_PASSWORD'),
     ],

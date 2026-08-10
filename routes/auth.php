@@ -49,6 +49,10 @@ Route::middleware('guest')->group(function () {
         ->middleware('throttle:10,1')
         ->name('auth.social');
 
+    Route::post('auth/facebook', [SocialAuthController::class, 'facebookLogin'])
+        ->middleware('throttle:10,1')
+        ->name('auth.facebook');
+
     Route::post('auth/email', [EmailAuthController::class, 'login'])
         ->middleware('throttle:10,1')
         ->name('auth.email');

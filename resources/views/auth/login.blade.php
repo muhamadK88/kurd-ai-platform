@@ -127,6 +127,7 @@
             </a>
             <div class="flex items-center gap-2.5">
                 <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
+                <a href="/#feedback-section" class="lang-str px-3 py-2 bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 font-bold rounded-xl text-xs border border-rose-100 dark:border-rose-800/50 hover:bg-rose-100 transition" data-so="ڕەخنە" data-ba="ڕەخنە">ڕەخنە</a>
                 <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition border border-gray-200/50 dark:border-gray-700/50" title="گۆڕینی مۆد">🌙</button>
             </div>
         </div>
@@ -191,7 +192,6 @@
                         چوونەژوورەوە
                     </button>
                     <button id="email-recovery-btn" type="button" class="hidden w-full text-center text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition py-2 lang-str" data-so="پاسۆردەکەت لەبیرە؟ کۆدی پشتڕاستکردنەوە بۆ ئیمێڵەکەت بنێرە" data-ba="پاسۆرد ژه‌ بیرە؟ کۆدێ پشتڕاستکرنێ بۆ ئیمێلا تە بشێنە">پاسۆردەکەت لەبیرە؟ کۆدی پشتڕاستکردنەوە بۆ ئیمێڵەکەت بنێرە</button>
-                    <p class="text-center text-xs text-gray-400 dark:text-gray-500 font-bold lang-str" data-so="ئەگەر هەژمارت هەیە، بە ئیمێڵ و پاسۆرد چوونەژوورەوە بکە. ئەگەر نا، هەژمارەکە دروستدەکرێت و تەنها یەک جار کۆدی پشتڕاستکردنەوە بۆ ئیمێڵەکەت دەنێردرێت." data-ba="ئەگەر هەژمارا تە هەیە، ب ئیمێل و پاسۆرد چوونا ژوورێ بکە. ئەگەر نا، هەژمار چێدبیت و تنێ جارەکێ کۆدێ پشتڕاستکرنێ بۆ ئیمێلا تە دێتە شاندن.">ئەگەر هەژمارت هەیە، بە ئیمێڵ و پاسۆرد چوونەژوورەوە بکە. ئەگەر نا، هەژمارەکە دروستدەکرێت و تەنها یەک جار کۆدی پشتڕاستکردنەوە بۆ ئیمێڵەکەت دەنێردرێت.</p>
                 </div>
 
                 <!-- پەڕەی مۆبایل (وەتسئەپ) -->
@@ -294,19 +294,14 @@
         applyLanguage();
     </script>
 
+    <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
+    <script type="application/json" id="kurdai-facebook-config">{!! json_encode(config('kurdai.facebook'), 15) !!}</script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, setPersistence, browserLocalPersistence, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, signInWithCustomToken, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getAuth, setPersistence, browserLocalPersistence, GoogleAuthProvider, signInWithPopup, signInWithCustomToken, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAizrzIAwVMDSXdu-Y0LYFDzwQPy79ThEs",
-            authDomain: "ai-platform-adb1b.firebaseapp.com",
-            databaseURL: "https://ai-platform-adb1b-default-rtdb.firebaseio.com",
-            projectId: "ai-platform-adb1b",
-            storageBucket: "ai-platform-adb1b.firebasestorage.app",
-            messagingSenderId: "798560436587",
-            appId: "1:798560436587:web:d4e3f4e5f862c7cbde0c2e"
-        };
+        const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
+        const facebookConfig = JSON.parse((document.getElementById('kurdai-facebook-config') || {}).textContent || '{}');
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -667,9 +662,8 @@
             if (e.key === 'Enter') sendPhoneCode();
         });
 
-        // ---------- گووگڵ و فەیسبوک ----------
+        // ---------- گووگڵ ----------
         const googleProvider = new GoogleAuthProvider();
-        const facebookProvider = new FacebookAuthProvider();
 
         async function handleSocial(provider, method, btn) {
             hideMessages();
@@ -678,13 +672,9 @@
                 const cred = await signInWithPopup(auth, provider);
                 const idToken = await cred.user.getIdToken();
                 const data = await api('/auth/social', { provider: method, idToken });
-                if (data.status === 'existing' && data.token) {
-                    await signInWithCustomToken(auth, data.token);
-                    showSuccess('سەرکەوتوو! ڕەوانەکردن بۆ پەڕەکە...');
-                    setTimeout(() => { window.location.href = '/'; }, 700);
-                } else {
-                    openOtpStep(method, data.email, data.masked, 'social', idToken);
-                }
+                await signInWithCustomToken(auth, data.token);
+                showSuccess('سەرکەوتوو! ڕەوانەکردن بۆ پەڕەکە...');
+                setTimeout(() => { window.location.href = '/'; }, 700);
             } catch (e) {
                 const msg = firebaseErrorMessage(e);
                 if (msg) showError(msg);
@@ -696,8 +686,85 @@
         document.getElementById('google-login-btn').addEventListener('click', () => {
             handleSocial(googleProvider, 'google', document.getElementById('google-login-btn'));
         });
+
+        // ---------- فەیسبووک (SDK ڕاستەوخۆ — بەبێ Firebase OAuth، بەبێ reCAPTCHA و بەبێ کۆد) ----------
+        let facebookSdkReady = null;
+
+        function loadFacebookSdk() {
+            if (window.FB) return Promise.resolve();
+            if (facebookSdkReady) return facebookSdkReady;
+            facebookSdkReady = new Promise((resolve) => {
+                window.fbAsyncInit = () => {
+                    FB.init({ appId: facebookConfig.app_id || '', xfbml: false, version: 'v20.0' });
+                    resolve();
+                };
+                const s = document.createElement('script');
+                s.src = 'https://connect.facebook.net/en_US/sdk.js';
+                s.async = true;
+                s.crossOrigin = 'anonymous';
+                document.head.appendChild(s);
+            });
+            return facebookSdkReady;
+        }
+        loadFacebookSdk();
+
+        function finishFacebookLogin(authResponse, btn) {
+            FB.api('/me', { fields: 'id,name,email' }, async (me) => {
+                try {
+                    if (!me || me.error) {
+                        showError('ناو و ئیمێڵەکەت نەتوانرا وەربگیرێت لە فەیسبووک.');
+                        return;
+                    }
+                    const data = await api('/auth/facebook', {
+                        accessToken: authResponse.accessToken,
+                        email: me.email || '',
+                        name: me.name || '',
+                    });
+                    await signInWithCustomToken(auth, data.token);
+                    showSuccess('سەرکەوتوو! ڕەوانەکردن بۆ پەڕەکە...');
+                    setTimeout(() => { window.location.href = '/'; }, 700);
+                } catch (e) {
+                    showError(e && e.message ? e.message : 'کێشەیەک ڕوویدا. تکایە دووبارە هەوڵ بدەرەوە.');
+                } finally {
+                    setLoading(btn, false);
+                }
+            });
+        }
+
+        async function handleFacebookLogin(btn) {
+            hideMessages();
+            setLoading(btn, true, 'چاوەڕوان...');
+            if (!facebookConfig.app_id) {
+                showError('لۆگینی فەیسبووک ڕێک نەخراوە. تکایە بەڕێوەبەری ماڵپەڕ ئاگادار بکەوە.');
+                setLoading(btn, false);
+                return;
+            }
+            try {
+                await loadFacebookSdk();
+            } catch (_) {}
+            if (!window.FB) {
+                showError('نەتوانرا فەیسبووک بکرێتەوە. تکایە دووبارە هەوڵ بدەرەوە.');
+                setLoading(btn, false);
+                return;
+            }
+            FB.getLoginStatus((statusRes) => {
+                if (statusRes.status === 'connected') {
+                    finishFacebookLogin(statusRes.authResponse, btn);
+                } else {
+                    FB.login((loginRes) => {
+                        if (loginRes.authResponse) {
+                            finishFacebookLogin(loginRes.authResponse, btn);
+                        } else {
+                            showError('چوونەژوورەوە هەڵوەشایەوە.');
+                            setLoading(btn, false);
+                        }
+                    }, { scope: 'email' });
+                }
+            });
+        }
+
         document.getElementById('facebook-login-btn').addEventListener('click', () => {
-            handleSocial(facebookProvider, 'facebook', document.getElementById('facebook-login-btn'));
+            handleFacebookLogin(document.getElementById('facebook-login-btn'));
         });
 
         // ---------- پشتڕاستکردنەوە ----------

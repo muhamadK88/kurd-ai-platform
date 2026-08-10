@@ -22,6 +22,7 @@
         ['key' => 'academic-guide', 'href' => '/academic-guide',  'so' => 'ڕێنیشاندەر',   'ba' => 'ڕێبەر'],
         ['key' => 'universities',   'href' => '/universities',    'so' => 'زانکۆکان',     'ba' => 'زانکۆ'],
         ['key' => 'about',          'href' => '/about',           'so' => 'دەربارەی ئێمە','ba' => 'دەربارەی مە'],
+        ['key' => 'feedback',       'href' => '/#feedback-section','so' => 'بۆچوون',      'ba' => 'بۆچوون'],
     ];
 @endphp
 
@@ -72,6 +73,10 @@
                         title="سۆرانی / بادینی">
                     <span id="lang-text">Badini</span>
                 </button>
+
+                <a href="/#feedback-section"
+                   class="ka-icon-btn lang-str px-3 py-2 text-xs font-bold text-rose-600 dark:text-rose-400"
+                   data-so="ڕەخنە" data-ba="ڕەخنە">ڕەخنە</a>
 
                 <button id="theme-toggle" class="ka-icon-btn p-2.5 text-base leading-none" title="ڕووناک / تاریک">
                     <span class="ka-theme-icon">🌙</span>

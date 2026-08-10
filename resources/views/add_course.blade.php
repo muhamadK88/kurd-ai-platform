@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>زیادکردنی کۆرس</title>
+    <title>زیادکردنی کۆرس - کورد ئەی ئای</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
     @include('partials.kurdai-design')
