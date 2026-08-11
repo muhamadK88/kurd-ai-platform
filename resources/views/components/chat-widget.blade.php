@@ -38,11 +38,6 @@
         content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%;
         background: var(--neon-green); box-shadow: 0 0 7px var(--neon-green); margin-inline-end: 6px; vertical-align: middle;
     }
-    .msg-time { font-size: 10px; color: #4a4a58; margin-top: 4px; direction: ltr; text-align: right; user-select: none; }
-    #kurdai-footer {
-        padding: 7px 0; text-align: center; font-size: 10.5px; color: #4a4a58;
-        background: #08080c; border-top: 1px solid rgba(0,240,255,0.15); flex-shrink: 0;
-    }
     #kurdai-greet {
         position: fixed; bottom: 112px; right: 24px; z-index: 9997; display: none; cursor: pointer;
         background: rgba(12,12,18,0.97); border: 1px solid var(--neon-cyan); color: #e6feff;
@@ -56,7 +51,6 @@
         #kurdai-chat-btn { bottom: 16px; right: 16px; width: 62px; height: 62px; }
         #kurdai-greet { bottom: 90px; right: 16px; }
         #kurdai-chat-input { font-size: 16px; }
-        #kurdai-fs-btn { display: none; }
     }
     #kurdai-chat-panel.fullscreen {
         position: fixed; inset: 0; width: 100vw; height: 100dvh;
@@ -176,7 +170,6 @@
         font-size: 13px; transition: all 0.2s;
     }
     .chat-msg-actions button:hover { background: rgba(0,240,255,0.2); color: var(--neon-cyan); }
-    .chat-msg-actions button.reacted { background: rgba(0,240,255,0.25); color: var(--neon-cyan); border-color: var(--neon-cyan); }
     .chat-msg-actions button.run-btn {
         width: auto; padding: 0 10px; font-size: 11px; font-weight: 700; gap: 4px;
         color: var(--neon-green); border-color: rgba(57,255,20,0.35);
@@ -190,13 +183,12 @@
     #kurdai-tool-bar { display: flex; gap: 6px; padding: 0 14px 10px; flex-wrap: wrap; }
     .tool-btn {
         background: rgba(0,240,255,0.07); border: 1px solid rgba(0,240,255,0.25);
-        color: #6b6b78; height: 30px; border-radius: 9px;
-        cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px;
-        font-size: 11.5px; padding: 0 10px; transition: all 0.2s;
+        color: #6b6b78; width: 32px; height: 32px; border-radius: 10px;
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: all 0.2s;
     }
     .tool-btn:hover { background: rgba(0,240,255,0.18); color: var(--neon-cyan); }
-    .tool-btn.active { background: rgba(0,240,255,0.2); color: var(--neon-cyan); border-color: var(--neon-cyan); }
-    .tool-btn svg { width: 14px; height: 14px; }
+    .tool-btn svg { width: 15px; height: 15px; }
     #kurdai-chat-input {
         flex: 1; border: 1px solid rgba(0,240,255,0.3); border-radius: 14px;
         padding: 12px 16px; font-size: 15px; background: #0c0c12; color: #e6feff;
@@ -238,27 +230,6 @@
     .session-row .s-pin:hover { color: var(--neon-green); }
     .session-row .s-pin.pinned { color: var(--neon-green); text-shadow: 0 0 8px var(--neon-green); }
     .session-row .s-del:hover { color: #ff4444; }
-    .chat-welcome {
-        background: linear-gradient(135deg, rgba(0,240,255,0.06), rgba(176,38,255,0.06));
-        border: 1px dashed rgba(0,240,255,0.4); border-radius: 16px;
-        padding: 16px; font-size: 14px; line-height: 1.8; color: #b8f8ff;
-    }
-    .suggestions { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 0; justify-content: center; }
-    .suggestions button {
-        background: rgba(0,240,255,0.07); border: 1px solid rgba(0,240,255,0.3);
-        color: var(--neon-cyan); border-radius: 999px; padding: 7px 14px; font-size: 12.5px;
-        cursor: pointer; transition: all 0.2s;
-    }
-    .suggestions button:hover { background: rgba(0,240,255,0.2); box-shadow: 0 0 10px rgba(0,240,255,0.4); }
-    .day-divider { text-align: center; font-size: 11px; color: #6b6b78; margin: 4px 0 2px; }
-    .day-divider span { background: rgba(255,255,255,0.05); padding: 3px 14px; border-radius: 999px; }
-    .followups { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-    .followups button {
-        background: rgba(176,38,255,0.08); border: 1px solid rgba(176,38,255,0.35);
-        color: #c9a8ff; border-radius: 999px; padding: 5px 12px; font-size: 12px;
-        cursor: pointer; transition: all 0.2s;
-    }
-    .followups button:hover { background: rgba(176,38,255,0.2); box-shadow: 0 0 10px rgba(176,38,255,0.4); }
     #kurdai-scroll-down {
         position: absolute; right: 14px; bottom: 128px; z-index: 5;
         width: 36px; height: 36px; border-radius: 50%;
@@ -283,20 +254,7 @@
         opacity: 0; pointer-events: none; transition: opacity 0.3s;
     }
     #kurdai-backdrop.show { opacity: 1; pointer-events: auto; }
-    #kurdai-sound-btn.muted { opacity: 0.55; }
-    #kurdai-sound-btn.muted svg { position: relative; }
-    #kurdai-sound-btn.muted::after {
-        content: ''; position: absolute; width: 20px; height: 2px; background: #ff4444;
-        transform: rotate(-45deg); border-radius: 2px; box-shadow: 0 0 6px #ff4444;
-    }
     #kurdai-chat-body { position: relative; }
-    .copy-toast {
-        position: fixed; bottom: 130px; right: 60px; z-index: 10000;
-        background: rgba(57,255,20,0.15); border: 1px solid var(--neon-green);
-        color: var(--neon-green); border-radius: 12px; padding: 8px 18px;
-        font-size: 12px; animation: fadeInUp 0.3s ease; pointer-events: none;
-    }
-    @keyframes fadeInUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
     #kurdai-preview {
         background: #12121a; border: 1px solid rgba(0,240,255,0.35); border-radius: 10px;
         padding: 10px; max-height: 120px; overflow: auto; display: none; margin: 0 14px; color: #e8e8f0; font-size: 12px;
@@ -332,15 +290,6 @@
         <button id="kurdai-new-session" class="hdr-btn" title="گفتوگۆی نوێ">
             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
         </button>
-        <button id="kurdai-share-btn" class="hdr-btn" title="کۆپی کردنی گفتوگۆ">
-            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-        </button>
-        <button id="kurdai-sound-btn" class="hdr-btn" title="دەنگی وەڵام">
-            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        </button>
-        <button id="kurdai-fs-btn" class="hdr-btn" title="پڕ شاشە">
-            <svg id="kurdai-fs-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
-        </button>
         <button id="kurdai-chat-close" class="hdr-btn" title="داخستن">
             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
@@ -360,19 +309,9 @@
             <div id="kurdai-tool-bar">
                 <button class="tool-btn" id="kurdai-file-btn" title="فایل">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                    فایل
                 </button>
                 <button class="tool-btn" id="kurdai-image-btn" title="وێنە">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    وێنە
-                </button>
-                <button class="tool-btn" id="kurdai-voice-btn" title="دەنگ">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-14 0m7 7v4m-4 0h8m-4-10a3 3 0 01-3 3m3-3a3 3 0 003 3m-3-3a3 3 0 01-3-3m3 3a3 3 0 013-3"/></svg>
-                    دەنگ
-                </button>
-                <button class="tool-btn" id="kurdai-grammar-btn" title="چاککردنی ڕێزمان">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                    ڕێزمان
                 </button>
             </div>
             <div id="kurdai-input-bar">
@@ -383,7 +322,6 @@
             </div>
         </div>
     </div>
-    <div id="kurdai-footer">کورد ئەی ئای — یاریدەدەری ژیری دەستکرد</div>
 </div>
 <div id="kurdai-backdrop"></div>
 
@@ -402,60 +340,16 @@
     const toolBar = document.getElementById('kurdai-tool-bar');
     const fileBtn = document.getElementById('kurdai-file-btn');
     const imageBtn = document.getElementById('kurdai-image-btn');
-    const voiceBtn = document.getElementById('kurdai-voice-btn');
-    const grammarBtn = document.getElementById('kurdai-grammar-btn');
     const previewEl = document.getElementById('kurdai-preview');
     const badgeEl = document.getElementById('kurdai-badge');
-    const fsBtn = document.getElementById('kurdai-fs-btn');
-    const fsIcon = document.getElementById('kurdai-fs-icon');
-    const shareBtn = document.getElementById('kurdai-share-btn');
-    const soundBtn = document.getElementById('kurdai-sound-btn');
     const searchInput = document.getElementById('kurdai-search');
     const scrollDownBtn = document.getElementById('kurdai-scroll-down');
     const backdrop = document.getElementById('kurdai-backdrop');
 
     let unreadCount = 0;
-    let lastMsgDay = null;
     let searchQuery = '';
     let soundEnabled = localStorage.getItem('kurdai_sound') !== 'off';
 
-    const DIGITS = '٠١٢٣٤٥٦٧٨٩';
-    const fmtN = n => String(n).padStart(2, '0').replace(/\d/g, c => DIGITS[c]);
-
-    function fmtTime(date) {
-        return fmtN(date.getHours()) + ':' + fmtN(date.getMinutes());
-    }
-    function fmtDate(date) {
-        return date.getFullYear() + '/' + fmtN(date.getMonth() + 1) + '/' + fmtN(date.getDate());
-    }
-    function dayKey(date) {
-        return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
-    }
-    function addDayDivider(date) {
-        const k = dayKey(date);
-        if (k === lastMsgDay) return;
-        lastMsgDay = k;
-        const todayK = dayKey(new Date());
-        const yestK = dayKey(new Date(Date.now() - 86400000));
-        const label = k === todayK ? t('today') : k === yestK ? t('yesterday') : fmtDate(date);
-        const d = document.createElement('div'); d.className = 'day-divider';
-        const s = document.createElement('span'); s.textContent = label; d.appendChild(s);
-        messagesEl.appendChild(d);
-    }
-    function addTime(el, date) {
-        const tm = document.createElement('div');
-        tm.className = 'msg-time'; tm.textContent = fmtTime(date || new Date());
-        el.appendChild(tm);
-    }
-    function addFollowUps(el) {
-        const wrap = document.createElement('div'); wrap.className = 'followups';
-        [t('follow_1'), t('follow_2'), t('follow_3')].forEach(text => {
-            const chip = document.createElement('button'); chip.textContent = text;
-            chip.addEventListener('click', () => { input.value = text; autosizeInput(); sendMessage(); });
-            wrap.appendChild(chip);
-        });
-        el.appendChild(wrap);
-    }
     function clearUnread() { unreadCount = 0; badgeEl.classList.remove('show'); }
 
     let audioCtx = null;
@@ -489,23 +383,13 @@
         panel.classList.add('open');
         backdrop.classList.add('show');
         clearUnread();
-        if (!messagesEl.children.length) { addMessage('bot', t('welcome')); addSuggestions(); }
+        if (!messagesEl.children.length) addMessage('bot', t('welcome'));
         refreshUiTexts(); loadSessions(); input.focus();
     }
 
     function autosizeInput() {
         input.style.height = 'auto';
         input.style.height = Math.min(input.scrollHeight, 140) + 'px';
-    }
-
-    const FS_EXPAND = '<path stroke-linecap="round" stroke-linejoin="round" d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/>';
-    const FS_BACK = '<path stroke-linecap="round" stroke-linejoin="round" d="M8 3v5H3M16 3v5h5M8 21v-5H3M16 21v-5h5"/>';
-
-    function setFullscreen(on) {
-        panel.classList.toggle('fullscreen', on);
-        if (on) { panel.style.left = panel.style.top = panel.style.right = panel.style.bottom = ''; }
-        fsIcon.innerHTML = on ? FS_BACK : FS_EXPAND;
-        fsBtn.title = on ? t('fs_exit') : t('fs_enter');
     }
 
     const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
@@ -518,16 +402,9 @@
             untitled: 'گفتوگۆی بێ ناو', now: 'ئێستا',
             delete_confirm: 'ئەم گفتوگۆیە بسڕینەوە؟', pin_on: 'لێکردنەوە لە پین', pin_off: 'پینکردن',
             delete: 'سڕینەوە', empty: 'هیچ گفتوگۆیەک نییە',
-            network_error: 'ببورە، کێشەیەک ڕوویدا لە پەیوەندیدا.', wait_hint: 'ببورە، کەمێک درێژە دەکێشێت، تکایە چاوەڕێ بکە...', greet: 'سڵاو! پێویستت بە یارمەتییە؟', fs_enter: 'پڕ شاشە', fs_exit: 'گەڕانەوە',
-
-            copied: 'کۆپی کرا!', voice_not_avail: 'دەنگ ناڤێ نا', voice_listening: 'گوێ بگرە...',
+            network_error: 'ببورە، کێشەیەک ڕوویدا لە پەیوەندیدا.', wait_hint: 'ببورە، کەمێک درێژە دەکێشێت، تکایە چاوەڕێ بکە...',             greet: 'سڵاو! پێویستت بە یارمەتییە؟',
             run: '▶ کارپێکردن', file_attached: 'فایل: ',
-            grammar_on: 'مۆدی ڕێزمان: ئین', grammar_off: 'مۆدی ڕێزمان: دامە',
-            suggestions: ['چۆن خۆم بۆ ئیمتێحانی زانکۆ ئامادە بکەم؟', 'چۆن ڕاپۆرتێکی زانستی بنووسم؟', 'زانکۆکانی کوردستان چین؟', 'چۆن بۆ خوێندن کاتەکانم ڕێک بخەم؟'],
-            today: 'ئەمڕۆ', yesterday: 'دوێنێ', you: 'تۆ', bot_name: 'کورد ئەی ئای',
-            share_empty: 'هیچ گفتوگۆیەک نییە بۆ کۆپی', search_ph: 'گەڕان لە گفتوگۆکان...',
-            follow_1: 'زیاتر ڕوون بکەرەوە', follow_2: 'نموونەی کۆد بدە', follow_3: 'کورتتر کەرەوە',
-            sound_on: 'دەنگ: کراوە', sound_off: 'دەنگ: داخراو',
+            search_ph: 'گەڕان لە گفتوگۆکان...',
         },
         ba: {
             welcome: 'سڵاو! ئەز یاریدەدەری کورد ئەی ئای م. بۆ فێربوونا پرۆگرامسازیێ، ژیرییا دەستکرد یان هەر پرسیارەکا تر ب کوردی پرسیارە ژ من بکە 😊',
@@ -536,23 +413,14 @@
             untitled: 'گفتوگۆیەکا بێ ناڤ', now: 'نوکە',
             delete_confirm: 'ئەڤ گفتوگۆیا ب سڕینەوە؟', pin_on: 'ژ پین دەرخستن', pin_off: 'پینکرن',
             delete: 'سڕینەوە', empty: 'چ گفتوگۆیەک نینە',
-            network_error: 'ببورە، کێشەیەک ڕوویدا د گرێدانێ دا.', wait_hint: 'ببورە، دەمەکێک درێژ دکەت، تکایە چاڤڕێ بکە...', greet: 'سڵاو! پێدڤیت ب یارمەتییە؟', fs_enter: 'پڕ شاشە', fs_exit: 'ڤەگەڕانەوە',
-            copied: 'کۆپی کرا!', voice_not_avail: 'دەنگ ناڤێ نا', voice_listening: 'گوێ بگرە...',
+            network_error: 'ببورە، کێشەیەک ڕوویدا د گرێدانێ دا.', wait_hint: 'ببورە، دەمەکێک درێژ دکەت، تکایە چاڤڕێ بکە...',             greet: 'سڵاو! پێدڤیت ب یارمەتییە؟',
             run: '▶ کاردان', file_attached: 'فایل: ',
-            grammar_on: 'مۆدێ ڕێزمان: ئین', grammar_off: 'مۆدێ ڕێزمان: دامە',
-            suggestions: ['چاوا خۆ دژ ئیمتێحانێن زانکۆ ئامادە کەم؟', 'چاوا ڕاپۆرتەکا زانستی بنڤێسم؟', 'زانکۆیێن کوردستان چین؟', 'چاوا خۆ ژ بۆ خوێندنێ ڕێک خەم؟'],
-            today: 'ئەڤرۆ', yesterday: 'دوێنێ', you: 'تو', bot_name: 'کورد ئەی ئای',
-            share_empty: 'چ گفتوگۆیەک نینە د بۆ کۆپی', search_ph: 'گەڕان د گفتوگۆیان...',
-            follow_1: 'زیاتر ڕوون بکە', follow_2: 'نموونەی کۆد بدە', follow_3: 'کورتتر کە',
-            sound_on: 'دەنگ: ئین', sound_off: 'دەنگ: دامە',
+            search_ph: 'گەڕان د گفتوگۆیان...',
         },
     };
 
     function lang() { return localStorage.getItem('site-lang') === 'ba' ? 'ba' : 'so'; }
     function t(key) { return T[lang()][key] ?? T.so[key]; }
-
-    soundBtn.classList.toggle('muted', !soundEnabled);
-    soundBtn.title = soundEnabled ? t('sound_on') : t('sound_off');
 
     let userKey = localStorage.getItem('kurdai_user_key');
     if (!userKey) {
@@ -563,17 +431,12 @@
     const userId = userIdMeta && userIdMeta.content ? Number(userIdMeta.content) : null;
 
     let sessions = [], current = null, listMode = false, grammarMode = false,
-        attachedFile = null, attachedImage = null, pyodideInstance = null, isRecording = false;
+        attachedFile = null, attachedImage = null, pyodideInstance = null;
 
     function refreshUiTexts() {
         statusEl.textContent = listMode ? t('status_list') : t('status');
         input.placeholder = t('placeholder');
         searchInput.placeholder = t('search_ph');
-        grammarBtn.classList.toggle('active', grammarMode);
-        const footerEl = document.getElementById('kurdai-footer');
-        if (footerEl) footerEl.innerText = lang() === 'ba'
-            ? 'کورد ئەی ئای — یاریدەدەری ژیرییا دەستکرد'
-            : 'کورد ئەی ئای — یاریدەدەری ژیری دەستکرد';
     }
 
     async function api(path, opts = {}) {
@@ -601,12 +464,6 @@
         return out;
     }
 
-    function showToast(text) {
-        const toast = document.createElement('div');
-        toast.className = 'copy-toast'; toast.textContent = text;
-        document.body.appendChild(toast); setTimeout(() => toast.remove(), 1500);
-    }
-
     function showTyping() {
         const el = document.createElement('div');
         el.className = 'chat-msg bot';
@@ -628,18 +485,16 @@
     function addMessage(role, text, opts = {}) {
         const el = document.createElement('div');
         el.className = 'chat-msg ' + role;
-        addDayDivider(opts.time ? new Date(opts.time) : new Date());
 
         const content = document.createElement('div');
         content.className = 'msg-content';
         el.appendChild(content);
 
         if (opts.animate) {
-            el.dataset.raw = text;
             messagesEl.appendChild(el); messagesEl.scrollTop = messagesEl.scrollHeight;
             typeEffect(content, text);
         } else {
-            content.innerHTML = renderMarkdown(text); el.dataset.raw = text;
+            content.innerHTML = renderMarkdown(text);
             messagesEl.appendChild(el); messagesEl.scrollTop = messagesEl.scrollHeight;
         }
 
@@ -652,23 +507,6 @@
         }
 
         if (role === 'bot') {
-            const copyBtn = document.createElement('button');
-            copyBtn.textContent = '📋'; copyBtn.title = 'کۆپی';
-            copyBtn.addEventListener('click', () => navigator.clipboard.writeText(el.dataset.raw || '').then(() => showToast(t('copied'))));
-            actions.appendChild(copyBtn);
-
-            const reactionUp = document.createElement('button');
-            reactionUp.textContent = '👍'; reactionUp.title = 'باش';
-            reactionUp.dataset.msgId = opts.messageId; reactionUp.dataset.reaction = 'up';
-            reactionUp.addEventListener('click', () => setReaction(reactionUp));
-            actions.appendChild(reactionUp);
-
-            const reactionDown = document.createElement('button');
-            reactionDown.textContent = '👎'; reactionDown.title = 'نەخۆش';
-            reactionDown.dataset.msgId = opts.messageId; reactionDown.dataset.reaction = 'down';
-            reactionDown.addEventListener('click', () => setReaction(reactionDown));
-            actions.appendChild(reactionDown);
-
             const codeBlock = el.querySelector('pre code');
             if (codeBlock) {
                 const runBtn = document.createElement('button');
@@ -676,26 +514,11 @@
                 runBtn.addEventListener('click', () => runCode(codeBlock, runBtn));
                 actions.appendChild(runBtn);
             }
-
-            if (opts.messageId) {
-                if (opts.reaction === 'up') reactionUp.classList.add('reacted');
-                if (opts.reaction === 'down') reactionDown.classList.add('reacted');
-            }
         }
 
         el.appendChild(actions);
-        addTime(el, opts.time ? new Date(opts.time) : new Date());
         messagesEl.scrollTop = messagesEl.scrollHeight;
         return el;
-    }
-
-    async function setReaction(btn) {
-        if (!btn.dataset.msgId) return;
-        const reaction = btn.classList.contains('reacted') ? null : btn.dataset.reaction;
-        const sibling = btn.dataset.reaction === 'up' ? btn.nextElementSibling : btn.previousElementSibling;
-        if (sibling) sibling.classList.remove('reacted');
-        btn.classList.toggle('reacted', !!reaction);
-        try { await api('/api/chat/messages/' + btn.dataset.msgId + '/reaction', { method: 'POST', body: { user_key: userKey, reaction } }); } catch (e) {}
     }
 
     async function runCode(codeBlock, runBtn) {
@@ -758,7 +581,7 @@
                 const r = await api('/api/chat/sessions/' + s.id + '?user_key=' + encodeURIComponent(userKey), { method: 'DELETE' });
                 if (r.status === 200) {
                     sessions = sessions.filter(x => x.id !== s.id);
-                    if (current?.id === s.id) { current = null; messagesEl.innerHTML = ''; lastMsgDay = null; addMessage('bot', t('welcome')); addSuggestions(); }
+                    if (current?.id === s.id) { current = null; messagesEl.innerHTML = ''; addMessage('bot', t('welcome')); }
                     renderSessions();
                 }
             });
@@ -785,26 +608,16 @@
         if (r.status !== 200) return;
         const data = r.data;
         current = { id: data.id, title: data.title, pinned: data.pinned };
-        messagesEl.innerHTML = ''; lastMsgDay = null;
-        if (!data.messages?.length) { addMessage('bot', t('welcome')); addSuggestions(); }
+        messagesEl.innerHTML = '';
+        if (!data.messages?.length) addMessage('bot', t('welcome'));
         else { data.messages.forEach(msg => addMessage(msg.role === 'user' ? 'user' : 'bot', msg.content, { messageId: msg.id, reaction: msg.reaction, time: msg.created_at })); }
         listMode = false; setView();
     }
 
     function newSession() {
-        current = null; messagesEl.innerHTML = ''; lastMsgDay = null;
-        addMessage('bot', t('welcome')); addSuggestions();
+        current = null; messagesEl.innerHTML = '';
+        addMessage('bot', t('welcome'));
         listMode = false; setView(); input.focus();
-    }
-
-    function addSuggestions() {
-        const wrap = document.createElement('div'); wrap.className = 'suggestions';
-        t('suggestions').forEach(text => {
-            const chip = document.createElement('button'); chip.textContent = text;
-            chip.addEventListener('click', () => { input.value = text; sendMessage(); });
-            wrap.appendChild(chip);
-        });
-        messagesEl.appendChild(wrap); messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
     async function sendMessage() {
@@ -836,8 +649,7 @@
             const r = await api('/api/chat', { method: 'POST', body });
             typing.remove(); clearWait();
             if (r.status !== 200) { addMessage('bot', r.data?.reply || t('network_error')); return; }
-            const botEl = addMessage('bot', r.data.reply || t('network_error'), { animate: true });
-            addFollowUps(botEl);
+            addMessage('bot', r.data.reply || t('network_error'), { animate: true });
             if (!panel.classList.contains('open')) {
                 unreadCount++;
                 badgeEl.textContent = unreadCount;
@@ -877,22 +689,6 @@
     backdrop.addEventListener('click', closePanel);
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape' && panel.classList.contains('open')) closePanel();
-    });
-    fsBtn.addEventListener('click', () => setFullscreen(!panel.classList.contains('fullscreen')));
-
-    shareBtn.addEventListener('click', () => {
-        const msgs = [...messagesEl.querySelectorAll('.chat-msg')];
-        if (!msgs.length) { showToast(t('share_empty')); return; }
-        const lines = msgs.map(m =>
-            (m.classList.contains('user') ? t('you') : t('bot_name')) + ': ' + (m.querySelector('.msg-content')?.textContent || m.dataset.raw || '').replace(/\s+/g, ' ').trim());
-        navigator.clipboard.writeText(lines.join('\n\n')).then(() => showToast(t('copied'))).catch(() => showToast(t('share_empty')));
-    });
-
-    soundBtn.addEventListener('click', () => {
-        soundEnabled = !soundEnabled;
-        localStorage.setItem('kurdai_sound', soundEnabled ? 'on' : 'off');
-        soundBtn.classList.toggle('muted', !soundEnabled);
-        soundBtn.title = soundEnabled ? t('sound_on') : t('sound_off');
     });
 
     searchInput.addEventListener('input', () => {
@@ -983,11 +779,6 @@
     input.addEventListener('input', autosizeInput);
     input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
 
-    grammarBtn.addEventListener('click', () => {
-        grammarMode = !grammarMode; refreshUiTexts();
-        showToast(grammarMode ? t('grammar_on') : t('grammar_off'));
-    });
-
     fileBtn.addEventListener('click', () => {
         const inp = document.createElement('input'); inp.type = 'file';
         inp.accept = '.txt,.md,.php,.py,.js,.html,.css,.json,.xml,.java,.cpp,.c,.rs,.go,.rb,.sh,.sql,.vue,.jsx,.tsx,.swift,.kt,.ts,.dart';
@@ -1010,20 +801,6 @@
         };
         inp.click();
     });
-
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new SR();
-        recognition.continuous = false; recognition.interimResults = false;
-        voiceBtn.addEventListener('click', () => {
-            if (isRecording) { recognition.stop(); isRecording = false; voiceBtn.classList.remove('active'); return; }
-            try { recognition.lang = 'ckb'; recognition.start(); isRecording = true; voiceBtn.classList.add('active'); voiceBtn.textContent = t('voice_listening'); }
-            catch (e) { showToast(t('voice_not_avail')); }
-        });
-        recognition.onresult = e => { input.value = e.results[0][0].transcript; isRecording = false; voiceBtn.classList.remove('active'); };
-        recognition.onerror = () => { isRecording = false; voiceBtn.classList.remove('active'); };
-        recognition.onend = () => { isRecording = false; voiceBtn.classList.remove('active'); };
-    } else { voiceBtn.style.display = 'none'; }
 
     const greet = document.createElement('div');
     greet.id = 'kurdai-greet';
