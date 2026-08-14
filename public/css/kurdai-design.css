@@ -1377,3 +1377,22 @@ html.kai-perf .kai-hero-fx::before { -webkit-mask-image: none; mask-image: none;
     ::view-transition-old(root),
     ::view-transition-new(root) { animation-duration: .01s; }
 }
+
+/* ==========================================================================
+   13. SPA soft-navigation guard (kai-router sets html.kai-spa on the first
+   in-place swap). Entrance animations are "page load" effects; replaying
+   them on every router swap re-blanks the hero, the news masthead and the
+   news cards for up to ~1.4s. Under html.kai-spa we pin the final state
+   (opacity/transform) and never re-run them.
+   ========================================================================== */
+html.kai-spa .kai-hero-in,
+html.kai-spa .kai-hero-in--d1,
+html.kai-spa .kai-hero-in--d2,
+html.kai-spa .kai-hero-in--d3,
+html.kai-spa .kai-hero-in--d4,
+html.kai-spa .kai-card-enter,
+html.kai-spa header h2,
+html.kai-spa header .inline-flex,
+html.kai-spa header p {
+    animation: none !important;
+}

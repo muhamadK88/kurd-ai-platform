@@ -95,11 +95,8 @@
         document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
 
         onAuthStateChanged(auth, (user) => {
-            if (!user) window.location.href = "/login";
-            else {
-                /* body visible instantly */
-                applyLanguage();
-            }
+            /* body visible instantly */
+            applyLanguage();
         });
     </script>
     @include('partials.feedback-scripts')

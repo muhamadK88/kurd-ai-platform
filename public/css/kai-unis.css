@@ -59,10 +59,11 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
 /* logo tile — gold crest ring */
 #uni-container .w-20.h-20 {
     position: relative;
-    animation: kaiGoldPulse 3.2s ease-in-out infinite;
     border-color: color-mix(in srgb, var(--kai-uni-c) 40%, transparent) !important;
 }
-#uni-container > .glass-card:hover .w-20.h-20 { animation: kaiGoldPulse 1.6s ease-in-out infinite; }
+#uni-container > .glass-card:hover .w-20.h-20 {
+    animation: kaiGoldPulse 1.6s ease-in-out infinite;
+}
 
 /* degree badge */
 #uni-container span[class*="bg-orange-100"],
@@ -194,25 +195,20 @@ html.dark #uni-container > .glass-card::after {
     animation: kaiPortalSpin 14s linear infinite;
 }
 @keyframes kaiPortalSpin { to { transform: rotate(360deg); } }
+/* Keep the logo tile stable: the gold ring pulse runs on hover only and
+   the 3D face-swap is removed. The front logo always stays visible — no
+   spin, no AI-crest flash during SPA re-renders. */
 .kai-uni-flip {
     position: relative;
     width: 80px;
     height: 80px;
-    transform-style: preserve-3d;
-    -webkit-transform-style: preserve-3d;
-    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.kai-uni-flip:hover,
-.kai-uni-flip:focus-visible { transform: rotateY(180deg); }
 .kai-uni-face {
     position: absolute;
     inset: 0;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
 }
 .kai-uni-back {
-    transform: rotateY(180deg);
-    background: linear-gradient(160deg, var(--kai-uni-a), var(--kai-uni-b) 55%, var(--kai-uni-c));
+    display: none;
 }
 
 /* ---------- accordion syllabus (plan modal) ---------- */
@@ -246,12 +242,16 @@ html.dark #uni-container > .glass-card::after {
 /* ---------- v4 fallbacks ---------- */
 html.kai-perf .kai-uni-portal-ring::before,
 html.kai-perf .kai-uni-flip { animation: none !important; transform: none !important; }
+html.kai-perf #uni-container .w-20.h-20,
+html.kai-perf #uni-container > .glass-card:hover .w-20.h-20 { animation: none !important; }
 html.kai-perf .kai-acc-body,
 html.kai-perf .kai-acc-chev,
 html.kai-perf #uni-container > .glass-card::after { transition: none !important; }
 @media (prefers-reduced-motion: reduce) {
     .kai-holo-grid, .kai-scanlines, .kai-uni-portal-ring::before { animation: none !important; }
     .kai-uni-flip { transform: none !important; }
+    #uni-container .w-20.h-20,
+    #uni-container > .glass-card:hover .w-20.h-20 { animation: none !important; }
     .kai-acc-body, .kai-acc-chev, #uni-container > .glass-card::after { transition: none !important; }
     #uni-container > .glass-card::after { transform: none !important; }
 }

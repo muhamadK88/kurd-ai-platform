@@ -72,8 +72,8 @@
     </style>
 
     @include('partials.kurdai-design')
-    <link rel="stylesheet" href="/css/kai-hero.css?v=2">
-    <script src="/js/kai-hero.js?v=2" defer></script>
+    <link rel="stylesheet" href="/css/kai-hero.css?v=3">
+    <script src="/js/kai-hero.js?v=4" defer></script>
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300">
@@ -124,7 +124,7 @@
                 <div class="flex flex-wrap justify-center lg:justify-start gap-4 mb-10 kai-hero-in--d4">
                     <a href="/ferga" class="px-8 py-4 bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 text-white font-bold rounded-2xl text-lg shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:-translate-y-1 transition-all flex items-center gap-2 group/btn">
                         <svg class="w-5 h-5 group-hover/btn:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                        <span class="lang-str" data-so="دەستپێبکە بۆ فێربوون" data-ba="دەستپێبکە بۆ فێربوونێ">دەستپێبکە بۆ فێربوون</span>
+                        <span class="lang-str" data-so="دەستبکە بە فێربوون" data-ba="دەستبکە بە فێربوونێ">دەستبکە بە فێربوون</span>
                     </a>
                     <button type="button" data-kai-open-chat class="kai-chat-launch">
                         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
@@ -387,8 +387,9 @@
     document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
 
     onAuthStateChanged(auth, (user) => { 
-        if(!user) window.location.href = "/login"; 
-        else { /* body visible instantly */ }
+        if (user && ["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
+            document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+        }
     });
     
     const logoutBtn = document.getElementById('logout-btn');

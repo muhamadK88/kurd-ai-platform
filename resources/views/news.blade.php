@@ -828,16 +828,15 @@
 
         // پشکنینی هەژمار
         onAuthStateChanged(auth, (user) => { 
-            if(!user) window.location.href = "/login"; 
-            else {
+            if (user) {
                 /* body visible instantly */
                 currentUser = user;
                 if(["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
                     window.isAdmin = true;
                     document.querySelector('.admin-only').classList.remove('hidden');
                 }
-                applyLanguage();
             }
+            applyLanguage();
         });
         
         document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));

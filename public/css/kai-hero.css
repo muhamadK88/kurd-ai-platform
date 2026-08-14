@@ -232,16 +232,20 @@
     50%      { transform: translateY(-16px) rotate(2deg); }
 }
 
-/* ---------- entrance ---------- */
+/* ---------- entrance ----------
+   No fill-mode, no delays: the hero must never sit at opacity:0 while the
+   entrance waits (that is what made the heading + sphere "disappear" for a
+   beat on soft navigations and right after the auth-gated body becomes
+   visible). Starts readable and fades up from there. */
 .kai-hero-in {
-    animation: kaiHeroIn .9s var(--kai-ease) both;
+    animation: kaiHeroIn .7s var(--kai-ease);
 }
-.kai-hero-in--d1 { animation-delay: .12s; }
-.kai-hero-in--d2 { animation-delay: .24s; }
-.kai-hero-in--d3 { animation-delay: .36s; }
-.kai-hero-in--d4 { animation-delay: .48s; }
+.kai-hero-in--d1,
+.kai-hero-in--d2,
+.kai-hero-in--d3,
+.kai-hero-in--d4 { animation-delay: 0s; }
 @keyframes kaiHeroIn {
-    from { opacity: 0; transform: translateY(26px); }
+    from { opacity: .3; transform: translateY(14px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -249,6 +253,7 @@
 html.kai-perf .kai-hero-fx,
 html.kai-perf .kai-sphere-stage::before,
 html.kai-perf .kai-sphere-stage::after,
+html.kai-perf .kai-hero-in,
 html.kai-perf .kai-chip { animation: none; }
 html.kai-perf .kai-chip { display: none; }
 

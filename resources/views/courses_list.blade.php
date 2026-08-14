@@ -700,8 +700,7 @@
         });
 
         onAuthStateChanged(auth, (user) => { 
-            if(!user) window.location.href = "/login"; 
-            else {
+            if (user) {
                 /* body visible instantly */
                 currentUserId = user.uid;
                 onValue(dbRef(db, 'favorites/' + user.uid + '/courses'), (snap) => {

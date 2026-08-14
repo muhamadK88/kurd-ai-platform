@@ -2,47 +2,44 @@
    KURD AI — kai-router (SPA navigation)
    Turbo-style instant page swapping: intercepts same-origin link clicks,
    fetches the next page (often already warmed by the prefetch layer),
-   swaps <body> content + per-page stylesheets, and re-runs only the
-   scripts that belong to the new page. No full reload, no loading screen.
+   swaps only the target page's CONTENT REGION (everything between the
+   persisted shell), syncs the per-page stylesheets + body classes, and
+   re-runs only the scripts that belong to the new page. No full reload,
+   no loading screen.
 
-   Persists the shared background layer (#kai-cosmos / #kai-aurora-sweep /
-   #kai-cursor) across swaps so its rAF loops never restart or leak.
+   What persists across swaps (the "shell"):
+     - .ka-nav                    (site navigation — stays put, no repaint)
+     - #kai-cosmos / #kai-aurora-sweep / #kai-cursor  (background layers,
+        their rAF loops never restart or leak)
+     - #kurdai-widget-root        (chat widget stays open mid-navigation)
 
-   The shared layers (kurdai-ui.js, kurdai-nav.js, kai-cosmos.js) stay in
-   the <head> and bind ONCE; kurdai-ui.js + kurdai-nav.js already re-scan
-   the DOM via MutationObserver when new content appears.
+   What is swapped (the "content region"):
+     - #main-content is cleared first, then rebuilt from the new page's
+       parsed target root. Older pages without that wrapper are normalized
+       into one, so a fetched <body>, header, or footer is never nested.
+
+   Scripts are re-executed after the swap, in document order. The shared
+   layers (kurdai-ui.js, kurdai-nav.js, kai-cosmos.js, kai-router.js and
+   anything marked data-kai-shared) stay in the <head> and bind ONCE;
+   kurdai-ui.js + kurdai-nav.js re-scan the DOM via MutationObserver when
+   new content appears.
    ========================================================================== */
 (function () {
     'use strict';
     if (window.__kaiRouterActive) return;
     window.__kaiRouterActive = true;
 
-    var PERSIST = '#kai-cosmos, #kai-aurora-sweep, #kai-cursor, .ka-nav, #kurdai-widget-root';
-    var cache = {};      /* pathname+search -> { body, scripts, css, title } */
+    var cache = {};      /* pathname+search -> { content, scripts, css, title, bodyClass } */
     var fetchers = {};   /* pathname+search -> shared in-flight fetch promise */
     var navToken = null; /* identity of the latest navigation click */
 
     /* ---------- page transition ----------
-       Native View Transitions API: the browser captures a snapshot of the
-       old page and crossfades it into the new one. Nothing else flashes —
-       just a soft, branded morph (see ::view-transition CSS). Falls back to
-       an instant swap on browsers without support, and NEVER starts a
-       second transition while one is still running (the second click just
-       swaps instantly instead of swallowing the click). */
-    var vtBusy = false;
+       Keep navigation synchronous. Native View Transitions can retain a
+       frozen snapshot while a page script or a large DOM update is pending;
+       that looks like a browser freeze. The router therefore commits the
+       already-fetched page immediately instead of wrapping it in a native
+       transition. */
     function withTransition(fn) {
-        if (document.startViewTransition && !vtBusy) {
-            vtBusy = true;
-            try {
-                var t = document.startViewTransition(function () { fn(); });
-                var finish = function () { vtBusy = false; };
-                if (t && t.finished && t.finished.then) t.finished.then(finish, finish);
-                else setTimeout(finish, 400);
-                return;
-            } catch (e) {
-                vtBusy = false;
-            }
-        }
         fn();
     }
 
@@ -115,6 +112,76 @@
         if (page.title) document.title = page.title;
     }
 
+    /* Shell elements survive every swap untouched. The router owns
+       #main-content, so only that root is cleared and replaced. */
+    function isShellEl(el) {
+        if (!el || el.nodeType !== 1) return false;
+        if (el.classList && el.classList.contains('ka-nav')) return true;
+        var id = el.id || '';
+        return id === 'kai-cosmos' || id === 'kai-aurora-sweep' ||
+               id === 'kai-cursor' || id === 'kurdai-widget-root' ||
+               id === 'main-content';
+    }
+
+    function isScriptEl(el) {
+        return el && (el.tagName === 'SCRIPT' || el.tagName === 'NOSCRIPT');
+    }
+
+    /* Return the page's one content root. Existing #main-content is preferred;
+       #app is accepted only when it does not contain the shared navigation.
+       Older pages without either wrapper are normalized into a detached
+       #main-content root, preventing body/header/footer nesting. */
+    function extractContentRoot(doc) {
+        var root = doc.querySelector('#main-content');
+        if (!root) {
+            root = doc.querySelector('#app');
+            if (root && root.querySelector('.ka-nav')) root = null;
+        }
+        if (root) return root;
+
+        root = doc.createElement('div');
+        root.id = 'main-content';
+        Array.prototype.slice.call(doc.body.children).forEach(function (el) {
+            if (!isShellEl(el) && !isScriptEl(el)) root.appendChild(el);
+        });
+        return root;
+    }
+
+    function contentNodes(root) {
+        return Array.prototype.slice.call(root.children).filter(function (el) {
+            return !isScriptEl(el);
+        }).map(function (el) {
+            /* Scripts anywhere inside the target root are handled by exec()
+               below; keeping cloned script tags would leave inert duplicates
+               in the DOM and could confuse page initializers. */
+            var copy = el.cloneNode(true);
+            copy.querySelectorAll('script, noscript').forEach(function (script) {
+                script.remove();
+            });
+            return copy;
+        });
+    }
+
+    /* Ensure the current document has exactly one live content root. This
+       also repairs pages rendered before the router wrapper was introduced. */
+    function ensureLiveContentRoot() {
+        var body = document.body;
+        var root = body.querySelector('#main-content');
+        if (root && root.parentNode === body) return root;
+
+        root = document.createElement('div');
+        root.id = 'main-content';
+        var anchor = null;
+        Array.prototype.slice.call(body.children).forEach(function (el) {
+            if (el === root || isShellEl(el) || isScriptEl(el)) return;
+            if (!anchor) anchor = el;
+            root.appendChild(el);
+        });
+        if (anchor && anchor.parentNode === body) body.insertBefore(root, anchor);
+        else body.appendChild(root);
+        return root;
+    }
+
     function parsePage(html, k) {
         var doc = new DOMParser().parseFromString(html, 'text/html');
         /* Pages without the shared navigation are auth/admin flows and
@@ -123,11 +190,14 @@
             throw new Error('page is not SPA-compatible');
         }
         var head = extractHead(doc);
+        var contentRoot = extractContentRoot(doc);
         var page = {
             body: doc.body,
+            content: contentNodes(contentRoot),
             scripts: extractScripts(doc),
             css: head.css,
-            title: head.title
+            title: head.title,
+            bodyClass: doc.body.className || ''
         };
         cache[k] = page;
         return page;
@@ -137,7 +207,7 @@
        so hovering a link starts the request and a click on it swaps from
        memory with zero extra network cost. Rapid clicks never fire
        duplicate requests and never abort each other. */
-    function getPage(href) {
+    function getPage(href, priority) {
         var p = new URL(href, location.href);
         var k = keyOf(p);
         if (cache[k]) return Promise.resolve(cache[k]);
@@ -149,7 +219,8 @@
         var promise = fetch(p.href, {
             credentials: 'same-origin',
             headers: { 'X-KAI-PJAX': '1' },
-            signal: controller ? controller.signal : undefined
+            signal: controller ? controller.signal : undefined,
+            priority: priority || undefined
         })
             .then(function (r) {
                 if (!r.ok) throw new Error('bad status');
@@ -168,12 +239,6 @@
             if (fetchers[k] === promise) delete fetchers[k];
         });
         return promise;
-    }
-
-    function persistNodes() {
-        var els = [];
-        document.querySelectorAll(PERSIST).forEach(function (el) { els.push(el); });
-        return els;
     }
 
     function syncNav(page) {
@@ -204,34 +269,37 @@
     }
 
     function apply(page) {
-        var persist = persistNodes();
         syncNav(page);
-        var newBody = page.body.cloneNode(true);
-        newBody.querySelectorAll('script').forEach(function (el) { el.remove(); });
-        newBody.querySelectorAll(PERSIST).forEach(function (el) { el.remove(); });
+        /* soft-navigation marker: entrance animations are one-shot "page
+           load" effects. Marking the document lets CSS (kurdai-design.css
+           html.kai-spa rules) keep their final state instead of re-blanking
+           the hero/news header + news cards for ~1.4s on every swap. */
+        document.documentElement.classList.add('kai-spa');
+        var contentRoot = ensureLiveContentRoot();
 
-        /* carry the target page's own body attributes over (theme/bg classes,
-           data-*) so the swapped page matches the freshly-loaded one */
-        if (page.body.hasAttributes()) {
-            var attr = page.body.attributes, i;
-            for (i = 0; i < attr.length; i++) {
-                document.body.setAttribute(attr[i].name, attr[i].value);
-            }
+        /* take on the new page's body classes. Replacing the whole
+           class attribute drops every old page class AND any transient
+           loading/veil classes the previous page may have left behind. */
+        if (typeof page.bodyClass === 'string' && document.body.className !== page.bodyClass) {
+            document.body.className = page.bodyClass;
         }
 
-        var frag = document.createDocumentFragment();
-        while (newBody.firstChild) frag.appendChild(newBody.firstChild);
-
-        /* replace body content (this removes old cosmos/cursor nodes too) */
-        document.body.replaceChildren(frag);
-
-        /* re-attach the persistent background layer */
-        var cursor = null;
-        persist.forEach(function (el) {
-            if (el.id === 'kai-cursor') cursor = el;
-            else document.body.insertBefore(el, document.body.firstChild);
+        /* Remove stale page scripts outside the root. The root itself is
+           cleared before any incoming node is inserted. */
+        Array.prototype.slice.call(document.body.children).forEach(function (el) {
+            if (isScriptEl(el)) el.remove();
         });
-        if (cursor) document.body.appendChild(cursor);
+
+        /* requirement 1 + 2: clear only #main-content, then insert only the
+           parsed target content. The old body/nav/footer are never nested.
+           The cached nodes are already detached clones, so appending them
+           directly (instead of re-cloning the whole tree on every swap)
+           keeps the swap cheap on the large pages. */
+        var frag = document.createDocumentFragment();
+        page.content.forEach(function (node) {
+            frag.appendChild(node);
+        });
+        contentRoot.replaceChildren(frag);
 
         /* safety: if the background layer was never booted, re-run it */
         if (!document.getElementById('kai-cosmos')) {
@@ -250,6 +318,8 @@
             frame.loading = 'lazy';
         });
         window.scrollTo(0, 0);
+
+        /* requirement 4: re-execute the scripts that belong to the new page */
         page.scripts.forEach(exec);
     }
 
@@ -260,17 +330,27 @@
         document.documentElement.classList.remove('kai-vt', 'kai-leave', 'kai-enter');
         document.body.classList.remove('fade-out', 'opacity-0', 'loading');
         if (document.body.style.display === 'none') document.body.style.display = '';
-        document.querySelectorAll('div').forEach(function (d) {
-            var st = d.style && d.style.cssText ? d.style.cssText : '';
-            if (st.indexOf('rgba(37,99,235,.16)') !== -1 && d.style.position === 'fixed') {
-                if (d.parentNode) d.parentNode.removeChild(d);
-            }
-        });
+        sweepStuck();
         var veil = document.getElementById('kai-veil');
         if (veil) {
             veil.style.opacity = '0';
             setTimeout(function () { if (veil.parentNode) veil.parentNode.removeChild(veil); }, 600);
         }
+    }
+
+    /* Targeted late pass: some UI code adds loading/veil classes AFTER the
+       swap (transition-end handlers, async renders). Removing them is what
+       keeps the new page from mixing with a dark/blank overlay. Does not
+       touch the morph animation classes. */
+    function sweepStuck() {
+        document.body.classList.remove('fade-out', 'opacity-0', 'loading');
+        if (document.body.style.display === 'none') document.body.style.display = '';
+        document.querySelectorAll('div[style]').forEach(function (d) {
+            var st = d.style && d.style.cssText ? d.style.cssText : '';
+            if (st.indexOf('rgba(37,99,235,.16)') !== -1 && d.style.position === 'fixed') {
+                if (d.parentNode) d.parentNode.removeChild(d);
+            }
+        });
     }
 
     /* Re-scan UI motion bindings after new content lands. */
@@ -283,7 +363,9 @@
     }
 
     function pageVisible() {
-        return !!(document.body && document.body.querySelector('.ka-nav') && document.body.textContent.trim());
+        var root = document.getElementById('main-content');
+        return !!(document.body && document.querySelector('.ka-nav') &&
+                  root && root.childElementCount > 0);
     }
 
     function applySafely(page) {
@@ -304,6 +386,9 @@
             cleanup();
             reinitUI();
             if (!pageVisible()) throw new Error('page ended up blank');
+            /* late passes: catch loading/veil classes dropped after the swap */
+            setTimeout(sweepStuck, 250);
+            setTimeout(sweepStuck, 900);
             return true;
         } catch (error) {
             console.error('[kai-router] navigation failed', error);
@@ -330,9 +415,20 @@
             return;
         }
 
-        getPage(p.href).then(function () {
-            /* only the latest click may swap the page — navToken stays === token
-               so the (async) transition callback can still verify ownership */
+        /* Never leave a click trapped behind a slow response. If the PJAX
+           request has not produced a usable page quickly, let the browser
+           perform a normal navigation. This is safer than keeping the old
+           page apparently frozen while an application request hangs. Most
+           clicks hit the pre-warmed cache anyway; the generous window here
+           prefers letting a slow-but-working PJAX fetch complete in-place
+           over forcing a full page reload. */
+        var fallbackTimer = setTimeout(function () {
+            if (navToken === token) window.location.assign(p.href);
+        }, 3000);
+
+        getPage(p.href, 'high').then(function () {
+            clearTimeout(fallbackTimer);
+            /* only the latest click may swap the page */
             if (navToken !== token) return;
             syncHead(cache[k]);
             history.pushState({ k: k }, '', p.href);
@@ -341,12 +437,10 @@
                 commit(cache[k], p.href);
             });
         }).catch(function (error) {
+            clearTimeout(fallbackTimer);
             if (navToken !== token) return;
-            /* AbortError only comes from our 8s safety timeout — never
-               treat a cancelled request as a failure or reload the page. */
-            if (error && error.name === 'AbortError') return;
             console.error('[kai-router] navigation failed', error);
-            window.location.href = p.href;
+            window.location.assign(p.href);
         });
     }
 
@@ -359,37 +453,83 @@
         if (p.protocol !== 'http:' && p.protocol !== 'https:') return;
         var k = keyOf(p);
         if (cache[k] || fetchers[k]) return;
-        getPage(p.href).catch(function () {});
+        getPage(p.href, 'low').catch(function () {});
     }
 
-    document.addEventListener('click', function (e) {
-        if (e.defaultPrevented) return;
-        if (e.button && e.button !== 0) return;
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-        var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
-        if (!interceptable(a)) return;
-        e.preventDefault();
-        var p = new URL(a.href, location.href);
-        /* logged-in users never need the login page */
-        if (p.pathname === '/login' && Object.keys(localStorage).some(function (k) { return k.indexOf('firebase:authUser') === 0; })) {
-            nav('/');
-            return;
-        }
-        nav(a.href);
-    }, true);
+    /* Event delegation: one document-level listener handles links that exist
+       now and links inserted by every later page. Install it at DOM-ready,
+       but install immediately when this deferred script loads after ready. */
+    function installEvents() {
+        if (window.__kaiRouterEventsInstalled) return;
+        window.__kaiRouterEventsInstalled = true;
 
-    /* Prefetch on hover / pointer-down: the page is fetched before the user
-       clicks, so the first click navigates instantly — no second-click needed.
-       Deduplicated against in-flight fetches and already-cached pages. */
-    document.addEventListener('pointerover', function (e) {
-        var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
-        if (a && interceptable(a)) warm(a.href);
-    }, true);
-    document.addEventListener('pointerdown', function (e) {
-        if (e.button && e.button !== 0) return;
-        var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
-        if (a && interceptable(a)) warm(a.href);
-    }, true);
+        document.addEventListener('click', function (e) {
+            if (e.defaultPrevented) return;
+            if (e.button && e.button !== 0) return;
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+            var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+            if (!interceptable(a)) return;
+            e.preventDefault();
+            var p = new URL(a.href, location.href);
+            /* logged-in users never need the login page */
+            if (p.pathname === '/login' && Object.keys(localStorage).some(function (k) { return k.indexOf('firebase:authUser') === 0; })) {
+                nav('/');
+                return;
+            }
+            nav(a.href);
+        }, true);
+
+        /* Prefetch dynamically-created links without attaching listeners to
+           individual anchors. */
+        document.addEventListener('pointerover', function (e) {
+            var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+            if (a && interceptable(a)) warm(a.href);
+        }, true);
+        document.addEventListener('pointerdown', function (e) {
+            if (e.button && e.button !== 0) return;
+            var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+            if (a && interceptable(a)) warm(a.href);
+        }, true);
+    }
+
+    /* A document-level listener does not need the DOM to be complete. Install
+       it now, before Firebase/modules or DOMContentLoaded can delay the first
+       click. The delegated lookup works for current and future anchors. */
+    installEvents();
+
+    /* Pull every section page into the in-memory cache shortly after the
+       first paint, staggered so the server is not hammered. After this one
+       warm-up every nav-link click swaps from memory — zero network wait,
+       which is what "very fast section switching" needs. */
+    var prewarmed = false;
+    function prewarmNav() {
+        if (prewarmed) return;
+        prewarmed = true;
+        var links = document.querySelectorAll('.ka-nav a[href]');
+        var seen = {}, delay = 0;
+        Array.prototype.slice.call(links).forEach(function (a) {
+            var href = a.getAttribute('href');
+            if (!href || seen[href]) return;
+            seen[href] = 1;
+            (function (h, d) {
+                setTimeout(function () { warm(h); }, d);
+            })(href, delay);
+            delay += 350;
+        });
+    }
+
+    function schedulePreWarm() {
+        if (window.requestIdleCallback) {
+            requestIdleCallback(prewarmNav, { timeout: 2500 });
+        } else {
+            setTimeout(prewarmNav, 2000);
+        }
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', schedulePreWarm, { once: true });
+    } else {
+        schedulePreWarm();
+    }
 
     window.addEventListener('popstate', function (e) {
         var k = location.pathname + (location.search || '');

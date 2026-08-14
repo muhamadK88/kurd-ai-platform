@@ -33,7 +33,6 @@
         document.head.appendChild(s);
         return true;
     };
-    window.kurdaiEnsureLottie();
 </script>
 
 <style>
@@ -442,9 +441,21 @@
 </div>
 
 <script type="module" data-kai-shared>
-import { initializeApp, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getDatabase, ref as dbRef, push, set, get, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+/* Firebase is the heaviest dependency here (~110KB gzipped). It is only
+   needed once the chat is actually opened (or for admin detection), so it is
+   fetched lazily: on first hover/tap of the launcher, or shortly after the
+   page has finished loading. First paint never waits for it. */
+let kurdaiBootPromise = null;
+async function kurdaiBootChat() {
+    if (window.__kurdaiChatBooted) return kurdaiBootPromise;
+    window.__kurdaiChatBooted = true;
+    kurdaiBootPromise = (async () => {
+        const fappMod = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+        const fauthMod = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+        const fdbMod = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js");
+        const { initializeApp, getApp } = fappMod;
+        const { getAuth, onAuthStateChanged } = fauthMod;
+        const { getDatabase, ref: dbRef, push, set, get, remove } = fdbMod;
 (async function () {
     const btn = document.getElementById('kurdai-chat-btn');
     const panel = document.getElementById('kurdai-chat-panel');
@@ -648,6 +659,7 @@ import { getDatabase, ref as dbRef, push, set, get, remove } from "https://www.g
         if (reducedMotion) return;
         const box = document.getElementById('kurdai-lottie-fab');
         if (!box) return;
+        if (window.kurdaiEnsureLottie) window.kurdaiEnsureLottie();
         lottieReady(function () { mountLottie(box, FAB_LOTTIE); });
     }
 
@@ -1306,5 +1318,39 @@ import { getDatabase, ref as dbRef, push, set, get, remove } from "https://www.g
         localStorage.setItem('kurdai_greet_done', '1');
         openPanel();
     });
+})();
+    })();
+    return kurdaiBootPromise;
+}
+
+/* Boot the chat once: on first hover/tap of the launcher, or after the page
+   is idle. The widget root survives SPA swaps, so this runs once per page. */
+(function () {
+    if (window.__kurdaiChatBootStarted) return;
+    window.__kurdaiChatBootStarted = true;
+
+    var btn = document.getElementById('kurdai-chat-btn');
+    if (!btn) return;
+
+    var boot = function () { kurdaiBootChat().catch(function () {}); };
+
+    btn.addEventListener('pointerenter', boot, { once: true, passive: true });
+    btn.addEventListener('pointerdown', boot, { once: true, passive: true });
+
+    /* CTA buttons (e.g. hero) call kurdaiOpenChat. If the chat has not booted
+       yet, start it and open once the (re)defined handler is in place. */
+    window.kurdaiOpenChat = function () {
+        boot();
+        kurdaiBootChat().then(function () {
+            if (typeof window.kurdaiOpenChat === 'function') window.kurdaiOpenChat();
+        });
+    };
+
+    var later = function () {
+        if (typeof requestIdleCallback === 'function') requestIdleCallback(boot, { timeout: 2500 });
+        else setTimeout(boot, 2000);
+    };
+    if (document.readyState === 'complete') later();
+    else window.addEventListener('load', later, { once: true });
 })();
 </script>

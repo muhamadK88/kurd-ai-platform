@@ -2511,7 +2511,14 @@ ${code}
         }
 
         onAuthStateChanged(auth, async (user) => { 
-            if(!user) { window.location.href = "/login"; } else {
+            if(!user) {
+                /* Guest mode: all lessons are public, progress stays in this browser */
+                currentUid = null;
+                currentProgressPath = null;
+                window.isAdmin = false;
+                window.isMember = false;
+                applyProgressData(null);
+            } else {
                 currentUid = user.uid;
 
                 /* body visible instantly */

@@ -8,4 +8,15 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        rollupOptions: {
+            output: {
+                // Vendor libraries in their own chunk so a change to app.js
+                // doesn't invalidate the browser cache for the big deps.
+                manualChunks: {
+                    vendor: ['alpinejs', 'axios'],
+                },
+            },
+        },
+    },
 });

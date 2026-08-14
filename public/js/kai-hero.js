@@ -61,30 +61,45 @@
         var words = PHRASES[lang()];
         if (reduced) { el.textContent = words[0]; return; }
 
-        var wi = 0, ci = 0, deleting = false, timer = null;
-
-        function tick() {
-            var word = words[wi];
-            el.textContent = word.slice(0, ci);
-            var delay;
-            if (!deleting) {
-                if (ci < word.length) { ci++; delay = 72; }
-                else { deleting = true; delay = 1900; }
-            } else {
-                if (ci > 0) { ci--; delay = 32; }
-                else { deleting = false; wi = (wi + 1) % words.length; delay = 380; }
-            }
-            timer = setTimeout(tick, delay);
+        /* One shared state object: re-running this on every SPA swap clears
+           the previous timer and re-targets the fresh element instead of
+           stacking timers + kai:langchange listeners on every home visit. */
+        var st = window.__kaiType;
+        if (!st) {
+            st = window.__kaiType = {};
+            st.tick = function () {
+                var word = st.words[st.wi];
+                if (st.el) st.el.textContent = word.slice(0, st.ci);
+                var delay;
+                if (!st.deleting) {
+                    if (st.ci < word.length) { st.ci++; delay = 72; }
+                    else { st.deleting = true; delay = 1900; }
+                } else {
+                    if (st.ci > 0) { st.ci--; delay = 32; }
+                    else { st.deleting = false; st.wi = (st.wi + 1) % st.words.length; delay = 380; }
+                }
+                st.timer = setTimeout(st.tick, delay);
+            };
         }
-        tick();
+        if (st.timer) clearTimeout(st.timer);
+        st.el = el;
+        st.words = words;
+        st.wi = 0; st.ci = 0; st.deleting = false;
+        st.tick();
 
-        var lt = document.getElementById('lang-toggle');
-        if (lt) {
-            lt.addEventListener('click', function () {
-                if (timer) clearTimeout(timer);
-                words = PHRASES[lang()];
-                wi = 0; ci = 0; deleting = false;
-                tick();
+        /* The shared navbar handles the first click through delegated
+           capture events while page modules are still loading. React to its
+           language event instead of binding a second direct click handler.
+           Bound once globally — later re-inits just retarget the state. */
+        if (!window.__kaiHeroLangBound) {
+            window.__kaiHeroLangBound = true;
+            window.addEventListener('kai:langchange', function () {
+                var s = window.__kaiType;
+                if (!s) return;
+                if (s.timer) clearTimeout(s.timer);
+                s.words = PHRASES[lang()];
+                s.wi = 0; s.ci = 0; s.deleting = false;
+                s.tick();
             });
         }
     }
@@ -186,6 +201,11 @@
         function frame() {
             if (!running) return;
             requestAnimationFrame(frame);
+            /* Stop the loop as soon as this canvas leaves the document: SPA
+               swaps replace #kai-neuro-sphere, and without this check every
+               visit to home leaks another never-ending rAF loop that slows
+               the whole page down over time. */
+            if (!canvas.isConnected) { running = false; return; }
             var t = performance.now() * 0.0001;
 
             curX += (tx - curX) * 0.055;

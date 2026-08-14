@@ -53,7 +53,7 @@
 
     @include('partials.kurdai-design')
 
-    <link rel="stylesheet" href="{{ asset('css/kai-unis.css') }}?v=4">
+    <link rel="stylesheet" href="{{ asset('css/kai-unis.css') }}?v=5">
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300">
@@ -562,14 +562,10 @@
         });
 
         onAuthStateChanged(auth, (user) => { 
-            if(!user) window.location.href = "/login"; 
-            else {
-                /* body visible instantly */
-                if(["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
-                    window.isAdmin = true;
-                    document.querySelector('.admin-only').classList.remove('hidden');
-                    renderUniversities();
-                }
+            if (user && ["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
+                window.isAdmin = true;
+                document.querySelector('.admin-only').classList.remove('hidden');
+                renderUniversities();
             }
         });
         

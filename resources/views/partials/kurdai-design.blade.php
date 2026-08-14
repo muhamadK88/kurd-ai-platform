@@ -14,13 +14,13 @@
       kurdai-nav.{css,js} wire the ka-* navigation component
       (resources/views/partials/nav.blade.php) — safe on pages that don't
       use it yet. --}}
-<link rel="stylesheet" href="/css/kurdai-design.css?v=14">
+<link rel="stylesheet" href="/css/kurdai-design.css?v=15">
 <link rel="stylesheet" href="/css/kurdai-nav.css?v=5">
 <link rel="stylesheet" href="/css/kai-cosmos.css?v=7">
 <script src="/js/kurdai-ui.js?v=11" data-kai-shared defer></script>
 <script src="/js/kurdai-nav.js?v=4" data-kai-shared defer></script>
 <script src="/js/kai-cosmos.js?v=7" data-kai-shared defer></script>
-<script src="/js/kai-router.js?v=12" data-kai-shared defer></script>
+<script src="/js/kai-router.js?v=17" data-kai-shared defer></script>
 <script data-kai-shared>
 (function () {
     'use strict';
@@ -61,5 +61,49 @@
     }
     document.addEventListener('pointerover', pickSoon, { passive: true });
     document.addEventListener('pointerdown', pick, { passive: true });
+
+    /* Critical controls must work while page modules (notably Firebase) are
+       still loading. Capture-level delegation handles the shared navbar
+       immediately and prevents the later page-specific listeners from
+       double-toggling the same control once they eventually attach. */
+    document.addEventListener('click', function (e) {
+        var target = e.target && e.target.closest ? e.target.closest('#lang-toggle, #theme-toggle, #ka-burger') : null;
+        if (!target) return;
+
+        if (target.id === 'lang-toggle') {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            var lang = localStorage.getItem('site-lang') || 'so';
+            lang = lang === 'so' ? 'ba' : 'so';
+            localStorage.setItem('site-lang', lang);
+            var langText = document.getElementById('lang-text');
+            if (langText) langText.textContent = lang === 'so' ? 'Badini' : 'سۆرانی';
+            document.querySelectorAll('.lang-str').forEach(function (el) {
+                el.textContent = el.getAttribute('data-' + lang) || el.getAttribute('data-so') || '';
+            });
+            try {
+                window.dispatchEvent(new CustomEvent('kai:langchange', { detail: { lang: lang } }));
+            } catch (ignore) {}
+            return;
+        }
+
+        if (target.id === 'theme-toggle') {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            var dark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('color-theme', dark ? 'dark' : 'light');
+            return;
+        }
+
+        var nav = target.closest('.ka-nav');
+        var drawer = nav && nav.querySelector('#ka-drawer');
+        if (!nav || !drawer) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        var open = !nav.classList.contains('is-open');
+        nav.classList.toggle('is-open', open);
+        target.setAttribute('aria-expanded', open ? 'true' : 'false');
+        drawer.style.maxHeight = open ? drawer.scrollHeight + 'px' : '0px';
+    }, true);
 })();
 </script>

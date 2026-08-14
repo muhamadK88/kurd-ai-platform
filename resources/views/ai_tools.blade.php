@@ -451,12 +451,8 @@
         });
 
         onAuthStateChanged(auth, (user) => { 
-            if(!user) window.location.href = "/login"; 
-            else {
-                /* body visible instantly */
-                if(["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
-                    document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
-                }
+            if (user && ["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
             }
         });
         document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));

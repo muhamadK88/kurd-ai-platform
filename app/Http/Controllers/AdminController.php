@@ -31,7 +31,7 @@ class AdminController extends Controller
     public function showCourses()
     {
         $url = $this->firebaseUrl;
-        $courses = Cache::remember('firebase.courses.v1', now()->addMinutes(5), function () use ($url) {
+        $courses = Cache::remember('firebase.courses.v1', now()->addMinutes(15), function () use ($url) {
             return Http::timeout(5)->get($url . 'courses.json')->json() ?: [];
         });
         return view('courses_list', compact('courses'));
@@ -106,7 +106,7 @@ class AdminController extends Controller
     public function showAiTools()
     {
         $url = $this->firebaseUrl;
-        $aiTools = Cache::remember('firebase.ai_tools.v1', now()->addMinutes(5), function () use ($url) {
+        $aiTools = Cache::remember('firebase.ai_tools.v1', now()->addMinutes(15), function () use ($url) {
             return Http::timeout(5)->get($url . 'ai_tools.json')->json() ?: [];
         });
         return view('ai_tools', compact('aiTools'));
@@ -136,7 +136,7 @@ class AdminController extends Controller
     public function showAcademicGuide()
     {
         $url = $this->firebaseUrl;
-        $faqs = Cache::remember('firebase.academic_guide.v1', now()->addMinutes(5), function () use ($url) {
+        $faqs = Cache::remember('firebase.academic_guide.v1', now()->addMinutes(15), function () use ($url) {
             return Http::timeout(5)->get($url . 'academic_guide.json')->json() ?: [];
         });
         return view('academic_guide', compact('faqs'));

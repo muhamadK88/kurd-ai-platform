@@ -339,7 +339,6 @@
         });
 
         onAuthStateChanged(auth, (user) => {
-            if(!user) window.location.href = "/login";
             /* body visible instantly */
             applyLanguage();
             if(["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {

@@ -14,6 +14,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: '*');
 
+        // Compress HTML/JSON and add Cache-Control headers on every response.
+        $middleware->append(\App\Http\Middleware\CompressResponse::class);
+        $middleware->append(\App\Http\Middleware\AddCacheHeaders::class);
+
         // Bearer-token guard for the automated news pipeline.
         $middleware->alias([
             'api.secret' => \App\Http\Middleware\VerifyApiSecret::class,
