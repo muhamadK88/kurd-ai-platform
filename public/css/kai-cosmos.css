@@ -1,9 +1,17 @@
 /* ==========================================================================
-   KURD AI — "Cosmos" v4 · whole-site motion layer
-   Three.js particle constellation + floating aurora orbs + cursor glow +
-   sparkle trail + click bursts. Purely additive background magic — never
-   touches page logic, classes or data. Falls back gracefully for
-   reduced-motion / touch / low-end devices.
+   KURD AI — "Cosmos" v7 · whole-site motion layer
+   Canvas-2D particle constellation + floating aurora orbs + cursor glow +
+   sparkle trail + click bursts + shooting stars + aurora sweep.
+   Purely additive background magic — never touches page logic, classes or
+   data. Falls back gracefully for reduced-motion / touch / low-end devices.
+
+   v7 notes:
+     • The three.js constellation is now a 2D canvas renderer in
+       kai-cosmos.js — no WebGL, ~30fps cap, pauses when the tab hides.
+     • CSS twinkling starfield baked into #kai-cosmos::before (static
+       gradient specks + a single opacity pulse — one layer, GPU-cheap).
+     • Aurora sweep band (#kai-aurora-sweep) drifting slowly behind content.
+     • Shooting stars (.kai-shooting-star) spawned by kai-cosmos.js.
    ========================================================================== */
 
 /* ---- fixed background universe (sits below all page content) ---- */
@@ -26,6 +34,29 @@ html.dark #kai-cosmos {
 }
 #kai-cosmos canvas { display: block; width: 100%; height: 100%; }
 
+/* ---- twinkling starfield (static specks, single opacity pulse) ---- */
+#kai-cosmos::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image:
+        radial-gradient(1px 1px at 12% 18%,  rgba(255, 255, 255, .7),  transparent 100%),
+        radial-gradient(1px 1px at 28% 64%,  rgba(255, 255, 255, .5),  transparent 100%),
+        radial-gradient(1.5px 1.5px at 46% 12%, rgba(147, 197, 253, .8), transparent 100%),
+        radial-gradient(1px 1px at 61% 42%,  rgba(255, 255, 255, .45), transparent 100%),
+        radial-gradient(1.5px 1.5px at 74% 78%, rgba(165, 180, 252, .7), transparent 100%),
+        radial-gradient(1px 1px at 86% 26%,  rgba(255, 255, 255, .55), transparent 100%),
+        radial-gradient(1px 1px at 8% 82%,   rgba(255, 255, 255, .4),  transparent 100%),
+        radial-gradient(1px 1px at 92% 64%,  rgba(255, 255, 255, .45), transparent 100%);
+    animation: kaiTwinkle 6s ease-in-out infinite alternate;
+}
+
+@keyframes kaiTwinkle {
+    from { opacity: .45; }
+    to   { opacity: .9; }
+}
+
 /* let the universe show through the mostly-opaque page heroes */
 html header[class*="bg-gray-50"],
 html header[class*="bg-white"],
@@ -38,6 +69,34 @@ html.dark header[class*="bg-white"],
 html.dark header[class*="bg-slate"],
 html.dark main[class*="bg-gray-50"] {
     background-color: color-mix(in srgb, var(--kai-surface) 40%, transparent) !important;
+}
+
+/* ---- aurora sweep band (drifting wide soft gradient, purely CSS) ---- */
+#kai-aurora-sweep {
+    position: fixed;
+    left: -30vw;
+    right: -30vw;
+    top: 6%;
+    height: 34vh;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: .5;
+    background: linear-gradient(100deg,
+        rgba(37, 99, 235, 0) 0%,
+        rgba(56, 189, 248, .28) 28%,
+        rgba(124, 58, 237, .30) 52%,
+        rgba(236, 72, 153, .22) 76%,
+        rgba(37, 99, 235, 0) 100%);
+    animation: kaiSweepDrift 26s var(--kai-smooth, cubic-bezier(.4, 0, .2, 1)) infinite alternate;
+    will-change: transform;
+}
+html.dark #kai-aurora-sweep { opacity: .7; }
+
+@keyframes kaiSweepDrift {
+    from { transform: translateX(-8vw) translateY(0) scale(1); }
+    to   { transform: translateX(10vw)  translateY(4vh) scale(1.15); }
 }
 
 /* ---- floating aurora orbs ---- */
@@ -59,6 +118,39 @@ html.dark .kai-orb { opacity: calc(var(--kai-orb-o, .45) * 1.5); }
     0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
     33%      { transform: translate3d(var(--kai-orb-x, 6vw), var(--kai-orb-y, -9vh), 0) scale(1.12); }
     66%      { transform: translate3d(calc(var(--kai-orb-x, 6vw) * -0.55), calc(var(--kai-orb-y, 6vh) * -0.6), 0) scale(.9); }
+}
+
+/* ---- shooting stars (spawned by kai-cosmos.js) ---- */
+.kai-shooting-star {
+    position: fixed;
+    z-index: -1;
+    pointer-events: none;
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, .9),
+        rgba(147, 197, 253, .45) 55%,
+        transparent 100%);
+    border-radius: 9999px;
+    transform: rotate(-35deg);
+    opacity: 0;
+    animation: kaiShoot var(--kai-shoot-d, 1.1s) cubic-bezier(.22, 1, .36, 1) forwards;
+}
+
+.kai-shooting-star::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: inherit;
+    filter: blur(5px);
+    opacity: .8;
+}
+
+@keyframes kaiShoot {
+    0%   { opacity: 0; transform: translate3d(0, 0, 0) rotate(-35deg); }
+    8%   { opacity: 1; }
+    100% { opacity: 0; transform: translate3d(var(--kai-shoot-x, 48vw), var(--kai-shoot-y, 26vh), 0) rotate(-35deg); }
 }
 
 /* ---- cursor glow ---- */
@@ -98,14 +190,19 @@ html.dark #kai-cursor {
 
 /* ---- reduced motion / perf ---- */
 @media (prefers-reduced-motion: reduce) {
-    #kai-cosmos, .kai-orb, #kai-cursor, .kai-spark { display: none !important; }
+    #kai-cosmos, #kai-aurora-sweep, .kai-orb, #kai-cursor, .kai-spark,
+    .kai-shooting-star { display: none !important; }
 }
 html.kai-perf #kai-cosmos canvas { display: none; }
 html.kai-perf #kai-cosmos { background: none; }
+html.kai-perf #kai-cosmos::before { animation: none; }
+html.kai-perf #kai-aurora-sweep { display: none; }
 html.kai-perf .kai-orb { animation: none; opacity: .22; filter: blur(40px); }
-html.kai-perf #kai-cursor, html.kai-perf .kai-spark { display: none !important; }
+html.kai-perf #kai-cursor, html.kai-perf .kai-spark,
+html.kai-perf .kai-shooting-star { display: none !important; }
 
 @media (max-width: 768px) {
     .kai-orb { opacity: .30; }
     #kai-cursor { display: none; }
+    #kai-aurora-sweep { opacity: .35; }
 }

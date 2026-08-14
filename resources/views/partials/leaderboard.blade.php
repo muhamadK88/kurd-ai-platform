@@ -11,7 +11,7 @@
        • Exposes nothing else globally except `window.kaiLeaderboard`.
      ========================================================================== --}}
 
-<link rel="stylesheet" href="{{ asset('css/kai-leaderboard.css') }}?v=2">
+<link rel="stylesheet" href="{{ asset('css/kai-leaderboard.css') }}?v=4">
 
 <section id="kai-leaderboard" class="relative z-10 container mx-auto px-4 pb-16 max-w-6xl">
     <div class="lb-panel glass-card rounded-[2.5rem] shadow-2xl p-6 md:p-10">
@@ -19,6 +19,7 @@
         <div class="lb-edge"></div>
         <div class="lb-glow lb-glow-a"></div>
         <div class="lb-glow lb-glow-b"></div>
+        <div class="lb-scan"></div>
 
         {{-- ---------- header ---------- --}}
         <div class="relative z-10 flex flex-col md:flex-row md:items-start md:justify-between gap-5 mb-8">
@@ -26,6 +27,7 @@
                 <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-50 dark:bg-cyan-900/30 border border-cyan-200 dark:border-cyan-700/50 text-cyan-700 dark:text-cyan-300 font-bold text-xs mb-4 shadow-sm">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                     <span class="lang-str" data-so="نوێترین ڕێزبەندی" data-ba="نویترین ڕێزبەندی">نوێترین ڕێزبەندی</span>
+                    <span class="lb-live" aria-hidden="true"></span>
                 </div>
 
                 <h2 class="lb-title text-3xl md:text-5xl font-black tracking-tight leading-tight mb-3 lang-str"

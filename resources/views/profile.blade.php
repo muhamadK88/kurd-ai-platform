@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>هەژمارەکەم - کورد ئەی ئای</title>
 <!-- Favicon (وێنە بچووکەکەی سەرەوەی تابەکە) -->
@@ -15,8 +15,6 @@
 <meta property="og:title" content="کورد ئەی ئای - Kurd AI">
 <meta property="og:description" content="پەرە بە تواناکانت بدە لەگەڵ باشترین کۆرسەکانی ژیریی دەستکرد و پرۆگرامسازی.">
 <meta property="og:image" content="/logo.jpg">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <meta name="description" content="پڕۆفایلی بەکارهێنەر - کورد ئەی ئای">
     <meta name="keywords" content="پڕۆفایل, هەژمار, کورد ئەی ئای, بەکارهێنەر">
     <meta property="og:type" content="website">
@@ -31,47 +29,11 @@
     <meta property="twitter:image" content="https://kurd-ai.com/logo.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
 
-    <script>
-        tailwind.config = { 
-            darkMode: 'class', 
-            theme: { 
-                extend: { 
-                    fontFamily: { sans: ['"Noto Sans Arabic"', 'sans-serif'] },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                        'fade-up': 'fadeUp 0.6s ease-out',
-                        'fade-in': 'fadeIn 0.8s ease-out',
-                        'slide-up': 'slideUp 0.5s ease-out',
-                    },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        },
-                        fadeUp: {
-                            '0%': { opacity: '0', transform: 'translateY(30px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
-                    }
-                } 
-            } 
-        }
-        
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    <link rel="stylesheet" href="/css/kai-tailwind.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap"></noscript>
+    <script>if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
@@ -96,55 +58,104 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
         .dark .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #475569; }
     </style>
+    <style>
+        /* ==========================================================================
+           v2 · RPG STATS DASHBOARD — matrix field, level chip, XP track,
+           stat HUD corners, medal glow. Additive, guard-based.
+           ========================================================================== */
+        .kai-matrix {
+            pointer-events: none;
+            background-image: radial-gradient(rgba(139, 92, 246, 0.16) 1px, transparent 1px);
+            background-size: 22px 22px;
+        }
+        .dark .kai-matrix { opacity: 0.7; }
+        .kai-scanlines {
+            pointer-events: none;
+            background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 3px);
+            mix-blend-mode: overlay;
+            opacity: 0.55;
+        }
+        .dark .kai-scanlines {
+            background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.14) 0 1px, transparent 1px 3px);
+        }
+
+        .kai-level-chip {
+            font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Consolas, monospace;
+            box-shadow: 0 10px 24px -10px rgba(245, 158, 11, 0.6);
+            letter-spacing: 0.06em;
+        }
+
+        .kai-xp-track { box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.18); }
+        .kai-xp-fill {
+            position: relative;
+            transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .kai-xp-fill::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: kaiShimmer 2.2s linear infinite;
+        }
+        @keyframes kaiShimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+
+        .kai-rpg-stat {
+            position: relative;
+            overflow: hidden;
+            background-image: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.07), transparent 60%);
+        }
+        .kai-rpg-stat::before, .kai-rpg-stat::after {
+            content: '';
+            position: absolute;
+            width: 10px; height: 10px;
+            border-style: solid;
+            border-color: rgba(99, 102, 241, 0.45);
+        }
+        .kai-rpg-stat::before { top: 8px; inset-inline-start: 8px; border-width: 2px 0 0 2px; }
+        .kai-rpg-stat::after { bottom: 8px; inset-inline-end: 8px; border-width: 0 2px 2px 0; }
+        .kai-rpg-stat-num {
+            font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Consolas, monospace;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.02em;
+        }
+        .kai-rpg-stat-num::after { content: '+'; font-size: 0.6em; vertical-align: super; opacity: 0.7; }
+
+        #ferga-badges-list .rounded-full {
+            animation: kaiMedalPulse 3.2s ease-in-out infinite;
+        }
+        @keyframes kaiMedalPulse {
+            0%, 100% { box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15), 0 0 18px -4px rgba(251, 191, 36, 0.45); }
+            50% { box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.28), 0 0 30px -2px rgba(251, 191, 36, 0.7); }
+        }
+
+        /* ---------- v2 fallbacks ---------- */
+        html.kai-perf .kai-scanlines,
+        html.kai-perf .kai-matrix,
+        html.kai-perf .kai-xp-fill::after,
+        html.kai-perf #ferga-badges-list .rounded-full { animation: none !important; }
+        @media (prefers-reduced-motion: reduce) {
+            .kai-scanlines, .kai-matrix,
+            .kai-xp-fill::after,
+            #ferga-badges-list .rounded-full { animation: none !important; }
+        }
+    </style>
 
     @include('partials.kurdai-design')
 </head>
 
-<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
+<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300">
 
-    <!-- ناڤباری سەرەکی (وەک پەڕەکانی دیکە) -->
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            
-            <a href="/" class="flex items-center gap-3 transition group relative">
-                <div class="relative flex-shrink-0">
-                    <div class="absolute -inset-2 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-all duration-300 dark:group-hover:opacity-50"></div>
-                    <img src="logo.jpg" alt="Kurd AI Logo" class="h-10 md:h-11 w-auto object-contain dark:invert drop-shadow-md group-hover:scale-105 transition-transform duration-300 relative z-10">
-                </div>
-                <div class="flex flex-col justify-center hidden sm:flex">
-                    <h1 class="text-xl md:text-2xl font-black tracking-tight text-gray-900 dark:text-white leading-none group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-300">KURD AI</h1>
-                    <span class="text-[0.55rem] md:text-[0.60rem] font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 mt-0.5">INNOVATION - FUTURE</span>
-                </div>
-            </a>
-            
-            <div class="hidden lg:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
-                <a href="/" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
-                <a href="/ferga" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
-                <a href="/courses" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
-                <a href="/news" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>
-                <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
-                <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
-                <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
-                <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەربارەی مە">دەرباری ئێمە</a>
-            </div>
-            
-            <div class="flex items-center gap-2.5">
-                <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
-                <a href="/#feedback-section" class="lang-str px-3 py-2 bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 font-bold rounded-xl text-xs border border-rose-100 dark:border-rose-800/50 hover:bg-rose-100 transition" data-so="ڕەخنە" data-ba="ڕەخنە">ڕەخنە</a>
-                <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
-                <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-blue-600 text-white font-bold rounded-xl text-xs shadow-lg shadow-blue-500/30 lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
-                <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</button>
-            </div>
-        </div>
-    </nav>
+    @include('partials.nav', ['active' => ''])
 
     <!-- بەشی سەرەوەی پرۆفایل بە دیزاینی مۆدێرن -->
     <header class="relative min-h-[40vh] flex items-center justify-center overflow-hidden py-16 px-4">
-        <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+<div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
             <div class="absolute top-0 -left-4 w-72 h-72 bg-blue-400 dark:bg-blue-600 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-20 animate-blob"></div>
             <div class="absolute top-0 -right-4 w-72 h-72 bg-indigo-400 dark:bg-indigo-600 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
             <div class="absolute -bottom-8 left-20 w-72 h-72 bg-purple-400 dark:bg-purple-600 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
             <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+            <div class="kai-matrix absolute inset-0"></div>
+            <div class="kai-scanlines absolute inset-0"></div>
         </div>
 
         <div class="relative z-10 w-full max-w-5xl mx-auto animate-fade-in">
@@ -159,6 +170,10 @@
                         </div>
                         <div class="absolute -bottom-1 -right-1 w-8 h-8 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full flex items-center justify-center shadow-lg">
                             <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        </div>
+                        <div class="kai-level-chip absolute -top-2 -left-2 md:-left-4 z-10 flex items-center gap-1.5 rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white px-2.5 py-1 text-xs font-black border border-amber-300/60">
+                            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"></path></svg>
+                            <span dir="ltr">LVL <span id="kai-level-num">1</span></span>
                         </div>
                     </div>
 
@@ -180,6 +195,16 @@
                             <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                                 <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path></svg>
                                 <span class="font-bold lang-str" data-so="خۆڕایی" data-ba="بێ بەرامبەر">خۆڕایی</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 max-w-md mx-auto md:mx-0">
+                            <div class="flex items-center justify-between text-[11px] font-black mb-1.5">
+                                <span class="text-gray-500 dark:text-gray-400 lang-str" data-so="پێشکەوتن (XP)" data-ba="پێشکەفتن (XP)">پێشکەوتن (XP)</span>
+                                <span id="kai-xp-label" class="font-black text-amber-500 dark:text-amber-400" dir="ltr">0 XP</span>
+                            </div>
+                            <div class="kai-xp-track relative h-3 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                                <div id="kai-xp-bar-fill" class="kai-xp-fill absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500" style="width:0%"></div>
                             </div>
                         </div>
                     </div>
@@ -235,20 +260,20 @@
                     </h3>
                     
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
-                            <div class="text-3xl md:text-4xl font-black text-blue-500 mb-1 fav-stats-courses">٠</div>
+                        <div class="kai-rpg-stat bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
+                            <div class="kai-rpg-stat-num text-3xl md:text-4xl font-black text-blue-500 mb-1 fav-stats-courses">٠</div>
                             <div class="text-xs text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="کۆرسی دڵخواز" data-ba="کۆرسێن دڵخواز">کۆرسی دڵخواز</div>
                         </div>
-                        <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
-                            <div class="text-3xl md:text-4xl font-black text-indigo-500 mb-1 fav-stats-tools">٠</div>
+                        <div class="kai-rpg-stat bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
+                            <div class="kai-rpg-stat-num text-3xl md:text-4xl font-black text-indigo-500 mb-1 fav-stats-tools">٠</div>
                             <div class="text-xs text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="ئامرازی دڵخواز" data-ba="ئامرازێن دڵخواز">ئامرازی دڵخواز</div>
                         </div>
-                        <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
-                            <div id="stat-streak" class="text-3xl md:text-4xl font-black text-purple-500 mb-1">٠</div>
+                        <div class="kai-rpg-stat bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
+                            <div id="stat-streak" class="kai-rpg-stat-num text-3xl md:text-4xl font-black text-purple-500 mb-1">٠</div>
                             <div class="text-xs text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="ڕۆژی بەشداری" data-ba="ڕۆژا پشکداریێ">ڕۆژی بەشداری</div>
                         </div>
-                        <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
-                            <div id="stat-xp" class="text-3xl md:text-4xl font-black text-cyan-500 mb-1">-</div>
+                        <div class="kai-rpg-stat bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-6 text-center border border-gray-100/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-300 group">
+                            <div id="stat-xp" class="kai-rpg-stat-num text-3xl md:text-4xl font-black text-cyan-500 mb-1">-</div>
                             <div class="text-xs text-gray-500 dark:text-gray-400 font-bold lang-str" data-so="خاڵی XP" data-ba="خاڵێن XP">خاڵی XP</div>
                         </div>
                     </div>
@@ -333,12 +358,12 @@
 
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-        const app = initializeApp(firebaseConfig);
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
 
@@ -600,7 +625,7 @@
             if(!user) {
                 window.location.href = "/login"; 
             } else { 
-                document.body.style.display = 'block'; 
+                /* body visible instantly */ 
                 
                 let displayName = user.displayName || user.email.split('@')[0];
                 document.getElementById('profile-name').innerText = displayName;
@@ -641,6 +666,15 @@
                     if (statStreak) statStreak.textContent = data.streak || 0;
                     const statXp = document.getElementById('stat-xp');
                     if (statXp) statXp.textContent = data.xp || 0;
+
+                    const xp = data.xp || 0;
+                    const level = Math.floor(xp / 100) + 1;
+                    const lvlEl = document.getElementById('kai-level-num');
+                    if (lvlEl) lvlEl.textContent = level;
+                    const bar = document.getElementById('kai-xp-bar-fill');
+                    if (bar) bar.style.width = ((xp % 100) / 100) * 100 + '%';
+                    const xpLabel = document.getElementById('kai-xp-label');
+                    if (xpLabel) xpLabel.textContent = xp + ' XP';
                     renderFergaProgress();
                     renderFergaBadges();
                 });

@@ -4,16 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\FirebaseAuthService;
-use App\Services\OtpService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Exception\Auth\UserNotFound;
-use RuntimeException;
 
 class EmailAuthController extends Controller
 {
     public function __construct(
-        private readonly OtpService $otp,
         private readonly FirebaseAuthService $firebase,
     ) {
     }
@@ -40,21 +37,8 @@ class EmailAuthController extends Controller
                 return response()->json(['message' => 'هەژمارەکە نەتوانرا دروستبکرێت. تکایە دووبارە هەوڵ بدەرەوە.'], 422);
             }
 
-            try {
-                $masked = $this->otp->send('email', $email);
-            } catch (RuntimeException $e) {
-                return response()->json([
-                    'status' => 'new',
-                    'masked' => $this->otp->mask('email', $email),
-                    'identifier' => $email,
-                    'message' => $e->getMessage(),
-                ], 422);
-            }
-
             return response()->json([
-                'status' => 'new',
-                'masked' => $masked,
-                'identifier' => $email,
+                'status' => 'created',
             ]);
         } catch (\Throwable $e) {
             return response()->json(['message' => 'کێشەیەک ڕوویدا لە سیستەمی فایەربەیس. تکایە دوای چەند خولەکێک دووبارە هەوڵ بدەرەوە.'], 500);

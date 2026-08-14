@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>هەواڵەکان - کورد ئەی ئای</title>
 <!-- Favicon (وێنە بچووکەکەی سەرەوەی تابەکە) -->
@@ -15,8 +15,6 @@
 <meta property="og:title" content="کورد ئەی ئای - Kurd AI">
 <meta property="og:description" content="پەرە بە تواناکانت بدە لەگەڵ باشترین کۆرسەکانی ژیریی دەستکرد و پرۆگرامسازی.">
 <meta property="og:image" content="/logo.jpg">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <meta name="description" content="هەواڵەکانی کورد ئەی ئای - دوایین هەواڵەکانی زیرەکی دەستکرد و تەکنەلۆژیا">
     <meta name="keywords" content="هەواڵ, کورد ئەی ئای, زیرەکی دەستکرد, تەکنەلۆژیا, AI">
     <meta property="og:type" content="website">
@@ -31,29 +29,11 @@
     <meta property="twitter:image" content="https://kurd-ai.com/logo.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
 
-    <script>
-        tailwind.config = { 
-            darkMode: 'class', 
-            theme: { 
-                extend: { 
-                    fontFamily: { sans: ['"Noto Sans Arabic"', 'sans-serif'] },
-                    animation: { 'blob': 'blob 7s infinite' },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        }
-                    }
-                } 
-            } 
-        }
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    <link rel="stylesheet" href="/css/kai-tailwind.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap"></noscript>
+    <script>if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
@@ -82,62 +62,20 @@
 
     @include('partials.kurdai-design')
 
-    <link rel="stylesheet" href="{{ asset('css/kai-news.css') }}?v=3">
+    <link rel="stylesheet" href="{{ asset('css/kai-news.css') }}?v=5">
 </head>
 
-<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
+<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300">
 
-    <!-- ناڤباری سەرەکی -->
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            
-            <!-- بەشی لۆگۆ و ناوی پڕۆژە -->
-            <a href="/" class="flex items-center gap-3 transition group relative">
-                <div class="relative flex-shrink-0">
-                    <div class="absolute -inset-2 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-all duration-300 dark:group-hover:opacity-50"></div>
-                    <img src="logo.jpg" alt="Kurd AI Logo" class="h-10 md:h-11 w-auto object-contain dark:invert drop-shadow-md group-hover:scale-105 transition-transform duration-300 relative z-10">
-                </div>
-                
-                <div class="flex flex-col justify-center hidden sm:flex">
-                    <h1 class="text-xl md:text-2xl font-black tracking-tight text-gray-900 dark:text-white leading-none group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-300">
-                        KURD AI
-                    </h1>
-                    <span class="text-[0.55rem] md:text-[0.60rem] font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 mt-0.5">
-                        INNOVATION - FUTURE
-                    </span>
-                </div>
-            </a>
-
-            <!-- بەشە سەرەکییەکانی ناڤبار -->
-           <div class="hidden lg:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
-    <a href="/" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
-    <a href="/ferga" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
-    <a href="/courses" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
-    <a href="/news" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm lang-str" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>
-    <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
-    <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
-    <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
-    <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەربارەی مە">دەرباری ئێمە</a>
-</div>
-
-            <!-- بەشی ئامرازەکان -->
-            <div class="flex items-center gap-2.5">
-                <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
-                <a href="/#feedback-section" class="lang-str px-3 py-2 bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 font-bold rounded-xl text-xs border border-rose-100 dark:border-rose-800/50 hover:bg-rose-100 transition" data-so="ڕەخنە" data-ba="ڕەخنە">ڕەخنە</a>
-                <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
-                <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50 lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
-                <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</button>
-            </div>
-            
-        </div>
-    </nav>
+    @include('partials.nav', ['active' => 'news'])
 
     <!-- هێدەری سەرەکی -->
     <header class="relative min-h-[40vh] flex items-center justify-center overflow-hidden py-16 px-4">
-        <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+<div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
             <div class="absolute top-0 -left-4 w-72 h-72 bg-sky-400 dark:bg-sky-600 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-30 animate-blob"></div>
             <div class="absolute top-0 -right-4 w-72 h-72 bg-blue-400 dark:bg-blue-600 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
             <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+            <div class="kai-scanlines absolute inset-0"></div>
         </div>
 
         <div class="relative z-10 text-center max-w-4xl mx-auto">
@@ -147,6 +85,18 @@
             </div>
             <h2 class="text-5xl md:text-7xl font-black mb-4 tracking-tight text-gray-900 dark:text-white leading-tight lang-str" data-so="هەواڵ و پێشهاتەکان" data-ba="نووچە و پێشهات">هەواڵ و پێشهاتەکان</h2>
             <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium lang-str" data-so="ئاگاداری نوێترین هەواڵەکانی تەکنەلۆژیا و ژیریی دەستکرد بە" data-ba="ئاگاداری دوماهیک نووچەیێن تەکنەلۆژیا و ژیرییا دەستکرد ببە">ئاگاداری نوێترین هەواڵەکانی تەکنەلۆژیا و ژیریی دەستکرد بە</p>
+        </div>
+
+        <!-- نووسینی خۆکار (LIVE Ticker) -->
+        <div class="kai-ticker relative z-10 mt-10 w-full max-w-3xl mx-auto">
+            <div class="glass-card rounded-2xl overflow-hidden">
+                <div class="flex items-stretch">
+                    <span class="kai-ticker-tag">LIVE</span>
+                    <div class="kai-ticker-window relative flex-1 overflow-hidden" dir="ltr">
+                        <div class="kai-ticker-track flex items-center whitespace-nowrap" id="kai-ticker-track"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -216,6 +166,15 @@
     <!-- فلتەرەکان: کاتەگۆری + بەروار -->
     <section class="relative z-10 container mx-auto px-4 pb-8 max-w-7xl">
         <div id="news-filters" class="glass-card rounded-[1.75rem] p-4 md:p-5 flex flex-col gap-4 shadow-lg">
+            <!-- ناوەندی کۆنترۆڵ (Console Deck) -->
+            <div class="kai-console-head flex items-center justify-between px-1 pb-2.5">
+                <div class="flex items-center gap-2.5">
+                    <span class="kai-led" aria-hidden="true"></span>
+                    <span class="text-[10px] font-black tracking-[0.28em] text-sky-600 dark:text-sky-400 uppercase lang-str" data-so="ناوەندی کۆنترۆڵی هەواڵ" data-ba="سەنتەرا کۆنترۆلکرنا نووچان">ناوەندی کۆنترۆڵی هەواڵ</span>
+                    <span class="kai-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+                </div>
+                <span class="kai-sys-clock font-mono text-xs font-bold text-cyan-600 dark:text-cyan-400" id="kai-sys-clock">--:--:--</span>
+            </div>
             <!-- فلتەری بەروار -->
             <div class="flex flex-wrap items-center gap-2" id="date-filter" role="tablist">
                 <span class="text-xs font-black text-gray-400 dark:text-gray-500 ms-1 me-1 uppercase tracking-widest lang-str" data-so="کات" data-ba="دەم">کات</span>
@@ -232,6 +191,20 @@
             </div>
         </div>
     </section>
+
+    <script>
+        (function () {
+            var el = document.getElementById('kai-sys-clock');
+            if (!el) return;
+            function tick() {
+                var d = new Date();
+                var p = function (n) { return String(n).padStart(2, '0'); };
+                el.textContent = p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+            }
+            tick();
+            setInterval(tick, 1000);
+        })();
+    </script>
 
     <!-- پیشاندانی هەواڵەکان -->
     <section class="relative z-10 container mx-auto pb-24 px-4">
@@ -340,12 +313,12 @@
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="application/json" id="kurdai-imgbb-config">{!! json_encode(config('kurdai.imgbb.api_key'), 15) !!}</script>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getDatabase, ref as dbRef, push, set, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-        const app = initializeApp(firebaseConfig);
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
         const IMGBB_API_KEY = JSON.parse((document.getElementById('kurdai-imgbb-config') || {}).textContent || 'null');
@@ -400,6 +373,23 @@
             });
             buildCategoryChips();
             renderNews();
+            renderTicker();
+        }
+
+        // ----- نووسینی خۆکار (LIVE Ticker) -----
+        function renderTicker() {
+            const track = document.getElementById('kai-ticker-track');
+            if (!track) return;
+            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const keys = Object.keys(newsData).sort((a, b) => {
+                const db = (newsData[b].published_at ? Date.parse(newsData[b].published_at) : newsData[b].timestamp) || 0;
+                const da = (newsData[a].published_at ? Date.parse(newsData[a].published_at) : newsData[a].timestamp) || 0;
+                return db - da;
+            }).slice(0, 8);
+            if (!keys.length || reduce) { track.innerHTML = ''; return; }
+            const sep = '<span class="kai-ticker-sep">//</span>';
+            const items = keys.map(k => `<span class="kai-ticker-item">${loc(newsData[k], 'title')}</span>`).join(sep);
+            track.innerHTML = items + sep + items;
         }
 
         // دروستکردنی چیپەکانی کاتەگۆری لەسەر بنەمای ئەو هەواڵانەی هەن
@@ -465,7 +455,8 @@
 
         onValue(dbRef(db, 'news'), (s) => { 
             newsData = s.val() || {}; 
-            renderNews(); 
+            renderNews();
+            renderTicker();
         });
 
         function renderNews() {
@@ -546,20 +537,26 @@
                     `;
                 }
 
+                // یەکەم هەواڵ وەک "سەرەکی" (Lead Story) پێشان دەدرێت — دوایین هەواڵە
+                const lead = idx === 0;
                 const card = document.createElement('div');
-                card.className = 'kai-news-card glass-card rounded-[2rem] overflow-hidden flex flex-col group hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/10 transition-all duration-300';
+                card.className = 'kai-news-card glass-card rounded-[2rem] overflow-hidden flex flex-col group hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/10 transition-all duration-300'
+                    + (lead ? ' kai-lead lg:col-span-3 md:flex-row md:items-stretch' : '')
+                    + (idx % 4 === 3 ? ' lg:translate-y-6' : '');
                 card.setAttribute('data-fbid', id);
                 card.style.setProperty('--i', idx);
+                const leadKicker = lead ? `<span class="kai-kicker">${currentLang === 'so' ? 'سەرەکی · هەواڵی گەورە' : 'سەرەکی · نووچەیا مەزن'} · TOP STORY</span>` : '';
                 card.innerHTML = `
-                    <div class="relative h-52 overflow-hidden bg-gray-200 dark:bg-gray-800 cursor-pointer" onclick="window.openNewsModal('${id}', '${safeTitle}', '${safeContent}', '${safeImg}', '${dateStr}')">
-                        <img src="${n.image_url}" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="${lead ? 'relative h-64 md:h-auto md:w-2/5 md:min-h-[20rem] flex-shrink-0' : 'relative h-52'} overflow-hidden bg-gray-200 dark:bg-gray-800 cursor-pointer" onclick="window.openNewsModal('${id}', '${safeTitle}', '${safeContent}', '${safeImg}', '${dateStr}')">
+                        <img src="${n.image_url}" loading="lazy" class="${lead ? 'absolute inset-0 w-full h-full' : 'w-full h-full'} object-cover group-hover:scale-110 transition-transform duration-700">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-70 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute top-3 right-3 flex items-center gap-2">${catBadge}${autoBadge}</div>
-                        <div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-lg">${dateStr}</div>
+                        <div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-lg kai-stamp">${dateStr}</div>
                     </div>
-                    <div class="p-6 flex flex-col flex-grow bg-white/30 dark:bg-[#111827]/30">
+                    <div class="${lead ? 'p-6 md:p-8 flex flex-col flex-grow bg-white/30 dark:bg-[#111827]/30 md:w-3/5' : 'p-6 flex flex-col flex-grow bg-white/30 dark:bg-[#111827]/30'}">
+                        ${leadKicker}
                         ${tagsHtml}
-                        <h3 class="font-black text-xl mb-3 text-gray-900 dark:text-white line-clamp-2 leading-tight">${title}</h3>
+                        <h3 class="${lead ? 'font-black text-2xl md:text-3xl' : 'font-black text-xl'} mb-3 text-gray-900 dark:text-white line-clamp-2 leading-tight">${title}</h3>
                         <p class="text-gray-600 dark:text-gray-400 text-sm mb-5 line-clamp-3 leading-relaxed flex-grow font-medium">${content}</p>
                         <button onclick="window.openNewsModal('${id}', '${safeTitle}', '${safeContent}', '${safeImg}', '${dateStr}')" class="w-full py-3 bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 font-bold rounded-xl hover:bg-sky-100 dark:hover:bg-sky-900/40 transition flex justify-center items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
@@ -833,7 +830,7 @@
         onAuthStateChanged(auth, (user) => { 
             if(!user) window.location.href = "/login"; 
             else {
-                document.body.style.display = 'block';
+                /* body visible instantly */
                 currentUser = user;
                 if(["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
                     window.isAdmin = true;

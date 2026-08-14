@@ -6,27 +6,47 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\ChatSessionController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\KnowledgeBaseController;
+use App\Http\Controllers\ChatAnalyticsController;
 Route::get('/', function () {
     return view('home'); // بینێرە بۆ home.blade.php
 });
 
 // چاتبۆتی یاریدەدەری AI
 Route::post('/api/chat', [ChatbotController::class, 'chat']);
+Route::post('/api/chat/stream', [ChatbotController::class, 'stream']);
 Route::get('/api/chat/sessions', [ChatSessionController::class, 'index']);
 Route::post('/api/chat/sessions', [ChatSessionController::class, 'store']);
 Route::get('/api/chat/sessions/{id}/messages', [ChatSessionController::class, 'messages']);
 Route::post('/api/chat/sessions/{id}/pin', [ChatSessionController::class, 'pin']);
 Route::delete('/api/chat/sessions/{id}', [ChatSessionController::class, 'destroy']);
+Route::get('/api/chat/quota', [ChatbotController::class, 'quota']);
 Route::post('/api/chat/messages/{id}/reaction', [ChatSessionController::class, 'react']);
+Route::get('/admin/chat-analytics', [ChatAnalyticsController::class, 'page']);
+Route::get('/api/admin/chat-analytics', [ChatAnalyticsController::class, 'data']);
 
 // ==========================================
 // بەشی فیدباک (Feedback)
 // ==========================================
+Route::get('/feedback', function () {
+    return view('feedback');
+})->name('feedback');
 Route::post('/feedback/store', [FeedbackController::class, 'store']);
 Route::get('/feedback/mine', [FeedbackController::class, 'mine']);
 Route::get('/feedback/list', [FeedbackController::class, 'adminList']);
 Route::post('/feedback/{id}/read', [FeedbackController::class, 'markRead']);
 Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy']);
+
+// ==========================================
+// بەشی زانیاری چاتبۆت (Knowledge Base) — تەنها ئەدمین
+// ==========================================
+Route::get('/api/knowledge', [KnowledgeBaseController::class, 'index']);
+Route::post('/api/knowledge', [KnowledgeBaseController::class, 'store']);
+Route::put('/api/knowledge/{id}', [KnowledgeBaseController::class, 'update']);
+Route::patch('/api/knowledge/{id}/toggle', [KnowledgeBaseController::class, 'toggle']);
+Route::delete('/api/knowledge/{id}', [KnowledgeBaseController::class, 'destroy']);
+Route::post('/api/knowledge/{id}/train', [KnowledgeBaseController::class, 'train']);
+Route::post('/api/knowledge/{id}/finalize', [KnowledgeBaseController::class, 'finalize']);
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -117,5 +137,5 @@ Route::get('/news', function () {
 });
 Route::get('/universities', function () {
     return view('universities');
-})->middleware('auth')->name('universities');
+})->name('universities');
 require __DIR__.'/auth.php';

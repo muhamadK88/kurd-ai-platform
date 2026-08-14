@@ -39,7 +39,7 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link :href="url('/#feedback-section')">
+                        <x-dropdown-link :href="url('/feedback')">
                             ڕەخنە
                         </x-dropdown-link>
 

@@ -61,8 +61,5 @@ return [
     'imgbb' => [
         'api_key' => $imgbb['api_key'] ?? env('IMGBB_API_KEY'),
     ],
-    'facebook' => [
-        'app_id' => $external['facebook']['app_id'] ?? env('FACEBOOK_APP_ID'),
-    ],
     'ai' => $external['ai'] ?? [],
 ];

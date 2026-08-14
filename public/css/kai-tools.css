@@ -1,7 +1,17 @@
 /* ==========================================================================
-   KURD AI — تووڵەکان (AI Tools) · playful design  ·  v1
-   Purple/pink tool-gallery look. Pure CSS — no image assets added.
+   KURD AI — تووڵەکان (AI Tools) · playful design  ·  v2
+   Purple/pink tool-gallery look, aligned with the "Futuristic Glass" v4
+   token system. Page identity: purple → pink → indigo → amber.
+   Pure CSS — no image assets added.
    ========================================================================== */
+
+/* ---------- page accent tokens (v4 alignment) ---------- */
+:root {
+    --kai-tools-a: #a855f7;  /* purple */
+    --kai-tools-b: #ec4899;  /* pink   */
+    --kai-tools-c: #6366f1;  /* indigo */
+    --kai-tools-d: #f59e0b;  /* amber  */
+}
 
 /* ---------- shared keyframes ---------- */
 @keyframes kaiFlow { to { background-position: 220% center; } }
@@ -15,7 +25,7 @@
 header .inline-flex { animation: kaiPopBadge 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
 @keyframes kaiPopBadge { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 header h2 {
-    background-image: linear-gradient(90deg, #a855f7, #ec4899 50%, #6366f1 80%, #f59e0b);
+    background-image: linear-gradient(90deg, var(--kai-tools-a), var(--kai-tools-b) 50%, var(--kai-tools-c) 80%, var(--kai-tools-d));
     background-size: 220% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -38,7 +48,10 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
     animation: kaiShine 3s ease-in-out infinite;
     pointer-events: none;
 }
-.cat-tab:not(.active):hover { transform: translateY(-2px); box-shadow: 0 10px 26px -10px rgba(168, 85, 247, 0.4); }
+.cat-tab:not(.active):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px -10px color-mix(in srgb, var(--kai-tools-a) 40%, transparent);
+}
 
 /* category header icon tile */
 .cat-header > div > div:first-child {
@@ -53,20 +66,24 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
     top: 0; right: 0; left: 0;
     height: 4px;
     z-index: 5;
-    background: linear-gradient(90deg, #a855f7, #ec4899, #6366f1, #a855f7);
+    background: linear-gradient(90deg, var(--kai-tools-a), var(--kai-tools-b), var(--kai-tools-c), var(--kai-tools-a));
     background-size: 220% auto;
     animation: kaiFlow 6s linear infinite;
 }
-.tool-card:hover { box-shadow: 0 26px 60px -18px rgba(168, 85, 247, 0.5); }
+.tool-card:hover {
+    box-shadow: 0 26px 60px -18px color-mix(in srgb, var(--kai-tools-a) 50%, transparent);
+}
 
 /* icon tile */
 .tool-card > div:first-of-type {
     position: relative;
     background: linear-gradient(160deg, #faf5ff, #fdf2f8);
-    box-shadow: 0 10px 26px -10px rgba(168, 85, 247, 0.55);
+    box-shadow: 0 10px 26px -10px color-mix(in srgb, var(--kai-tools-a) 55%, transparent);
 }
 .dark .tool-card > div:first-of-type { background: linear-gradient(160deg, #1e1b2e, #2b1b33); }
-.tool-card:hover > div:first-of-type { box-shadow: 0 14px 34px -8px rgba(236, 72, 153, 0.7); }
+.tool-card:hover > div:first-of-type {
+    box-shadow: 0 14px 34px -8px color-mix(in srgb, var(--kai-tools-b) 70%, transparent);
+}
 
 /* title */
 .tool-card h3 { transition: color 0.3s ease; }
@@ -94,4 +111,115 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
         color: #111827; -webkit-text-fill-color: #111827;
     }
     .dark header h2 { color: #fff; -webkit-text-fill-color: #fff; }
+}
+
+/* ==========================================================================
+   v4 · DATA-MATRIX — hero dot-matrix field, scanlines, terminal stat
+   readouts, tool-card HUD (node id + signal). Additive, guard-based.
+   ========================================================================== */
+
+/* ---------- hero matrix field & scanlines ---------- */
+.kai-matrix {
+    pointer-events: none;
+    background-image: radial-gradient(circle at 1px 1px, rgba(168, 85, 247, 0.45) 1px, transparent 0);
+    background-size: 22px 22px;
+    opacity: 0.14;
+}
+.dark .kai-matrix { opacity: 0.22; }
+
+.kai-scanlines {
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 3px);
+    mix-blend-mode: overlay;
+    opacity: 0.55;
+    z-index: 1;
+}
+.dark .kai-scanlines {
+    background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.14) 0 1px, transparent 1px 3px);
+}
+
+/* ---------- terminal stat readouts ---------- */
+.kai-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.55rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: #7c3aed;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(196, 181, 253, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 10px 26px -14px rgba(168, 85, 247, 0.5);
+    white-space: nowrap;
+}
+.dark .kai-stat {
+    color: #c4b5fd;
+    background: rgba(30, 27, 75, 0.5);
+    border-color: rgba(168, 85, 247, 0.35);
+}
+.kai-stat-num {
+    font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Consolas, monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    color: #6d28d9;
+}
+.dark .kai-stat-num { color: #a78bfa; }
+.kai-stat-glow {
+    box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.12), 0 14px 34px -14px rgba(168, 85, 247, 0.6);
+}
+.kai-stat-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
+    animation: kaiToolLive 1.5s ease-in-out infinite;
+}
+@keyframes kaiToolLive {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* ---------- tool-card HUD ---------- */
+.kai-matrix-card {
+    background-image: radial-gradient(circle at 1px 1px, rgba(168, 85, 247, 0.06) 1px, transparent 0);
+    background-size: 20px 20px;
+}
+.kai-tool-hud {
+    border-bottom: 1px dashed color-mix(in srgb, var(--kai-tools-a) 25%, transparent);
+    padding-bottom: 0.9rem;
+}
+.kai-tool-idx {
+    font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Consolas, monospace;
+}
+.kai-tool-signal {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 10px;
+}
+.kai-tool-signal i {
+    width: 2.5px;
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(to top, var(--kai-tools-a), var(--kai-tools-d));
+    animation: kaiSig 1s ease-in-out infinite;
+}
+.kai-tool-signal i:nth-child(2) { animation-delay: 0.12s; }
+.kai-tool-signal i:nth-child(3) { animation-delay: 0.24s; }
+.kai-tool-signal i:nth-child(4) { animation-delay: 0.36s; }
+.kai-tool-signal i:nth-child(5) { animation-delay: 0.48s; }
+@keyframes kaiSig { 0%, 100% { height: 4px; } 50% { height: 10px; } }
+
+/* ---------- v4 fallbacks ---------- */
+html.kai-perf .kai-matrix,
+html.kai-perf .kai-scanlines,
+html.kai-perf .kai-stat-dot,
+html.kai-perf .kai-tool-signal i { animation: none !important; }
+html.kai-perf .kai-tool-signal i { height: 7px; }
+@media (prefers-reduced-motion: reduce) {
+    .kai-matrix, .kai-scanlines, .kai-stat-dot, .kai-tool-signal i { animation: none !important; }
+    .kai-tool-signal i { height: 7px; }
 }

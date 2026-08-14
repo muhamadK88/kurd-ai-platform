@@ -1,9 +1,10 @@
 /* ==========================================================================
-   KURD AI — "Cosmos" v4 · whole-site background universe.
-   Three.js particle constellation + aurora orbs + cursor glow + sparkle
-   trail + click bursts. Pure additive layer — never touches page logic,
-   classes or data. Degrades gracefully: reduced-motion / touch / low-end /
-   no-WebGL all keep the page fully functional.
+   KURD AI — "Cosmos" v6 · whole-site background universe.
+   Canvas-2D particle constellation (no three.js, ~1/6th the payload) +
+   aurora orbs + cursor glow + sparkle trail + click bursts + aurora sweep
+   + shooting stars. Pure additive layer — never touches page logic, classes
+   or data. Degrades gracefully: reduced-motion / touch / low-end / mobile
+   all keep the page functional and fast.
    ========================================================================== */
 (function () {
     'use strict';
@@ -72,134 +73,125 @@
     }
 
     /* ======================================================================
-       2. Three.js particle constellation.
-       Positions are static; the whole group rotates + parallaxes with the
-       mouse, so the connection-line buffer is computed ONCE and never
-       updates per frame (kept GPU-cheap).
+       2. Canvas-2D particle constellation (replaces the three.js scene).
+       Renders at a capped ~30 FPS and pauses when the tab is hidden.
        ====================================================================== */
     function mountParticles() {
         if (perf) return;
-        if (typeof THREE === 'undefined') return;
 
         var box = getCosmos();
-        var reduce = isTouch;
-        var COUNT = reduce ? 90 : 240;
-        var W = 250, H = 170, D = 80;
-        var paletteHex = [0x2563eb, 0x06b6d4, 0x7c3aed, 0xec4899, 0xf59e0b, 0x38bdf8];
-        var renderer, camera, group, points, dust, pMat;
-        var mx = 0, my = 0;
-        var running = false;
-
-        try {
-            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
-        } catch (e) {
+        var canvas = document.createElement('canvas');
+        canvas.setAttribute('aria-hidden', 'true');
+        box.appendChild(canvas);
+        var ctx = canvas.getContext('2d');
+        if (!ctx) {
+            canvas.remove();
             return;
         }
 
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, reduce ? 1.2 : 1.75));
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(0x000000, 0);
-        box.appendChild(renderer.domElement);
+        var reduce = isTouch;
+        var COUNT = reduce ? 70 : 150;
+        var DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+        var W = 0, H = 0;
+        var pts = [];
+        var palette = ['#2563eb', '#06b6d4', '#7c3aed', '#ec4899', '#f59e0b', '#38bdf8'];
+        var angle = 0, mx = 0, my = 0, camX = 0, camY = 0;
+        var running = false, last = 0;
+        var FPS = 30;
 
-        camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 1, 1000);
-        camera.position.set(0, 0, 210);
-
-        group = new THREE.Group();
-        group.rotation.x = -0.18;
-        group.rotation.y = -0.3;
-
-        /* main constellation */
-        var pos = new Float32Array(COUNT * 3);
-        var col = new Float32Array(COUNT * 3);
-        var c = new THREE.Color();
-        for (var i = 0; i < COUNT; i++) {
-            pos[i * 3]     = (Math.random() - 0.5) * W;
-            pos[i * 3 + 1] = (Math.random() - 0.5) * H;
-            pos[i * 3 + 2] = (Math.random() - 0.5) * D;
-            c.setHex(paletteHex[i % paletteHex.length]);
-            col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
+        function initPoints() {
+            pts.length = 0;
+            var spreadX = Math.min(W, H) * 0.55;
+            var spreadY = spreadX * 0.66;
+            for (var i = 0; i < COUNT; i++) {
+                pts.push({
+                    x: (Math.random() - 0.5) * 2 * spreadX,
+                    y: (Math.random() - 0.5) * 2 * spreadY,
+                    z: (Math.random() - 0.5) * 90,
+                    c: palette[i % palette.length],
+                    ph: Math.random() * Math.PI * 2
+                });
+            }
         }
 
-        var pGeo = new THREE.BufferGeometry();
-        pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-        pGeo.setAttribute('color', new THREE.BufferAttribute(col, 3));
-
-        pMat = new THREE.PointsMaterial({
-            size: reduce ? 2.0 : 2.4,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.85,
-            depthWrite: false,
-            sizeAttenuation: true,
-            blending: THREE.AdditiveBlending
-        });
-        points = new THREE.Points(pGeo, pMat);
-        group.add(points);
-
-        /* faint dust cloud, counter-rotates for living depth */
-        var DUST = reduce ? 36 : 80;
-        var dPos = new Float32Array(DUST * 3);
-        for (var j = 0; j < DUST; j++) {
-            dPos[j * 3]     = (Math.random() - 0.5) * (W * 1.3);
-            dPos[j * 3 + 1] = (Math.random() - 0.5) * (H * 1.2);
-            dPos[j * 3 + 2] = (Math.random() - 0.5) * (D * 1.2);
+        function resize() {
+            W = window.innerWidth;
+            H = window.innerHeight;
+            if (!W || !H) return;
+            canvas.width = Math.round(W * DPR);
+            canvas.height = Math.round(H * DPR);
+            canvas.style.width = W + 'px';
+            canvas.style.height = H + 'px';
+            ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+            initPoints();
         }
-        var dGeo = new THREE.BufferGeometry();
-        dGeo.setAttribute('position', new THREE.BufferAttribute(dPos, 3));
-        var dMat = new THREE.PointsMaterial({
-            size: 1.0,
-            color: 0x8ecbff,
-            transparent: true,
-            opacity: 0.28,
-            depthWrite: false,
-            sizeAttenuation: true,
-            blending: THREE.AdditiveBlending
-        });
-        dust = new THREE.Points(dGeo, dMat);
-        group.add(dust);
 
-        /* constellation lines — precomputed once */
-        var MAX_EDGES = reduce ? 60 : 170;
-        var edges = [];
-        var n = Math.min(COUNT, 120);
-        var thr = W * 0.16;
-        var thr2 = thr * thr;
-        for (var a = 0; a < n && edges.length < MAX_EDGES; a++) {
-            for (var b = a + 1; b < n; b++) {
-                var dx = pos[a * 3] - pos[b * 3];
-                var dy = pos[a * 3 + 1] - pos[b * 3 + 1];
-                var dz = pos[a * 3 + 2] - pos[b * 3 + 2];
-                if (dx * dx + dy * dy + dz * dz < thr2) {
-                    edges.push(a, b);
-                    if (edges.length >= MAX_EDGES) break;
+        function frame(ts) {
+            if (!running) return;
+            requestAnimationFrame(frame);
+            if (!document.body.contains(canvas)) { running = false; return; }
+            if (ts - last < 1000 / FPS) return;
+            last = ts;
+
+            ctx.clearRect(0, 0, W, H);
+
+            camX += (mx * 34 - camX) * 0.045;
+            camY += (-my * 26 - camY) * 0.045;
+            angle += 0.00065;
+            var cos = Math.cos(angle), sin = Math.sin(angle);
+            var t = performance.now() * 0.001;
+            var cx = W / 2 + camX, cy = H / 2 + camY;
+
+            var proj = [];
+            for (var i = 0; i < pts.length; i++) {
+                var p = pts[i];
+                var rx = p.x * cos - p.z * sin;
+                var rz = p.x * sin + p.z * cos;
+                var fov = 480 / (480 - rz);
+                proj.push({
+                    x: cx + rx * fov,
+                    y: cy + p.y * fov,
+                    z: rz,
+                    c: p.c,
+                    s: (1.1 + Math.sin(t * 2 + p.ph) * 0.5) * fov,
+                    o: Math.max(0.08, Math.min(0.9, 0.5 * fov))
+                });
+            }
+
+            var thr = 88 * (Math.min(W, H) / 800);
+            var thr2 = thr * thr;
+            var n = Math.min(proj.length, 110);
+            ctx.lineWidth = 1;
+            for (var a = 0; a < n; a++) {
+                var pa = proj[a];
+                for (var b = a + 1; b < n; b++) {
+                    var pb = proj[b];
+                    var dx = pa.x - pb.x, dy = pa.y - pb.y;
+                    var d2 = dx * dx + dy * dy;
+                    if (d2 < thr2) {
+                        var al = 0.12 * (1 - Math.sqrt(d2) / thr);
+                        ctx.strokeStyle = 'rgba(103,216,255,' + al.toFixed(3) + ')';
+                        ctx.beginPath();
+                        ctx.moveTo(pa.x, pa.y);
+                        ctx.lineTo(pb.x, pb.y);
+                        ctx.stroke();
+                    }
                 }
             }
-        }
 
-        if (edges.length) {
-            var lPos = new Float32Array(edges.length * 3);
-            for (var e = 0; e < edges.length; e += 2) {
-                var ia = edges[e], ib = edges[e + 1];
-                lPos[e * 3]         = pos[ia * 3];
-                lPos[e * 3 + 1]     = pos[ia * 3 + 1];
-                lPos[e * 3 + 2]     = pos[ia * 3 + 2];
-                lPos[e * 3 + 3]     = pos[ib * 3];
-                lPos[e * 3 + 4]     = pos[ib * 3 + 1];
-                lPos[e * 3 + 5]     = pos[ib * 3 + 2];
+            for (var k = 0; k < proj.length; k++) {
+                var q = proj[k];
+                ctx.globalAlpha = q.o;
+                ctx.fillStyle = q.c;
+                ctx.beginPath();
+                ctx.arc(q.x, q.y, q.s, 0, Math.PI * 2);
+                ctx.fill();
             }
-            var lGeo = new THREE.BufferGeometry();
-            lGeo.setAttribute('position', new THREE.BufferAttribute(lPos, 3));
-            var lMat = new THREE.LineBasicMaterial({
-                color: 0x67d8ff,
-                transparent: true,
-                opacity: reduce ? 0.10 : 0.20,
-                depthWrite: false
-            });
-            group.add(new THREE.LineSegments(lGeo, lMat));
+            ctx.globalAlpha = 1;
         }
 
-        var scene = new THREE.Scene();
-        scene.add(group);
+        function start() { if (!running) { running = true; requestAnimationFrame(frame); } }
+        function stop() { running = false; }
 
         if (!isTouch) {
             window.addEventListener('pointermove', function (e) {
@@ -207,34 +199,7 @@
                 my = e.clientY / window.innerHeight - 0.5;
             }, { passive: true });
         }
-
-        function resize() {
-            var w = window.innerWidth, h = window.innerHeight;
-            if (!w || !h) return;
-            camera.aspect = w / h;
-            camera.updateProjectionMatrix();
-            renderer.setSize(w, h);
-        }
         window.addEventListener('resize', resize);
-
-        function frame() {
-            if (!running) return;
-            requestAnimationFrame(frame);
-            var t = performance.now() * 0.0001;
-            group.rotation.y += 0.00034;
-            group.rotation.x = -0.18 + Math.sin(t * 0.4) * 0.05;
-            points.rotation.z += 0.00014;
-            dust.rotation.z -= 0.00022;
-            pMat.opacity = 0.78 + Math.sin(t * 7) * 0.12;
-            camera.position.x += (mx * 34 - camera.position.x) * 0.045;
-            camera.position.y += (-my * 26 - camera.position.y) * 0.045;
-            camera.lookAt(0, 0, 0);
-            renderer.render(scene, camera);
-        }
-
-        function start() { if (!running) { running = true; frame(); } }
-        function stop() { running = false; }
-
         document.addEventListener('visibilitychange', function () {
             if (document.hidden) stop(); else start();
         });
@@ -263,6 +228,7 @@
 
         (function tick() {
             requestAnimationFrame(tick);
+            if (!document.body.contains(el)) return;
             x += (tx - x) * 0.14;
             y += (ty - y) * 0.14;
             el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) translate(-50%,-50%)';
@@ -315,13 +281,53 @@
     }
 
     /* ======================================================================
+       5. Aurora sweep band (single fixed gradient, CSS-driven drift)
+       ====================================================================== */
+    function mountAuroraSweep() {
+        var sweep = document.getElementById('kai-aurora-sweep');
+        if (sweep) return;
+        sweep = document.createElement('div');
+        sweep.id = 'kai-aurora-sweep';
+        sweep.setAttribute('aria-hidden', 'true');
+        document.body.insertBefore(sweep, document.body.firstChild);
+    }
+
+    /* ======================================================================
+       6. Shooting stars — periodic meteor streaks across the sky
+       ====================================================================== */
+    function spawnShootingStar() {
+        var el = document.createElement('div');
+        el.className = 'kai-shooting-star';
+        el.setAttribute('aria-hidden', 'true');
+        el.style.top = (6 + Math.random() * 34) + 'vh';
+        el.style.left = (8 + Math.random() * 60) + 'vw';
+        el.style.setProperty('--kai-shoot-x', (28 + Math.random() * 40) + 'vw');
+        el.style.setProperty('--kai-shoot-y', (12 + Math.random() * 22) + 'vh');
+        el.style.setProperty('--kai-shoot-d', (0.9 + Math.random() * 0.8).toFixed(2) + 's');
+        document.body.appendChild(el);
+        setTimeout(function () {
+            if (el.parentNode) el.parentNode.removeChild(el);
+        }, 2400);
+    }
+
+    function mountShootingStars() {
+        var first = 1800 + Math.random() * 2600;
+        setTimeout(function tick() {
+            spawnShootingStar();
+            setTimeout(tick, 7200 + Math.random() * 5200);
+        }, first);
+    }
+
+    /* ======================================================================
        boot
        ====================================================================== */
     ready(function () {
         mountOrbs();
+        mountAuroraSweep();
         mountParticles();
         mountCursor();
         mountTrail();
         mountBursts();
+        mountShootingStars();
     });
 })();

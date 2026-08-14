@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title class="lang-str" data-so="ڕێنیشاندەری ئەکادیمی - کورد ئەی ئای" data-ba="ڕێبەرێ ئەکادیمی - کورد ئەی ئای">ڕێنیشاندەری ئەکادیمی - کورد ئەی ئای</title>
     
     <link rel="icon" href="/favicon.png" type="image/png">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     
     <meta name="description" content="ڕێنیشاندەری ئەکادیمی کورد ئەی ئای - ڕێنمایی زانکۆ و خوێندن">
     <meta name="keywords" content="ڕێنیشاندەر, ئەکادیمی, زانکۆ, کورد ئەی ئای, خوێندن">
@@ -23,29 +21,11 @@
     <meta property="twitter:image" content="https://kurd-ai.com/logo.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
 
-    <script>
-        tailwind.config = { 
-            darkMode: 'class', 
-            theme: { 
-                extend: { 
-                    fontFamily: { sans: ['"Noto Sans Arabic"', 'sans-serif'] },
-                    animation: { 'blob': 'blob 7s infinite' },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        }
-                    }
-                } 
-            } 
-        }
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    <link rel="stylesheet" href="/css/kai-tailwind.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap"></noscript>
+    <script>if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
@@ -68,58 +48,27 @@
 
     @include('partials.kurdai-design')
 
-    <link rel="stylesheet" href="{{ asset('css/kai-guide.css') }}?v=2">
+    <link rel="stylesheet" href="{{ asset('css/kai-guide.css') }}?v=4">
 </head>
 
-<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
+<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300">
 
-    <!-- ناڤباری سەرەکی -->
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="/" class="flex items-center gap-3 transition group relative">
-                <div class="relative flex-shrink-0">
-                    <div class="absolute -inset-2 bg-gradient-to-r from-teal-600 to-cyan-400 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-all duration-300 dark:group-hover:opacity-50"></div>
-                    <img src="logo.jpg" alt="Kurd AI Logo" class="h-10 md:h-11 w-auto object-contain dark:invert drop-shadow-md group-hover:scale-105 transition-transform duration-300 relative z-10">
-                </div>
-                <div class="flex flex-col justify-center hidden sm:flex">
-                    <h1 class="text-xl md:text-2xl font-black tracking-tight text-gray-900 dark:text-white leading-none group-hover:text-teal-600 dark:group-hover:text-cyan-400 transition-colors duration-300">KURD AI</h1>
-                    <span class="text-[0.55rem] md:text-[0.60rem] font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-cyan-500 mt-0.5">INNOVATION - FUTURE</span>
-                </div>
-            </a>
-
-            <div class="hidden lg:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
-                <a href="/" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
-                <a href="/ferga" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
-                <a href="/courses" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
-                <a href="/news" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>
-                <a href="/ai-tools" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
-                <a href="/academic-guide" class="lang-str px-3.5 py-2 bg-white dark:bg-gray-700 text-teal-600 dark:text-teal-400 font-bold rounded-xl shadow-sm transition text-sm" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
-                <a href="/universities" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
-                <a href="/about" class="lang-str px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-teal-600 dark:hover:text-teal-400 rounded-xl transition text-sm" data-so="دەربارەی ئێمە" data-ba="دەربارەی مە">دەربارەی ئێمە</a>
-            </div>
-
-            <div class="flex items-center gap-2.5">
-                <button id="lang-toggle" class="px-3 py-2 bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 font-bold rounded-xl text-xs border border-teal-100 dark:border-teal-800/50 hover:bg-teal-100 transition"><span id="lang-text">Badini</span></button>
-                <a href="/#feedback-section" class="lang-str px-3 py-2 bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 font-bold rounded-xl text-xs border border-teal-100 dark:border-teal-800/50 hover:bg-teal-100 transition" data-so="ڕەخنە" data-ba="ڕەخنە">ڕەخنە</a>
-                <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
-                <a href="/profile" class="lang-str hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
-                <button id="logout-btn" class="lang-str flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</button>
-            </div>
-        </div>
-    </nav>
+    @include('partials.nav', ['active' => 'academic-guide'])
 
     <!-- Header -->
     <header class="relative py-24 text-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
+<div class="absolute inset-0 z-0">
             <div class="absolute top-0 -left-4 w-96 h-96 bg-teal-400 dark:bg-teal-600 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[128px] opacity-20 animate-blob"></div>
             <div class="absolute -bottom-8 right-20 w-96 h-96 bg-cyan-400 dark:bg-cyan-600 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[128px] opacity-20 animate-blob animation-delay-2000"></div>
+            <div class="kai-holo-grid absolute inset-0"></div>
+            <div class="kai-scanlines absolute inset-0"></div>
         </div>
         <div class="container mx-auto px-4 relative z-10">
             <div class="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-teal-50 dark:bg-teal-900/30 border border-teal-200 dark:border-teal-700/50 text-teal-700 dark:text-teal-300 font-black text-sm mb-8 shadow-sm">
                 <span class="lang-str" data-so="زانیارییە ئەکادیمییەکان و ڕێنمایی زانکۆ" data-ba="زانیارییێن ئەکادیمی و ڕێنماییا زانکۆ">زانیارییە ئەکادیمییەکان و ڕێنمایی زانکۆ</span>
             </div>
-            <h2 class="lang-str text-5xl md:text-7xl font-black mb-6 text-gray-900 dark:text-white tracking-tight" data-so="ڕێنیشاندەری ئەکادیمی" data-ba="ڕێبەرێ ئەکادیمی">ڕێنیشاندەری ئەکادیمی</h2>
-            <p class="lang-str text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-medium" data-so="هەموو ئەو پرس و ڕاوێژ و زانیارییانەی پێویستتە بۆ سەرکەوتن لە پرۆسەی خوێندنت لێرە بە شێوازێکی ڕوون بدۆزەرەوە." data-ba="هەمی ئەو پرس و ڕاوێژ و زانیارییێن پێدڤیت بۆ سەرکەوتنێ د پرۆسا خوێندنا تە دا، ل ڤێرێ ب شێوەیەکا ڕوون هەلبینە.">هەموو ئەو پرس و ڕاوێژ و زانیارییانەی پێویستتە بۆ سەرکەوتن لە پرۆسەی خوێندنت لێرە بە شێوازێکی ڕوون بدۆزەرەوە.</p>
+            <h2 class="lang-str text-3xl md:text-4xl font-black mb-6 text-gray-900 dark:text-white tracking-tight" data-so="ڕێنیشاندەری ئەکادیمی" data-ba="ڕێبەرێ ئەکادیمی">ڕێنیشاندەری ئەکادیمی</h2>
+            <p class="lang-str text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-medium" data-so="هەموو ئەو پرس و ڕاوێژ و زانیارییانەی پێویستتە بۆ سەرکەوتن لە پرۆسەی خوێندنت لێرە بە شێوازێکی ڕوون بدۆزەرەوە." data-ba="هەمی ئەو پرس و ڕاوێژ و زانیارییێن پێدڤیت بۆ سەرکەوتنێ د پرۆسا خوێندنا تە دا، ل ڤێرێ ب شێوەیەکا ڕوون هەلبینە.">هەموو ئەو پرس و ڕاوێژ و زانیارییانەی پێویستتە بۆ سەرکەوتن لە پرۆسەی خوێندنت لێرە بە شێوازێکی ڕوون بدۆزەرەوە.</p>
         </div>
     </header>
 
@@ -133,7 +82,7 @@
     <!-- Admin Section -->
     <section class="admin-only hidden container mx-auto pb-24 px-4" id="admin-form-section">
         <div class="glass-card p-10 md:p-16 rounded-[3rem] shadow-2xl max-w-4xl mx-auto border-t-8 border-teal-500">
-            <h3 class="text-4xl font-black mb-12 text-center text-gray-900 dark:text-white">بەشی بەڕێوەبردنی ڕێنیشاندەر</h3>
+            <h3 class="text-2xl font-black mb-12 text-center text-gray-900 dark:text-white">بەشی بەڕێوەبردنی ڕێنیشاندەر</h3>
             <form id="upload-form" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <input type="text" id="question_so" placeholder="پرسیار (سۆرانی)" required class="w-full px-6 py-5 rounded-2xl bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:ring-4 focus:ring-teal-500/20 outline-none transition-all">
@@ -187,12 +136,12 @@
 
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getDatabase, ref, push, set, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-        const app = initializeApp(firebaseConfig);
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
 
@@ -239,7 +188,7 @@
                                 <div class="w-12 h-12 rounded-2xl bg-teal-500/10 dark:bg-teal-500/20 text-teal-600 dark:text-teal-400 flex items-center justify-center font-black text-xl flex-shrink-0">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 </div>
-                                <h3 class="font-black text-xl md:text-2xl text-gray-900 dark:text-white">${question}</h3>
+                                <h3 class="font-black text-lg md:text-xl text-gray-900 dark:text-white">${question}</h3>
                             </div>
                             <button id="btn-text-${id}" class="px-4 py-2 rounded-xl bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 font-bold text-xs hover:bg-teal-100 transition flex items-center gap-2 flex-shrink-0">
                                 <span id="label-${id}">${btnTextShow}</span>
@@ -247,7 +196,7 @@
                             </button>
                         </div>
 
-                        <div id="answer-${id}" class="hidden mt-6 pt-6 border-t border-gray-200/50 dark:border-gray-700/50 text-gray-600 dark:text-gray-300 leading-loose text-base md:text-lg whitespace-pre-line animate-fadeIn">
+                        <div id="answer-${id}" class="hidden mt-6 pt-6 border-t border-gray-200/50 dark:border-gray-700/50 text-gray-600 dark:text-gray-300 leading-loose text-sm md:text-base whitespace-pre-line animate-fadeIn">
                             ${answer}
                         </div>
 
@@ -391,7 +340,7 @@
 
         onAuthStateChanged(auth, (user) => {
             if(!user) window.location.href = "/login";
-            document.body.style.display = 'block';
+            /* body visible instantly */
             applyLanguage();
             if(["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
                 isAdmin = true;

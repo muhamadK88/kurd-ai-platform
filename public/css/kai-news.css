@@ -1,7 +1,17 @@
 /* ==========================================================================
-   KURD AI — هەواڵەکان (News) · editorial design  ·  v1
-   Sky/blue "breaking news" look. Pure CSS — no image assets added.
+   KURD AI — هەواڵەکان (News) · editorial design  ·  v2
+   Sky/blue "breaking news" look, aligned with the "Futuristic Glass" v4
+   token system. Page identity: sky → blue → violet → cyan.
+   Pure CSS — no image assets added.
    ========================================================================== */
+
+/* ---------- page accent tokens (v4 alignment) ---------- */
+:root {
+    --kai-news-a: #0ea5e9;   /* sky   */
+    --kai-news-b: #2563eb;   /* blue  */
+    --kai-news-c: #7c3aed;   /* violet */
+    --kai-news-d: #06b6d4;   /* cyan  */
+}
 
 /* ---------- shared keyframes ---------- */
 @keyframes kaiFlow { to { background-position: 220% center; } }
@@ -16,15 +26,15 @@ header .inline-flex { animation: kaiPopBadge 0.7s cubic-bezier(0.22, 1, 0.36, 1)
 header .inline-flex::before {
     content: "";
     width: 9px; height: 9px; border-radius: 50%;
-    background: #0ea5e9;
-    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.25), 0 0 12px rgba(14, 165, 233, 0.9);
+    background: var(--kai-news-a);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--kai-news-a) 25%, transparent), 0 0 12px color-mix(in srgb, var(--kai-news-a) 90%, transparent);
     animation: kaiPulseDot 1.6s ease-in-out infinite;
     margin-inline-start: 2px;
 }
 @keyframes kaiPopBadge { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 
 header h2 {
-    background-image: linear-gradient(90deg, #0ea5e9, #2563eb 45%, #7c3aed 80%, #06b6d4);
+    background-image: linear-gradient(90deg, var(--kai-news-a), var(--kai-news-b) 45%, var(--kai-news-c) 80%, var(--kai-news-d));
     background-size: 220% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -43,12 +53,14 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
     top: 0; right: 0; left: 0;
     height: 4px;
     z-index: 5;
-    background: linear-gradient(90deg, #0ea5e9, #2563eb, #7c3aed, #06b6d4);
+    background: linear-gradient(90deg, var(--kai-news-a), var(--kai-news-b), var(--kai-news-c), var(--kai-news-d));
     background-size: 220% auto;
     animation: kaiFlow 6s linear infinite;
 }
 #news-container > .glass-card:hover::before { height: 5px; }
-#news-container > .glass-card:hover { box-shadow: 0 24px 60px -18px rgba(14, 165, 233, 0.45); }
+#news-container > .glass-card:hover {
+    box-shadow: 0 24px 60px -18px color-mix(in srgb, var(--kai-news-a) 45%, transparent);
+}
 
 /* read-more button shine sweep */
 #news-container > .glass-card > div:last-child > button:first-of-type {
@@ -58,8 +70,7 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
 }
 #news-container > .glass-card > div:last-child > button:first-of-type::after {
     content: "";
-    position: absolute;
-    top: 0; bottom: 0; left: -80%;
+    position: absolute; top: 0; bottom: 0; left: -80%;
     width: 55%;
     background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.55), transparent);
     transform: skewX(-18deg);
@@ -68,14 +79,14 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
 }
 #news-container > .glass-card > div:last-child > button:first-of-type:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 28px -10px rgba(14, 165, 233, 0.6);
+    box-shadow: 0 12px 28px -10px color-mix(in srgb, var(--kai-news-a) 60%, transparent);
     background-color: rgba(224, 242, 254, 0.9);
 }
 
 /* headline on card */
 #news-container > .glass-card h3 { transition: color 0.3s ease; }
 #news-container > .glass-card:hover h3 {
-    background-image: linear-gradient(90deg, #0284c7, #7c3aed);
+    background-image: linear-gradient(90deg, #0284c7, var(--kai-news-c));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -87,7 +98,7 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
 #news-container > .glass-card > div:last-child > div button:hover { transform: translateY(-1px); }
 
 /* ---------- modal polish ---------- */
-#newsModal .glass-card { border: 1px solid rgba(14, 165, 233, 0.35); }
+#newsModal .glass-card { border: 1px solid color-mix(in srgb, var(--kai-news-a) 35%, transparent); }
 #newsModal .glass-card h2 { animation: kaiHeadIn 0.5s 0.1s both; }
 #comment-btn { position: relative; overflow: hidden; }
 #comment-btn::after {
@@ -108,7 +119,7 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
     font-size: 0.8rem;
     line-height: 1;
     color: #475569;
-    background: rgba(255, 255, 255, 0.55);
+    background: var(--kai-glass-bg, rgba(255, 255, 255, 0.55));
     border: 1px solid rgba(148, 163, 184, 0.35);
     transition: transform 0.25s var(--kai-spring, cubic-bezier(.34,1.56,.64,1)),
                 background-color 0.25s ease, color 0.25s ease,
@@ -121,9 +132,9 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .dark .kai-chip:hover { color: #38bdf8; }
 .kai-chip.is-active {
     color: #fff;
-    background-image: linear-gradient(90deg, #0ea5e9, #2563eb);
+    background-image: linear-gradient(90deg, var(--kai-news-a), var(--kai-news-b));
     border-color: transparent;
-    box-shadow: 0 10px 24px -10px rgba(14, 165, 233, 0.7);
+    box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--kai-news-a) 70%, transparent);
     transform: translateY(-1px);
 }
 
@@ -137,10 +148,10 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
     font-size: 0.68rem;
     font-weight: 800;
     color: #fff;
-    background: rgba(2, 132, 199, 0.92);
+    background: color-mix(in srgb, var(--kai-news-b) 92%, transparent);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    box-shadow: 0 4px 12px -4px rgba(2, 132, 199, 0.8);
+    box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--kai-news-b) 80%, transparent);
     white-space: nowrap;
 }
 .kai-cat-badge.kai-inline { position: static; }
@@ -154,8 +165,8 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
     font-weight: 900;
     letter-spacing: 0.04em;
     color: #fff;
-    background-image: linear-gradient(90deg, #7c3aed, #ec4899);
-    box-shadow: 0 4px 12px -4px rgba(124, 58, 237, 0.8);
+    background-image: linear-gradient(90deg, var(--kai-news-c), var(--kai-news-b));
+    box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--kai-news-c) 80%, transparent);
 }
 
 .kai-tag {
@@ -166,8 +177,8 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
     font-size: 0.68rem;
     font-weight: 800;
     color: #0369a1;
-    background: rgba(14, 165, 233, 0.12);
-    border: 1px solid rgba(14, 165, 233, 0.25);
+    background: color-mix(in srgb, var(--kai-news-a) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--kai-news-a) 25%, transparent);
 }
 .dark .kai-tag { color: #7dd3fc; background: rgba(56, 189, 248, 0.12); border-color: rgba(56, 189, 248, 0.28); }
 
@@ -196,4 +207,147 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
         color: #111827; -webkit-text-fill-color: #111827;
     }
     .dark header h2 { color: #fff; -webkit-text-fill-color: #fff; }
+}
+
+/* ==========================================================================
+   v3 · CYBERPUNK NEWSROOM — magazine masthead, live ticker, console deck,
+   lead story, timeline node accents. Additive, guard-based.
+   ========================================================================== */
+
+/* ---------- hero scanline overlay ---------- */
+.kai-scanlines {
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 3px);
+    mix-blend-mode: overlay;
+    opacity: 0.55;
+    z-index: 1;
+}
+.dark .kai-scanlines {
+    background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.14) 0 1px, transparent 1px 3px);
+}
+
+/* ---------- live ticker (marquee) ---------- */
+.kai-ticker { filter: drop-shadow(0 18px 40px -18px color-mix(in srgb, var(--kai-news-a) 45%, transparent)); }
+.kai-ticker .glass-card { box-shadow: 0 0 0 1px color-mix(in srgb, var(--kai-news-a) 22%, transparent) inset; }
+.kai-ticker-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0 1.1rem;
+    font-size: 0.66rem;
+    font-weight: 900;
+    letter-spacing: 0.22em;
+    color: #fff;
+    background: linear-gradient(160deg, var(--kai-news-b), var(--kai-news-c));
+    white-space: nowrap;
+}
+.kai-ticker-tag::before {
+    content: "";
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+    animation: kaiPulseDot 1.2s ease-in-out infinite;
+}
+.kai-ticker-window { padding: 0.95rem 0; }
+.kai-ticker-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    gap: 2.5rem;
+    animation: kaiTicker 30s linear infinite;
+}
+.kai-ticker-window:hover .kai-ticker-track { animation-play-state: paused; }
+.kai-ticker-item {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--kai-news-a);
+    white-space: nowrap;
+    cursor: default;
+}
+.dark .kai-ticker-item { color: #7dd3fc; }
+.kai-ticker-sep { color: color-mix(in srgb, var(--kai-news-c) 80%, transparent); font-weight: 900; font-size: 0.7rem; }
+@keyframes kaiTicker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ---------- console / control deck (filters) ---------- */
+.kai-console-head { border-bottom: 1px solid color-mix(in srgb, var(--kai-news-a) 20%, transparent); }
+.kai-led {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #f43f5e;
+    box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.14), 0 0 12px rgba(244, 63, 94, 0.75);
+    animation: kaiPulseDot 1.4s ease-in-out infinite;
+    flex-shrink: 0;
+}
+.kai-eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+.kai-eq i {
+    width: 3px;
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(to top, var(--kai-news-a), var(--kai-news-d));
+    animation: kaiEq 1.1s ease-in-out infinite;
+}
+.kai-eq i:nth-child(2) { animation-delay: 0.12s; }
+.kai-eq i:nth-child(3) { animation-delay: 0.24s; }
+.kai-eq i:nth-child(4) { animation-delay: 0.36s; }
+.kai-eq i:nth-child(5) { animation-delay: 0.48s; }
+@keyframes kaiEq { 0%, 100% { height: 4px; } 50% { height: 12px; } }
+.kai-sys-clock { font-variant-numeric: tabular-nums; letter-spacing: 0.12em; }
+
+/* ---------- lead story (full-width feature) ---------- */
+.kai-lead {
+    border: 1px solid color-mix(in srgb, var(--kai-news-a) 45%, transparent) !important;
+    box-shadow: 0 30px 80px -30px color-mix(in srgb, var(--kai-news-b) 50%, transparent);
+}
+.kai-lead::before { height: 5px !important; }
+.kai-kicker {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.32rem 0.8rem;
+    border-radius: 9999px;
+    font-size: 0.62rem;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    color: #fff;
+    background: linear-gradient(90deg, var(--kai-news-b), var(--kai-news-c));
+    box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--kai-news-b) 80%, transparent);
+    margin-bottom: 0.9rem;
+}
+.kai-lead:hover h3 {
+    background-image: linear-gradient(90deg, var(--kai-news-a), var(--kai-news-d));
+}
+
+/* ---------- timeline node accent (non-lead cards) ---------- */
+#news-container > .kai-news-card:not(.kai-lead)::after {
+    content: "";
+    position: absolute;
+    top: 16px; left: 9px;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--kai-news-d);
+    box-shadow: 0 0 10px 2px color-mix(in srgb, var(--kai-news-d) 65%, transparent);
+    z-index: 6;
+    transition: transform 0.3s var(--kai-spring, cubic-bezier(.34,1.56,.64,1));
+}
+#news-container > .kai-news-card:not(.kai-lead):hover::after { transform: scale(1.6); }
+
+/* ---------- terminal timestamp stamp ---------- */
+.kai-stamp {
+    font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Consolas, monospace;
+    letter-spacing: 0.06em;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- v3 fallbacks ---------- */
+html.kai-perf .kai-scanlines,
+html.kai-perf .kai-ticker-track,
+html.kai-perf .kai-ticker-tag::before,
+html.kai-perf .kai-led,
+html.kai-perf .kai-eq i,
+html.kai-perf #news-container > .kai-news-card:not(.kai-lead)::after { animation: none !important; }
+html.kai-perf .kai-eq i { height: 8px; }
+@media (prefers-reduced-motion: reduce) {
+    .kai-scanlines, .kai-ticker-track, .kai-ticker-tag::before, .kai-led,
+    .kai-eq i, #news-container > .kai-news-card:not(.kai-lead)::after { animation: none !important; }
+    .kai-ticker-window:hover .kai-ticker-track { animation-play-state: initial; }
 }

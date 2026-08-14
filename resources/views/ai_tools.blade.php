@@ -1,37 +1,16 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تووڵەکانی ئەی ئای - کورد ئەی ئای</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
 
-    <script>
-        tailwind.config = { 
-            darkMode: 'class', 
-            theme: { 
-                extend: { 
-                    fontFamily: { sans: ['"Noto Sans Arabic"', 'sans-serif'] },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                    },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        }
-                    }
-                } 
-            } 
-        }
-        
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    <link rel="stylesheet" href="/css/kai-tailwind.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap"></noscript>
+    <script>if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
@@ -125,56 +104,21 @@
 
     @include('partials.kurdai-design')
 
-    <link rel="stylesheet" href="{{ asset('css/kai-tools.css') }}?v=2">
+    <link rel="stylesheet" href="{{ asset('css/kai-tools.css') }}?v=4">
 </head>
 
-<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
+<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300">
 
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-        
-        <a href="/" class="flex items-center gap-3 transition group relative">
-            <div class="relative flex-shrink-0">
-                <div class="absolute -inset-2 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-all duration-300 dark:group-hover:opacity-50"></div>
-                <img src="logo.jpg" alt="Kurd AI Logo" class="h-10 md:h-11 w-auto object-contain dark:invert drop-shadow-md group-hover:scale-105 transition-transform duration-300 relative z-10">
-            </div>
-            
-            <div class="flex flex-col justify-center hidden sm:flex">
-                <h1 class="text-xl md:text-2xl font-black tracking-tight text-gray-900 dark:text-white leading-none group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-300">
-                    KURD AI
-                </h1>
-                <span class="text-[0.55rem] md:text-[0.60rem] font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 mt-0.5">
-                    INNOVATION - FUTURE
-                </span>
-            </div>
-        </a>
-        <div class="hidden lg:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
-    <a href="/" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
-    <a href="/ferga" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
-    <a href="/courses" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
-    <a href="/news" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>
-    <a href="/ai-tools" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
-    <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
-    <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
-    <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەرباری ئێمە" data-ba="دەربارەی مە">دەرباری ئێمە</a>
-</div>
-        <div class="flex items-center gap-2.5">
-                <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
-                <a href="/#feedback-section" class="lang-str px-3 py-2 bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 font-bold rounded-xl text-xs border border-rose-100 dark:border-rose-800/50 hover:bg-rose-100 transition" data-so="ڕەخنە" data-ba="ڕەخنە">ڕەخنە</a>
-            <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
-            <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50 lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
-            <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</button>
-        </div>
-    </div>
-</nav>
+    @include('partials.nav', ['active' => 'ai-tools'])
 
     <header class="relative min-h-[45vh] flex items-center justify-center overflow-hidden py-20 px-4">
-        <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+<div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
             <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-500 dark:bg-purple-700 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-30 animate-blob"></div>
             <div class="absolute top-0 -right-4 w-72 h-72 bg-pink-500 dark:bg-pink-700 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
             <div class="absolute -bottom-8 left-20 w-72 h-72 bg-indigo-500 dark:bg-indigo-700 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
             <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+            <div class="kai-matrix absolute inset-0"></div>
+            <div class="kai-scanlines absolute inset-0"></div>
         </div>
 
         <div class="relative z-10 text-center max-w-4xl mx-auto">
@@ -184,6 +128,23 @@
             </div>
             <h2 class="text-5xl md:text-7xl font-black mb-6 tracking-tight text-gray-900 dark:text-white leading-tight lang-str" data-so="تووڵەکانی ئەی ئای" data-ba="ئامرازێن ئەی ئای">تووڵەکانی ئەی ئای</h2>
             <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium lang-str" data-so="باشترین ئامرازەکانی زیرەکی دەستکرد بدۆزەرەوە بۆ بەرزکردنەوەی بەرهەمهێنانت" data-ba="باشترین ئامرازێن ژیرییا دەستکرد ببینە بۆ بڵندکرنا بەرهەمهێنانێ">باشترین ئامرازەکانی زیرەکی دەستکرد بدۆزەرەوە بۆ بەرزکردنەوەی بەرهەمهێنانت</p>
+
+            <!-- خوێندنەوەی داتا (Data Readout) -->
+            <div class="mt-9 flex flex-wrap items-center justify-center gap-3" id="kai-data-stats" aria-hidden="true">
+                <span class="kai-stat kai-stat-glow">
+                    <span class="kai-stat-dot"></span>
+                    <span class="lang-str" data-so="مۆدێلی ئۆنڵاین" data-ba="مۆدێل ئۆنلاین">مۆدێلی ئۆنڵاین</span>
+                    <b class="kai-stat-num">247</b>
+                </span>
+                <span class="kai-stat">
+                    <span class="lang-str" data-so="ئاژانسەکانی نمرە" data-ba="سەرچاوەیێن نمرە">ئاژانسەکانی نمرە</span>
+                    <b class="kai-stat-num">ELO</b>
+                </span>
+                <span class="kai-stat">
+                    <span class="lang-str" data-so="نوێکردنەوەی ڕاستەوخۆ" data-ba="نووژەکرنا راستەوخۆ">نوێکردنەوەی ڕاستەوخۆ</span>
+                    <b class="kai-stat-num">LIVE</b>
+                </span>
+            </div>
         </div>
     </header>
 
@@ -264,12 +225,12 @@
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="application/json" id="kurdai-imgbb-config">{!! json_encode(config('kurdai.imgbb.api_key'), 15) !!}</script>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getDatabase, ref as dbRef, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-        const app = initializeApp(firebaseConfig);
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
 
@@ -392,7 +353,11 @@
                     const btnText = currentLang === 'so' ? 'بەکارهێنان' : 'ب کارئینان';
 
                     container.innerHTML += `
-                        <div class="tool-card glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-500 p-8 flex flex-col h-full group hover:-translate-y-2 hover:border-purple-200 dark:hover:border-purple-800 border border-transparent">
+                        <div class="tool-card kai-matrix-card glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-500 p-8 flex flex-col h-full group hover:-translate-y-2 hover:border-purple-200 dark:hover:border-purple-800 border border-transparent">
+                            <header class="kai-tool-hud flex items-center justify-between mb-5">
+<span class="kai-tool-idx font-mono text-[0.65rem] font-black tracking-[0.22em] text-purple-500/80 dark:text-purple-400/80">#${String(idx + 1).padStart(2, '0')}</span>
+                                <span class="kai-tool-signal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+                            </header>
                             <div class="w-20 h-20 rounded-2xl overflow-hidden shadow-lg mb-6 bg-white dark:bg-gray-800 flex-shrink-0 flex items-center justify-center p-3 border border-gray-100 dark:border-gray-700 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
                                 <img src="${t.image_url}" class="w-full h-full object-contain">
                             </div>
@@ -488,7 +453,7 @@
         onAuthStateChanged(auth, (user) => { 
             if(!user) window.location.href = "/login"; 
             else {
-                document.body.style.display = 'block';
+                /* body visible instantly */
                 if(["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
                     document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
                 }

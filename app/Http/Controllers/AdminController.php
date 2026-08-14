@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 class AdminController extends Controller
 {
-    // بەستەری بنەڕەتی داتابەیسی فایەربەیسەکەت
+    // Ø¨Û•Ø³ØªÛ•Ø±ÛŒ Ø¨Ù†Û•Ú•Û•ØªÛŒ Ø¯Ø§ØªØ§Ø¨Û•ÛŒØ³ÛŒ ÙØ§ÛŒÛ•Ø±Ø¨Û•ÛŒØ³Û•Ú©Û•Øª
     private $firebaseUrl = 'https://ai-platform-adb1b-default-rtdb.firebaseio.com/';
 
     // ==========================================
-    // بەشی سەرەکی و لۆگین
+    // Ø¨Û•Ø´ÛŒ Ø³Û•Ø±Û•Ú©ÛŒ Ùˆ Ù„Û†Ú¯ÛŒÙ†
     // ==========================================
     public function index()
     {
@@ -25,12 +26,14 @@ class AdminController extends Controller
 
 
     // ==========================================
-    // بەشی کۆرسەکان (Courses)
+    // Ø¨Û•Ø´ÛŒ Ú©Û†Ø±Ø³Û•Ú©Ø§Ù† (Courses)
     // ==========================================
     public function showCourses()
     {
-        $response = Http::get($this->firebaseUrl . 'courses.json');
-        $courses = $response->json();
+        $url = $this->firebaseUrl;
+        $courses = Cache::remember('firebase.courses.v1', now()->addMinutes(5), function () use ($url) {
+            return Http::timeout(5)->get($url . 'courses.json')->json() ?: [];
+        });
         return view('courses_list', compact('courses'));
     }
 
@@ -38,16 +41,18 @@ class AdminController extends Controller
     {
         $data = $request->except('_token');
         Http::post($this->firebaseUrl . 'courses.json', $data);
-        return redirect()->back()->with('success', 'کۆرسەکە بە سەرکەوتوویی زیادکرا!');
+        Cache::forget('firebase.courses.v1');
+        return redirect()->back()->with('success', 'Ú©Û†Ø±Ø³Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ø²ÛŒØ§Ø¯Ú©Ø±Ø§!');
     }
 
     public function destroyCourse($id)
     {
         Http::delete($this->firebaseUrl . 'courses/' . $id . '.json');
-        return redirect()->back()->with('success', 'کۆرسەکە بە سەرکەوتوویی سڕایەوە!');
+        Cache::forget('firebase.courses.v1');
+        return redirect()->back()->with('success', 'Ú©Û†Ø±Ø³Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ø³Ú•Ø§ÛŒÛ•ÙˆÛ•!');
     }
 
-    // --- بەشی دەستکاری کۆرسەکان ---
+    // --- Ø¨Û•Ø´ÛŒ Ø¯Û•Ø³ØªÚ©Ø§Ø±ÛŒ Ú©Û†Ø±Ø³Û•Ú©Ø§Ù† ---
     public function editCourse($id)
     {
         $response = Http::get($this->firebaseUrl . 'courses/' . $id . '.json');
@@ -58,10 +63,11 @@ class AdminController extends Controller
     {
         $data = $request->except(['_token', '_method']);
         Http::patch($this->firebaseUrl . 'courses/' . $id . '.json', $data);
-        return redirect('/courses')->with('success', 'کۆرسەکە بە سەرکەوتوویی نوێکرایەوە!');
+        Cache::forget('firebase.courses.v1');
+        return redirect('/courses')->with('success', 'Ú©Û†Ø±Ø³Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ù†ÙˆÛŽÚ©Ø±Ø§ÛŒÛ•ÙˆÛ•!');
     }
 
-    // --- بەشی دەستکاری ئامرازەکانی AI ---
+    // --- Ø¨Û•Ø´ÛŒ Ø¯Û•Ø³ØªÚ©Ø§Ø±ÛŒ Ø¦Ø§Ù…Ø±Ø§Ø²Û•Ú©Ø§Ù†ÛŒ AI ---
     public function editAiTool($id)
     {
         $response = Http::get($this->firebaseUrl . 'ai_tools/' . $id . '.json');
@@ -72,10 +78,11 @@ class AdminController extends Controller
     {
         $data = $request->except(['_token', '_method']);
         Http::patch($this->firebaseUrl . 'ai_tools/' . $id . '.json', $data);
-        return redirect('/ai-tools')->with('success', 'ئامرازەکە بە سەرکەوتوویی نوێکرایەوە!');
+        Cache::forget('firebase.ai_tools.v1');
+        return redirect('/ai-tools')->with('success', 'Ø¦Ø§Ù…Ø±Ø§Ø²Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ù†ÙˆÛŽÚ©Ø±Ø§ÛŒÛ•ÙˆÛ•!');
     }
 
-    // --- بەشی دەستکاری ڕێنیشاندەر ---
+    // --- Ø¨Û•Ø´ÛŒ Ø¯Û•Ø³ØªÚ©Ø§Ø±ÛŒ Ú•ÛŽÙ†ÛŒØ´Ø§Ù†Ø¯Û•Ø± ---
     public function editAcademicGuide($id)
     {
         $response = Http::get($this->firebaseUrl . 'academic_guide/' . $id . '.json');
@@ -86,19 +93,22 @@ class AdminController extends Controller
     {
         $data = $request->except(['_token', '_method']);
         Http::patch($this->firebaseUrl . 'academic_guide/' . $id . '.json', $data);
-        return redirect('/academic-guide')->with('success', 'پرسیارەکە بە سەرکەوتوویی نوێکرایەوە!');
+        Cache::forget('firebase.academic_guide.v1');
+        return redirect('/academic-guide')->with('success', 'Ù¾Ø±Ø³ÛŒØ§Ø±Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ù†ÙˆÛŽÚ©Ø±Ø§ÛŒÛ•ÙˆÛ•!');
     }
 
    
 
 
     // ==========================================
-    // بەشی ئامرازەکانی ژیری دەستکرد (AI Tools)
+    // Ø¨Û•Ø´ÛŒ Ø¦Ø§Ù…Ø±Ø§Ø²Û•Ú©Ø§Ù†ÛŒ Ú˜ÛŒØ±ÛŒ Ø¯Û•Ø³ØªÚ©Ø±Ø¯ (AI Tools)
     // ==========================================
     public function showAiTools()
     {
-        $response = Http::get($this->firebaseUrl . 'ai_tools.json');
-        $aiTools = $response->json();
+        $url = $this->firebaseUrl;
+        $aiTools = Cache::remember('firebase.ai_tools.v1', now()->addMinutes(5), function () use ($url) {
+            return Http::timeout(5)->get($url . 'ai_tools.json')->json() ?: [];
+        });
         return view('ai_tools', compact('aiTools'));
     }
 
@@ -106,25 +116,29 @@ class AdminController extends Controller
     {
         $data = $request->except('_token');
         Http::post($this->firebaseUrl . 'ai_tools.json', $data);
-        return redirect()->back()->with('success', 'ئامرازەکە بە سەرکەوتوویی زیادکرا!');
+        Cache::forget('firebase.ai_tools.v1');
+        return redirect()->back()->with('success', 'Ø¦Ø§Ù…Ø±Ø§Ø²Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ø²ÛŒØ§Ø¯Ú©Ø±Ø§!');
     }
 
     public function destroyAiTool($id)
     {
         Http::delete($this->firebaseUrl . 'ai_tools/' . $id . '.json');
-        return redirect()->back()->with('success', 'ئامرازەکە بە سەرکەوتوویی سڕایەوە!');
+        Cache::forget('firebase.ai_tools.v1');
+        return redirect()->back()->with('success', 'Ø¦Ø§Ù…Ø±Ø§Ø²Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ø³Ú•Ø§ÛŒÛ•ÙˆÛ•!');
     }
 
 
 
 
     // ==========================================
-    // بەشی ڕێنیشاندەری ئەکادیمی (Academic Guide)
+    // Ø¨Û•Ø´ÛŒ Ú•ÛŽÙ†ÛŒØ´Ø§Ù†Ø¯Û•Ø±ÛŒ Ø¦Û•Ú©Ø§Ø¯ÛŒÙ…ÛŒ (Academic Guide)
     // ==========================================
     public function showAcademicGuide()
     {
-        $response = Http::get($this->firebaseUrl . 'academic_guide.json');
-        $faqs = $response->json();
+        $url = $this->firebaseUrl;
+        $faqs = Cache::remember('firebase.academic_guide.v1', now()->addMinutes(5), function () use ($url) {
+            return Http::timeout(5)->get($url . 'academic_guide.json')->json() ?: [];
+        });
         return view('academic_guide', compact('faqs'));
     }
 
@@ -132,21 +146,23 @@ class AdminController extends Controller
     {
         $data = $request->except('_token');
         Http::post($this->firebaseUrl . 'academic_guide.json', $data);
-        return redirect()->back()->with('success', 'پرسیارەکە بە سەرکەوتوویی زیادکرا!');
+        Cache::forget('firebase.academic_guide.v1');
+        return redirect()->back()->with('success', 'Ù¾Ø±Ø³ÛŒØ§Ø±Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ø²ÛŒØ§Ø¯Ú©Ø±Ø§!');
     }
 
     public function destroyAcademicGuide($id)
     {
         Http::delete($this->firebaseUrl . 'academic_guide/' . $id . '.json');
-        return redirect()->back()->with('success', 'پرسیارەکە بە سەرکەوتوویی سڕایەوە!');
+        Cache::forget('firebase.academic_guide.v1');
+        return redirect()->back()->with('success', 'Ù¾Ø±Ø³ÛŒØ§Ø±Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ø³Ú•Ø§ÛŒÛ•ÙˆÛ•!');
     }
 
 // ==========================================
-    // بەشی فێرگە (Ferga - Learning Platform)
+    // Ø¨Û•Ø´ÛŒ ÙÛŽØ±Ú¯Û• (Ferga - Learning Platform)
     // ==========================================
     public function showFerga()
     {
-        // هێنانی زانیارییەکانی فێرگە لە فایەربەیسەوە بۆ ئەگەری بەکارهێنانی لە باکێند
+        // Ù‡ÛŽÙ†Ø§Ù†ÛŒ Ø²Ø§Ù†ÛŒØ§Ø±ÛŒÛŒÛ•Ú©Ø§Ù†ÛŒ ÙÛŽØ±Ú¯Û• Ù„Û• ÙØ§ÛŒÛ•Ø±Ø¨Û•ÛŒØ³Û•ÙˆÛ• Ø¨Û† Ø¦Û•Ú¯Û•Ø±ÛŒ Ø¨Û•Ú©Ø§Ø±Ù‡ÛŽÙ†Ø§Ù†ÛŒ Ù„Û• Ø¨Ø§Ú©ÛŽÙ†Ø¯
         $response = Http::get($this->firebaseUrl . 'ferga_lessons.json');
         $lessons = $response->json();
         
@@ -156,14 +172,14 @@ class AdminController extends Controller
     public function destroyFergaLesson($id)
     {
         Http::delete($this->firebaseUrl . 'ferga_lessons/' . $id . '.json');
-        return redirect()->back()->with('success', 'وانەکە بە سەرکەوتوویی سڕایەوە!');
+        return redirect()->back()->with('success', 'ÙˆØ§Ù†Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ø³Ú•Ø§ÛŒÛ•ÙˆÛ•!');
     }
 
     public function runPhpCode(Request $request)
     {
         $code = $request->input('code', '');
         if (trim($code) === '') {
-            return response()->json(['output' => '', 'error' => 'هیچ کۆدێک نەنووسراوە'], 400);
+            return response()->json(['output' => '', 'error' => 'Ù‡ÛŒÚ† Ú©Û†Ø¯ÛŽÚ© Ù†Û•Ù†ÙˆÙˆØ³Ø±Ø§ÙˆÛ•'], 400);
         }
         if (!str_starts_with(trim($code), '<?php')) {
             $code = "<?php\n" . $code;
@@ -194,7 +210,7 @@ class AdminController extends Controller
                 $response = Http::asJson()->timeout(35)->post('https://wandbox.org/api/compile.json', $payload);
                 $data = $response->json();
                 if (!is_array($data)) {
-                    $lastData = ['message' => 'وەڵامێکی نەچاوەڕوانکراو لە خزمەتگوزاری ڕاندن (HTTP ' . $response->status() . ')'];
+                    $lastData = ['message' => 'ÙˆÛ•ÚµØ§Ù…ÛŽÚ©ÛŒ Ù†Û•Ú†Ø§ÙˆÛ•Ú•ÙˆØ§Ù†Ú©Ø±Ø§Ùˆ Ù„Û• Ø®Ø²Ù…Û•ØªÚ¯ÙˆØ²Ø§Ø±ÛŒ Ú•Ø§Ù†Ø¯Ù† (HTTP ' . $response->status() . ')'];
                 } else {
                     $errText = trim(
                         (string) ($data['compiler_error'] ?? '') . ' ' .
@@ -211,13 +227,13 @@ class AdminController extends Controller
                     $lastData = $data;
                 }
             } catch (\Throwable $e) {
-                $lastData = ['message' => 'پەیوەندی بە خزمەتگوزاری ڕاندن نەکرا: ' . $e->getMessage()];
+                $lastData = ['message' => 'Ù¾Û•ÛŒÙˆÛ•Ù†Ø¯ÛŒ Ø¨Û• Ø®Ø²Ù…Û•ØªÚ¯ÙˆØ²Ø§Ø±ÛŒ Ú•Ø§Ù†Ø¯Ù† Ù†Û•Ú©Ø±Ø§: ' . $e->getMessage()];
             }
             if ($attempt < 3) {
                 usleep(1000000 * $attempt);
             }
         }
-        return $lastData ?? ['message' => 'خزمەتگوزاری ڕاندن ئێستا بەردەست نییە، دوای چەند خولەک هەوڵبدەوە'];
+        return $lastData ?? ['message' => 'Ø®Ø²Ù…Û•ØªÚ¯ÙˆØ²Ø§Ø±ÛŒ Ú•Ø§Ù†Ø¯Ù† Ø¦ÛŽØ³ØªØ§ Ø¨Û•Ø±Ø¯Û•Ø³Øª Ù†ÛŒÛŒÛ•ØŒ Ø¯ÙˆØ§ÛŒ Ú†Û•Ù†Ø¯ Ø®ÙˆÙ„Û•Ú© Ù‡Û•ÙˆÚµØ¨Ø¯Û•ÙˆÛ•'];
     }
 
     protected function compileOnPiston(string $language, string $code)
@@ -231,7 +247,7 @@ class AdminController extends Controller
         ];
         $cfg = $configs[$language] ?? null;
         if (!$cfg) {
-            return ['message' => 'ئەم زمانە لەسەر خزمەتگوزاری پایسۆن بەردەست نییە'];
+            return ['message' => 'Ø¦Û•Ù… Ø²Ù…Ø§Ù†Û• Ù„Û•Ø³Û•Ø± Ø®Ø²Ù…Û•ØªÚ¯ÙˆØ²Ø§Ø±ÛŒ Ù¾Ø§ÛŒØ³Û†Ù† Ø¨Û•Ø±Ø¯Û•Ø³Øª Ù†ÛŒÛŒÛ•'];
         }
         [$pistonLang, $version, $filename] = $cfg;
         try {
@@ -249,11 +265,11 @@ class AdminController extends Controller
             $httpStatus = $response->status();
             $data = $response->json();
             if (!is_array($data) || (!isset($data['run']) && !isset($data['compile']))) {
-                return ['message' => 'خزمەتگوزاری پایسۆن وەڵامی ڕاندن نەدایەوە (HTTP ' . $httpStatus . ')'];
+                return ['message' => 'Ø®Ø²Ù…Û•ØªÚ¯ÙˆØ²Ø§Ø±ÛŒ Ù¾Ø§ÛŒØ³Û†Ù† ÙˆÛ•ÚµØ§Ù…ÛŒ Ú•Ø§Ù†Ø¯Ù† Ù†Û•Ø¯Ø§ÛŒÛ•ÙˆÛ• (HTTP ' . $httpStatus . ')'];
             }
             return $this->normalizePistonResult($data);
         } catch (\Throwable $e) {
-            return ['message' => 'پەیوەندی بە خزمەتگوزاری پایسۆن نەکرا: ' . $e->getMessage()];
+            return ['message' => 'Ù¾Û•ÛŒÙˆÛ•Ù†Ø¯ÛŒ Ø¨Û• Ø®Ø²Ù…Û•ØªÚ¯ÙˆØ²Ø§Ø±ÛŒ Ù¾Ø§ÛŒØ³Û†Ù† Ù†Û•Ú©Ø±Ø§: ' . $e->getMessage()];
         }
     }
 
@@ -293,7 +309,7 @@ class AdminController extends Controller
                 'compiler_message' => '',
             ];
         }
-        return ['message' => 'خزمەتگوزاری پایسۆن وەڵامی دەرکەوتن نەدایەوە'];
+        return ['message' => 'Ø®Ø²Ù…Û•ØªÚ¯ÙˆØ²Ø§Ø±ÛŒ Ù¾Ø§ÛŒØ³Û†Ù† ÙˆÛ•ÚµØ§Ù…ÛŒ Ø¯Û•Ø±Ú©Û•ÙˆØªÙ† Ù†Û•Ø¯Ø§ÛŒÛ•ÙˆÛ•'];
     }
 
     public function runCloud(Request $request)
@@ -301,7 +317,7 @@ class AdminController extends Controller
         $language = $request->input('language', '');
         $code = $request->input('code', '');
         if (trim($code) === '') {
-            return response()->json(['message' => 'هیچ کۆدێک نەنووسراوە'], 400);
+            return response()->json(['message' => 'Ù‡ÛŒÚ† Ú©Û†Ø¯ÛŽÚ© Ù†Û•Ù†ÙˆÙˆØ³Ø±Ø§ÙˆÛ•'], 400);
         }
         $compilerMap = [
             'php' => 'php-8.2.24',
@@ -312,7 +328,7 @@ class AdminController extends Controller
         ];
         $compiler = $compilerMap[$language] ?? null;
         if (!$compiler) {
-            return response()->json(['message' => 'کارپێکردنی ئەم زمانە لەسەر ڕاژەکار بەردەست نییە'], 400);
+            return response()->json(['message' => 'Ú©Ø§Ø±Ù¾ÛŽÚ©Ø±Ø¯Ù†ÛŒ Ø¦Û•Ù… Ø²Ù…Ø§Ù†Û• Ù„Û•Ø³Û•Ø± Ú•Ø§Ú˜Û•Ú©Ø§Ø± Ø¨Û•Ø±Ø¯Û•Ø³Øª Ù†ÛŒÛŒÛ•'], 400);
         }
         $backends = ['piston'];
         if (in_array($language, ['java', 'rs', 'cs'], true)) {
@@ -340,7 +356,7 @@ class AdminController extends Controller
         $language = $request->input('language', '');
         $code = $request->input('code', '');
         if (trim($code) === '') {
-            return response()->json(['output' => '', 'error' => 'هیچ کۆدێک نەنووسراوە'], 400);
+            return response()->json(['output' => '', 'error' => 'Ù‡ÛŒÚ† Ú©Û†Ø¯ÛŽÚ© Ù†Û•Ù†ÙˆÙˆØ³Ø±Ø§ÙˆÛ•'], 400);
         }
         $cloudMap = [
             'js' => 'nodejs-20.17.0',
@@ -349,7 +365,7 @@ class AdminController extends Controller
         ];
         $compiler = $cloudMap[$language] ?? null;
         if (!$compiler) {
-            return response()->json(['output' => '', 'error' => 'کارپێکردنی ئەم زمانە لەسەر ڕاژەکار بەردەست نییە'], 400);
+            return response()->json(['output' => '', 'error' => 'Ú©Ø§Ø±Ù¾ÛŽÚ©Ø±Ø¯Ù†ÛŒ Ø¦Û•Ù… Ø²Ù…Ø§Ù†Û• Ù„Û•Ø³Û•Ø± Ú•Ø§Ú˜Û•Ú©Ø§Ø± Ø¨Û•Ø±Ø¯Û•Ø³Øª Ù†ÛŒÛŒÛ•'], 400);
         }
         $cloud = $this->compileOnPiston($language, $code);
         if (isset($cloud['message'])) {
@@ -377,7 +393,7 @@ class AdminController extends Controller
             'cs' => ['dotnet90csharpcoreclr', 'dotnet80csharpcoreclr', 'dotnet90csharpmono'],
         ][$language] ?? [];
         if (!$compilers) {
-            return ['message' => 'کارپێکردنی ئەم زمانە لەسەر خزمەتگوزاری گۆدبۆلت بەردەست نییە'];
+            return ['message' => 'Ú©Ø§Ø±Ù¾ÛŽÚ©Ø±Ø¯Ù†ÛŒ Ø¦Û•Ù… Ø²Ù…Ø§Ù†Û• Ù„Û•Ø³Û•Ø± Ø®Ø²Ù…Û•ØªÚ¯ÙˆØ²Ø§Ø±ÛŒ Ú¯Û†Ø¯Ø¨Û†Ù„Øª Ø¨Û•Ø±Ø¯Û•Ø³Øª Ù†ÛŒÛŒÛ•'];
         }
         foreach ($compilers as $compiler) {
             for ($attempt = 1; $attempt <= 2; $attempt++) {
@@ -419,7 +435,7 @@ class AdminController extends Controller
                 }
             }
         }
-        return ['message' => 'هەردوو خزمەتگوزاری ڕاندن ئێستا بەردەست نین، دوای چەند خولەک هەوڵبدەوە'];
+        return ['message' => 'Ù‡Û•Ø±Ø¯ÙˆÙˆ Ø®Ø²Ù…Û•ØªÚ¯ÙˆØ²Ø§Ø±ÛŒ Ú•Ø§Ù†Ø¯Ù† Ø¦ÛŽØ³ØªØ§ Ø¨Û•Ø±Ø¯Û•Ø³Øª Ù†ÛŒÙ†ØŒ Ø¯ÙˆØ§ÛŒ Ú†Û•Ù†Ø¯ Ø®ÙˆÙ„Û•Ú© Ù‡Û•ÙˆÚµØ¨Ø¯Û•ÙˆÛ•'];
     }
 
     protected function normalizeGodboltResult(array $data)

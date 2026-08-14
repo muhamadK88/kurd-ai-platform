@@ -1,0 +1,272 @@
+/* ==========================================================================
+   KURD AI — Hero "Neural Horizon" · bespoke split-screen hero.
+   Loaded ONLY on the home page (resources/views/home.blade.php).
+   Asymmetric split: typography (left) + Three.js neural sphere (right).
+   Pure additive layer — never touches page logic, ids or data.
+   Guards: prefers-reduced-motion / kai-perf / touch keep the hero usable.
+   ========================================================================== */
+
+/* ---------- deep-space stage ---------- */
+.kai-hero {
+    background:
+        radial-gradient(1100px 520px at 78% 18%, rgba(124, 58, 237, .20), transparent 62%),
+        radial-gradient(900px 480px at 12% 82%, rgba(6, 182, 212, .16), transparent 60%),
+        linear-gradient(180deg, #070b16 0%, #0a0f1d 55%, #0c1324 100%);
+    isolation: isolate;
+}
+.kai-hero::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(34, 211, 238, .55), rgba(168, 85, 247, .55), transparent);
+    z-index: 20;
+    pointer-events: none;
+}
+
+/* ---------- animated neon gradient headline ---------- */
+.kai-neon-title {
+    background: linear-gradient(112deg, #22d3ee 0%, #818cf8 28%, #c084fc 55%, #f472b6 78%, #22d3ee 100%);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 20px rgba(34, 211, 238, .30)) drop-shadow(0 6px 60px rgba(124, 58, 237, .28));
+    animation: kaiGradFlow 7s linear infinite;
+}
+@keyframes kaiGradFlow {
+    to { background-position: 220% center; }
+}
+
+/* ---------- typewriter ---------- */
+.kai-type-wrap {
+    min-height: 1.9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@media (min-width: 1024px) {
+    .kai-type-wrap { justify-content: flex-start; }
+}
+.kai-typewriter {
+    color: #a5f3fc;
+    text-shadow: 0 0 18px rgba(34, 211, 238, .35);
+}
+.kai-caret {
+    display: inline-block;
+    width: 3px;
+    height: 1.05em;
+    margin-inline-start: 3px;
+    background: #22d3ee;
+    box-shadow: 0 0 10px #22d3ee;
+    animation: kaiCaretBlink 1s steps(1) infinite;
+    border-radius: 2px;
+    vertical-align: -0.12em;
+}
+@keyframes kaiCaretBlink {
+    50% { opacity: 0; }
+}
+
+/* ---------- feature stat chips ---------- */
+.kai-stat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .55rem 1.05rem;
+    border-radius: 999px;
+    font-size: .82rem;
+    font-weight: 800;
+    color: #e2e8f0;
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid rgba(148, 163, 184, .22);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+    transition: border-color .3s var(--kai-smooth), box-shadow .3s var(--kai-smooth), transform .3s var(--kai-smooth);
+}
+.kai-stat-chip:hover {
+    border-color: rgba(34, 211, 238, .5);
+    box-shadow: 0 0 22px rgba(34, 211, 238, .14);
+    transform: translateY(-2px);
+}
+.kai-stat-chip .kai-tick {
+    color: #22d3ee;
+    text-shadow: 0 0 10px rgba(34, 211, 238, .8);
+}
+
+/* ---------- chat launch (drawer opener) ---------- */
+.kai-chat-launch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    padding: 1rem 1.6rem;
+    border-radius: 1.2rem;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #e8fdff;
+    background: linear-gradient(135deg, rgba(6, 182, 212, .18), rgba(124, 58, 237, .18));
+    border: 1px solid rgba(34, 211, 238, .45);
+    box-shadow: 0 0 24px rgba(34, 211, 238, .18), inset 0 1px 0 rgba(255, 255, 255, .12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    overflow: hidden;
+    transition: transform .3s var(--kai-spring), box-shadow .3s var(--kai-smooth), border-color .3s var(--kai-smooth);
+}
+.kai-chat-launch::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, .28) 50%, transparent 70%);
+    transform: translateX(-140%);
+    transition: transform .7s var(--kai-ease);
+    pointer-events: none;
+}
+.kai-chat-launch:hover {
+    transform: translateY(-3px);
+    border-color: rgba(168, 85, 247, .7);
+    box-shadow: 0 10px 34px rgba(124, 58, 237, .35), 0 0 30px rgba(34, 211, 238, .25);
+}
+.kai-chat-launch:hover::after { transform: translateX(140%); }
+.kai-chat-launch:active { transform: scale(.97); }
+.kai-chat-launch svg { width: 1.15em; height: 1.15em; color: #22d3ee; filter: drop-shadow(0 0 8px rgba(34, 211, 238, .8)); transition: transform .3s var(--kai-spring); }
+.kai-chat-launch:hover svg { transform: rotate(-8deg) scale(1.1); }
+
+/* ---------- right: neural sphere stage ---------- */
+.kai-sphere-stage {
+    position: relative;
+    min-height: 440px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.kai-sphere-halo {
+    position: absolute;
+    width: min(460px, 82%);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(168, 85, 247, .22), rgba(6, 182, 212, .12) 46%, transparent 70%);
+    filter: blur(12px);
+    animation: kaiHaloPulse 6s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes kaiHaloPulse {
+    0%, 100% { opacity: .7; transform: scale(1); }
+    50%      { opacity: 1; transform: scale(1.06); }
+}
+.kai-sphere-stage::before {
+    content: '';
+    position: absolute;
+    width: min(430px, 78%);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px dashed rgba(34, 211, 238, .30);
+    animation: kaiSphereRotor 40s linear infinite;
+    pointer-events: none;
+}
+.kai-sphere-stage::after {
+    content: '';
+    position: absolute;
+    width: min(300px, 56%);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px dashed rgba(168, 85, 247, .34);
+    animation: kaiSphereRotor 26s linear infinite reverse;
+    pointer-events: none;
+}
+@keyframes kaiSphereRotor {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+#kai-neuro-sphere {
+    position: relative;
+    width: min(420px, 76%);
+    aspect-ratio: 1;
+    z-index: 2;
+}
+#kai-neuro-sphere canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* ---------- floating tech chips ---------- */
+.kai-chip {
+    position: absolute;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .5rem .95rem;
+    border-radius: 999px;
+    font-size: .76rem;
+    font-weight: 800;
+    letter-spacing: .02em;
+    direction: ltr;
+    color: #cffafe;
+    background: rgba(8, 12, 24, .55);
+    border: 1px solid color-mix(in srgb, var(--chip-c, #22d3ee) 45%, transparent);
+    box-shadow: 0 0 18px color-mix(in srgb, var(--chip-c, #22d3ee) 16%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: kaiChipFloat 7s ease-in-out infinite;
+    white-space: nowrap;
+}
+.kai-chip .kai-chip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--chip-c, #22d3ee);
+    box-shadow: 0 0 10px var(--chip-c, #22d3ee);
+    flex-shrink: 0;
+}
+.kai-chip--a { --chip-c: #22d3ee; top: 12%;   inset-inline-start: 6%;  animation-delay: -1.2s; }
+.kai-chip--b { --chip-c: #818cf8; top: 26%;   inset-inline-end: 2%;    animation-delay: -3.4s; }
+.kai-chip--c { --chip-c: #fbbf24; bottom: 24%; inset-inline-start: 12%; animation-delay: -5s;   }
+.kai-chip--d { --chip-c: #f472b6; bottom: 10%; inset-inline-end: 14%;  animation-delay: -2.2s; }
+.kai-chip--e { --chip-c: #34d399; top: 6%;    inset-inline-end: 22%;   animation-delay: -4.1s; }
+@keyframes kaiChipFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50%      { transform: translateY(-16px) rotate(2deg); }
+}
+
+/* ---------- entrance ---------- */
+.kai-hero-in {
+    animation: kaiHeroIn .9s var(--kai-ease) both;
+}
+.kai-hero-in--d1 { animation-delay: .12s; }
+.kai-hero-in--d2 { animation-delay: .24s; }
+.kai-hero-in--d3 { animation-delay: .36s; }
+.kai-hero-in--d4 { animation-delay: .48s; }
+@keyframes kaiHeroIn {
+    from { opacity: 0; transform: translateY(26px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- guards ---------- */
+html.kai-perf .kai-hero-fx,
+html.kai-perf .kai-sphere-stage::before,
+html.kai-perf .kai-sphere-stage::after,
+html.kai-perf .kai-chip { animation: none; }
+html.kai-perf .kai-chip { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+    .kai-neon-title,
+    .kai-caret,
+    .kai-stat-chip,
+    .kai-chat-launch::after,
+    .kai-sphere-halo,
+    .kai-sphere-stage::before,
+    .kai-sphere-stage::after,
+    .kai-chip,
+    .kai-hero-in { animation: none !important; }
+    .kai-chip { display: none; }
+    .kai-caret { opacity: .4; }
+}
+
+@media (max-width: 640px) {
+    .kai-sphere-stage { min-height: 340px; }
+    .kai-chip { font-size: .68rem; padding: .4rem .7rem; }
+}

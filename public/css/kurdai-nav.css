@@ -1,11 +1,19 @@
 /* ==========================================================================
-   KURD AI — ka-nav component ("Aurora Glass" navigation standard)
+   KURD AI — ka-nav component ("Futuristic Glass v4" navigation standard)
    Wires the ka-* vocabulary used by resources/views/partials/nav.blade.php:
      .ka-nav, .ka-nav__shell, .ka-navlinks, .ka-navlinks__pill,
      .ka-navlink(.is-active), .ka-wordmark, .ka-gradient-text, .ka-icon-btn,
      .ka-burger, .ka-drawer, .ka-glass
    Same high-FPS glass / tech / FLIP treatment as kurdai-design.css.
    Pure presentation: no markup, logic or data is touched.
+
+   v4 adds:
+     • Animated aurora hairline along the nav's bottom edge when scrolled.
+     • Conic aurora ring around the active FLIP pill + neon glow.
+     • Glowing mobile drawer with aurora top edge, data-grid drift and
+       staggered link entrance.
+     • Icon buttons get a neon halo + specular edge on hover.
+     • Wordmark neon aurora glow (composited only — no filter stacking).
    ========================================================================== */
 
 /* ---------- tokens used by the nav partial's inline styles ---------- */
@@ -41,15 +49,54 @@ html.dark {
     contain: layout style;
 }
 
+/* micro-nodes baked into the glass itself (same trick as glass-cards) */
+.ka-nav {
+    background-image:
+        radial-gradient(circle at 8% 50%,  var(--kai-nodule, rgba(37,99,235,.3)) 0 1.2px, transparent 2.5px),
+        radial-gradient(circle at 94% 40%, var(--kai-nodule, rgba(37,99,235,.3)) 0 1.2px, transparent 2.5px);
+    background-repeat: no-repeat, no-repeat;
+}
+
 /* condensed state toggled by kurdai-nav.js on scroll */
 .ka-nav.kai-nav-scrolled {
-    background: color-mix(in srgb, var(--kai-canvas, #f5f7fb) 86%, transparent);
+    background-color: color-mix(in srgb, var(--kai-canvas, #f5f7fb) 88%, transparent);
     border-bottom-color: var(--ka-line-soft);
     box-shadow: 0 8px 30px -14px rgba(16, 24, 40, .22);
 }
 
 html.dark .ka-nav.kai-nav-scrolled {
     box-shadow: 0 10px 34px -14px rgba(0, 0, 0, .75);
+}
+
+/* ---- animated aurora hairline along the bottom edge (on scroll) ---- */
+.ka-nav::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    inset-inline: 0;
+    height: 1px;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        var(--kai-aurora-1, rgba(37,99,235,.85)) 18%,
+        var(--kai-aurora-2, rgba(6,182,212,.80)) 36%,
+        var(--kai-aurora-3, rgba(124,58,237,.85)) 54%,
+        var(--kai-aurora-4, rgba(236,72,153,.80)) 72%,
+        transparent 100%);
+    background-size: 220% auto;
+    background-position: 0% center;
+    opacity: 0;
+    transition: opacity .5s var(--ka-ease);
+}
+
+.ka-nav.kai-nav-scrolled::after {
+    opacity: 1;
+    animation: kaAuroraFlow 9s linear infinite;
+}
+
+@keyframes kaAuroraFlow {
+    to { background-position: 220% center; }
 }
 
 .ka-nav__shell {
@@ -79,7 +126,11 @@ html.dark .ka-nav.kai-nav-scrolled {
 }
 
 .ka-wordmark {
-    transition: color .3s var(--ka-ease);
+    transition: color .3s var(--ka-ease), text-shadow .3s var(--ka-ease);
+}
+
+.ka-vt-logo:hover .ka-wordmark {
+    text-shadow: 0 0 24px color-mix(in srgb, var(--kai-brand-2, #06b6d4) 50%, transparent);
 }
 
 .ka-gradient-text {
@@ -130,7 +181,7 @@ html.dark .ka-navlink.is-active { color: #22d3ee; }
 }
 
 /* the FLIP pill — geometry is driven by kurdai-nav.js (placePill/morphPill);
-   CSS owns only the surface + fade-in */
+   CSS owns only the surface + fade-in. v4 adds a conic aurora ring + glow. */
 .ka-navlinks__pill {
     position: absolute;
     top: 0;
@@ -160,6 +211,44 @@ html.dark .ka-navlinks__pill {
 
 .ka-navlinks__pill.kai-pill-on { opacity: 1; }
 
+/* neon glow under the pill once it's live */
+.ka-navlinks.kai-has-pill .ka-navlinks__pill.kai-pill-on {
+    box-shadow:
+        0 10px 26px -10px color-mix(in srgb, var(--kai-brand-3, #7c3aed) 45%, transparent),
+        inset 0 1px 0 rgba(255, 255, 255, .45);
+}
+
+/* aurora conic ring hugging the pill (spin on hover) */
+.ka-navlinks__pill::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    z-index: 0;
+    padding: 2px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .4s var(--ka-ease);
+    background: conic-gradient(from 0deg,
+        transparent 0%,
+        var(--kai-aurora-1, rgba(37,99,235,.85)) 10%,
+        var(--kai-aurora-2, rgba(6,182,212,.80)) 25%,
+        var(--kai-aurora-3, rgba(124,58,237,.85)) 42%,
+        transparent 52%,
+        var(--kai-aurora-4, rgba(236,72,153,.80)) 66%,
+        var(--kai-aurora-1, rgba(37,99,235,.85)) 82%,
+        transparent 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: kaRingSpin 5s linear infinite;
+}
+
+.ka-navlinks:hover .ka-navlinks__pill::before { opacity: 1; }
+
+@keyframes kaRingSpin { to { transform: rotate(360deg); } }
+
 /* ---------- icon buttons (lang / theme / profile / logout / burger) ---------- */
 .ka-icon-btn {
     display: inline-flex;
@@ -181,7 +270,10 @@ html.dark .ka-navlinks__pill {
 
 .ka-icon-btn:hover {
     transform: translateY(-2px);
-    box-shadow: var(--kai-shadow-2, 0 24px 48px -20px rgba(16, 24, 40, .22));
+    border-color: color-mix(in srgb, var(--kai-brand-2, #06b6d4) 45%, var(--ka-glass-brd));
+    box-shadow:
+        var(--kai-shadow-2, 0 24px 48px -20px rgba(16, 24, 40, .22)),
+        0 10px 30px -12px color-mix(in srgb, var(--kai-brand-2, #06b6d4) 45%, transparent);
 }
 
 .ka-icon-btn:active { transform: translateY(-1px) scale(.97); }
@@ -206,24 +298,87 @@ html.dark .ka-navlinks__pill {
 .ka-drawer-inner { display: none; }
 
 .ka-glass {
+    position: relative;
     background: var(--ka-glass-bg);
     border: 1px solid var(--ka-glass-brd);
     -webkit-backdrop-filter: blur(22px) saturate(180%);
     backdrop-filter: blur(22px) saturate(180%);
     box-shadow: var(--kai-shadow-2, 0 24px 48px -20px rgba(16, 24, 40, .22));
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* data-grid drift inside the drawer glass */
+.ka-glass::before {
+    content: '';
+    position: absolute;
+    inset: -22px;
+    border-radius: inherit;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, var(--kai-grid-line, rgba(120,140,180,.07)) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--kai-grid-line, rgba(120,140,180,.07)) 1px, transparent 1px);
+    background-size: 22px 22px;
+    animation: kaGridMove 16s var(--ka-ease) infinite;
+}
+
+@keyframes kaGridMove {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(22px, 22px, 0); }
+}
+
+/* aurora top edge on the drawer */
+.ka-glass::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    inset-inline: 0;
+    height: 2px;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(90deg,
+        var(--kai-aurora-1, rgba(37,99,235,.85)),
+        var(--kai-aurora-2, rgba(6,182,212,.80)) 35%,
+        var(--kai-aurora-3, rgba(124,58,237,.85)) 65%,
+        var(--kai-aurora-4, rgba(236,72,153,.80)));
+    background-size: 220% auto;
+    animation: kaAuroraFlow 8s linear infinite;
+    opacity: .9;
 }
 
 #ka-drawer { max-height: 0; }
 #ka-drawer[aria-hidden="false"] { max-height: none; }
 
 #ka-drawer a {
+    position: relative;
+    z-index: 1;
     transition:
         transform .3s var(--ka-spring),
         background-color .3s var(--ka-ease),
-        color .3s var(--ka-ease);
+        color .3s var(--ka-ease),
+        box-shadow .3s var(--ka-ease);
 }
 
 #ka-drawer a:hover { transform: translateY(-2px); }
+
+/* active drawer link: brand gradient + aurora glow (bg is set inline) */
+#ka-drawer a[style*="--ka-brand-gradient"] {
+    box-shadow:
+        0 12px 28px -10px color-mix(in srgb, var(--kai-brand-3, #7c3aed) 55%, transparent),
+        0 0 0 1px rgba(255, 255, 255, .25);
+}
+
+/* staggered entrance for drawer links (JS toggles .ka-open on the drawer) */
+#ka-drawer.ka-open a {
+    animation: kaDrawerIn .45s var(--ka-ease) both;
+    animation-delay: calc(var(--i, 0) * 34ms);
+}
+
+@keyframes kaDrawerIn {
+    from { opacity: 0; transform: translateY(10px) scale(.98); }
+    to   { opacity: 1; transform: none; }
+}
 
 /* ---------- motion accessibility ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -236,6 +391,16 @@ html.dark .ka-navlinks__pill {
         transition-duration: .001ms !important;
     }
     .ka-navlinks__pill { opacity: 1; }
+    .ka-nav::after,
+    .ka-navlinks__pill::before,
+    .ka-glass::before,
+    .ka-glass::after,
+    #ka-drawer.ka-open a { animation: none; }
     .kai-vt .ka-vt-logo img { animation: none; }
     .ka-gradient-text { animation: none; }
 }
+
+html.kai-perf .ka-navlinks__pill::before,
+html.kai-perf .ka-glass::before,
+html.kai-perf .ka-glass::after { animation: none; }
+html.kai-perf .ka-nav::after { animation: none; }

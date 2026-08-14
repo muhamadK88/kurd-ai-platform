@@ -1,12 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.png" type="image/png">
     <title>کۆرسەکانمان - کورد ئەی ئای</title>
 
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <meta name="description" content="کۆرسەکانی کورد ئێڵی ئای - فێربوونی زیرەکی دەستکرد و پروگرامسازی بە زمانی کوردی">
     <meta name="keywords" content="کۆرس, کورد ئێڵی ئای, زیرەکی دەستکرد, فێربوون, پروگرامسازی, کوردی">
     <meta property="og:type" content="website">
@@ -21,32 +20,11 @@
     <meta property="twitter:image" content="https://kurd-ai.com/logo.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
 
-    <script>
-        tailwind.config = { 
-            darkMode: 'class', 
-            theme: { 
-                extend: { 
-                    fontFamily: { sans: ['"Noto Sans Arabic"', 'sans-serif'] },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                    },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        }
-                    }
-                } 
-            } 
-        }
-        
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    <link rel="stylesheet" href="/css/kai-tailwind.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap"></noscript>
+    <script>if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
@@ -74,49 +52,16 @@
 
     @include('partials.kurdai-design')
 
-    <link rel="stylesheet" href="{{ asset('css/kai-courses.css') }}?v=2">
+    <link rel="stylesheet" href="{{ asset('css/kai-courses.css') }}?v=3">
 </head>
 
-<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
+<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300">
 
-    <!-- ناوى بارى سەرەکی -->
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="/" class="flex items-center gap-3 transition group relative">
-                <div class="relative flex-shrink-0">
-                    <div class="absolute -inset-2 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-all duration-300 dark:group-hover:opacity-50"></div>
-                    <img src="logo.jpg" alt="Kurd AI Logo" class="h-10 md:h-11 w-auto object-contain dark:invert drop-shadow-md group-hover:scale-105 transition-transform duration-300 relative z-10">
-                </div>
-                <div class="flex flex-col justify-center hidden sm:flex">
-                    <h1 class="text-xl md:text-2xl font-black tracking-tight text-gray-900 dark:text-white leading-none group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-300">KURD AI</h1>
-                    <span class="text-[0.55rem] md:text-[0.60rem] font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 mt-0.5">INNOVATION - FUTURE</span>
-                </div>
-            </a>
-
-            <div class="hidden lg:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
-                <a href="/" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
-                <a href="/ferga" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
-                <a href="/courses" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
-                <a href="/news" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>
-                <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
-                <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
-                <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
-                <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەربارەی ئێمە" data-ba="دەربارەی مە">دەربارەی ئێمە</a>
-            </div>
-
-            <div class="flex items-center gap-2.5">
-                <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
-                <a href="/#feedback-section" class="lang-str px-3 py-2 bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 font-bold rounded-xl text-xs border border-rose-100 dark:border-rose-800/50 hover:bg-rose-100 transition" data-so="ڕەخنە" data-ba="ڕەخنە">ڕەخنە</a>
-                <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
-                <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50 lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
-                <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</button>
-            </div>
-        </div>
-    </nav>
+    @include('partials.nav', ['active' => 'courses'])
 
     <!-- بەشی هەیدەر -->
     <header class="relative min-h-[50vh] flex items-center justify-center overflow-hidden py-20 px-4">
-        <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+<div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
             <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         </div>
 
@@ -144,7 +89,7 @@
 
     <!-- بەشی پیشاندانی کۆرسەکان -->
     <section class="relative z-10 container mx-auto pb-24 px-4">
-        <div id="courses-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"></div>
+        <div id="courses-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto"></div>
     </section>
 
     <!-- بەشی زیادکردنی کۆرس (تایبەت بە ئەدمین) -->
@@ -311,12 +256,12 @@
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="application/json" id="kurdai-imgbb-config">{!! json_encode(config('kurdai.imgbb.api_key'), 15) !!}</script>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getDatabase, ref as dbRef, push, set, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-        const app = initializeApp(firebaseConfig);
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
         const IMGBB_API_KEY = JSON.parse((document.getElementById('kurdai-imgbb-config') || {}).textContent || 'null');
@@ -614,7 +559,7 @@
                         </div>
                     </div>`;
 
-                courses.forEach(c => {
+                courses.forEach((c, ci) => {
                     const title = currentLang === 'ba' && c.title_ba ? c.title_ba : c.title_so || c.title; 
                     const desc = currentLang === 'ba' && c.desc_ba ? c.desc_ba : c.desc_so || c.description;
                     const btnText = currentLang === 'so' ? 'دەستپێکردن' : 'دەستپێکرن';
@@ -632,8 +577,8 @@
                     const safeTopic = (catName).replace(/"/g, '&quot;').replace(/'/g, "\\'");
 
                     allHtml += `
-                        <div class="glass-card rounded-[2rem] overflow-hidden flex flex-col group course-item transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl" data-lang="${c.course_category || 'sorani'}" data-topic="${c.topic || 'other'}">
-                            <div class="relative h-56 overflow-hidden bg-gray-200 dark:bg-gray-800">
+                        <div class="glass-card rounded-[2rem] overflow-hidden flex flex-col group course-item transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl relative" data-lang="${c.course_category || 'sorani'}" data-topic="${c.topic || 'other'}">
+                            <div class="relative h-52 overflow-hidden bg-gray-200 dark:bg-gray-800">
                                 <img src="${c.image_url}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                 <div class="absolute top-4 right-4 bg-blue-600 text-white text-xs font-black px-3 py-1.5 rounded-full shadow-md">${langBadge}</div>
                                 <div class="absolute top-4 left-4 bg-white/90 dark:bg-[#0a0f1c]/90 text-gray-900 dark:text-white backdrop-blur-md px-3 py-1.5 rounded-full font-black text-xs shadow-lg border border-gray-200/50 dark:border-gray-700/50">${priceBadge}</div>
@@ -642,7 +587,9 @@
                                 </button>
                             </div>
                             <div class="p-6 flex flex-col flex-grow relative bg-white/50 dark:bg-[#111827]/50">
-                                <span class="text-xs font-black text-indigo-500 dark:text-indigo-400 mb-2 uppercase tracking-wider">${catName}</span>
+                                <div class="flex items-center justify-between gap-3 mb-2">
+                                    <span class="text-xs font-black text-indigo-500 dark:text-indigo-400 uppercase tracking-wider">${catName}</span>
+                                </div>
                                 <h3 class="font-black text-2xl mb-2 text-gray-900 dark:text-white line-clamp-1">${title}</h3>
                                 
                                 <div class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4 flex-grow">
@@ -755,7 +702,7 @@
         onAuthStateChanged(auth, (user) => { 
             if(!user) window.location.href = "/login"; 
             else {
-                document.body.style.display = 'block';
+                /* body visible instantly */
                 currentUserId = user.uid;
                 onValue(dbRef(db, 'favorites/' + user.uid + '/courses'), (snap) => {
                     userFavorites = snap.val() || {};

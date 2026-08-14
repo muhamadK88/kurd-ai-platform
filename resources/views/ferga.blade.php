@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = { 
-            darkMode: 'class', 
-            theme: { 
-                extend: { 
-                    fontFamily: { sans: ['"Noto Sans Arabic"', 'sans-serif'] },
-                    animation: { 'blob': 'blob 7s infinite', },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        }
-                    }
-                } 
-            } 
-        }
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+<script>if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
-    <!-- Quill Rich Text Editor CSS & JS -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+        (function () {
+            /* pyodide is ~10MB — lazy-load it only when the user actually runs Python */
+            var pyPromise = null;
+            window.loadPyodide = function () {
+                if (pyPromise) return pyPromise;
+                pyPromise = new Promise(function (resolve, reject) {
+                    var s = document.createElement('script');
+                    s.src = 'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js';
+                    s.onload = function () {
+                        try {
+                            var factory = window.loadPyodide;
+                            factory().then(resolve, reject);
+                        } catch (e) { reject(e); }
+                    };
+                    s.onerror = function () { pyPromise = null; reject(new Error('pyodide failed to load')); };
+                    document.head.appendChild(s);
+                });
+                return pyPromise;
+            };
+        })();
+    </script>
+    <!-- Quill rich text editor is lazy-loaded by initQuill() only when an admin edits content -->
     <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" type="image/png">
     <link rel="icon" href="/favicon.png" type="image/png">
     <!-- Meta Tags -->
     <meta charset="UTF-8">
@@ -46,8 +45,11 @@
 
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
+
+    <link rel="stylesheet" href="/css/kai-tailwind.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap"></noscript>
     <style>
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
@@ -151,46 +153,15 @@
     </style>
 
     @include('partials.kurdai-design')
-    <link rel="stylesheet" href="/css/kai-ferga.css?v=4">
-    <script src="/js/kai-ferga.js?v=2" defer></script>
+    <link rel="stylesheet" href="/css/kai-ferga.css?v=7">
+    <script src="/js/kai-ferga.js?v=4" defer></script>
 </head>
-<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
+<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300">
 
     <canvas id="confetti-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-[9999]" style="display:none;"></canvas>
     <div id="xp-notification-container"></div>
 
-    <!-- ناڤباری سەرەکی -->
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="/" class="flex items-center gap-3 transition group relative">
-                <div class="relative flex-shrink-0">
-                    <div class="absolute -inset-2 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-all duration-300 dark:group-hover:opacity-50"></div>
-                    <img src="logo.jpg" alt="Kurd AI Logo" class="h-10 md:h-11 w-auto object-contain dark:invert drop-shadow-md group-hover:scale-105 transition-transform duration-300 relative z-10">
-                </div>
-                <div class="flex flex-col justify-center hidden sm:flex">
-                    <h1 class="text-xl md:text-2xl font-black tracking-tight text-gray-900 dark:text-white leading-none group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-300">KURD AI</h1>
-                    <span class="text-[0.55rem] md:text-[0.60rem] font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 mt-0.5">INNOVATION - FUTURE</span>
-                </div>
-            </a>
-            <div class="hidden lg:flex items-center space-x-reverse space-x-1 bg-gray-100/50 dark:bg-gray-800/50 p-1.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50">
-                <a href="/" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="سەرەکی" data-ba="سەرەکی">سەرەکی</a>
-                <a href="/ferga" class="px-3.5 py-2 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 font-bold rounded-xl shadow-sm transition text-sm lang-str" data-so="فێرگە" data-ba="فێرگە">فێرگە</a>
-                <a href="/courses" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="کۆرسەکان" data-ba="کۆرس">کۆرسەکان</a>
-                <a href="/news" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="هەواڵەکان" data-ba="نووچە">هەواڵەکان</a>
-                <a href="/ai-tools" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="تووڵەکان" data-ba="ئامراز">تووڵەکان</a>
-                <a href="/academic-guide" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="ڕێنیشاندەر" data-ba="ڕێبەر">ڕێنیشاندەر</a>
-                <a href="/universities" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="زانکۆکان" data-ba="زانکۆ">زانکۆکان</a>
-                <a href="/about" class="px-3.5 py-2 text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition text-sm lang-str" data-so="دەربارەی ئێمە" data-ba="دەربارەی مە">دەربارەی ئێمە</a>
-            </div>
-            <div class="flex items-center gap-2.5">
-                <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
-                <a href="/#feedback-section" class="lang-str px-3 py-2 bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 font-bold rounded-xl text-xs border border-rose-100 dark:border-rose-800/50 hover:bg-rose-100 transition" data-so="ڕەخنە" data-ba="ڕەخنە">ڕەخنە</a>
-                <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50">🌙</button>
-                <a href="/profile" class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-200 transition border border-gray-200/50 dark:border-gray-700/50 lang-str" data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
-                <button id="logout-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold rounded-xl text-xs hover:bg-red-100 transition border border-red-100 dark:border-red-800/50 lang-str" data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</button>
-            </div>
-        </div>
-    </nav>
+    @include('partials.nav', ['active' => 'ferga'])
 
     <!-- قۆناغی 1: هەڵبژاردنی زمان -->
     <div id="home-view" class="relative min-h-[85vh] py-16 px-4 overflow-hidden flex flex-col items-center justify-center">
@@ -701,12 +672,12 @@
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="application/json" id="kurdai-imgbb-config">{!! json_encode(config('kurdai.imgbb.api_key'), 15) !!}</script>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getDatabase, ref as dbRef, push, set, update, remove, onValue, get, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-        const app = initializeApp(firebaseConfig);
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
         const IMGBB_API_KEY = JSON.parse((document.getElementById('kurdai-imgbb-config') || {}).textContent || 'null');
@@ -1430,9 +1401,33 @@ print(project("data"))`,
         let challengeAttempts = 0;
         let answerRevealed = false;
 
-        // --- Quill Editors Initialization ---
-        let quillSo = new Quill('#editor_content_so', { theme: 'snow', modules: { toolbar: [ [{ 'header': [1, 2, 3, false] }], ['bold', 'italic', 'underline'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['code-block'] ] } });
-        let quillBa = new Quill('#editor_content_ba', { theme: 'snow', modules: { toolbar: [ [{ 'header': [1, 2, 3, false] }], ['bold', 'italic', 'underline'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['code-block'] ] } });
+        // --- Quill Editors Initialization (lazy: only when an admin edits content) ---
+        let quillSo = null, quillBa = null, quillModalSo = null, quillModalBa = null;
+        let quillInitPromise = null;
+        function initQuill() {
+            if (quillInitPromise) return quillInitPromise;
+            quillInitPromise = new Promise(function (resolve, reject) {
+                var css = document.createElement('link');
+                css.rel = 'stylesheet';
+                css.href = 'https://cdn.quilljs.com/1.3.6/quill.snow.css';
+                document.head.appendChild(css);
+                var s = document.createElement('script');
+                s.src = 'https://cdn.quilljs.com/1.3.6/quill.js';
+                s.onload = function () {
+                    try {
+                        const toolbar = [{ 'header': [1, 2, 3, false] }, ['bold', 'italic', 'underline'], [{ 'list': 'ordered' }, { 'list': 'bullet' }], ['code-block']];
+                        quillSo = new Quill('#editor_content_so', { theme: 'snow', modules: { toolbar } });
+                        quillBa = new Quill('#editor_content_ba', { theme: 'snow', modules: { toolbar } });
+                        quillModalSo = new Quill('#modal_editor_content_so', { theme: 'snow', modules: { toolbar } });
+                        quillModalBa = new Quill('#modal_editor_content_ba', { theme: 'snow', modules: { toolbar } });
+                        resolve();
+                    } catch (e) { quillInitPromise = null; reject(e); }
+                };
+                s.onerror = function () { quillInitPromise = null; reject(new Error('quill failed to load')); };
+                document.head.appendChild(s);
+            });
+            return quillInitPromise;
+        }
 
         const loc = (obj, key) => currentLang === 'ba' && obj[key + '_ba'] ? obj[key + '_ba'] : obj[key + '_so'] || obj[key];
 
@@ -2519,7 +2514,7 @@ ${code}
             if(!user) { window.location.href = "/login"; } else {
                 currentUid = user.uid;
 
-                document.body.style.display = 'block';
+                /* body visible instantly */
                 window.isAdmin = ["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email);
                 if(window.isAdmin) {
                     document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
@@ -3627,7 +3622,7 @@ ${code}
 
         // --- Admin Logic ---
         const tabs = ['lang', 'lesson', 'manage'];
-        window.switchAdminTab = function(tabName) {
+        window.switchAdminTab = async function(tabName) {
             tabs.forEach(x => {
                 document.getElementById(`tab-btn-${x}`).className = "px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-bold";
                 if(x === 'manage') document.getElementById(`tab-btn-${x}`).className = "px-6 py-2 bg-red-100 text-red-600 rounded-lg font-bold";
@@ -3639,7 +3634,7 @@ ${code}
             if (tabName === 'manage') refreshMembersList();
             
             if (tabName === 'lang') { document.getElementById('form-lang').reset(); document.getElementById('edit_lang_id').value = ''; }
-            if (tabName === 'lesson') { document.getElementById('form-lesson').reset(); document.getElementById('edit_lesson_id').value = ''; quillSo.root.innerHTML = ''; quillBa.root.innerHTML = ''; document.getElementById('lesson_order').value = '1'; }
+            if (tabName === 'lesson') { await initQuill(); document.getElementById('form-lesson').reset(); document.getElementById('edit_lesson_id').value = ''; quillSo.root.innerHTML = ''; quillBa.root.innerHTML = ''; document.getElementById('lesson_order').value = '1'; }
         };
 
         function updateAdminSelects() {
@@ -3735,7 +3730,7 @@ ${code}
 
         window.deleteItem = async function(cat, id) { if(confirm('دڵنیایت لە سڕینەوە؟')) { await remove(dbRef(db, (cat === 'langs' ? 'ferga_languages' : 'ferga_lessons') + '/' + id)); } };
 
-        window.editItem = function(cat, id) {
+        window.editItem = async function(cat, id) {
             if(cat === 'langs') {
                 const d = languagesData[id]; document.getElementById('edit_lang_id').value = id;
                 ['lang_name_so','lang_name_ba','lang_desc_so','lang_desc_ba','lang_color','lang_ext'].forEach(k => { 
@@ -3744,6 +3739,7 @@ ${code}
                 });
                 switchAdminTab('lang');
             } else if(cat === 'lessons') {
+                await initQuill();
                 const d = lessonsData[id]; document.getElementById('edit_lesson_id').value = id; document.getElementById('lesson_lang_select').value = d.langId || '';
                 ['lesson_order','lesson_level_so','lesson_level_ba','lesson_title_so','lesson_title_ba','lesson_code','lesson_expected_output','lesson_example_output'].forEach(k => { 
                     const elem = document.getElementById(k);
@@ -3828,9 +3824,7 @@ ${code}
         });
 
         // --- Edit Lesson Modal Logic ---
-        let quillModalSo = new Quill('#modal_editor_content_so', { theme: 'snow', modules: { toolbar: [ [{ 'header': [1, 2, 3, false] }], ['bold', 'italic', 'underline'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['code-block'] ] } });
-        let quillModalBa = new Quill('#modal_editor_content_ba', { theme: 'snow', modules: { toolbar: [ [{ 'header': [1, 2, 3, false] }], ['bold', 'italic', 'underline'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['code-block'] ] } });
-
+        
         window.toggleQuizType = function() {
             const type = (document.querySelector('input[name="modal_quiz_type"]:checked') || {}).value || 'none';
             const choiceFields = document.getElementById('quiz-choice-fields');
@@ -3964,7 +3958,8 @@ ${code}
             }
         })();
 
-        window.openEditLessonModal = function(lessonId) {
+        window.openEditLessonModal = async function(lessonId) {
+            await initQuill();
             const d = lessonsData[lessonId];
             if (!d) return;
             const legacyQuiz = Object.values(quizzesData).find(q => q.lessonId === lessonId) || null;

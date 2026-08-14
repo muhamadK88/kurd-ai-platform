@@ -1,7 +1,17 @@
 /* ==========================================================================
-   KURD AI — زانکۆکان (Universities) · academic design  ·  v1
-   Prestigious royal-blue + gold academic look. Pure CSS — no images added.
+   KURD AI — زانکۆکان (Universities) · academic design  ·  v2
+   Prestigious royal-blue + gold academic look, aligned with the
+   "Futuristic Glass" v4 token system. Page identity: royal blue → gold.
+   Pure CSS — no images added.
    ========================================================================== */
+
+/* ---------- page accent tokens (v4 alignment) ---------- */
+:root {
+    --kai-uni-a: #1d4ed8;    /* royal blue */
+    --kai-uni-b: #2563eb;    /* blue 600   */
+    --kai-uni-c: #d97706;    /* gold       */
+    --kai-uni-d: #ec4899;    /* pink spark (crest ring) */
+}
 
 /* ---------- shared keyframes ---------- */
 @keyframes kaiFlow { to { background-position: 220% center; } }
@@ -15,7 +25,7 @@
 header .inline-flex { animation: kaiPopBadge 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
 @keyframes kaiPopBadge { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 header h2 {
-    background-image: linear-gradient(90deg, #1d4ed8, #2563eb 40%, #d97706 75%, #2563eb);
+    background-image: linear-gradient(90deg, var(--kai-uni-a), var(--kai-uni-b) 40%, var(--kai-uni-c) 75%, var(--kai-uni-b));
     background-size: 220% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -30,7 +40,7 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
 #uni-container > .glass-card {
     position: relative;
     border-top-width: 4px !important;
-    border-top-color: #d97706 !important;
+    border-top-color: var(--kai-uni-c) !important;
 }
 #uni-container > .glass-card::before {
     content: "";
@@ -38,30 +48,32 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
     top: 0; right: 0; left: 0;
     height: 4px;
     z-index: 5;
-    background: linear-gradient(90deg, #1d4ed8, #d97706 45%, #2563eb 80%, #1d4ed8);
+    background: linear-gradient(90deg, var(--kai-uni-a), var(--kai-uni-c) 45%, var(--kai-uni-b) 80%, var(--kai-uni-a));
     background-size: 220% auto;
     animation: kaiFlow 7s linear infinite;
 }
-#uni-container > .glass-card:hover { box-shadow: 0 30px 70px -20px rgba(217, 119, 6, 0.45); }
+#uni-container > .glass-card:hover {
+    box-shadow: 0 30px 70px -20px color-mix(in srgb, var(--kai-uni-c) 45%, transparent);
+}
 
 /* logo tile — gold crest ring */
 #uni-container .w-20.h-20 {
     position: relative;
     animation: kaiGoldPulse 3.2s ease-in-out infinite;
-    border-color: rgba(217, 119, 6, 0.4) !important;
+    border-color: color-mix(in srgb, var(--kai-uni-c) 40%, transparent) !important;
 }
 #uni-container > .glass-card:hover .w-20.h-20 { animation: kaiGoldPulse 1.6s ease-in-out infinite; }
 
 /* degree badge */
 #uni-container span[class*="bg-orange-100"],
 #uni-container span[class*="bg-orange-900"] {
-    box-shadow: 0 3px 10px -2px rgba(217, 119, 6, 0.5);
+    box-shadow: 0 3px 10px -2px color-mix(in srgb, var(--kai-uni-c) 50%, transparent);
 }
 
 /* name */
 #uni-container h3 { transition: color 0.3s ease; }
 #uni-container > .glass-card:hover h3 {
-    background-image: linear-gradient(90deg, #1d4ed8, #d97706);
+    background-image: linear-gradient(90deg, var(--kai-uni-a), var(--kai-uni-c));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -72,7 +84,7 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
 #uni-container > .glass-card > div:last-child > button {
     position: relative;
     overflow: hidden;
-    background-image: linear-gradient(90deg, #1d4ed8, #2563eb 45%, #d97706 80%, #1d4ed8) !important;
+    background-image: linear-gradient(90deg, var(--kai-uni-a), var(--kai-uni-b) 45%, var(--kai-uni-c) 80%, var(--kai-uni-a)) !important;
     background-size: 220% auto !important;
     animation: kaiFlow 5s linear infinite;
 }
@@ -88,11 +100,11 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
 /* ---------- plan modal ---------- */
 #planModal .glass-card {
-    border: 1px solid rgba(217, 119, 6, 0.4);
-    box-shadow: 0 0 70px -14px rgba(217, 119, 6, 0.5), 0 40px 90px -20px rgba(0, 0, 0, 0.6);
+    border: 1px solid color-mix(in srgb, var(--kai-uni-c) 40%, transparent);
+    box-shadow: 0 0 70px -14px color-mix(in srgb, var(--kai-uni-c) 50%, transparent), 0 40px 90px -20px rgba(0, 0, 0, 0.6);
 }
 #planModal h3 {
-    background-image: linear-gradient(90deg, #1d4ed8, #d97706);
+    background-image: linear-gradient(90deg, var(--kai-uni-a), var(--kai-uni-c));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -111,6 +123,135 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
     }
     .dark header h2, .dark #planModal h3 { color: #fff; -webkit-text-fill-color: #fff; }
     #uni-container > .glass-card > div:last-child > button {
-        background-image: linear-gradient(90deg, #1d4ed8, #2563eb) !important;
+        background-image: linear-gradient(90deg, var(--kai-uni-a), var(--kai-uni-b)) !important;
     }
+}
+
+/* ==========================================================================
+   v4 · HOLOGRAPHIC PORTAL — holo grid + sheen cards, 3D logo flip,
+   accordion syllabus in the plan modal. Additive, guard-based.
+   ========================================================================== */
+
+/* ---------- hero holo field & scanlines ---------- */
+.kai-holo-grid {
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, rgba(37, 99, 235, 0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(37, 99, 235, 0.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+}
+.dark .kai-holo-grid { opacity: 0.6; }
+.kai-scanlines {
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 3px);
+    mix-blend-mode: overlay;
+    opacity: 0.55;
+    z-index: 1;
+}
+.dark .kai-scanlines {
+    background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.14) 0 1px, transparent 1px 3px);
+}
+
+/* ---------- holographic cards ---------- */
+#uni-container > .glass-card {
+    background-image: radial-gradient(circle at 1px 1px, rgba(29, 78, 216, 0.06) 1px, transparent 0);
+    background-size: 22px 22px;
+}
+/* holo sheen sweep (::after is free — ::before is the top gradient bar) */
+#uni-container > .glass-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 2;
+    background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, 0.16) 46%, transparent 60%);
+    transform: translateX(-130%);
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#uni-container > .glass-card:hover::after { transform: translateX(130%); }
+html.dark #uni-container > .glass-card::after {
+    background: linear-gradient(115deg, transparent 32%, rgba(125, 211, 252, 0.12) 46%, transparent 60%);
+}
+
+/* ---------- 3D flip logo tile (portal) ---------- */
+.kai-uni-portal-ring {
+    position: relative;
+    width: 88px;
+    height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 900px;
+    flex-shrink: 0;
+}
+.kai-uni-portal-ring::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 9999px;
+    border: 1.5px dashed color-mix(in srgb, var(--kai-uni-c) 60%, transparent);
+    animation: kaiPortalSpin 14s linear infinite;
+}
+@keyframes kaiPortalSpin { to { transform: rotate(360deg); } }
+.kai-uni-flip {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.kai-uni-flip:hover,
+.kai-uni-flip:focus-visible { transform: rotateY(180deg); }
+.kai-uni-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+.kai-uni-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(160deg, var(--kai-uni-a), var(--kai-uni-b) 55%, var(--kai-uni-c));
+}
+
+/* ---------- accordion syllabus (plan modal) ---------- */
+.kai-acc-body {
+    display: grid;
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+}
+.kai-acc-body > div { overflow: hidden; min-height: 0; }
+.kai-acc-closed .kai-acc-body { grid-template-rows: 0fr; opacity: 0; }
+.kai-acc-chev { transition: transform 0.35s var(--kai-spring, cubic-bezier(.34, 1.56, .64, 1)); }
+.kai-acc-closed .kai-acc-chev { transform: rotate(-180deg); }
+.kai-acc-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 9999px;
+    font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Consolas, monospace;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--kai-uni-c);
+    background: color-mix(in srgb, var(--kai-uni-c) 16%, transparent);
+    flex-shrink: 0;
+}
+.kai-acc-head { background: transparent; transition: background-color 0.25s ease; }
+.kai-acc-head:hover { background: color-mix(in srgb, var(--kai-uni-c) 8%, transparent); }
+
+/* ---------- v4 fallbacks ---------- */
+html.kai-perf .kai-uni-portal-ring::before,
+html.kai-perf .kai-uni-flip { animation: none !important; transform: none !important; }
+html.kai-perf .kai-acc-body,
+html.kai-perf .kai-acc-chev,
+html.kai-perf #uni-container > .glass-card::after { transition: none !important; }
+@media (prefers-reduced-motion: reduce) {
+    .kai-holo-grid, .kai-scanlines, .kai-uni-portal-ring::before { animation: none !important; }
+    .kai-uni-flip { transform: none !important; }
+    .kai-acc-body, .kai-acc-chev, #uni-container > .glass-card::after { transition: none !important; }
+    #uni-container > .glass-card::after { transform: none !important; }
 }

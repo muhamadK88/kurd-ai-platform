@@ -74,6 +74,8 @@
             const hidden = document.getElementById('fb-category');
             if (!hidden) return;
             hidden.value = cat;
+            const readout = document.getElementById('fb-cat-readout');
+            if (readout) readout.textContent = cat;
             document.querySelectorAll('.fb-cat-chip').forEach(chip => {
                 const isActive = chip.dataset.cat === cat;
                 const st = FB_COLORS[cat] || FB_COLORS.other;
@@ -247,8 +249,8 @@
                 ? '<button type="button" data-id="' + f.id + '" data-status="' + f.status + '" class="fb-mark-btn px-3 py-1.5 rounded-lg text-[11px] font-bold border border-emerald-400/50 text-emerald-600 hover:bg-emerald-500/10 transition-all">✓ ' + esc(fbT('markRead')) + '</button>'
                 : '<button type="button" data-id="' + f.id + '" data-status="' + f.status + '" class="fb-mark-btn px-3 py-1.5 rounded-lg text-[11px] font-bold border border-gray-300 dark:border-gray-600 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">↺ ' + esc(fbT('markNew')) + '</button>';
             const delBtn = '<button type="button" data-id="' + f.id + '" class="fb-del-btn px-3 py-1.5 rounded-lg text-[11px] font-bold text-rose-600 border border-rose-400/50 hover:bg-rose-500/10 transition-all">' + esc(fbT('del')) + '</button>';
-            return '<div class="fb-admin-item rounded-2xl border ' + (isNew ? 'border-amber-400/70 bg-amber-50/50 dark:bg-amber-900/10' : 'border-gray-200 dark:border-gray-700 bg-white/70 dark:bg-[#0d1424]/70') + ' backdrop-blur p-5 transition-all">' +
-                '<div class="flex items-start gap-4">' +
+            return '<div class="fb-admin-item rounded-2xl border ' + (isNew ? 'border-amber-400/70 bg-amber-50/50 dark:bg-amber-900/10' : 'border-gray-200 dark:border-gray-700 bg-white/70 dark:bg-[#0d1424]/70') + ' backdrop-blur p-4 sm:p-5 transition-all">' +
+                '<div class="flex flex-col sm:flex-row sm:items-start gap-4">' +
                 '<div class="w-11 h-11 shrink-0 rounded-full bg-gradient-to-br from-blue-600 to-teal-400 text-white flex items-center justify-center font-black text-lg shadow">' + esc(avatar) + '</div>' +
                 '<div class="flex-1 min-w-0">' +
                 '<div class="flex items-center flex-wrap gap-x-3 gap-y-1 mb-1.5">' +
@@ -259,8 +261,8 @@
                 '<p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed break-words">' + esc(f.message) + '</p>' +
                 '<p class="mt-2 text-[11px] text-gray-400 font-bold" dir="ltr">' + esc(time) + '</p>' +
                 '</div>' +
-                '<div class="flex flex-col items-end gap-2 shrink-0">' + fbStatusBadge(f.status) +
-                '<div class="flex gap-2">' + markBtn + delBtn + '</div>' +
+                '<div class="flex sm:flex-col items-center sm:items-end gap-2 shrink-0 w-full sm:w-auto justify-between sm:justify-start">' + fbStatusBadge(f.status) +
+                '<div class="flex gap-2 flex-wrap">' + markBtn + delBtn + '</div>' +
                 '</div>' +
                 '</div>' +
                 '</div>';

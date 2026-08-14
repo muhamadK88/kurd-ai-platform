@@ -1,9 +1,12 @@
 /* ==========================================================================
-   KURD AI — فێرگە (Ferga) · Lesson experience  ·  v2
+   KURD AI — فێرگە (Ferga) · Lesson experience  ·  v3
    Loaded ONLY on /ferga. Purely presentational — no page logic touched.
    Targets the READING/LEARNING view only: reading progress bar, lesson-title
-   pop, read-along content reveal, staggered code lines, sidebar row cascade.
-   Fails safe: reduced-motion / missing elements / no IntersectionObserver.
+   pop, read-along content reveal, staggered code lines, sidebar row cascade,
+   lesson meta chips bar, code copy buttons + language badges, quiz letter
+   chips. Fails safe: reduced-motion / missing elements / no IntersectionObserver.
+   v3 note: static helpers (meta / copy / quiz letters) run even under
+   prefers-reduced-motion — they are not motion, only progressive enrichment.
    ========================================================================== */
 (function () {
     'use strict';
@@ -19,7 +22,25 @@
     }
     function isEl(node) { return node && node.nodeType === 1; }
 
-    /* ======================================================================
+    /* ----------------------------------------------------------------------
+       0. Tiny helpers — never touch page globals unless they exist.
+       ---------------------------------------------------------------------- */
+    function ui(so, ba) {
+        try { if (typeof currentLang !== 'undefined' && currentLang === 'ba') return ba; } catch (e) {}
+        return so;
+    }
+    function locTxt(obj, key) {
+        try {
+            if (typeof loc === 'function') { return loc(obj, key) || ''; }
+        } catch (e) {}
+        if (!obj) return '';
+        return obj[key] || '';
+    }
+    function esc(s) {
+        return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    /* ----------------------------------------------------------------------
        1. Reading progress bar (injected at top of #lesson-main)
        ====================================================================== */
     function initProgress() {
@@ -159,9 +180,119 @@
     }
 
     /* ======================================================================
+       7. Lesson meta chips bar (injected above the lesson title)
+       ====================================================================== */
+    function metaDot() {
+        return '<span class="kai-dot"></span>';
+    }
+    function metaIcon(paths) {
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + paths + '</svg>';
+    }
+    var META_ICONS = {
+        level: metaIcon('<path d="M4 19.5A2.5 2.5 0 016.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"></path>'),
+        xp: metaIcon('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>'),
+        lang: metaIcon('<circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path>')
+    };
+
+    function buildMetaChips() {
+        var wrap = document.querySelector('.kai-lesson-meta');
+        var hide = function () { if (wrap) wrap.style.display = 'none'; };
+        try {
+            if (typeof currentLessonArray === 'undefined' || !currentLessonArray.length) { hide(); return; }
+            var lesson = currentLessonArray[currentLessonIndex];
+            if (!lesson) { hide(); return; }
+            var total = currentLessonArray.length;
+            var num = currentLessonIndex + 1;
+            var chips = [];
+            chips.push('<span class="kai-meta-chip">' + metaDot() + esc(ui('وانە ' + num + ' لە ' + total, 'وانە ' + num + ' ژ ' + total)) + '</span>');
+            var level = locTxt(lesson, 'level');
+            if (level) chips.push('<span class="kai-meta-chip kai-meta-chip--level">' + META_ICONS.level + esc(level) + '</span>');
+            if (lesson.xp_cost) chips.push('<span class="kai-meta-chip kai-meta-chip--xp">' + META_ICONS.xp + '+' + Number(lesson.xp_cost) + ' XP</span>');
+            try {
+                if (typeof currentActiveLanguage !== 'undefined' && currentActiveLanguage) {
+                    var langName = locTxt(currentActiveLanguage, 'name');
+                    if (langName) chips.push('<span class="kai-meta-chip kai-meta-chip--lang">' + META_ICONS.lang + esc(langName) + '</span>');
+                }
+            } catch (e) {}
+            if (!wrap) {
+                wrap = document.createElement('div');
+                wrap.className = 'kai-lesson-meta';
+                var title = document.getElementById('display-title');
+                if (!title) { return; }
+                title.parentNode.insertBefore(wrap, title);
+            }
+            wrap.style.display = '';
+            wrap.innerHTML = chips.join('');
+        } catch (e) { hide(); }
+    }
+
+    function initLessonMeta() {
+        rIC(buildMetaChips);
+        var title = document.getElementById('display-title');
+        if (!title) return;
+        new MutationObserver(function () {
+            if (title.textContent && String(title.textContent).trim()) { rIC(buildMetaChips); }
+        }).observe(title, { childList: true, characterData: true, subtree: true });
+    }
+
+    /* ======================================================================
+        8. Code language badges
+       ====================================================================== */
+    function initCodeBoxes() {
+        var boxIds = ['display-code-box', 'display-css-code-box'];
+        for (var i = 0; i < boxIds.length; i++) {
+            var box = document.getElementById(boxIds[i]);
+            if (!box) continue;
+            var bar = box.querySelector('.rounded-2xl > div:first-child');
+            if (!bar) continue;
+
+            var name = '';
+            if (boxIds[i] === 'display-code-box') {
+                var fn = document.getElementById('code-filename-label');
+                name = fn ? (fn.textContent || '') : '';
+            } else {
+                name = 'style.css';
+            }
+            var ext = (String(name).match(/\.([a-z0-9]+)$/i) || [])[1] || '';
+            if (ext) {
+                var badge = document.createElement('span');
+                badge.className = 'kai-lang-badge';
+                badge.textContent = ext.toUpperCase();
+                var cluster = bar.querySelector('.flex.items-center.gap-2');
+                if (cluster) { cluster.appendChild(badge); }
+            }
+        }
+    }
+
+    /* ======================================================================
+       9. Quiz option letter chips (A/B/C/D…)
+       ====================================================================== */
+    function initQuizLetters() {
+        var opts = document.getElementById('quiz-options');
+        if (!opts) return;
+        var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+        function stamp() {
+            var rows = opts.querySelectorAll('.quiz-option');
+            for (var i = 0; i < rows.length; i++) {
+                var circle = rows[i].querySelector('.indicator-circle');
+                if (circle && !circle.textContent.trim() && !circle.querySelector('svg')) {
+                    circle.textContent = letters[i] || String(i + 1);
+                }
+            }
+        }
+        stamp();
+        new MutationObserver(stamp).observe(opts, { childList: true });
+    }
+
+    /* ======================================================================
        boot
        ====================================================================== */
     ready(function () {
+        /* static enrichment first — safe under every motion preference */
+        initLessonMeta();
+        initCodeBoxes();
+        initQuizLetters();
+
         if (reduce) return; /* CSS already forces everything visible */
         initProgress();
         initTitlePop();

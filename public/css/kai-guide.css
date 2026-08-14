@@ -1,7 +1,16 @@
 /* ==========================================================================
-   KURD AI — ڕێنیشاندەر (Academic Guide) · roadmap design  ·  v1
-   Teal/cyan knowledge-road look. Pure CSS — no image assets added.
+   KURD AI — ڕێنیشاندەر (Academic Guide) · roadmap design  ·  v2
+   Teal/cyan knowledge-road look, aligned with the "Futuristic Glass" v4
+   token system. Page identity: teal → cyan → blue.
+   Pure CSS — no image assets added.
    ========================================================================== */
+
+/* ---------- page accent tokens (v4 alignment) ---------- */
+:root {
+    --kai-gde-a: #0d9488;    /* teal  */
+    --kai-gde-b: #06b6d4;    /* cyan  */
+    --kai-gde-c: #2563eb;    /* blue  */
+}
 
 /* ---------- shared keyframes ---------- */
 @keyframes kaiFlow { to { background-position: 220% center; } }
@@ -10,7 +19,7 @@
 header .inline-flex { animation: kaiPopBadge 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
 @keyframes kaiPopBadge { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 header h2 {
-    background-image: linear-gradient(90deg, #0d9488, #06b6d4 50%, #2563eb 85%, #0d9488);
+    background-image: linear-gradient(90deg, var(--kai-gde-a), var(--kai-gde-b) 50%, var(--kai-gde-c) 85%, var(--kai-gde-a));
     background-size: 220% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -25,7 +34,7 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
 #guide-container > .glass-card {
     position: relative;
     border-inline-end-width: 4px;
-    border-inline-end-color: rgba(20, 184, 166, 0.4);
+    border-inline-end-color: color-mix(in srgb, var(--kai-gde-b) 40%, transparent);
 }
 #guide-container > .glass-card::before {
     content: "";
@@ -34,25 +43,27 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
     top: 18px; bottom: 18px;
     width: 4px;
     border-radius: 4px;
-    background: linear-gradient(180deg, #0d9488, #06b6d4, #0d9488);
+    background: linear-gradient(180deg, var(--kai-gde-a), var(--kai-gde-b), var(--kai-gde-a));
     background-size: 100% 220%;
     animation: kaiFlowY 6s linear infinite;
     opacity: 0.85;
 }
 @keyframes kaiFlowY { to { background-position: 0 220%; } }
-#guide-container > .glass-card:hover { box-shadow: 0 24px 60px -20px rgba(13, 148, 136, 0.45); }
+#guide-container > .glass-card:hover {
+    box-shadow: 0 24px 60px -20px color-mix(in srgb, var(--kai-gde-a) 45%, transparent);
+}
 
 /* question icon tile glow */
 #guide-container .w-12.h-12 {
     position: relative;
-    box-shadow: 0 6px 20px -6px rgba(13, 148, 136, 0.6);
+    box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--kai-gde-a) 60%, transparent);
 }
-#guide-container .w-12.h-12 svg { filter: drop-shadow(0 2px 4px rgba(13, 148, 136, 0.5)); }
+#guide-container .w-12.h-12 svg { filter: drop-shadow(0 2px 4px color-mix(in srgb, var(--kai-gde-a) 50%, transparent)); }
 
 /* question text */
 #guide-container h3 { transition: color 0.3s ease; }
 #guide-container > .glass-card:hover h3 {
-    background-image: linear-gradient(90deg, #0d9488, #06b6d4);
+    background-image: linear-gradient(90deg, var(--kai-gde-a), var(--kai-gde-b));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -65,7 +76,10 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
     overflow: hidden;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-#guide-container button[onclick*="toggleAnswer"]:hover { transform: translateY(-2px); box-shadow: 0 8px 20px -8px rgba(13, 148, 136, 0.55); }
+#guide-container button[onclick*="toggleAnswer"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--kai-gde-a) 55%, transparent);
+}
 
 /* ---------- fallbacks ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -76,4 +90,55 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
         color: #111827; -webkit-text-fill-color: #111827;
     }
     .dark header h2 { color: #fff; -webkit-text-fill-color: #fff; }
+}
+
+/* ==========================================================================
+   v4 · HOLOGRAPHIC — holo grid + scanlines hero, holographic FAQ sheen.
+   Additive, guard-based.
+   ========================================================================== */
+
+.kai-holo-grid {
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, rgba(13, 148, 136, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(13, 148, 136, 0.08) 1px, transparent 1px);
+    background-size: 28px 28px;
+}
+.dark .kai-holo-grid { opacity: 0.6; }
+.kai-scanlines {
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 3px);
+    mix-blend-mode: overlay;
+    opacity: 0.55;
+    z-index: 1;
+}
+.dark .kai-scanlines {
+    background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.14) 0 1px, transparent 1px 3px);
+}
+
+/* holo sheen sweep on FAQ cards (::before is the roadmap rail) */
+#guide-container > .glass-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 2;
+    background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, 0.16) 46%, transparent 60%);
+    transform: translateX(-130%);
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#guide-container > .glass-card:hover::after { transform: translateX(130%); }
+html.dark #guide-container > .glass-card::after {
+    background: linear-gradient(115deg, transparent 32%, rgba(94, 234, 212, 0.12) 46%, transparent 60%);
+}
+
+/* ---------- v4 fallbacks ---------- */
+html.kai-perf .kai-holo-grid,
+html.kai-perf .kai-scanlines,
+html.kai-perf #guide-container > .glass-card::after { transition: none !important; }
+html.kai-perf #guide-container > .glass-card::after { transform: none !important; }
+@media (prefers-reduced-motion: reduce) {
+    .kai-holo-grid, .kai-scanlines { animation: none !important; }
+    #guide-container > .glass-card::after { transition: none !important; transform: none !important; }
 }

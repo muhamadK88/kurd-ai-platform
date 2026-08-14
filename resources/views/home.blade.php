@@ -1,12 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.png" type="image/png">
     <title>سەرەکی - کورد ئەی ئای</title>
 
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <meta name="description" content="Kurd AI - پلاتفۆرمی فێربوونی زیرەکی دەستکرد و پرۆگرامسازی بە زمانی کوردی">
     <meta name="keywords" content="Kurd AI, کورد ئەی ئای, زیرەکی دەستکرد, پرۆگرامسازی, کوردی, فێربوون, AI, programming">
     <meta property="og:type" content="website">
@@ -21,52 +20,11 @@
     <meta property="twitter:image" content="https://kurd-ai.com/logo.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
 
-    <script>
-        tailwind.config = { 
-            darkMode: 'class', 
-            theme: { 
-                extend: { 
-                    fontFamily: { sans: ['"Noto Sans Arabic"', 'sans-serif'] },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                        'fade-up': 'fadeUp 0.6s ease-out',
-                        'fade-in': 'fadeIn 0.8s ease-out',
-                        'slide-up': 'slideUp 0.5s ease-out',
-                    },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        fadeUp: {
-                            '0%': { opacity: '0', transform: 'translateY(30px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
-                    }
-                } 
-            } 
-        }
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    <link rel="stylesheet" href="/css/kai-tailwind.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap"></noscript>
+    <script>if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
@@ -114,59 +72,90 @@
     </style>
 
     @include('partials.kurdai-design')
+    <link rel="stylesheet" href="/css/kai-hero.css?v=2">
+    <script src="/js/kai-hero.js?v=2" defer></script>
 </head>
 
-<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300" style="display: none;">
+<body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300">
 
 @include('partials.nav', ['active' => 'home'])
 
-<!-- ===== هێدەری سەرەکی (Hero) ===== -->
-<header class="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gray-50 dark:bg-[#0a0f1c]">
-    <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
-        <div class="floating-shape bg-blue-500 w-96 h-96 -top-20 -right-20 animate-blob"></div>
-        <div class="floating-shape bg-purple-500 w-80 h-80 -bottom-20 -left-20 animate-blob animation-delay-2000"></div>
-        <div class="floating-shape bg-cyan-500 w-72 h-72 top-1/2 left-1/3 animate-blob animation-delay-4000"></div>
-        <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+<!-- ===== هێدەری سەرەکی (Hero — Neural Horizon) ===== -->
+<header id="kai-hero" class="kai-hero relative min-h-[92vh] flex items-center overflow-hidden">
+<div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none" aria-hidden="true">
+        <div class="floating-shape bg-cyan-500 w-[32rem] h-[32rem] -top-44 -right-40 animate-blob" style="opacity:.14"></div>
+        <div class="floating-shape bg-purple-600 w-[28rem] h-[28rem] -bottom-32 -left-32 animate-blob animation-delay-2000" style="opacity:.16"></div>
+        <div class="floating-shape bg-blue-600 w-80 h-80 top-1/3 left-1/2 animate-blob animation-delay-4000" style="opacity:.12"></div>
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#4fd7ff0d_1px,transparent_1px),linear-gradient(to_bottom,#4fd7ff0d_1px,transparent_1px)] bg-[size:26px_26px]"></div>
     </div>
 
-    <div class="relative container mx-auto px-4 z-10 text-center flex flex-col items-center">
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 font-bold text-sm mb-8 shadow-sm animate-fade-in">
-            <span class="relative flex h-3 w-3">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
-            </span>
-            <span class="lang-str" data-so="تایبەت بە خوێندکارانی ژیریی دەستکرد" data-ba="تایبەت ب قوتابیێن ژیرییا دەستکرد">تایبەت بە خوێندکارانی ژیریی دەستکرد</span>
-        </div>
-        
-        <h2 class="text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tight text-gray-900 dark:text-white leading-tight animate-fade-up" 
-            data-so="دەروازەیەک بەرەو داهاتووی ژیریی دەستکرد" 
-            data-ba="دەرگەهەک بەرەڤ پاشەڕۆژا ژیرییا دەستکرد">
-            <span class="gradient-text">KURD AI</span>
-            <br>
-            <span class="lang-str" data-so="دەروازەیەک بەرەو داهاتووی ژیریی دەستکرد" data-ba="دەرگەهەک بەرەڤ پاشەڕۆژا ژیرییا دەستکرد">دەروازەیەک بەرەو داهاتووی ژیریی دەستکرد</span>
-        </h2>
-        
-        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl font-medium leading-relaxed mb-10 animate-fade-up animation-delay-200 lang-str" 
-           data-so="یەکەمین پلاتفۆرمی پێشکەوتووی کوردی بۆ فێربوون، ڕێنمایی ئەکادیمی و بەکارهێنانی ئامرازەکانی AI بە شێوەیەکی پراکتیکی." 
-           data-ba="ئێکەمین پلاتفۆرما پێشکەفتییا کوردی بۆ فێربوون، ڕێنماییێن ئەکادیمی و ب کارئینانا ئامرازێن AI ب شێوەیەکێ پراکتیکی.">
-           یەکەمین پلاتفۆرمی پێشکەوتووی کوردی بۆ فێربوون، ڕێنمایی ئەکادیمی و بەکارهێنانی ئامرازەکانی AI بە شێوەیەکی پراکتیکی.
-        </p>
-        
-        <div class="flex flex-wrap justify-center gap-4 animate-fade-up animation-delay-400">
-            <a href="/ferga" class="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-2xl text-lg shadow-lg shadow-blue-500/40 hover:shadow-blue-500/60 hover:-translate-y-1 transition-all flex items-center gap-2 group/btn">
-                <svg class="w-5 h-5 group-hover/btn:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                <span class="lang-str" data-so="دەستپێبکە بۆ فێربوون" data-ba="دەستپێبکە بۆ فێربوونێ">دەستپێبکە بۆ فێربوون</span>
-            </a>
-            <a href="/ai-tools" class="px-8 py-4 bg-white dark:bg-gray-800 text-gray-800 dark:text-white font-bold rounded-2xl text-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 hover:-translate-y-1 transition-all flex items-center gap-2 group/btn">
-                <svg class="w-5 h-5 text-purple-500 group-hover/btn:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                <span class="lang-str" data-so="ئامرازەکانی AI" data-ba="ئامرازێن AI">ئامرازەکانی AI</span>
-            </a>
+    <div class="relative container mx-auto px-4 lg:px-6 z-10 w-full">
+        <div class="grid lg:grid-cols-2 gap-10 lg:gap-6 items-center py-24 lg:py-16">
+
+            <!-- چەپ: تایپۆگرافی (RTL-safe: forced to the visual left) -->
+            <div class="text-center lg:text-start relative z-10 lg:order-last">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-cyan-400/25 text-cyan-200 font-bold text-sm mb-8 shadow-[0_0_22px_rgba(34,211,238,.14)] backdrop-blur-md kai-hero-in">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-400"></span>
+                    </span>
+                    <span class="lang-str" data-so="تایبەت بە خوێندکارانی ژیریی دەستکرد" data-ba="تایبەت ب قوتابیێن ژیرییا دەستکرد">تایبەت بە خوێندکارانی ژیریی دەستکرد</span>
+                </div>
+
+                <h2 class="kai-neon-title kai-hero-in--d1 text-5xl md:text-6xl xl:text-7xl font-black mb-3 tracking-tight leading-tight">
+                    KURD AI
+                </h2>
+                <p class="text-xl md:text-2xl font-black text-slate-200/90 mb-2 kai-hero-in--d2 lang-str"
+                   data-so="دەروازەیەک بەرەو داهاتووی ژیریی دەستکرد"
+                   data-ba="دەرگەهەک بەرەڤ پاشەڕۆژا ژیرییا دەستکرد">
+                   دەروازەیەک بەرەو داهاتووی ژیریی دەستکرد
+                </p>
+
+                <div class="kai-type-wrap mt-1 mb-6 kai-hero-in--d3" dir="auto">
+                    <span id="kai-typewriter" class="kai-typewriter"></span><span class="kai-caret" aria-hidden="true"></span>
+                </div>
+
+                <p class="text-lg text-slate-400 max-w-xl mx-auto lg:mx-0 font-medium leading-relaxed mb-9 kai-hero-in--d3 lang-str"
+                   data-so="یەکەمین پلاتفۆرمی پێشکەوتووی کوردی بۆ فێربوون، ڕێنمایی ئەکادیمی و بەکارهێنانی ئامرازەکانی AI بە شێوەیەکی پراکتیکی."
+                   data-ba="ئێکەمین پلاتفۆرما پێشکەفتییا کوردی بۆ فێربوون، ڕێنماییێن ئەکادیمی و ب کارئینانا ئامرازێن AI ب شێوەیەکێ پراکتیکی.">
+                   یەکەمین پلاتفۆرمی پێشکەوتووی کوردی بۆ فێربوون، ڕێنمایی ئەکادیمی و بەکارهێنانی ئامرازەکانی AI بە شێوەیەکی پراکتیکی.
+                </p>
+
+                <div class="flex flex-wrap justify-center lg:justify-start gap-4 mb-10 kai-hero-in--d4">
+                    <a href="/ferga" class="px-8 py-4 bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 text-white font-bold rounded-2xl text-lg shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:-translate-y-1 transition-all flex items-center gap-2 group/btn">
+                        <svg class="w-5 h-5 group-hover/btn:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        <span class="lang-str" data-so="دەستپێبکە بۆ فێربوون" data-ba="دەستپێبکە بۆ فێربوونێ">دەستپێبکە بۆ فێربوون</span>
+                    </a>
+                    <button type="button" data-kai-open-chat class="kai-chat-launch">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                        <span class="lang-str" data-so="وەڵامدانەوەی چاتی AI" data-ba="بەرسڤدانا چاتا AI">وەڵامدانەوەی چاتی AI</span>
+                    </button>
+                </div>
+
+                <div class="flex flex-wrap justify-center lg:justify-start gap-3 kai-hero-in--d4">
+                    <span class="kai-stat-chip"><span class="kai-tick">✔</span><span class="lang-str" data-so="بە تەواوی بە زمانی کوردی" data-ba="ب تەواوی ب زمانی کوردی">بە تەواوی بە زمانی کوردی</span></span>
+                    <span class="kai-stat-chip"><span class="kai-tick">✔</span><span class="lang-str" data-so="بە تەواوی خۆڕایی" data-ba="ب تەواوی بێ بەرامبەر">بە تەواوی خۆڕایی</span></span>
+                    <span class="kai-stat-chip"><span class="kai-tick">✔</span><span class="lang-str" data-so="فێربوونی پراکتیکی" data-ba="فێربوونەکا پراکتیکی">فێربوونی پراکتیکی</span></span>
+                </div>
+            </div>
+
+            <!-- ڕاست: 3D neural sphere + floating tech chips -->
+            <div class="kai-sphere-stage lg:order-first" aria-hidden="true">
+                <div class="kai-sphere-halo"></div>
+                <div id="kai-neuro-sphere"></div>
+                <span class="kai-chip kai-chip--a"><span class="kai-chip-dot"></span>Python</span>
+                <span class="kai-chip kai-chip--b"><span class="kai-chip-dot"></span>C++</span>
+                <span class="kai-chip kai-chip--c"><span class="kai-chip-dot"></span>JavaScript</span>
+                <span class="kai-chip kai-chip--d"><span class="kai-chip-dot"></span>PyTorch</span>
+                <span class="kai-chip kai-chip--e"><span class="kai-chip-dot"></span>LLM</span>
+            </div>
+
         </div>
     </div>
-    
+
     <div class="absolute bottom-0 w-full overflow-hidden leading-none z-0">
-        <svg class="relative block w-full h-[60px] md:h-[120px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,126.38,189.9,117.84,235.32,111.27,278.71,85.29,321.39,56.44Z" class="fill-white dark:fill-[#0d1326]"></path>
+        <svg class="relative block w-full h-[60px] md:h-[100px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,126.38,189.9,117.84,235.32,111.27,278.71,85.29,321.39,56.44Z" fill="#0a0f1d" opacity=".9"></path>
         </svg>
     </div>
 </header>
@@ -314,10 +303,7 @@
         </div>
     </div>
 </section>
-
-<!-- ===== بەشی پێشنیار و تێبینییەکان (Feedback) ===== -->
-@include('partials.feedback-section')
-
+ 
 <!-- ===== فووتەری سەرەکی (Footer) ===== -->
 <footer class="bg-gray-900 dark:bg-[#050a18] text-gray-400">
     <div class="container mx-auto max-w-7xl px-4 py-16">
@@ -362,11 +348,11 @@
 
 <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
     const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-    const app = initializeApp(firebaseConfig);
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
     let currentLang = localStorage.getItem('site-lang') || 'so';
@@ -402,7 +388,7 @@
 
     onAuthStateChanged(auth, (user) => { 
         if(!user) window.location.href = "/login"; 
-        else { document.body.style.display = 'block'; }
+        else { /* body visible instantly */ }
     });
     
     const logoutBtn = document.getElementById('logout-btn');
@@ -410,8 +396,6 @@
         logoutBtn.addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
     }
 </script>
-
-@include('partials.feedback-scripts')
 
 @include('components.chat-widget')
 

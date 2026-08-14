@@ -16,8 +16,6 @@
 <meta property="og:title" content="کورد ئەی ئای - Kurd AI">
 <meta property="og:description" content="پەرە بە تواناکانت بدە لەگەڵ باشترین کۆرسەکانی ژیریی دەستکرد و پرۆگرامسازی.">
 <meta property="og:image" content="/logo.jpg">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <meta name="description" content="چوونەژوورەوە بۆ کورد ئەی ئای - پلاتفۆرمی فێربوون">
     <meta name="keywords" content="چوونەژوورەوە, login, کورد ئەی ئای">
     <meta property="og:type" content="website">
@@ -32,10 +30,10 @@
     <meta property="twitter:image" content="https://kurd-ai.com/logo.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
 
+    <link rel="stylesheet" href="/css/kai-tailwind.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap"></noscript>
     <style>
         body { font-family: 'Noto Sans Arabic', sans-serif; }
         .glass-card {
@@ -75,63 +73,12 @@
         .animate-fade-up { animation: fadeUp .7s ease-out both; }
         .animation-delay-200 { animation-delay: 0.2s; }
         .animation-delay-400 { animation-delay: 0.4s; }
-        .otp-box {
-            width: 2.9rem;
-            height: 3.4rem;
-            text-align: center;
-            font-size: 1.35rem;
-            font-weight: 900;
-            color: #111827;
-            background: #f9fafb;
-            border: 2px solid #e5e7eb;
-            border-radius: 0.9rem;
-            outline: none;
-            transition: all .15s ease;
-        }
-        .dark .otp-box {
-            color: #ffffff;
-            background: rgba(55, 65, 81, 0.6);
-            border-color: #4b5563;
-        }
-        .otp-box:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
-        }
-        .otp-box.filled {
-            border-color: #3b82f6;
-            background: #eff6ff;
-        }
-        .dark .otp-box.filled {
-            border-color: #3b82f6;
-            background: rgba(59, 130, 246, 0.15);
-        }
     </style>
 
     @include('partials.kurdai-design')
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300">
-
-    <!-- ناڤباری سەرەکی (لۆگۆی فەڕمی) -->
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="/" class="flex items-center gap-3 transition group">
-                <div class="relative flex-shrink-0">
-                    <div class="absolute -inset-2 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-all duration-300"></div>
-                    <img src="logo.jpg" alt="Kurd AI Logo" class="h-10 md:h-11 w-auto object-contain dark:invert drop-shadow-md group-hover:scale-105 transition-transform duration-300 relative z-10">
-                </div>
-                <div class="flex flex-col justify-center hidden sm:flex">
-                    <h1 class="text-xl md:text-2xl font-black tracking-tight text-gray-900 dark:text-white leading-none group-hover:text-blue-600 transition-colors duration-300">KURD AI</h1>
-                    <span class="text-[0.55rem] md:text-[0.60rem] font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 mt-0.5">INNOVATION - FUTURE</span>
-                </div>
-            </a>
-            <div class="flex items-center gap-2.5">
-                <button id="lang-toggle" class="px-3 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold rounded-xl text-xs border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 transition"><span id="lang-text">Badini</span></button>
-                <a href="/#feedback-section" class="lang-str px-3 py-2 bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 font-bold rounded-xl text-xs border border-rose-100 dark:border-rose-800/50 hover:bg-rose-100 transition" data-so="ڕەخنە" data-ba="ڕەخنە">ڕەخنە</a>
-                <button id="theme-toggle" class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition border border-gray-200/50 dark:border-gray-700/50" title="گۆڕینی مۆد">🌙</button>
-            </div>
-        </div>
-    </nav>
 
     <!-- سەرەکی -->
     <main class="relative min-h-[calc(100vh-70px)] flex items-center justify-center py-14 px-4 overflow-hidden">
@@ -157,63 +104,38 @@
 
                 <!-- تبەکان -->
                 <div class="grid grid-cols-2 gap-1.5 bg-gray-100 dark:bg-gray-800 rounded-2xl p-1.5 mb-6">
-                    <button id="tab-email" type="button" class="flex items-center justify-center gap-1.5 py-3 rounded-xl font-black text-sm transition bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow lang-str" data-so="✉️ ئیمێڵ" data-ba="✉️ ئیمێل">✉️ ئیمێڵ</button>
-                    <button id="tab-phone" type="button" class="flex items-center justify-center gap-1.5 py-3 rounded-xl font-black text-sm transition text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 lang-str" data-so="📱 ژمارەی موبایل" data-ba="📱 ژمارا موبایل">📱 ژمارەی موبایل</button>
-                    <button id="tab-google" type="button" class="flex items-center justify-center gap-1.5 py-3 rounded-xl font-black text-sm transition text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 lang-str" data-so="گووگڵ" data-ba="گووگڵ">
-                        <svg viewBox="0 0 48 48" width="16" height="16" class="flex-shrink-0">
-                            <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
-                            <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
-                            <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
-                            <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
-                        </svg>
-                        <span>گووگڵ</span>
-                    </button>
-                    <button id="tab-facebook" type="button" class="flex items-center justify-center gap-1.5 py-3 rounded-xl font-black text-sm transition text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 lang-str" data-so="فەیسبوک" data-ba="فەیسبوک">
-                        <svg viewBox="0 0 48 48" width="16" height="16" class="flex-shrink-0">
-                            <path fill="#1877F2" d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z"/>
-                        </svg>
-                        <span>فەیسبوک</span>
-                    </button>
+                    <button id="tab-login" type="button" class="lang-str flex items-center justify-center gap-1.5 py-3 rounded-xl font-black text-sm transition bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow" data-so="چوونەژوورەوە" data-ba="چوونا ژوورێ">چوونەژوورەوە</button>
+                    <button id="tab-register" type="button" class="lang-str flex items-center justify-center gap-1.5 py-3 rounded-xl font-black text-sm transition text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200" data-so="دروستکردنی هەژمار" data-ba="چێکردنی هەژمارا نوی">دروستکردنی هەژمار</button>
                 </div>
 
-                <!-- پەڕەی ئیمێڵ -->
-                <div id="panel-email" class="space-y-5">
+                <!-- پەڕەی چوونەژوورەوە -->
+                <div id="panel-login" class="space-y-5">
                     <div>
                         <label class="block text-sm font-black text-gray-700 dark:text-gray-300 mb-2 lang-str" data-so="ئیمەیڵ" data-ba="ئیمێل">ئیمەیڵ</label>
-                        <input type="email" id="email" placeholder="you@example.com" autocomplete="email" dir="ltr"
+                        <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email" dir="ltr"
                             class="w-full px-4 py-3.5 bg-gray-50 dark:bg-gray-700/60 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-left">
                     </div>
                     <div>
                         <label class="block text-sm font-black text-gray-700 dark:text-gray-300 mb-2 lang-str" data-so="پاسۆرد" data-ba="پاسۆرد">پاسۆرد</label>
-                        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" dir="ltr"
-                            class="w-full px-4 py-3.5 bg-gray-50 dark:bg-gray-700/60 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-left">
+                        <div class="relative">
+                            <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" dir="ltr"
+                                class="w-full px-4 pl-12 py-3.5 bg-gray-50 dark:bg-gray-700/60 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-left">
+                            <button type="button" data-toggle-pw="login-password"
+                                class="absolute left-1.5 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-blue-600 dark:hover:text-cyan-400 transition" title="پیشاندانی پاسۆرد">
+                                <svg class="pw-eye w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                <svg class="pw-eye-off hidden w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243"/></svg>
+                            </button>
+                        </div>
                     </div>
-                    <button id="email-send-btn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-2xl font-black text-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5 flex items-center justify-center gap-2 lang-str" data-so="چوونەژوورەوە" data-ba="چوونا ژوورێ">
+                    <button id="login-send-btn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-2xl font-black text-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5 flex items-center justify-center gap-2 lang-str" data-so="چوونەژوورەوە" data-ba="چوونا ژوورێ">
                         چوونەژوورەوە
                     </button>
-                    <button id="email-recovery-btn" type="button" class="hidden w-full text-center text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition py-2 lang-str" data-so="پاسۆردەکەت لەبیرە؟ کۆدی پشتڕاستکردنەوە بۆ ئیمێڵەکەت بنێرە" data-ba="پاسۆرد ژه‌ بیرە؟ کۆدێ پشتڕاستکرنێ بۆ ئیمێلا تە بشێنە">پاسۆردەکەت لەبیرە؟ کۆدی پشتڕاستکردنەوە بۆ ئیمێڵەکەت بنێرە</button>
-                </div>
 
-                <!-- پەڕەی مۆبایل (وەتسئەپ) -->
-                <div id="panel-phone" class="hidden space-y-5">
-                    <div>
-                        <label class="block text-sm font-black text-gray-700 dark:text-gray-300 mb-2 lang-str" data-so="ژمارەی مۆبایل" data-ba="ژمارا موبایلی">ژمارەی مۆبایل</label>
-                        <div class="flex rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/60 focus-within:ring-2 focus-within:ring-emerald-500 transition">
-                            <span class="flex items-center gap-1.5 px-4 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-black text-sm whitespace-nowrap border-r border-gray-200 dark:border-gray-600">
-                                🇮🇶 <span dir="ltr">+964</span>
-                            </span>
-                            <input type="tel" id="phone" placeholder="7xx xxx xxxx" inputmode="tel" autocomplete="tel" dir="ltr"
-                                class="flex-1 px-4 py-3.5 bg-transparent outline-none text-left">
-                        </div>
-                        <p class="text-xs text-gray-400 dark:text-gray-500 font-bold mt-1.5 text-left lang-str" data-so="تەنها بەشی ژمارەکە بنووسە — +964 خۆکارانە زیاد دەکرێت." data-ba="تنێ پشکا ژمارێ بنڤیسە — +964 ئۆتۆماتیک زێدە دبیت.">تەنها بەشی ژمارەکە بنووسە — +964 خۆکارانە زیاد دەکرێت.</p>
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-200 dark:border-gray-600"></div></div>
+                        <div class="relative flex justify-center text-sm"><span class="bg-white dark:bg-gray-800 px-3 text-gray-400 font-bold lang-str" data-so="یان" data-ba="یان">یان</span></div>
                     </div>
-                    <button id="phone-send-btn" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-4 rounded-2xl font-black text-lg hover:from-emerald-700 hover:to-teal-700 transition-all shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:-translate-y-0.5 flex items-center justify-center gap-2 lang-str" data-so="ناردنی کۆد بۆ وەتسئەپ" data-ba="شاندنا کۆدێ بۆ وەتسئەپ">
-                        ناردنی کۆد بۆ وەتسئەپ
-                    </button>
-                </div>
 
-                <!-- پەڕەی گووگڵ -->
-                <div id="panel-google" class="hidden space-y-5">
                     <button id="google-login-btn" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-white py-4 rounded-2xl font-bold hover:bg-gray-50 dark:hover:bg-gray-600 hover:shadow-md hover:-translate-y-0.5 transition-all group">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="28px" height="28px" class="flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                             <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
@@ -225,35 +147,60 @@
                     </button>
                 </div>
 
-                <!-- پەڕەی فەیسبوک -->
-                <div id="panel-facebook" class="hidden space-y-5">
-                    <button id="facebook-login-btn" class="w-full flex items-center justify-center gap-3 bg-[#1877F2] text-white py-4 rounded-2xl font-bold hover:bg-[#166FE5] hover:shadow-lg hover:shadow-[#1877F2]/30 hover:-translate-y-0.5 transition-all group">
+                <!-- پەڕەی دروستکردنی هەژمار -->
+                <div id="panel-register" class="hidden space-y-5">
+                    <div>
+                        <label class="block text-sm font-black text-gray-700 dark:text-gray-300 mb-2 lang-str" data-so="ناو" data-ba="ناڤ">ناو</label>
+                        <input type="text" id="register-name" placeholder="ناوی تۆ" autocomplete="name" dir="rtl"
+                            class="w-full px-4 py-3.5 bg-gray-50 dark:bg-gray-700/60 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-right">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-black text-gray-700 dark:text-gray-300 mb-2 lang-str" data-so="ئیمەیڵ" data-ba="ئیمێل">ئیمەیڵ</label>
+                        <input type="email" id="register-email" placeholder="you@example.com" autocomplete="email" dir="ltr"
+                            class="w-full px-4 py-3.5 bg-gray-50 dark:bg-gray-700/60 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-left">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-black text-gray-700 dark:text-gray-300 mb-2 lang-str" data-so="پاسۆرد" data-ba="پاسۆرد">پاسۆرد</label>
+                        <div class="relative">
+                            <input type="password" id="register-password" placeholder="••••••••" autocomplete="new-password" dir="ltr"
+                                class="w-full px-4 pl-12 py-3.5 bg-gray-50 dark:bg-gray-700/60 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-left">
+                            <button type="button" data-toggle-pw="register-password"
+                                class="absolute left-1.5 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-emerald-600 dark:hover:text-teal-400 transition" title="پیشاندانی پاسۆرد">
+                                <svg class="pw-eye w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                <svg class="pw-eye-off hidden w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-black text-gray-700 dark:text-gray-300 mb-2 lang-str" data-so="دووپاتکردنەوەی پاسۆرد" data-ba="دووبارەکرنەڤا پاسۆردی">دووپاتکردنەوەی پاسۆرد</label>
+                        <div class="relative">
+                            <input type="password" id="register-password-confirm" placeholder="••••••••" autocomplete="new-password" dir="ltr"
+                                class="w-full px-4 pl-12 py-3.5 bg-gray-50 dark:bg-gray-700/60 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-left">
+                            <button type="button" data-toggle-pw="register-password-confirm"
+                                class="absolute left-1.5 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-emerald-600 dark:hover:text-teal-400 transition" title="پیشاندانی پاسۆرد">
+                                <svg class="pw-eye w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                <svg class="pw-eye-off hidden w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <button id="register-send-btn" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-4 rounded-2xl font-black text-lg hover:from-emerald-700 hover:to-teal-700 transition-all shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:-translate-y-0.5 flex items-center justify-center gap-2 lang-str" data-so="دروستکردنی هەژمار" data-ba="چێکردنی هەژمارا نوی">
+                        دروستکردنی هەژمار
+                    </button>
+
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-200 dark:border-gray-600"></div></div>
+                        <div class="relative flex justify-center text-sm"><span class="bg-white dark:bg-gray-800 px-3 text-gray-400 font-bold lang-str" data-so="یان" data-ba="یان">یان</span></div>
+                    </div>
+
+                    <button id="google-register-btn" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-white py-4 rounded-2xl font-bold hover:bg-gray-50 dark:hover:bg-gray-600 hover:shadow-md hover:-translate-y-0.5 transition-all group">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="28px" height="28px" class="flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                            <path fill="#fff" d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z"/>
+                            <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+                            <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+                            <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+                            <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
                         </svg>
-                        <span class="lang-str" data-so="بەردەوامبوون لەگەڵ فەیسبوک" data-ba="بەردەوامبوون دگەل فەیسبوک">بەردەوامبوون لەگەڵ فەیسبوک</span>
+                        <span class="lang-str" data-so="هەژمار دروستبکە بە گووگڵ" data-ba="هەژمارەکێ چێکە ب گووگڵ">هەژمار دروستبکە بە گووگڵ</span>
                     </button>
-                </div>
-
-                <!-- پەڕەی کۆد -->
-                <div id="panel-otp" class="hidden space-y-5">
-                    <div class="flex flex-col items-center text-center mb-1">
-                        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-blue-600 to-cyan-400 flex items-center justify-center text-2xl shadow-lg shadow-blue-500/30 mb-3">🔐</div>
-                        <h3 class="text-lg font-black lang-str" data-so="کۆدی پشتڕاستکردنەوە" data-ba="کۆدێ پشتڕاستکرنێ">کۆدی پشتڕاستکردنەوە</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 font-bold mt-1.5 leading-relaxed" id="otp-destination"></p>
-                        <p class="text-xs text-gray-400 dark:text-gray-500 font-bold mt-1 lang-str" data-so="کۆدەکە بۆ 10 خولەک چالاکە." data-ba="کۆد بۆ 10 دەقە چالاکە.">کۆدەکە بۆ 10 خولەک چالاکە.</p>
-                    </div>
-
-                    <div dir="ltr" class="flex justify-center gap-2" id="otp-boxes"></div>
-
-                    <button id="otp-verify-btn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3.5 rounded-2xl font-black hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/30 hover:-translate-y-0.5 flex items-center justify-center gap-2 lang-str" data-so="پشتڕاستکردنەوە و چوونەژوورەوە" data-ba="پشتڕاستکرن و چوونا ژوورێ">
-                        پشتڕاستکردنەوە و چوونەژوورەوە
-                    </button>
-
-                    <div class="flex items-center justify-between gap-2 pt-1">
-                        <button id="otp-resend-btn" type="button" class="text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 transition py-1 lang-str" data-so="دووبارە ناردنەوە" data-ba="دوبارە شاندن">دووبارە ناردنەوە <span id="otp-countdown" dir="ltr">(60)</span></button>
-                        <button id="otp-change-btn" type="button" class="text-sm font-bold text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition py-1 lang-str" data-so="گۆڕینی ئیمێڵ/ژمارە" data-ba="گۆڕینا ئیمێل/ژمارێ">گۆڕینی ئیمێڵ/ژمارە</button>
-                    </div>
                 </div>
 
                 <div class="mt-7 text-center">
@@ -263,12 +210,11 @@
         </div>
     </main>
 
-    <script>
-        tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['"Noto Sans Arabic"', 'sans-serif'] } } } }
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    <script>if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         }
-        document.getElementById('theme-toggle').addEventListener('click', () => {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) themeToggle.addEventListener('click', () => {
             const html = document.documentElement;
             html.classList.toggle('dark');
             localStorage.setItem('color-theme', html.classList.contains('dark') ? 'dark' : 'light');
@@ -283,29 +229,37 @@
                 if (val) el.innerText = val;
             });
         }
-        document.getElementById('lang-toggle').addEventListener('click', () => {
+        const langToggle = document.getElementById('lang-toggle');
+        if (langToggle) langToggle.addEventListener('click', () => {
             currentLang = currentLang === 'so' ? 'ba' : 'so';
             localStorage.setItem('site-lang', currentLang);
             applyLanguage();
         });
         applyLanguage();
+
+        document.querySelectorAll('[data-toggle-pw]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const input = document.getElementById(btn.dataset.togglePw);
+                if (!input) return;
+                const show = input.type === 'password';
+                input.type = show ? 'text' : 'password';
+                btn.querySelector('.pw-eye').classList.toggle('hidden', show);
+                btn.querySelector('.pw-eye-off').classList.toggle('hidden', !show);
+            });
+        });
     </script>
 
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
-    <script type="application/json" id="kurdai-facebook-config">{!! json_encode(config('kurdai.facebook'), 15) !!}</script>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, setPersistence, browserLocalPersistence, GoogleAuthProvider, signInWithPopup, signInWithCustomToken, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
         const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-        const facebookConfig = JSON.parse((document.getElementById('kurdai-facebook-config') || {}).textContent || '{}');
 
-        const app = initializeApp(firebaseConfig);
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
         const auth = getAuth(app);
         auth.useDeviceLanguage();
         setPersistence(auth, browserLocalPersistence).catch(() => {});
-
-        const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
         const errorMsg = document.getElementById('error-message');
         const successMsg = document.getElementById('success-message');
@@ -340,29 +294,6 @@
             }
         }
 
-        async function api(path, body) {
-            const res = await fetch(path, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': csrf,
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                body: JSON.stringify(body),
-            });
-            let data = {};
-            try { data = await res.json(); } catch (_) {}
-            if (!res.ok) {
-                if (data && data.errors) {
-                    const first = Object.values(data.errors)[0];
-                    throw new Error(Array.isArray(first) ? first[0] : first);
-                }
-                throw new Error((data && data.message) || 'کێشەیەک ڕوویدا. تکایە دووبارە هەوڵ بدەرەوە.');
-            }
-            return data;
-        }
-
         function firebaseErrorMessage(e) {
             const map = {
                 'auth/popup-blocked': 'وێبگەڕەکەت پاپئاپەکە بەربەستکردووە. تکایە ڕێگەی بدە و دووبارە هەوڵ بدەرەوە.',
@@ -382,13 +313,16 @@
                 'auth/user-disabled': 'ئەم هەژمارەیە ناچالاککراوە.',
                 'auth/too-many-requests': 'زۆر هەوڵت داوە. دوای ماوەیەک دووبارە هەوڵ بدەرەوە.',
                 'auth/network-request-failed': 'پەیوەندی بە ئینتەرنێتەوە نەما.',
+                'auth/email-already-in-use': 'ئەم ئیمێڵە پێشتر تۆمارکراوە. بچۆ بەشی چوونەژوورەوە.',
+                'auth/weak-password': 'پاسۆردەکە زۆر بەهێز نییە (بەلایەنی کەم 6 پیت).',
+                'auth/invalid-email': 'ئیمێڵەکە دروست نییە.',
             };
             if (map[e.code]) return map[e.code];
-            return 'چوونەژوورەوە سەرنەکەوت: ' + e.message;
+            return 'کێشەیەک ڕوویدا: ' + e.message;
         }
 
         // ---------- تبەکان و پانێڵەکان ----------
-        const panelIds = ['email', 'phone', 'google', 'facebook', 'otp'];
+        const panelIds = ['login', 'register'];
 
         function setPanel(name) {
             panelIds.forEach(p => {
@@ -397,10 +331,8 @@
         }
 
         const tabs = {
-            email: document.getElementById('tab-email'),
-            phone: document.getElementById('tab-phone'),
-            google: document.getElementById('tab-google'),
-            facebook: document.getElementById('tab-facebook'),
+            login: document.getElementById('tab-login'),
+            register: document.getElementById('tab-register'),
         };
 
         function setTabActive(name) {
@@ -411,176 +343,34 @@
             });
         }
 
-        let pendingAuth = null;
-
         function chooseMethod(name) {
-            pendingAuth = null;
             hideMessages();
             setTabActive(name);
             setPanel(name);
-            const recovery = document.getElementById('email-recovery-btn');
-            if (recovery) recovery.classList.add('hidden');
         }
 
         Object.entries(tabs).forEach(([key, el]) => {
             el.addEventListener('click', () => chooseMethod(key));
         });
 
-        // ---------- بۆکسەکانی کۆد ----------
-        const otpBoxesWrap = document.getElementById('otp-boxes');
-        const otpBoxes = [];
-
-        function buildOtpBoxes() {
-            for (let i = 0; i < 6; i++) {
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.inputMode = 'numeric';
-                input.maxLength = 1;
-                input.autocomplete = 'off';
-                input.classList.add('otp-box');
-                input.setAttribute('aria-label', 'کۆد ' + (i + 1));
-                input.addEventListener('input', () => {
-                    input.value = input.value.replace(/[^0-9]/g, '').slice(0, 1);
-                    input.classList.toggle('filled', !!input.value);
-                    if (input.value && i < 5) otpBoxes[i + 1].focus();
-                    if (otpBoxes.every(b => b.value)) verifyOtp();
-                });
-                input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Backspace' && !input.value && i > 0) {
-                        otpBoxes[i - 1].focus();
-                        otpBoxes[i - 1].value = '';
-                        otpBoxes[i - 1].classList.remove('filled');
-                    }
-                });
-                input.addEventListener('paste', (e) => {
-                    e.preventDefault();
-                    const text = (e.clipboardData.getData('text') || '').replace(/[^0-9]/g, '').slice(0, 6);
-                    [...text].forEach((ch, j) => {
-                        if (otpBoxes[j]) {
-                            otpBoxes[j].value = ch;
-                            otpBoxes[j].classList.toggle('filled', !!ch);
-                        }
-                    });
-                    const next = Math.min(text.length, 5);
-                    otpBoxes[next].focus();
-                    if (text.length === 6) verifyOtp();
-                });
-                otpBoxes.push(input);
-                otpBoxesWrap.appendChild(input);
-            }
-        }
-
-        function resetOtpBoxes() {
-            otpBoxes.forEach(b => {
-                b.value = '';
-                b.classList.remove('filled');
-            });
-            otpBoxes[0].focus();
-        }
-
-        function collectOtp() {
-            return otpBoxes.map(b => b.value).join('');
-        }
-
-        // ---------- OTP step ----------
-        const otpDestination = document.getElementById('otp-destination');
-        const otpVerifyBtn = document.getElementById('otp-verify-btn');
-        const otpResendBtn = document.getElementById('otp-resend-btn');
-        const otpCountdown = document.getElementById('otp-countdown');
-        const otpChangeBtn = document.getElementById('otp-change-btn');
-
-        function destinationText(method, masked) {
-            if (method === 'google') return 'کۆدەکە بۆ Gmailـی ' + masked + ' نێردرا.';
-            if (method === 'facebook') return 'کۆدەکە بۆ ئیمێڵەکەت نێردرا (' + masked + ').';
-            if (method === 'phone') return 'کۆدەکە بۆ وەتسئەپی ' + masked + ' نێردرا.';
-            return 'کۆدەکە بۆ ئیمێڵەکەت نێردرا (' + masked + ').';
-        }
-
-        function openOtpStep(method, identifier, masked, kind, idToken, password) {
-            pendingAuth = { method, identifier, kind: kind || 'direct', idToken: idToken || null, password: password || null };
-            setPanel('otp');
-            otpDestination.innerText = destinationText(method, masked);
-            resetOtpBoxes();
-            startResendTimer();
-            hideMessages();
-        }
-
-        otpChangeBtn.addEventListener('click', () => {
-            if (pendingAuth) chooseMethod(pendingAuth.method);
-        });
-
-        let resendTimer = null;
-
-        function startResendTimer() {
-            let seconds = 60;
-            otpResendBtn.disabled = true;
-            otpResendBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            otpCountdown.innerText = '(60)';
-            clearInterval(resendTimer);
-            resendTimer = setInterval(() => {
-                seconds--;
-                otpCountdown.innerText = '(' + seconds + ')';
-                if (seconds <= 0) {
-                    clearInterval(resendTimer);
-                    otpResendBtn.disabled = false;
-                    otpResendBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                    otpCountdown.innerText = '';
-                }
-            }, 1000);
-        }
-
-        otpResendBtn.addEventListener('click', async () => {
-            if (!pendingAuth) return;
-            const btn = otpResendBtn;
-            setLoading(btn, true, 'ناردن...');
-            try {
-                let data;
-                if (pendingAuth.kind === 'social') {
-                    data = await api('/auth/social', { provider: pendingAuth.method, idToken: pendingAuth.idToken });
-                } else {
-                    data = await api('/otp/send', { method: pendingAuth.method, identifier: pendingAuth.identifier });
-                }
-                pendingAuth.identifier = data.identifier || pendingAuth.identifier;
-                otpDestination.innerText = destinationText(pendingAuth.method, data.masked);
-                resetOtpBoxes();
-                showSuccess('کۆدەکە دووبارە نێردرایەوە.');
-            } catch (e) {
-                showError(e.message);
-            } finally {
-                setLoading(btn, false);
-                startResendTimer();
-            }
-        });
-
         // ---------- ناردن ----------
-        function buildPhoneNumber() {
-            let digits = document.getElementById('phone').value.replace(/[^0-9]/g, '');
-            if (digits.startsWith('00')) digits = digits.slice(2);
-            if (digits.startsWith('964')) digits = digits.slice(3);
-            if (digits.startsWith('0')) digits = digits.slice(1);
-            return '+964' + digits;
+        let navigated = false;
+        let submitting = false;
+        function loginDone() {
+            if (navigated) return;
+            navigated = true;
+            showSuccess('سەرکەوتوو بوو...');
+            setTimeout(() => { location.replace('/'); }, 350);
         }
 
-        function recoveryBtn() {
-            return document.getElementById('email-recovery-btn');
-        }
-
-        async function signInWithPassword(email, password) {
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-                showSuccess('سەرکەوتوو! ڕەوانەکردن بۆ پەڕەکە...');
-                setTimeout(() => { window.location.href = '/'; }, 700);
-                return true;
-            } catch (e) {
-                showError(emailPasswordError(e));
-                recoveryBtn().classList.remove('hidden');
-                return false;
-            }
-        }
+        // already signed in? skip the form and go straight to the app
+        onAuthStateChanged(auth, (user) => {
+            if (user && !submitting && !navigated) location.replace('/');
+        });
 
         async function sendEmailLogin() {
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
             if (!email) {
                 showError('تکایە ئیمێڵەکەت بنووسە.');
                 return;
@@ -589,74 +379,80 @@
                 showError('تکایە پاسۆردەکەت بنووسە (بەلایەنی کەم 6 پیت).');
                 return;
             }
-            const btn = document.getElementById('email-send-btn');
+            const btn = document.getElementById('login-send-btn');
             hideMessages();
             setLoading(btn, true, 'چوونەژوورەوە...');
+            submitting = true;
             try {
-                const data = await api('/auth/email', { email, password });
-                if (data.status === 'existing') {
-                    await signInWithPassword(email, password);
-                } else {
-                    openOtpStep('email', data.identifier, data.masked, 'email-new', null, password);
-                }
+                await signInWithEmailAndPassword(auth, email, password);
+                loginDone();
             } catch (e) {
-                // ئەگەر سێرڤەر نەگەیشتە فایەربەیس، هەوڵی ڕاستەوخۆ بە پاسۆرد بدەرەوە
-                const ok = await signInWithPassword(email, password);
-                if (!ok && e && e.message) showError(e.message);
+                if (e.code === 'auth/user-not-found') {
+                    showError('ئەم ئیمێڵە نەتۆمارکراوە. تکایە بەشی دروستکردنی هەژمار بەکاربهێنە.');
+                } else {
+                    showError(emailPasswordError(e));
+                }
             } finally {
                 setLoading(btn, false);
             }
         }
 
-        async function sendRecoveryOtp() {
-            const email = document.getElementById('email').value.trim();
+        document.getElementById('login-send-btn').addEventListener('click', sendEmailLogin);
+        document.getElementById('login-email').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sendEmailLogin();
+        });
+        document.getElementById('login-password').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sendEmailLogin();
+        });
+
+        // ---------- دروستکردنی هەژمار ----------
+        async function sendEmailRegister() {
+            const name = document.getElementById('register-name').value.trim();
+            const email = document.getElementById('register-email').value.trim();
+            const password = document.getElementById('register-password').value;
+            const confirm = document.getElementById('register-password-confirm').value;
+            if (!name) {
+                showError('تکایە ناوەکەت بنووسە.');
+                return;
+            }
             if (!email) {
                 showError('تکایە ئیمێڵەکەت بنووسە.');
                 return;
             }
-            const btn = recoveryBtn();
-            hideMessages();
-            setLoading(btn, true, 'ناردن...');
-            try {
-                const data = await api('/otp/send', { method: 'email', identifier: email });
-                openOtpStep('email', data.identifier, data.masked, 'email-recovery', null, document.getElementById('password').value || null);
-            } catch (e) {
-                showError(e.message);
-            } finally {
-                setLoading(btn, false);
-            }
-        }
-
-        async function sendPhoneCode() {
-            const full = buildPhoneNumber();
-            if (!/^\+964[0-9]{8,12}$/.test(full)) {
-                showError('تکایە ژمارەی مۆبایلەکەت بە تەواوی بنووسە (٧xx xxx xxxx).');
+            if (password.length < 6) {
+                showError('پاسۆرد دەبێت بەلایەنی کەم 6 پیت بێت.');
                 return;
             }
-            const btn = document.getElementById('phone-send-btn');
+            if (password !== confirm) {
+                showError('دوو پاسۆردەکە یەکسان نین.');
+                return;
+            }
+            const btn = document.getElementById('register-send-btn');
             hideMessages();
-            setLoading(btn, true, 'ناردن...');
+            setLoading(btn, true, 'دروستکردنی هەژمار...');
+            submitting = true;
             try {
-                const data = await api('/otp/send', { method: 'phone', identifier: full });
-                openOtpStep('phone', data.identifier, data.masked);
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                if (name) {
+                    await updateProfile(userCredential.user, { displayName: name });
+                }
+                loginDone();
             } catch (e) {
-                showError(e.message);
+                showError(emailPasswordError(e));
             } finally {
                 setLoading(btn, false);
             }
         }
 
-        document.getElementById('email-send-btn').addEventListener('click', sendEmailLogin);
-        document.getElementById('email').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') sendEmailLogin();
+        document.getElementById('register-send-btn').addEventListener('click', sendEmailRegister);
+        document.getElementById('register-email').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sendEmailRegister();
         });
-        document.getElementById('password').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') sendEmailLogin();
+        document.getElementById('register-password').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sendEmailRegister();
         });
-        document.getElementById('email-recovery-btn').addEventListener('click', sendRecoveryOtp);
-        document.getElementById('phone-send-btn').addEventListener('click', sendPhoneCode);
-        document.getElementById('phone').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') sendPhoneCode();
+        document.getElementById('register-password-confirm').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sendEmailRegister();
         });
 
         // ---------- گووگڵ ----------
@@ -664,14 +460,11 @@
 
         async function handleSocial(provider, method, btn) {
             hideMessages();
-            setLoading(btn, true, 'چاوەڕوان...');
+            setLoading(btn, true, 'تکایە چاوەڕێبە....');
+            submitting = true;
             try {
-                const cred = await signInWithPopup(auth, provider);
-                const idToken = await cred.user.getIdToken();
-                const data = await api('/auth/social', { provider: method, idToken });
-                await signInWithCustomToken(auth, data.token);
-                showSuccess('سەرکەوتوو! ڕەوانەکردن بۆ پەڕەکە...');
-                setTimeout(() => { window.location.href = '/'; }, 700);
+                await signInWithPopup(auth, provider);
+                loginDone();
             } catch (e) {
                 const msg = firebaseErrorMessage(e);
                 if (msg) showError(msg);
@@ -684,121 +477,12 @@
             handleSocial(googleProvider, 'google', document.getElementById('google-login-btn'));
         });
 
-        // ---------- فەیسبووک (SDK ڕاستەوخۆ — بەبێ Firebase OAuth، بەبێ reCAPTCHA و بەبێ کۆد) ----------
-        let facebookSdkReady = null;
-
-        function loadFacebookSdk() {
-            if (window.FB) return Promise.resolve();
-            if (facebookSdkReady) return facebookSdkReady;
-            facebookSdkReady = new Promise((resolve) => {
-                window.fbAsyncInit = () => {
-                    FB.init({ appId: facebookConfig.app_id || '', xfbml: false, version: 'v20.0' });
-                    resolve();
-                };
-                const s = document.createElement('script');
-                s.src = 'https://connect.facebook.net/en_US/sdk.js';
-                s.async = true;
-                s.crossOrigin = 'anonymous';
-                document.head.appendChild(s);
-            });
-            return facebookSdkReady;
-        }
-        loadFacebookSdk();
-
-        function finishFacebookLogin(authResponse, btn) {
-            FB.api('/me', { fields: 'id,name,email' }, async (me) => {
-                try {
-                    if (!me || me.error) {
-                        showError('ناو و ئیمێڵەکەت نەتوانرا وەربگیرێت لە فەیسبووک.');
-                        return;
-                    }
-                    const data = await api('/auth/facebook', {
-                        accessToken: authResponse.accessToken,
-                        email: me.email || '',
-                        name: me.name || '',
-                    });
-                    await signInWithCustomToken(auth, data.token);
-                    showSuccess('سەرکەوتوو! ڕەوانەکردن بۆ پەڕەکە...');
-                    setTimeout(() => { window.location.href = '/'; }, 700);
-                } catch (e) {
-                    showError(e && e.message ? e.message : 'کێشەیەک ڕوویدا. تکایە دووبارە هەوڵ بدەرەوە.');
-                } finally {
-                    setLoading(btn, false);
-                }
-            });
-        }
-
-        async function handleFacebookLogin(btn) {
-            hideMessages();
-            setLoading(btn, true, 'چاوەڕوان...');
-            if (!facebookConfig.app_id) {
-                showError('لۆگینی فەیسبووک ڕێک نەخراوە. تکایە بەڕێوەبەری ماڵپەڕ ئاگادار بکەوە.');
-                setLoading(btn, false);
-                return;
-            }
-            try {
-                await loadFacebookSdk();
-            } catch (_) {}
-            if (!window.FB) {
-                showError('نەتوانرا فەیسبووک بکرێتەوە. تکایە دووبارە هەوڵ بدەرەوە.');
-                setLoading(btn, false);
-                return;
-            }
-            FB.getLoginStatus((statusRes) => {
-                if (statusRes.status === 'connected') {
-                    finishFacebookLogin(statusRes.authResponse, btn);
-                } else {
-                    FB.login((loginRes) => {
-                        if (loginRes.authResponse) {
-                            finishFacebookLogin(loginRes.authResponse, btn);
-                        } else {
-                            showError('چوونەژوورەوە هەڵوەشایەوە.');
-                            setLoading(btn, false);
-                        }
-                    }, { scope: 'email' });
-                }
-            });
-        }
-
-        document.getElementById('facebook-login-btn').addEventListener('click', () => {
-            handleFacebookLogin(document.getElementById('facebook-login-btn'));
+        document.getElementById('google-register-btn').addEventListener('click', () => {
+            handleSocial(googleProvider, 'google', document.getElementById('google-register-btn'));
         });
 
-        // ---------- پشتڕاستکردنەوە ----------
-        async function verifyOtp() {
-            if (!pendingAuth) return;
-            const code = collectOtp();
-            if (code.length !== 6) {
-                showError('تکایە کۆدەکە بە تەواوی بنووسە.');
-                return;
-            }
-            hideMessages();
-            setLoading(otpVerifyBtn, true, 'پشتڕاستکردنەوە...');
-            try {
-                const payload = {
-                    method: pendingAuth.method,
-                    identifier: pendingAuth.identifier,
-                    code,
-                };
-                if (pendingAuth.password) payload.password = pendingAuth.password;
-                const data = await api('/otp/verify', payload);
-                setLoading(otpVerifyBtn, false);
-                await signInWithCustomToken(auth, data.token);
-                showSuccess('سەرکەوتوو! ڕەوانەکردن بۆ پەڕەکە...');
-                setTimeout(() => { window.location.href = '/'; }, 700);
-            } catch (e) {
-                showError(e.message);
-                setLoading(otpVerifyBtn, false);
-                resetOtpBoxes();
-            }
-        }
-
-        otpVerifyBtn.addEventListener('click', verifyOtp);
-
-        buildOtpBoxes();
-        setTabActive('email');
-        setPanel('email');
+        setTabActive('login');
+        setPanel('login');
     </script>
-@include('components.chat-widget')
 </body>
 </html>

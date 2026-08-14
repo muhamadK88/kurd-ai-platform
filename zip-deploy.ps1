@@ -1,12 +1,11 @@
-# zip-deploy.ps1 - Creates a safe, shareable zip of the project that can be
-# handed to a hoster WITHOUT leaking any secrets (.env, firebase admin
-# credentials, AI API keys). API keys live in ~/.config/kurd-ai/, which is
-# OUTSIDE the project folder and never included.
+# zip-deploy.ps1 - Creates a deployment zip with Laravel's encrypted .env.
+# Plaintext .env and raw key files are never included. The decrypt key must be
+# transferred separately through a secure channel.
 #
 # Usage:   powershell -ExecutionPolicy Bypass -File zip-deploy.ps1
 # Output:  kurd-ai-deploy.zip in the project root
 #
-# After running, READ the "OK / WARNING" line at the end.
+# After extraction, run deploy-env.ps1 with the key printed by env:encrypt.
 
 $ErrorActionPreference = 'Stop'
 
@@ -18,11 +17,12 @@ if (Test-Path -LiteralPath $zip) { Remove-Item -LiteralPath $zip -Force }
 
 $xd = @(
     '.git', 'vendor', 'node_modules', '.idea', '.vscode', '.devcontainer',
-    'storage\logs', 'storage\backups', 'storage\app\ai', '.config'
+    'storage\logs', 'storage\backups', '.config'
 )
 $xf = @(
-    '.env', '.env.backup', '.env.production',
+    '.env', '.env.backup', '.env.production', '.env.key',
     'firebase_credentials.json',
+    'deepseek_key*', 'openrouter_key',
     '*.zip', '*.log'
 )
 
@@ -38,7 +38,7 @@ if (Test-Path -LiteralPath $rootEnv)  { $leaks += $rootEnv }
 if (Test-Path -LiteralPath $rootFb)   { $leaks += $rootFb }
 $leaks += Get-ChildItem -Path $stage -Recurse -Force -File -ErrorAction SilentlyContinue |
     Where-Object {
-        $_.Name -like 'providers.json' -or
+        ($_.Name -like 'providers.json' -and $_.FullName -notlike '*\storage\app\ai\providers.json') -or
         $_.Name -like 'config.json' -or
         $_.Name -like 'deepseek_key*' -or
         $_.Name -like 'openrouter_key' -or
@@ -58,4 +58,4 @@ Remove-Item -LiteralPath $stage -Recurse -Force
 
 Write-Host ""
 Write-Host "Created: $zip" -ForegroundColor Green
-Write-Host "OK: no .env / firebase_credentials.json / API key files inside the zip."
+Write-Host "OK: encrypted .env may be included; plaintext .env and raw API key files are excluded."

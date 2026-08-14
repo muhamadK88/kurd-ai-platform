@@ -1,7 +1,18 @@
 /* ==========================================================================
-   KURD AI — کۆرسەکان (Courses) · academy design  ·  v1
-   Indigo/blue learning-academy look. Pure CSS — no image assets added.
+   KURD AI — کۆرسەکان (Courses) · academy design  ·  v2
+   Indigo/blue learning-academy look, aligned with the "Futuristic Glass"
+   v4 token system (--kai-brand-*, --kai-glass-*, --kai-shadow-*, easings).
+   Page identity: indigo → blue → violet → cyan.
+   Pure CSS — no image assets added.
    ========================================================================== */
+
+/* ---------- page accent tokens (v4 alignment) ---------- */
+:root {
+    --kai-crs-a: #6366f1;    /* indigo */
+    --kai-crs-b: #3b82f6;    /* blue  */
+    --kai-crs-c: #8b5cf6;    /* violet */
+    --kai-crs-d: #06b6d4;    /* cyan  */
+}
 
 /* ---------- shared keyframes ---------- */
 @keyframes kaiFlow { to { background-position: 220% center; } }
@@ -16,7 +27,7 @@
 header .inline-flex { animation: kaiPopBadge 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
 @keyframes kaiPopBadge { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 header h2 {
-    background-image: linear-gradient(90deg, #6366f1, #3b82f6 45%, #8b5cf6 80%, #06b6d4);
+    background-image: linear-gradient(90deg, var(--kai-crs-a), var(--kai-crs-b) 45%, var(--kai-crs-c) 80%, var(--kai-crs-d));
     background-size: 220% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -30,7 +41,9 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
 /* ---------- topic filter pills ---------- */
 .topic-btn { position: relative; overflow: hidden; }
 .topic-btn:hover { transform: translateY(-2px); }
-.topic-btn.bg-indigo-600 { box-shadow: 0 10px 30px -8px rgba(99, 102, 241, 0.7); }
+.topic-btn.bg-indigo-600 {
+    box-shadow: 0 10px 30px -8px color-mix(in srgb, var(--kai-crs-a) 65%, transparent);
+}
 .topic-btn.bg-indigo-600::after {
     content: "";
     position: absolute; top: 0; bottom: 0; left: -80%;
@@ -43,7 +56,7 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
 /* ---------- category section headers ---------- */
 #courses-container .col-span-3 h2 {
-    background-image: linear-gradient(90deg, #6366f1, #8b5cf6, #3b82f6);
+    background-image: linear-gradient(90deg, var(--kai-crs-a), var(--kai-crs-c), var(--kai-crs-b));
     background-size: 220% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -60,15 +73,19 @@ header p { animation: kaiHeadIn 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
     top: 0; right: 0; left: 0;
     height: 4px;
     z-index: 5;
-    background: linear-gradient(90deg, #6366f1, #3b82f6, #8b5cf6, #06b6d4);
+    background: linear-gradient(90deg, var(--kai-crs-a), var(--kai-crs-b), var(--kai-crs-c), var(--kai-crs-d));
     background-size: 220% auto;
     animation: kaiFlow 6s linear infinite;
 }
-.course-item:hover { box-shadow: 0 26px 60px -18px rgba(79, 70, 229, 0.5); }
+.course-item:hover {
+    box-shadow: 0 26px 60px -18px color-mix(in srgb, var(--kai-crs-a) 45%, transparent);
+}
 
 /* badge glow */
 .course-item .absolute[class*="bg-blue-600"],
-.course-item .absolute[class*="bg-white/90"] { box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4); }
+.course-item .absolute[class*="bg-white/90"] {
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--kai-crs-b) 40%, transparent);
+}
 
 /* fav heart pop */
 .course-item button[onclick*="toggleCourseFav"] { transition: transform 0.2s ease, background-color 0.2s ease; }

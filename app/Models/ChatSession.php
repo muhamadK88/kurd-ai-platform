@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChatSession extends Model
 {
-    protected $fillable = ['user_key', 'title', 'pinned'];
+    protected $fillable = ['user_key', 'user_email', 'title', 'pinned'];
 
     protected $casts = [
         'pinned' => 'boolean',

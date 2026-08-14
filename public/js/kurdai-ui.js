@@ -1,10 +1,10 @@
 /* ==========================================================================
-   KURD AI — UI motion layer for "Aurora Glass v3 · Static Tech".
+   KURD AI — UI motion layer for "Aurora Glass v4 · Futuristic Glass".
    Purely additive: attaches to classes that already exist in the markup
    (.glass-card, .service-card, .tool-card, .cat-tab, nav links) so no page
    logic, tool, category or data is touched.
 
-   v3 performance contract:
+   v4 performance contract:
      • No background animation of any kind — the canvas is a static CSS grid.
      • ONE rAF flush per frame — pointer events only *record*; all DOM reads
        (rects) and DOM writes (--kai-* vars) happen inside the flush, so
@@ -13,6 +13,9 @@
        / moving and removed when it goes idle (no VRAM leak).
      • FLIP (First/Last/Invert/Play) via the Web Animations API for the nav
        and category pills — compositor-driven, springy, never layout-driven.
+     • Gentle scroll reveal: transform+opacity ONLY, JS-owned initial state
+       (no-JS / reduced-motion / touch stay fully visible), with a hard
+       safety fallback that force-shows anything not revealed on schedule.
    ========================================================================== */
 (function () {
     'use strict';
@@ -121,72 +124,85 @@
         window.addEventListener('load', lift);
         setTimeout(lift, 1400);
         setTimeout(function () { if (veil.parentNode) veil.parentNode.removeChild(veil); }, 2600);
-
-        // fade out on internal navigation for a seamless morph between pages
-        document.addEventListener('click', function (e) {
-            var a = e.target.closest ? e.target.closest('a') : null;
-            if (!a) return;
-            if (a.target === '_blank' || a.hasAttribute('download')) return;
-            if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
-
-            var href = a.getAttribute('href');
-            if (!href || href.charAt(0) === '#' || /^(mailto:|tel:|javascript:)/i.test(href)) return;
-            if (a.origin && a.origin !== window.location.origin) return;
-            if (a.pathname === window.location.pathname && a.hash) return;
-
-            var out = document.createElement('div');
-            out.style.cssText = veil.style.cssText;
-            out.style.opacity = '0';
-            document.documentElement.appendChild(out);
-            requestAnimationFrame(function () { out.style.opacity = '1'; });
-
-            /* let the nav wordmark do a tiny exit flourish */
-            document.documentElement.classList.add('kai-vt');
-            setTimeout(function () {
-                document.documentElement.classList.remove('kai-vt');
-            }, 700);
-        }, true);
     }
 
     /* ======================================================================
-       3. Scroll reveal (will-change managed: on while animating, off after)
+       3. Gentle scroll reveal (transform+opacity only).
+          JS owns the hidden state (no-JS → fully visible). Skips anything
+          with its own entrance (dynamic card containers, tilt-tracked
+          cards). Every queued element gets a hard safety "show" so nothing
+          can ever stay hidden.
        ====================================================================== */
     var revealObserver = null;
+    var revealQueued = [];
 
-    function revealAll() {
-        each('.kai-reveal', document, function (el) {
-            el.classList.add('kai-in');
-            setTimeout(function () { setWill(el, false); }, 900);
-        });
-    }
-
-    function initReveal() {
-        /* Scroll-reveal disabled: sections no longer vanish/reappear.
-           revealObserver stays null, so scanReveal() becomes a no-op. */
-        return;
-    }
-
+    /* selector excludes .glass-card / dynamic containers — those already
+       animate their own entrance and are tilt-tracked by this same file. */
     var REVEAL_SELECTOR = [
         'section > .container > .text-center',
         'section .grid > a',
         'section .grid > div',
-        '.glass-card',
         'header .inline-flex',
         'header h1', 'header h2', 'header p',
         'footer .grid > div'
     ].join(',');
 
+    function isSkidded(el) {
+        if (el.matches('.service-card, .tool-card, .cat-header, .course-item, .glass-card')) return true;
+        if (el.closest('#tools-container, #courses-container, #news-container, #uni-container, #guide-container')) return true;
+        /* ferga owns a separate read-along reveal (.kai-reveal + .kai-on) */
+        if (el.closest('#learning-view')) return true;
+        return false;
+    }
+
+    function revealNow(el) {
+        if (el.classList.contains('kai-in')) return;
+        el.classList.add('kai-in');
+        setTimeout(function () { setWill(el, false); }, 900);
+    }
+
+    function initReveal() {
+        if (reduced || isTouch || !('IntersectionObserver' in window)) return;
+        revealObserver = new IntersectionObserver(function (entries) {
+            for (var i = 0; i < entries.length; i++) {
+                if (entries[i].isIntersecting) {
+                    var el = entries[i].target;
+                    revealObserver.unobserve(el);
+                    revealNow(el);
+                }
+            }
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+        scanReveal(document);
+    }
+
     function scanReveal(root) {
         if (!revealObserver) return;
         each(REVEAL_SELECTOR, root, function (el, i) {
             if (el.dataset.kaiReveal) return;
+            if (isSkidded(el)) return;
             if (el.closest('#kurdai-chat-panel')) return;
             if (el.closest('.fixed')) return;
             el.dataset.kaiReveal = '1';
             el.classList.add('kai-reveal');
             el.style.setProperty('--kai-d', Math.min(i % 8, 7) * 65 + 'ms');
             revealObserver.observe(el);
+            revealQueued.push(el);
         });
+        scheduleRevealSafety();
+    }
+
+    /* hard safety: force-show everything queued shortly after the scan,
+       so a hidden container / slow tab / auth gate can never strand content
+       at opacity:0. Elements already revealed are skipped by revealNow. */
+    var revealSafetyTimer = null;
+    function scheduleRevealSafety() {
+        if (revealSafetyTimer) return;
+        revealSafetyTimer = setTimeout(function () {
+            revealSafetyTimer = null;
+            var q = revealQueued;
+            revealQueued = [];
+            for (var i = 0; i < q.length; i++) revealNow(q[i]);
+        }, 2600);
     }
 
     /* ======================================================================
@@ -205,10 +221,15 @@
         g.className = 'kai-grid-layer';
         g.setAttribute('aria-hidden', 'true');
 
+        var ring = document.createElement('i');
+        ring.className = 'kai-aurora-ring';
+        ring.setAttribute('aria-hidden', 'true');
+
         card.insertBefore(a, card.firstChild);
         card.insertBefore(g, a.nextSibling);
+        card.insertBefore(ring, g.nextSibling);
 
-        if (card.matches('.service-card, .tool-card') && !reduced && !isTouch) {
+        if (card.matches('.glass-card, .service-card, .tool-card') && !reduced && !isTouch) {
             var gl = document.createElement('i');
             gl.className = 'kai-glare';
             gl.setAttribute('aria-hidden', 'true');
@@ -217,6 +238,7 @@
     }
 
     function resetCard(card) {
+        if (!card || !card.classList) return;
         card.classList.add('kai-tilt-reset');
         card.style.setProperty('--kai-ry', '0deg');
         card.style.setProperty('--kai-rx', '0deg');
@@ -225,6 +247,7 @@
         var glare = card.querySelector('.kai-glare');
         if (glare) glare.classList.remove('kai-on');
         setTimeout(function () {
+            if (!card || !card.classList) return;
             card.classList.remove('kai-tilt');
             setWill(card, false);
         }, 700);
@@ -240,7 +263,7 @@
         card.style.setProperty('--kai-my', my + 'px');
 
         if (isTouch || reduced) return;
-        if (!card.matches('.service-card, .tool-card, #languages-grid > .glass-card, #languages-grid > .ai-topic-card')) return;
+        if (!card.matches('.glass-card, .service-card, .tool-card')) return;
 
         var px = (mx / r.width) - 0.5;
         var py = (my / r.height) - 0.5;
@@ -279,7 +302,7 @@
             /* record now, apply in the shared flush */
             enqueue(card, function () { updateCard(card, last.x, last.y); });
         }, { passive: true });
-        card.addEventListener('pointerleave', resetCard);
+        card.addEventListener('pointerleave', function () { resetCard(card); });
     }
 
     function scanCards(root) {
@@ -305,7 +328,7 @@
     }
 
     /* ======================================================================
-       6. Magnetic pull on primary buttons (rAF-batched)
+        6. Magnetic pull on primary buttons (rAF-batched)
        ====================================================================== */
     function scanMagnetic(root) {
         if (isTouch || reduced) return;
@@ -336,7 +359,37 @@
     }
 
     /* ======================================================================
-       7. FLIP primitives (shared with the ka-nav component via window.KaiUI)
+        6b. Hero tech-orbits + data-grid + scanning beam (Nebula v9)
+        Injects .kai-hero-fx (grid + beam) and two .kai-orbit rings into
+        every hero header / #home-view. Pure decoration, aria-hidden,
+        skipped for reduced-motion / low-end / touch (grid still ok on
+        touch; rings are desktop-only).
+       ====================================================================== */
+    function mountHeroFX() {
+        if (reduced || document.documentElement.classList.contains('kai-perf')) return;
+        each('header[class*="min-h-"], header[class*="py-24"], #home-view', document, function (hero) {
+            if (hero.dataset.kaiHeroFx) return;
+            hero.dataset.kaiHeroFx = '1';
+
+            var fx = document.createElement('i');
+            fx.className = 'kai-hero-fx';
+            fx.setAttribute('aria-hidden', 'true');
+            hero.insertBefore(fx, hero.firstChild);
+
+            if (isTouch) return;
+            var orb = document.createElement('i');
+            orb.className = 'kai-orbit';
+            orb.setAttribute('aria-hidden', 'true');
+            var orbAlt = document.createElement('i');
+            orbAlt.className = 'kai-orbit kai-orbit--alt';
+            orbAlt.setAttribute('aria-hidden', 'true');
+            hero.appendChild(orb);
+            hero.appendChild(orbAlt);
+        });
+    }
+
+    /* ======================================================================
+        7. FLIP primitives (shared with the ka-nav component via window.KaiUI)
        ====================================================================== */
     function placePill(pill, target) {
         if (!target) return;
@@ -529,6 +582,14 @@
         initCatTabs(root);
     }
 
+    /* Explicit re-scan — called by kai-router after every page swap so the
+       motion layer re-binds cards, nav pill and reveal states on the DOM
+       that just arrived (belt-and-braces on top of the MutationObserver). */
+    function reinit(root) {
+        scanAll(root || document);
+        initNav();
+    }
+
     function watchDom() {
         if (!('MutationObserver' in window)) return;
         var pending = false;
@@ -569,7 +630,8 @@
         enqueue: enqueue,
         setWill: setWill,
         placePill: placePill,
-        morphPill: morphPill
+        morphPill: morphPill,
+        reinit: reinit
     };
 
     /* ======================================================================
@@ -582,6 +644,7 @@
         mountProgress();
         initReveal();
         initNav();
+        mountHeroFX();
         scanAll(document);
         watchDom();
         watchAuthGate();
