@@ -23,7 +23,15 @@ class SocialAuthController extends Controller
         ]);
 
         try {
-            $payload = $this->firebase->verifyIdToken($data['idToken']);
+            $cacheKey = 'auth_token_' . hash('sha256', $data['idToken']);
+            $verifiedIdToken = \Illuminate\Support\Facades\Cache::remember($cacheKey, 300, function () use ($data, $cacheKey) {
+                $token = $this->firebase->verifyIdToken($data['idToken']);
+                $exp = (int) ($token['exp'] ?? 0);
+                $ttl = max(0, $exp - time());
+                \Illuminate\Support\Facades\Cache::put($cacheKey, $token, $ttl);
+                return $token;
+            });
+            $payload = $verifiedIdToken;
             $email = strtolower(trim($payload['email'] ?? ''));
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

@@ -338,6 +338,7 @@
         <!-- ناوەڕۆکی سەرەکی (Main Learning Content) -->
         <main id="lesson-main" class="flex-1 p-6 md:p-12 overflow-y-auto h-[calc(100vh-76px)] relative z-10 flex flex-col">
             <div class="max-w-4xl mx-auto w-full flex-1 flex flex-col pt-10 md:pt-0">
+                <div id="data-load-error" class="hidden mb-6 bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl flex items-center justify-between shadow-sm" role="alert"><div class="flex items-center gap-3"><svg class="w-5 h-5 flex-shrink-0 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg><span id="data-load-error-msg" class="text-sm font-medium">نەتوانرا وانەکان باربکرێن. تکایە هێڵی ئینتەرنێتەکەت بپشکنە.</span></div><button type="button" onclick="location.reload()" class="text-xs bg-red-500/20 hover:bg-red-500/30 text-red-300 font-semibold px-3 py-1.5 rounded-lg transition-colors">دووبارە هەوڵبدەوە</button></div>
                 <h1 id="display-title" class="text-4xl md:text-5xl font-black mb-6 text-gray-900 dark:text-white leading-tight"></h1>
                 
                 <div class="admin-only hidden mb-4 flex justify-end">
@@ -2278,7 +2279,7 @@ ${code}
             document.getElementById('badge-title').textContent = currentLang === 'so' ? meta.title_so : meta.title_ba;
             document.getElementById('badge-kicker').textContent = currentLang === 'so' ? 'پیرۆزبایییەکان 🎉' : 'پیرۆزبایی 🎉';
             const chip = document.getElementById('badge-lang-chip');
-            chip.textContent = 'langName';
+            chip.textContent = langName;
             document.getElementById('badge-desc').textContent = currentLang === 'so'
                 ? 'ئافەرین! بە سەرکەوتوویی هەموو وانەکانی ' + langName + ' تەواو کردیت. ئەم باجە هەتا هەتایە هی تۆیە!'
                 : 'ئافەرم! تە ب سەرکەفتی هەمی وانەیێن ' + langName + ' دووماهی ئینان. ئەڤ باجە هەتاهەتایێ هی تەیە!';
@@ -2465,9 +2466,10 @@ ${code}
             AI_SAMPLE_LESSONS.forEach(l => { if (!lessonsData[l.id]) lessonsData[l.id] = { ...l }; });
         }
         mergeVirtualAI();
-        onValue(dbRef(db, 'ferga_languages'), (s) => { languagesData = s.val() || {}; mergeVirtualAI(); dataLoaded.langs = true; applyLanguage(); updateAdminSelects(); renderManageList(); checkAndAutoResume(); });
-        onValue(dbRef(db, 'ferga_lessons'), (s) => { lessonsData = s.val() || {}; mergeVirtualAI(); dataLoaded.lessons = true; updateAdminSelects(); renderManageList(); checkAndAutoResume(); });
-        onValue(dbRef(db, 'ferga_quizzes'), (s) => { quizzesData = s.val() || {}; dataLoaded.quizzes = true; renderManageList(); checkAndAutoResume(); });
+        function showDataLoadError(m){const b=document.getElementById('data-load-error'),t=document.getElementById('data-load-error-msg');if(b){if(m&&t)t.textContent=m;b.classList.remove('hidden');}} function hideDataLoadError(){const b=document.getElementById('data-load-error');if(b)b.classList.add('hidden');} function subscribeWithTimeout(q,cb,t=8000){let h=false;const tm=setTimeout(()=>{if(!h){console.warn('Timeout');showDataLoadError('کێشەیەک لە بارکردنی داتاکان هەیە، پەیوەندی خاوە.');}},t);return onValue(q,(s)=>{h=true;clearTimeout(tm);hideDataLoadError();cb(s);},(e)=>{clearTimeout(tm);console.error(e);showDataLoadError(e&&e.message?e.message:'هەڵەیەک ڕوویدا');});}
+        subscribeWithTimeout(dbRef(db, 'ferga_languages'), (s) => { languagesData = s.val() || {}; mergeVirtualAI(); dataLoaded.langs = true; applyLanguage(); updateAdminSelects(); renderManageList(); checkAndAutoResume(); });
+        subscribeWithTimeout(dbRef(db, 'ferga_lessons'), (s) => { lessonsData = s.val() || {}; mergeVirtualAI(); dataLoaded.lessons = true; updateAdminSelects(); renderManageList(); checkAndAutoResume(); });
+        subscribeWithTimeout(dbRef(db, 'ferga_quizzes'), (s) => { quizzesData = s.val() || {}; dataLoaded.quizzes = true; renderManageList(); checkAndAutoResume(); });
 
         // پێشکەوتن بەپێی ئیمەیڵ — ڕاژە فایەربەیسەکە وەک ڕاژە ڕاستەوخۆ (realtime) دەگوێرێتەوە
         function applyProgressData(data) {

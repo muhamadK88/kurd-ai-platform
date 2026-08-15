@@ -55,8 +55,13 @@ class AdminController extends Controller
     // --- Ø¨Û•Ø´ÛŒ Ø¯Û•Ø³ØªÚ©Ø§Ø±ÛŒ Ú©Û†Ø±Ø³Û•Ú©Ø§Ù† ---
     public function editCourse($id)
     {
-        $response = Http::get($this->firebaseUrl . 'courses/' . $id . '.json');
-        return view('edit', ['data' => $response->json(), 'id' => $id, 'type' => 'course']);
+        try {
+            $response = Http::timeout(10)->get($this->firebaseUrl . 'courses/' . $id . '.json');
+            $data = $response->json();
+        } catch (\Throwable $e) {
+            return redirect('/courses')->with('error', 'Firebase connection failed.');
+        }
+        return view('edit', ['data' => $data, 'id' => $id, 'type' => 'course']);
     }
 
     public function updateCourse(Request $request, $id)
@@ -70,8 +75,13 @@ class AdminController extends Controller
     // --- Ø¨Û•Ø´ÛŒ Ø¯Û•Ø³ØªÚ©Ø§Ø±ÛŒ Ø¦Ø§Ù…Ø±Ø§Ø²Û•Ú©Ø§Ù†ÛŒ AI ---
     public function editAiTool($id)
     {
-        $response = Http::get($this->firebaseUrl . 'ai_tools/' . $id . '.json');
-        return view('edit', ['data' => $response->json(), 'id' => $id, 'type' => 'ai_tool']);
+        try {
+            $response = Http::timeout(10)->get($this->firebaseUrl . 'ai_tools/' . $id . '.json');
+            $data = $response->json();
+        } catch (\Throwable $e) {
+            return redirect('/ai-tools')->with('error', 'Firebase connection failed.');
+        }
+        return view('edit', ['data' => $data, 'id' => $id, 'type' => 'ai_tool']);
     }
 
     public function updateAiTool(Request $request, $id)
@@ -85,8 +95,13 @@ class AdminController extends Controller
     // --- Ø¨Û•Ø´ÛŒ Ø¯Û•Ø³ØªÚ©Ø§Ø±ÛŒ Ú•ÛŽÙ†ÛŒØ´Ø§Ù†Ø¯Û•Ø± ---
     public function editAcademicGuide($id)
     {
-        $response = Http::get($this->firebaseUrl . 'academic_guide/' . $id . '.json');
-        return view('edit', ['data' => $response->json(), 'id' => $id, 'type' => 'academic_guide']);
+        try {
+            $response = Http::timeout(10)->get($this->firebaseUrl . 'academic_guide/' . $id . '.json');
+            $data = $response->json();
+        } catch (\Throwable $e) {
+            return redirect('/academic-guide')->with('error', 'Firebase connection failed.');
+        }
+        return view('edit', ['data' => $data, 'id' => $id, 'type' => 'academic_guide']);
     }
 
     public function updateAcademicGuide(Request $request, $id)
@@ -158,17 +173,8 @@ class AdminController extends Controller
     }
 
 // ==========================================
-    // Ø¨Û•Ø´ÛŒ ÙÛŽØ±Ú¯Û• (Ferga - Learning Platform)
+    // Ø¨Û•Ø´ÛŒ ÙÛŽØ±Ú¯Û• (Ferga - Learning Platform)
     // ==========================================
-    public function showFerga()
-    {
-        // Ù‡ÛŽÙ†Ø§Ù†ÛŒ Ø²Ø§Ù†ÛŒØ§Ø±ÛŒÛŒÛ•Ú©Ø§Ù†ÛŒ ÙÛŽØ±Ú¯Û• Ù„Û• ÙØ§ÛŒÛ•Ø±Ø¨Û•ÛŒØ³Û•ÙˆÛ• Ø¨Û† Ø¦Û•Ú¯Û•Ø±ÛŒ Ø¨Û•Ú©Ø§Ø±Ù‡ÛŽÙ†Ø§Ù†ÛŒ Ù„Û• Ø¨Ø§Ú©ÛŽÙ†Ø¯
-        $response = Http::get($this->firebaseUrl . 'ferga_lessons.json');
-        $lessons = $response->json();
-        
-        return view('ferga', compact('lessons'));
-    }
-
     public function destroyFergaLesson($id)
     {
         Http::delete($this->firebaseUrl . 'ferga_lessons/' . $id . '.json');
