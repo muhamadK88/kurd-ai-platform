@@ -641,34 +641,6 @@
         </div>
     </div>
 
-    <!-- پەنجەرەی کردنەوەی بەشی ژیری دەستکرد بە پۆینت (هەر بەشێک جارێک) -->
-    <div id="ai-unlock-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[135] hidden items-center justify-center p-4">
-        <div class="badge-modal-box relative bg-white dark:bg-[#0f172a] rounded-[2.5rem] shadow-2xl w-full max-w-md p-10 text-center border border-white/20">
-            <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-emerald-400 via-cyan-500 to-emerald-400"></div>
-            <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at 50% 16%, rgba(52,211,153,0.32), transparent 62%);"></div>
-            <span class="badge-sparkle" style="top:16%; left:14%;">✨</span>
-            <span class="badge-sparkle" style="top:11%; right:18%; animation-delay:0.6s;">💫</span>
-            <span class="badge-sparkle" style="top:72%; left:10%; animation-delay:1.1s;">✨</span>
-            <span class="badge-sparkle" style="bottom:14%; right:12%; animation-delay:1.5s;">⭐</span>
-            <button onclick="closeAIUnlockModal()" class="absolute top-5 left-5 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition text-xl font-black">×</button>
-            <div class="badge-ring-float relative mx-auto mt-8 mb-8 w-32 h-32">
-                <div class="badge-ring absolute inset-0 rounded-full" style="border:3px dashed rgba(16,185,129,0.6);"></div>
-                <div class="ai-pulse-ring absolute -inset-3 rounded-full" style="border:2px solid rgba(16,185,129,0.35);"></div>
-                <div class="badge-disc w-full h-full rounded-full bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 shadow-2xl flex items-center justify-center ring-4 ring-emerald-200/50 dark:ring-emerald-900/40 overflow-hidden">
-                    <div class="badge-shine"></div>
-                    <span class="text-6xl drop-shadow-lg">🔓</span>
-                </div>
-            </div>
-            <h3 id="ai-unlock-title" class="relative text-3xl font-black mb-3 text-gray-900 dark:text-white"></h3>
-            <p id="ai-unlock-desc" class="relative text-gray-500 dark:text-gray-400 font-bold leading-relaxed mb-5"></p>
-            <p id="ai-unlock-cost" class="relative inline-block mb-8 px-5 py-2 rounded-full text-base font-black border bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700/50"></p>
-            <div class="relative flex gap-3">
-                <button onclick="closeAIUnlockModal()" class="flex-1 py-4 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-2xl font-black hover:bg-gray-200 dark:hover:bg-gray-700 transition-all lang-str" data-so="هەڵوەشاندنەوە" data-ba="بەتالکرن">هەڵوەشاندنەوە</button>
-                <button id="ai-unlock-confirm-btn" onclick="confirmAIUnlock()" class="relative flex-1 py-4 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white rounded-2xl font-black shadow-lg shadow-emerald-500/30 transition-all hover:-translate-y-1 overflow-hidden"></button>
-            </div>
-        </div>
-    </div>
-
     <!-- Firebase & Core Logic -->
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="application/json" id="kurdai-imgbb-config">{!! json_encode(config('kurdai.imgbb.api_key'), 15) !!}</script>
@@ -708,10 +680,8 @@
         let xpAwardedLessons = {};
         let latestCompilerOutput = ""; 
 
-        // --- بەشی ژیری دەستکرد: هەر بەشێک جارێک بە پۆینت دەکرێتەوە (بەشەکە لە خۆی) — وانەکانی ناو بەشەکە بەخۆڕایی و ڕیزبەندی کراوەن ---
-        let aiUnlocked = {};
+        // --- بەشی ژیری دەستکرد: کۆرسەکان بە ڕیزبەندین — کۆرسی دواتر تەنها دوای تەواوکردنی کۆرسی پێشوو دەکرێتەوە ---
         let homeView = 'categories';
-        let pendingAITopicId = null;
 
         // --- Badges (باجەکانی زمان) ---
         const LANGUAGE_BADGES = {
@@ -727,49 +697,59 @@
         const FALLBACK_BADGE = { icon: '🏆', grad: 'from-blue-500 to-indigo-600', ring: 'rgba(96,165,250,0.45)', title_so: 'باجی زمان', title_ba: 'باجا زمان' };
         let badgesEarned = {};
 
-        // --- بەشی فێربوونی ژیری دەستکرد (AI) — 8 بەش، هەر بەشێک ~٣٠ وانە (ئێستا ٥ وانەی نمونە + ئەدمین زیاد دەکات) ---
+        // --- بەشی فێربوونی ژیری دەستکرد (AI) — ١٠ کۆرس بە ڕیزبەندی، هەر کۆرسێک وانەی خۆی هەیە (٥ وانەی نمونە + ئەدمین زیاد دەکات) ---
 
         // هەر بەشێک وەک زمانێک لە فایەربەیس دەهێڵدرێت (is_ai: true) و ئەدمین دەتوانێت بیگۆڕێت
         const AI_TOPICS = [
-            { id: 'ai_intro', is_ai: true, ai_order: 1, unlock_cost: 1200, icon: '🧠', color: 'bg-emerald-100', grad: 'from-emerald-500 to-teal-500',
-              name_so: 'پێشەکی بۆ ژیری دەستکرد', name_ba: 'دەستپێک بۆ زیرەکیا دەستکرد',
-              desc_so: 'ژیری دەستکرد چییە، مێژووەکەی، جۆرەکانی و چۆنیەتی کارکردنی — بەشەکە بە پۆینت دەکرێتەوە و وانەکانی بەخۆڕایی فێردەبیت.',
-              desc_ba: 'زیرەکیا دەستکرد چ یە، دیرۆکا وێ، جۆرێن وێ و ڕێکا کارکردنا وێ — بەش ب پۆینتان ڤەدبیت و وانەیێن وێ بەلاش فێردبی.',
+            { id: 'ai_intro', is_ai: true, ai_order: 1, icon: '🧠', color: 'bg-emerald-100', grad: 'from-emerald-500 to-teal-500',
+              name_so: 'بنەماکان و فەلسەفەی ژیریی دەستکرد', name_ba: 'بنەمایێن و فەلسەفەیا زیرەکیا دەستکرد',
+              desc_so: 'ژیری دەستکرد چییە، مێژووەکەی، جۆرەکانی و چۆنیەتی کارکردنی — یەکەم کۆرس کە دەبێت تەواوی بکەیت.',
+              desc_ba: 'زیرەکیا دەستکرد چ یە، دیرۆکا وێ، جۆرێن وێ و ڕێکا کارکردنا وێ — کۆرسێ ئێکێ کو دڤێت تەمام بکەی.',
               ext: 'py' },
-            { id: 'ai_data', is_ai: true, ai_order: 2, unlock_cost: 1500, icon: '📊', color: 'bg-teal-100', grad: 'from-teal-500 to-cyan-500',
-              name_so: 'داتا و شیکردنەوەی داتا', name_ba: 'داتا و شیکرنا داتایان',
-              desc_so: 'NumPy، Pandas، EDA و وێنەکێشان — داتا بناغەی هەموو مۆدێلەکانی AIە.',
-              desc_ba: 'NumPy، Pandas، EDA و وێنەکێشان — داتا بناغەی هەمی مۆدێلێن AIیە.',
+            { id: 'ai_data', is_ai: true, ai_order: 2, icon: '📊', color: 'bg-teal-100', grad: 'from-teal-500 to-cyan-500',
+              name_so: 'ئامرازەکانی شیکاری داتا — NumPy, Pandas, Matplotlib', name_ba: 'ئامرازێن شیکارییا داتا — NumPy, Pandas, Matplotlib',
+              desc_so: 'NumPy، Pandas و Matplotlib — ئامرازە سەرەکییەکانی کارکردن لەگەڵ داتا و وێنەکێشانی ئەنجامەکان.',
+              desc_ba: 'NumPy، Pandas و Matplotlib — ئامرازێن سەرەکی یێن کارکرنا دگەل داتا و وێنەکێشانا ئەنجاما.',
               ext: 'py' },
-            { id: 'ai_algo', is_ai: true, ai_order: 3, unlock_cost: 1800, icon: '⚙️', color: 'bg-cyan-100', grad: 'from-cyan-500 to-sky-500',
-              name_so: 'بنەڕەتەکانی ئالگۆریتم', name_ba: 'بنەڕەتێن ئالگۆریتم',
-              desc_so: 'گەڕان، ڕیزکردن و ئاڵۆزی (Big O) — ئالگۆریتم پشووی هەموو AIەکە.',
-              desc_ba: 'گەڕان، ڕێزکرن و ئالۆزی (Big O) — ئالگۆریتم پشتێ هەمی AIیە.',
+            { id: 'ai_math', is_ai: true, ai_order: 3, icon: '➗', color: 'bg-sky-100', grad: 'from-sky-500 to-indigo-500',
+              name_so: 'ئامار و بیرکاری بۆ ژیریی دەستکرد', name_ba: 'ئامار و بیرکاری بۆ زیرەکیا دەستکرد',
+              desc_so: 'ناوەند، ناوەڕاست، لادان، ئەگەر و بنەماکانی ئەلجەبرای هێڵی — زمانی بیرکارییانەی مۆدێلەکان.',
+              desc_ba: 'ناڤەند، ناڤەڕاست، لادان، ئەگەر و بنەمایێن ئەلجەبرا خەتی — زمانێ بیرکاری یێ مۆدێلان.',
               ext: 'py' },
-            { id: 'ai_ml', is_ai: true, ai_order: 4, unlock_cost: 2200, icon: '🤖', color: 'bg-indigo-100', grad: 'from-indigo-500 to-blue-600',
-              name_so: 'فێربوونی ئامێر (Machine Learning)', name_ba: 'فێربوونا ماکین (Machine Learning)',
+            { id: 'ai_datasci', is_ai: true, ai_order: 4, icon: '🔬', color: 'bg-cyan-100', grad: 'from-cyan-500 to-teal-600',
+              name_so: 'زانستی داتا', name_ba: 'زانستێ داتا',
+              desc_so: 'کۆکردنەوە، پاککردنەوە، شیکاری دۆزەرەوە (EDA) و دەرهێنانی زانیاری لە داتاکان.',
+              desc_ba: 'کۆمکرن، پاقژکرن، شیکارییا دیتنێ (EDA) و دەرئێخستنا زانیاریان ژ داتایان.',
+              ext: 'py' },
+            { id: 'ai_algo', is_ai: true, ai_order: 5, icon: '⚙️', color: 'bg-blue-100', grad: 'from-blue-500 to-sky-500',
+              name_so: 'ئەلگۆریتمەکان و چارەسەرکردنی کێشە', name_ba: 'ئالگۆریتم و چارەسەرکرنا کێشەیان',
+              desc_so: 'گەڕان، ڕیزکردن، ئاڵۆزی (Big O) و شێوازی بیرکردنەوە بۆ چارەسەرکردنی کێشە.',
+              desc_ba: 'گەڕان، ڕێزکرن، ئالۆزی (Big O) و ڕێکا فکرینێ بۆ چارەسەرکرنا کێشەیان.',
+              ext: 'py' },
+            { id: 'ai_ml', is_ai: true, ai_order: 6, icon: '🤖', color: 'bg-indigo-100', grad: 'from-indigo-500 to-blue-600',
+              name_so: 'فێربوونی ئامێر', name_ba: 'فێربوونا ماکین',
               desc_so: 'Supervised، Unsupervised، ڕیگرێشن و پێوانەکردنی مۆدێل — ئامێر لە داتا فێردەبێت.',
               desc_ba: 'Supervised، Unsupervised، ڕیگرێشن و پێڤانەکرنا مۆدێلان — ماکین ژ داتایان فێردبیت.',
               ext: 'py' },
-            { id: 'ai_dl', is_ai: true, ai_order: 5, unlock_cost: 2500, icon: '🧠', color: 'bg-violet-100', grad: 'from-violet-500 to-purple-600',
-              name_so: 'فێربوونی قووڵ (Deep Learning)', name_ba: 'فێربوونا کور (Deep Learning)',
-              desc_so: 'تۆڕی دەمار، چینەکان، activation و فێربوون — بناغەی تەکنەلۆجیای ئەمڕۆ.',
-              desc_ba: 'تۆڕا دەماران، چین، activation و فێربوون — بناغەی تەکنۆلۆجییا ئەڤرۆ.',
+            { id: 'ai_nn', is_ai: true, ai_order: 7, icon: '🕸️', color: 'bg-purple-100', grad: 'from-purple-500 to-indigo-600',
+              name_so: 'تۆڕە دەمارییەکان', name_ba: 'تۆڕێن دەماری',
+              desc_so: 'نۆرۆن، چینەکان، کێش، bias و activation — پێکهاتەی بنەڕەتیی مێشکی دەستکرد.',
+              desc_ba: 'نۆرۆن، چین، کێش، bias و activation — پێکهاتەیا بنەڕەتی یا مێشکێ دەستکرد.',
               ext: 'py' },
-            { id: 'ai_cv', is_ai: true, ai_order: 6, unlock_cost: 2800, icon: '👁️', color: 'bg-sky-100', grad: 'from-sky-500 to-blue-600',
-              name_so: 'بینینی کۆمپیوتەر (Computer Vision)', name_ba: 'دیتنا کۆمپیوتەر (Computer Vision)',
+            { id: 'ai_dl', is_ai: true, ai_order: 8, icon: '🧬', color: 'bg-violet-100', grad: 'from-violet-500 to-purple-600',
+              name_so: 'فێربوونی قووڵ', name_ba: 'فێربوونا کور',
+              desc_so: 'تۆڕی قووڵ، backpropagation، فێرکردن و باشترکردنی مۆدێل — بناغەی تەکنەلۆجیای ئەمڕۆ.',
+              desc_ba: 'تۆڕێن کور، backpropagation، فێرکرن و چێتەرکرنا مۆدێلان — بناغەی تەکنۆلۆجییا ئەڤرۆ.',
+              ext: 'py' },
+            { id: 'ai_cv', is_ai: true, ai_order: 9, icon: '👁️', color: 'bg-blue-100', grad: 'from-sky-500 to-blue-600',
+              name_so: 'بینینی کۆمپیوتەر', name_ba: 'دیتنا کۆمپیوتەر',
               desc_so: 'وێنە وەک ئارای ژمارە، فیلتەر، ناسینەوەی ڕووخسار و دۆزینەوەی شت.',
               desc_ba: 'وێنە وەک ئارایێن ژماران، فیلتر، ناسکرنا ڕووان و دیتنا شتیان.',
               ext: 'py' },
-            { id: 'ai_nlp', is_ai: true, ai_order: 7, unlock_cost: 3000, icon: '💬', color: 'bg-purple-100', grad: 'from-purple-500 to-fuchsia-600',
-              name_so: 'پرۆسێسکردنی زمان (NLP)', name_ba: 'پێڤاجۆکیرنا زمان (NLP)',
+            { id: 'ai_nlp', is_ai: true, ai_order: 10, icon: '💬', color: 'bg-fuchsia-100', grad: 'from-fuchsia-500 to-pink-600',
+              name_so: 'پرۆسێسکردنی زمانی سروشتی', name_ba: 'پێڤاجۆکرنا زمانێ سروشتی',
               desc_so: 'Tokenization، پاککردنی دەق، هەست و وەرگێڕان — ئامێر لە زمان تێدەگات.',
               desc_ba: 'Tokenization، پاقژکرنا نڤیسا، هەست و وەرگێڕان — ماکین ژ زمان تێدگەهیت.',
-              ext: 'py' },
-            { id: 'ai_llm', is_ai: true, ai_order: 8, unlock_cost: 3500, icon: '🚀', color: 'bg-fuchsia-100', grad: 'from-fuchsia-500 to-pink-600',
-              name_so: 'مۆدێلی زمانی گەورە و AI پراکتیکی', name_ba: 'مۆدێلێن زمانێن مەزن و AI پراکتیک',
-              desc_so: 'LLM، Prompt Engineering، RAG و پڕۆژە پراکتیکییەکان — کۆتا بەشی بەرنامەکە.',
-              desc_ba: 'LLM، Prompt Engineering، RAG و پرۆژەیێن پراکتیک — بەشێ داوی یێ بەرنامێ.',
               ext: 'py' }
         ];
 
@@ -788,9 +768,7 @@
               code: `x = 5
 y = 7
 print(x + y)`,
-              challenge_desc_so: 'دوو گۆڕاو دروست بکە بە ناوی a=3 و b=4 — ئینجا کۆی گشتییان چاپ بکە.',
-              challenge_desc_ba: 'دوو گۆڕاڤان چێکە ب ناڤێ a=3 و b=4 — پشتی کۆما وان چاپ بکە.',
-              expected_output: '7', example_output: '12' },
+              example_output: '12' },
             { id: 'ai_intro_02', langId: 'ai_intro', order: 2, xp_cost: 820, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
               title_so: 'مێژووی AI — لە بیردۆزەوە بۆ ئەمڕۆ', title_ba: 'دیرۆکا AI — ژ بیردۆزێ ھەتا ئەڤرۆ',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">AI لە کوێوە هاتووە؟</h3>
@@ -800,9 +778,7 @@ print(x + y)`,
 <p>بیرۆکا ئامرازێ کو دفیكریت دگەریتەڤە بۆ سالێن 1950. د سالا 1956 دا <b>John McCarthy</b> ناڤێ "زیرەکیا دەستکرد" دانا. ژ بەر دانایان و کۆمپیوتەرێن زێدە لەزگین، AI گەلەک پێشڤە چوو.</p>`,
               code: `history = ["1950", "1956", "2020"]
 print(len(history))`,
-              challenge_desc_so: 'لیستەیەک دروست بکە بە سێ ساڵ: ["1950", "1960", "2024"] — ئینجا ژمارەی ئەندامەکان چاپ بکە.',
-              challenge_desc_ba: 'لیستەکێ چێکە ب سێ سالان: ["1950", "1960", "2024"] — پشتی هەژمارا ئەندامان چاپ بکە.',
-              expected_output: '3', example_output: '4' },
+              example_output: '4' },
             { id: 'ai_intro_03', langId: 'ai_intro', order: 3, xp_cost: 840, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
               title_so: 'جۆرەکانی AI — Narrow, General, Super', title_ba: 'جۆرێن AI — Narrow, General, Super',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">سێ جۆرەکەی AI</h3>
@@ -818,9 +794,7 @@ print(len(history))`,
     return "unknown task"
 
 print(narrow_ai("image"))`,
-              challenge_desc_so: 'فەنکشنێک بنووسە بە ناوی check کە ئەگەر task == "text" بوو، "NLP" بگەڕێنێتەوە — ئینجا check("text") چاپ بکە.',
-              challenge_desc_ba: 'فەنکشنەکێ بنڤیسە ب ناڤێ check کو هەکە task == "text" بیت، "NLP" ڤەگەڕینە — پشتی check("text") چاپ بکە.',
-              expected_output: 'NLP', example_output: 'recognizes faces' },
+              example_output: 'recognizes faces' },
             { id: 'ai_intro_04', langId: 'ai_intro', order: 4, xp_cost: 860, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
               title_so: 'داتا — بەنزینی AI', title_ba: 'داتا — بەنزینا AI',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">داتا چییە و بۆچی گرنگە؟</h3>
@@ -835,9 +809,7 @@ print(narrow_ai("image"))`,
     "score": 95
 }
 print(data["age"])`,
-              challenge_desc_so: 'فەرهەنگێک دروست بکە بە ناوی car و دوو نیشانە: "model" و "year". year = 2022 — ئینجا نرخی year چاپ بکە.',
-              challenge_desc_ba: 'فەرهەنگەکێ چێکە ب ناڤێ car و دوو ستون: "model" و "year". year = 2022 — پشتی نێرخێ year چاپ بکە.',
-              expected_output: '2022', example_output: '22' },
+              example_output: '22' },
             { id: 'ai_intro_05', langId: 'ai_intro', order: 5, xp_cost: 880, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
               title_so: 'مۆدێل چۆن فێردەبێت؟ — بینینی گشتی', title_ba: 'مۆدێل چەوا فێر دبیت؟ — دیتنا گشتی',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ئامێر چۆن فێردەبێت؟</h3>
@@ -850,9 +822,7 @@ print(data["age"])`,
 
 error = learn(100, 90)
 print(error)`,
-              challenge_desc_so: 'بە فەنکشنێک هەڵەکە هەژمار بکە: learn(50, 45) — ئینجا ئەنجامەکە چاپ بکە.',
-              challenge_desc_ba: 'ب فەنکشنەکێ شاشتیا حساب بکە: learn(50, 45) — پشتی ئەنجامێ چاپ بکە.',
-              expected_output: '5', example_output: '10' },
+              example_output: '10' },
 
             // --- داتا و شیکردنەوەی داتا ---
             { id: 'ai_data_01', langId: 'ai_data', order: 1, xp_cost: 900, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
@@ -867,9 +837,7 @@ print(error)`,
               code: `import numpy as np
 a = np.array([10, 20, 30])
 print(a.sum())`,
-              challenge_desc_so: 'بە NumPy ئارایەک دروست بکە بەم ژمارانە: 1, 2, 3 — ئینجا کۆی گشتییان چاپ بکە.',
-              challenge_desc_ba: 'ب NumPy arrayەکێ دامەزرینە ب ڤان ژماران: 1, 2, 3 — پشتی کۆما وان چاپ بکە.',
-              expected_output: '6', example_output: '60' },
+              example_output: '60' },
             { id: 'ai_data_02', langId: 'ai_data', order: 2, xp_cost: 920, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
               title_so: 'ناساندنی Pandas — DataFrames', title_ba: 'ناساندنا Pandas — DataFrames',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Pandas چییە؟</h3>
@@ -884,9 +852,7 @@ df = pd.DataFrame({
     "score": [80, 90]
 })
 print(df["score"].sum())`,
-              challenge_desc_so: 'بە Pandas خشتەیەک دروست بکە بە ستوونی "score" بە نرخەکانی 50 و 60 — ئینجا کۆی score چاپ بکە.',
-              challenge_desc_ba: 'ب Pandas خشتەکێ چێکە ب ستونا "score" ب نێرخێن 50 و 60 — پشتی کۆما score چاپ بکە.',
-              expected_output: '110', example_output: '170' },
+              example_output: '170' },
             { id: 'ai_data_03', langId: 'ai_data', order: 3, xp_cost: 940, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
               title_so: 'پاککردنەوەی داتا — نرخە ونبووەکان', title_ba: 'پاقژکرنا داتایان — نێرخێن وندا',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">بەکوژکردنەوەی نرخە ونبووەکان</h3>
@@ -897,9 +863,7 @@ print(df["score"].sum())`,
               code: `import pandas as pd
 df = pd.DataFrame({"x": [1, 2, None, 4]})
 print(df.isnull().sum())`,
-              challenge_desc_so: 'بە Pandas لیستەیەک دروست بکە: [1, None, 3] — ئینجا ژمارەی نرخە ونبووەکان چاپ بکە.',
-              challenge_desc_ba: 'ب Pandas لیستەکێ چێکە: [1, None, 3] — پشتی هەژمارا نێرخێن وندا چاپ بکە.',
-              expected_output: '1', example_output: '2' },
+              example_output: '2' },
             { id: 'ai_data_04', langId: 'ai_data', order: 4, xp_cost: 960, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'ئاماری سەرەکی — mean و median', title_ba: 'ئامارێن سەرەکی — mean û median',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">پێوانەکانی ناوەند</h3>
@@ -910,9 +874,7 @@ print(df.isnull().sum())`,
               code: `import statistics
 nums = [2, 4, 6]
 print(statistics.mean(nums))`,
-              challenge_desc_so: 'بە statistics تێکڕای [10, 20, 30] هەژمار بکە — ئینجا چاپی بکە.',
-              challenge_desc_ba: 'ب statistics ناڤینجیا [10, 20, 30] حساب بکە — پشتی چاپ بکە.',
-              expected_output: '20', example_output: '4' },
+              example_output: '4' },
             { id: 'ai_data_05', langId: 'ai_data', order: 5, xp_cost: 980, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'وێنەکێشانی داتا — Matplotlib', title_ba: 'وێنەکێشانا داتایان — Matplotlib',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">چارت بۆ بینینی داتا</h3>
@@ -926,9 +888,7 @@ y = [4, 5, 6]
 plt.plot(x, y)
 plt.title("Example")
 print(len(x))`,
-              challenge_desc_so: 'لیستی x بەم شێوەیە: [1, 2, 3, 4]. تەنها ژمارەی ئەندامەکانی x چاپ بکە بە len().',
-              challenge_desc_ba: 'لیستا x ب ڤی شێوەی یە: [1, 2, 3, 4]. تەنێ هەژمارا ئەندامێن x چاپ بکە ب len().',
-              expected_output: '4', example_output: '3' },
+              example_output: '3' },
 
             // --- بنەڕەتەکانی ئالگۆریتم ---
             { id: 'ai_algo_01', langId: 'ai_algo', order: 1, xp_cost: 1000, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
@@ -942,9 +902,7 @@ print(len(x))`,
     return a + b
 
 print(add(15, 27))`,
-              challenge_desc_so: 'فەنکشنێک بنووسە بە ناوی mul کە دوو ژمارە لێکدەدات — ئینجا mul(6, 7) چاپ بکە.',
-              challenge_desc_ba: 'فەنکشنەکێ بنڤیسە ب ناڤێ mul کو دوو ژماران لێک دخەت — پشتی mul(6, 7) چاپ بکە.',
-              expected_output: '42', example_output: '42' },
+              example_output: '42' },
             { id: 'ai_algo_02', langId: 'ai_algo', order: 2, xp_cost: 1020, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
               title_so: 'گەڕانی ڕیزبەندی — Linear Search', title_ba: 'گەڕانا ڕیزبەندی — Linear Search',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">گەڕانی هێڵی</h3>
@@ -959,9 +917,7 @@ print(add(15, 27))`,
     return -1
 
 print(linear_search([10, 20, 30, 40], 30))`,
-              challenge_desc_so: 'بە گەڕانی هێڵی لە [5, 15, 25] بۆ 25 بگەڕێ — ئینجا ژمارەی شوێنەکەی چاپ بکە.',
-              challenge_desc_ba: 'ب گەڕانا خێزیکی د [5, 15, 25] دا ل 25 بیگەڕە — پشتی ژمارا شوونێ چاپ بکە.',
-              expected_output: '2', example_output: '2' },
+              example_output: '2' },
             { id: 'ai_algo_03', langId: 'ai_algo', order: 3, xp_cost: 1040, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'گەڕانی دوایین — Binary Search', title_ba: 'گەڕانا دواییان — Binary Search',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">گەڕانی دوایین</h3>
@@ -982,9 +938,7 @@ print(linear_search([10, 20, 30, 40], 30))`,
     return -1
 
 print(binary_search([1, 3, 5, 7, 9], 9))`,
-              challenge_desc_so: 'بە Binary Search لە [2, 4, 6, 8] بۆ 4 بگەڕێ — ئینجا ژمارەی شوێنەکەی چاپ بکە.',
-              challenge_desc_ba: 'ب Binary Search د [2, 4, 6, 8] دا ل 4 بیگەڕە — پشتی ژمارا شوونێ چاپ بکە.',
-              expected_output: '1', example_output: '3' },
+              example_output: '3' },
             { id: 'ai_algo_04', langId: 'ai_algo', order: 4, xp_cost: 1060, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'ڕیزکردن — Bubble Sort', title_ba: 'ڕێزکرن — Bubble Sort',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ڕیزکردنی بڵبڵ</h3>
@@ -1000,9 +954,7 @@ print(binary_search([1, 3, 5, 7, 9], 9))`,
     return a
 
 print(bubble_sort([3, 1, 2]))`,
-              challenge_desc_so: 'لیستەکە ڕیز بکە بە کۆدی خۆت: [5, 3, 4] — ئینجا بە sorted() چاپی بکە.',
-              challenge_desc_ba: 'لیستێ ڕێز بکە ب کۆدا خوە: [5, 3, 4] — پشتی ب sorted() چاپ بکە.',
-              expected_output: '[3, 4, 5]', example_output: '[1, 2, 3]' },
+              example_output: '[1, 2, 3]' },
             { id: 'ai_algo_05', langId: 'ai_algo', order: 5, xp_cost: 1080, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'ئاڵۆزی — ناساندنی Big O', title_ba: 'ئالۆزی — ناساندنا Big O',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Big O چییە؟</h3>
@@ -1014,9 +966,7 @@ print(bubble_sort([3, 1, 2]))`,
     return 2 * n + 1
 
 print(operations(10))`,
-              challenge_desc_so: 'بە فەنکشنێک ژمارەی ئۆپەراسیۆنەکان هەژمار بکە: operations(5) کە دەگەڕێنێتەوە 2*n+1 — ئینجا چاپی بکە.',
-              challenge_desc_ba: 'ب فەنکشنەکێ هەژمارا ئۆپراسیونان حساب بکە: operations(5) کو 2*n+1 ڤەدگەڕینیت — پشتی چاپ بکە.',
-              expected_output: '11', example_output: '21' },
+              example_output: '21' },
 
             // --- فێربوونی ئامێر (ML) ---
             { id: 'ai_ml_01', langId: 'ai_ml', order: 1, xp_cost: 1100, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
@@ -1032,9 +982,7 @@ print(operations(10))`,
 
 new_price = predict(100, 1.1)
 print(round(new_price))`,
-              challenge_desc_so: 'بە فەنکشنێک پێشبینی بکە: predict(200, 0.5) — ئینجا ئەنجامەکە چاپ بکە.',
-              challenge_desc_ba: 'ب فەنکشنەکێ پێشبینییێ بکە: predict(200, 0.5) — پشتی ئەنجامێ چاپ بکە.',
-              expected_output: '100', example_output: '110' },
+              example_output: '110' },
             { id: 'ai_ml_02', langId: 'ai_ml', order: 2, xp_cost: 1120, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
               title_so: 'ڕیگرێشنی هێڵی — Linear Regression', title_ba: 'ڕیگرێشنا خێزیکی — Linear Regression',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ڕیگرێشنی هێڵی</h3>
@@ -1047,9 +995,7 @@ b = 3
 x = 5
 y = w * x + b
 print(y)`,
-              challenge_desc_so: 'بە w=3، b=1 و x=4 نرخی y هەژمار بکە بە فۆرمولەکە — ئینجا چاپی بکە.',
-              challenge_desc_ba: 'ب w=3، b=1 و x=4 نێرخێ y حساب بکە ب فۆرمولێ — پشتی چاپ بکە.',
-              expected_output: '13', example_output: '13' },
+              example_output: '13' },
             { id: 'ai_ml_03', langId: 'ai_ml', order: 3, xp_cost: 1140, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'پێوانەکردنی مۆدێل — Accuracy', title_ba: 'پێڤانەکرنا مۆدێل — Accuracy',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">دروستی مۆدێل چۆن دەپێورێت؟</h3>
@@ -1061,9 +1007,7 @@ print(y)`,
     return correct / total
 
 print(accuracy(3, 4))`,
-              challenge_desc_so: 'بە فەنکشنێک دروستی هەژمار بکە: accuracy(5, 10) — ئینجا ئەنجامەکە چاپ بکە.',
-              challenge_desc_ba: 'ب فەنکشنەکێ ڕاستیێ حساب بکە: accuracy(5, 10) — پشتی ئەنجامێ چاپ بکە.',
-              expected_output: '0.5', example_output: '0.75' },
+              example_output: '0.75' },
             { id: 'ai_ml_04', langId: 'ai_ml', order: 4, xp_cost: 1160, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'دابەشکردنی داتا — Train/Test', title_ba: 'دابەشکرنا داتایان — Train/Test',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">بۆچی داتا دابەش دەکرێت؟</h3>
@@ -1075,9 +1019,7 @@ print(accuracy(3, 4))`,
 train = data[:6]
 test = data[6:]
 print(len(train))`,
-              challenge_desc_so: 'لیستەکە دابەش بکە: train = data[:4] — ئینجا ژمارەی ئەندامەکانی train چاپ بکە.',
-              challenge_desc_ba: 'لیستێ دابەش بکە: train = data[:4] — پشتی هەژمارا ئەندامێن train چاپ بکە.',
-              expected_output: '4', example_output: '6' },
+              example_output: '6' },
             { id: 'ai_ml_05', langId: 'ai_ml', order: 5, xp_cost: 1180, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'پۆلێنکردن — ناساندنی KNN', title_ba: 'پۆلێنکرن — ناساندنا KNN',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">K-Nearest Neighbors</h3>
@@ -1091,9 +1033,7 @@ def distance(a, b):
     return math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2)
 
 print(round(distance([0, 0], [3, 4]), 2))`,
-              challenge_desc_so: 'بە مەودای ئیقلیدسی مەودای [0, 0] و [4, 3] هەژمار بکە — ئینجا چاپی بکە.',
-              challenge_desc_ba: 'ب دووریا Euclidean دووریا [0, 0] و [4, 3] حساب بکە — پشتی چاپ بکە.',
-              expected_output: '5.0', example_output: '5.0' },
+              example_output: '5.0' },
 
             // --- فێربوونی قووڵ (DL) ---
             { id: 'ai_dl_01', langId: 'ai_dl', order: 1, xp_cost: 1200, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
@@ -1109,9 +1049,7 @@ w = np.array([0.4, 0.6])
 b = 0.1
 out = np.dot(x, w) + b
 print(round(out, 2))`,
-              challenge_desc_so: 'بە numpy هەژمارەکە بکە: np.dot([1, 2], [3, 4]) — ئینجا ئەنجامەکە چاپ بکە.',
-              challenge_desc_ba: 'ب numpy حساب بکە: np.dot([1, 2], [3, 4]) — پشتی ئەنجاما چاپ بکە.',
-              expected_output: '11', example_output: '0.8' },
+              example_output: '0.8' },
             { id: 'ai_dl_02', langId: 'ai_dl', order: 2, xp_cost: 1220, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'دەمار و activation — Sigmoid', title_ba: 'دەمار و activation — Sigmoid',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">فەنکشنی چالاککردن</h3>
@@ -1125,9 +1063,7 @@ def sigmoid(z):
     return 1 / (1 + math.exp(-z))
 
 print(round(sigmoid(0), 2))`,
-              challenge_desc_so: 'بە فەنکشنی sigmoid، sigmoid(0) هەژمار بکە — ئینجا بە round(..., 2) چاپی بکە.',
-              challenge_desc_ba: 'ب فەنکشنا sigmoid، sigmoid(0) حساب بکە — پشتی ب round(..., 2) چاپ بکە.',
-              expected_output: '0.5', example_output: '0.5' },
+              example_output: '0.5' },
             { id: 'ai_dl_03', langId: 'ai_dl', order: 3, xp_cost: 1240, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'چینەکان و کێشەکان', title_ba: 'چین و کێشان',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">چینەکان چۆن کار دەکەن؟</h3>
@@ -1140,9 +1076,7 @@ w = 0.4
 b = 0.1
 out = w * x + b
 print(round(out, 2))`,
-              challenge_desc_so: 'بە w=0.5، x=2 و b=0.2 دەرچوونی دەمارەکە هەژمار بکە — ئینجا چاپی بکە.',
-              challenge_desc_ba: 'ب w=0.5، x=2 و b=0.2 دەرکەتنا دەمارێ حساب بکە — پشتی چاپ بکە.',
-              expected_output: '1.2', example_output: '0.5' },
+              example_output: '0.5' },
             { id: 'ai_dl_04', langId: 'ai_dl', order: 4, xp_cost: 1260, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'فێربوون — چەمکی Backpropagation', title_ba: 'فێربوون — چەمکا Backpropagation',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">تۆڕ چۆن فێردەبێت؟</h3>
@@ -1155,9 +1089,7 @@ error = 0.2
 lr = 0.1
 w_new = w - lr * error
 print(round(w_new, 2))`,
-              challenge_desc_so: 'بە Gradient Descent کێشەکە نوێ بکە: w=1، error=0.2 و lr=0.1 — ئینجا w_new چاپ بکە.',
-              challenge_desc_ba: 'ب Gradient Descent کێشێ نو بکە: w=1، error=0.2 و lr=0.1 — پشتی w_new چاپ بکە.',
-              expected_output: '0.98', example_output: '0.48' },
+              example_output: '0.48' },
             { id: 'ai_dl_05', langId: 'ai_dl', order: 5, xp_cost: 1280, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'TensorFlow و PyTorch — چوارچێوەکان', title_ba: 'TensorFlow و PyTorch — چوارچیوەکان',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ئامرازەکانی فێربوونی قووڵ</h3>
@@ -1170,9 +1102,7 @@ print(round(w_new, 2))`,
 
 out = forward(2, 3, 1)
 print(out)`,
-              challenge_desc_so: 'بە forward، forward(3, 2, 1) هەژمار بکە — ئینجا ئەنجامەکە چاپ بکە.',
-              challenge_desc_ba: 'ب forward، forward(3, 2, 1) حساب بکە — پشتی ئەنجاما چاپ بکە.',
-              expected_output: '7', example_output: '7' },
+              example_output: '7' },
 
             // --- بینینی کۆمپیوتەر (CV) ---
             { id: 'ai_cv_01', langId: 'ai_cv', order: 1, xp_cost: 1300, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
@@ -1188,9 +1118,7 @@ print(out)`,
     [0, 0, 0]
 ]
 print(len(image))`,
-              challenge_desc_so: 'وێنەیەک بەم شێوەیە هەیە کە 4 ڕیزە. تەنها ژمارەی ڕیزەکان چاپ بکە بە len().',
-              challenge_desc_ba: 'وێنە ب ڤی شەکلی هەیە کو 4 ڕێز ین. تەنیا هەژمارا ڕێزان چاپ بکە ب len().',
-              expected_output: '3', example_output: '4' },
+              example_output: '4' },
             { id: 'ai_cv_02', langId: 'ai_cv', order: 2, xp_cost: 1320, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'وێنە وەک ئارای ژمارە — پیکسڵ', title_ba: 'وێنە وەک ئارایێن ژماران — پیکسڵ',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">پیکسڵ چییە؟</h3>
@@ -1200,9 +1128,7 @@ print(len(image))`,
 <p>وێنەکەک رەش و سپی وەک تابلۆیەک ژ ژماران دێتە دیتن: 0 ژبۆ رەش و 255 ژبۆ سپی. مۆدێل وێنێ وەک ڤان تابلۆیان دبینیت.</p>`,
               code: `pixels = [0, 50, 200, 255]
 print(max(pixels))`,
-              challenge_desc_so: 'لیستی پیکسڵەکان: [0, 100, 255] — بە max() گەورەترینیان چاپ بکە.',
-              challenge_desc_ba: 'لیستا پیکسڵان: [0, 100, 255] — ب max() مەزترین وان چاپ بکە.',
-              expected_output: '255', example_output: '200' },
+              example_output: '200' },
             { id: 'ai_cv_03', langId: 'ai_cv', order: 3, xp_cost: 1340, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'فیلتەر و دۆزینەوەی قەراغ', title_ba: 'فیلتەر و دیتنا قەراجان',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">فیلتەر چییە؟</h3>
@@ -1213,9 +1139,7 @@ print(max(pixels))`,
               code: `pixels = [0, 255, 0, 255]
 bright = sum(1 for p in pixels if p > 100)
 print(bright)`,
-              challenge_desc_so: 'لیستی پیکسڵەکان: [0, 200, 0, 255] — ژمارەی پیکسڵە ڕووناکەکان (> 100) چاپ بکە.',
-              challenge_desc_ba: 'لیستا پیکسڵان: [0, 200, 0, 255] — هەژمارا پیکسڵێن ڕۆناه (> 100) چاپ بکە.',
-              expected_output: '2', example_output: '2' },
+              example_output: '2' },
             { id: 'ai_cv_04', langId: 'ai_cv', order: 4, xp_cost: 1360, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'کۆنڤۆلوشن — CNN بناغەکان', title_ba: 'کۆنڤۆلوشن — بناغەیێن CNN',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">کۆنڤۆلوشن چۆن کاردەکات؟</h3>
@@ -1227,9 +1151,7 @@ print(bright)`,
 kernel = [1, 0, 1]
 s = sum(p * k for p, k in zip(pixels, kernel))
 print(s)`,
-              challenge_desc_so: 'بە فیلتەری [1, 0, 1] لەسەر پیکسڵەکانی [2, 4, 2] کۆنڤۆلوشن بکە — ئینجا ئەنجامەکە چاپ بکە.',
-              challenge_desc_ba: 'ب فیلتەر [1, 0, 1] ل سەر پیکسڵێن [2, 4, 2] کۆنڤۆلوشنێ بکە — پشتی ئەنجاما چاپ بکە.',
-              expected_output: '4', example_output: '4' },
+              example_output: '4' },
             { id: 'ai_cv_05', langId: 'ai_cv', order: 5, xp_cost: 1380, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'دۆزینەوەی شت — Object Detection', title_ba: 'دیتنا شتیان — Object Detection',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">دۆزینەوەی شت</h3>
@@ -1242,9 +1164,7 @@ print(s)`,
     {"label": "dog", "x": 40, "y": 50}
 ]
 print(len(boxes))`,
-              challenge_desc_so: 'لیستەیەک بە 3 بۆکس دروست بکە — ئینجا ژمارەی ئەندامەکانی چاپ بکە.',
-              challenge_desc_ba: 'لیستەکەک ب 3 قوتییان چێکە — پشتی هەژمارا ئەندامان چاپ بکە.',
-              expected_output: '2', example_output: '3' },
+              example_output: '3' },
 
             // --- پرۆسێسکردنی زمان (NLP) ---
             { id: 'ai_nlp_01', langId: 'ai_nlp', order: 1, xp_cost: 1400, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
@@ -1257,9 +1177,7 @@ print(len(boxes))`,
               code: `text = "Ferga AI is great"
 words = text.split()
 print(len(words))`,
-              challenge_desc_so: 'دەقەکە بکەرەوە بە وشە و ژمارەیان چاپ بکە: "Ferga is fun"',
-              challenge_desc_ba: 'نڤیسێ ل پەیڤان بیقەتینە و هەژمارا وان چاپ بکە: "Ferga is fun"',
-              expected_output: '3', example_output: '4' },
+              example_output: '4' },
             { id: 'ai_nlp_02', langId: 'ai_nlp', order: 2, xp_cost: 1420, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'Tokenization — دابەشکردنی دەق', title_ba: 'Tokenization — دابەشکرنا نڤیسا',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Tokenization چییە؟</h3>
@@ -1270,9 +1188,7 @@ print(len(words))`,
               code: `sentence = "salam heval çawa yi"
 tokens = sentence.split()
 print(len(tokens))`,
-              challenge_desc_so: 'بە split() دەقەکە بکەرەوە و ژمارەی tokenەکان چاپ بکە: "kurdi ziman xwes e"',
-              challenge_desc_ba: 'ب split() نڤیسێ بیقەتینە و هەژمارا tokenان چاپ بکە: "kurdi ziman xwes e"',
-              expected_output: '4', example_output: '4' },
+              example_output: '4' },
             { id: 'ai_nlp_03', langId: 'ai_nlp', order: 3, xp_cost: 1440, level_so: 'ناوەندی', level_ba: 'ناڤەندی',
               title_so: 'پاککردنەوەی دەق — Stop Words', title_ba: 'پاقژکرنا نڤیسا — Stop Words',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Stop Words چیین؟</h3>
@@ -1284,9 +1200,7 @@ print(len(tokens))`,
 stop = {"u", "ji"}
 clean = [w for w in words if w not in stop]
 print(len(clean))`,
-              challenge_desc_so: 'لیستی وشەکان: ["ferga", "u", "xwes"] و stop: {"u"} — بە کۆدی خۆت، ژمارەی وشە پاکەکان چاپ بکە.',
-              challenge_desc_ba: 'لیستا پەیڤان: ["ferga", "u", "xwes"] و stop: {"u"} — ب کۆدا خۆ، هەژمارا پەیڤێن پاقژ چاپ بکە.',
-              expected_output: '2', example_output: '2' },
+              example_output: '2' },
             { id: 'ai_nlp_04', langId: 'ai_nlp', order: 4, xp_cost: 1460, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'هەستەشیکاری — Sentiment Analysis', title_ba: 'هەستەشیکاری — Sentiment Analysis',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">مۆدێل هەست چۆن دەدۆزێتەوە؟</h3>
@@ -1298,9 +1212,7 @@ print(len(clean))`,
 text = "xosh u baş"
 score = sum(1 for w in text.split() if w in positive)
 print(score)`,
-              challenge_desc_so: 'بە ژماردنی وشە ئەرێنیەکان: دەق "xosh xwes" و لیستی ئەرێنی {"xosh"} — ئەنجامەکە چاپ بکە.',
-              challenge_desc_ba: 'ب ژمارتنا پەیڤێن ئەرێنی: نڤیس "xosh xwes" و لیستا ئەرێنی {"xosh"} — ئەنجاما چاپ بکە.',
-              expected_output: '1', example_output: '2' },
+              example_output: '2' },
             { id: 'ai_nlp_05', langId: 'ai_nlp', order: 5, xp_cost: 1480, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
               title_so: 'وەرگێڕان و پوختەکردن', title_ba: 'وەرگێڕان و کورکرن',
               content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">مۆدێلی زمان چۆن وەرگێڕان دەکات؟</h3>
@@ -1311,80 +1223,261 @@ print(score)`,
               code: `words = ["hello", "world"]
 joined = " ".join(words)
 print(joined)`,
-              challenge_desc_so: 'لیستی وشەکان: ["ferga", "kurdi"] — بە " ".join() یەکیان گرێ بدە و چاپی بکە.',
-              challenge_desc_ba: 'لیستا پەیڤان: ["ferga", "kurdi"] — ب " ".join() ل هەڤ گرێ بدە و چاپ بکە.',
-              expected_output: 'ferga kurdi', example_output: 'hello world' },
+              example_output: 'hello world' },
 
-            // --- مۆدێلی زمانی گەورە و AI پراکتیکی ---
-            { id: 'ai_llm_01', langId: 'ai_llm', order: 1, xp_cost: 1480, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
-              title_so: 'مۆدێلی زمانی گەورە چییە؟ (LLM)', title_ba: 'مۆدێلێن زمانێن مەزن چی ین؟ (LLM)',
-              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">LLM چییە؟</h3>
-<p><b>LLM (Large Language Model)</b> وەک ChatGPT: مۆدێلێکی گەورەی NLP کە بە ملیاران پەیوەندی لەسەر دەقی زۆر فێرکراوە. لە وشەی پێشوو، وشەی داهاتوو پێشبینی دەکات.</p>
-<p>ئەم مۆدێلانە بە <b>Transformers</b> دروست دەبن — نەخشەکێشان لە ئاراستەکانی مێشکی مرۆڤەوە.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">LLM چی یە؟</h3>
-<p><b>LLM</b> وەک ChatGPT: مۆدێلەک مەزین ژ NLP کو ب ملیاران تێکلییان ل سەر نڤیسا پڕ هاتیە فێرکرن.</p>`,
-              code: `text = "hello world from kurdistan"
-tokens = text.split()
-print(len(tokens))`,
-              challenge_desc_so: 'دەقەکە بکەرەوە بە وشە و ژمارەیان چاپ بکە: "salam heval"',
-              challenge_desc_ba: 'نڤیسێ ل پەیڤان بیقەتینە و هەژمارا وان چاپ بکە: "salam heval"',
-              expected_output: '2', example_output: '4' },
-            { id: 'ai_llm_02', langId: 'ai_llm', order: 2, xp_cost: 1490, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
-              title_so: 'پێشبینی وشەی داهاتوو', title_ba: 'پێشبینییا پەیڤا هاتی',
-              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">LLM چۆن وەڵام دەداتەوە؟</h3>
-<p>LLM لە وشە نووسراوەکان دەست پێ دەکات و بۆ هەر وشەیهەلێک <b>ئەگەر</b> دەخەمڵێنێت: ئەم وشەیە دوای ئەمەی پێشوو چەند جار هاتووە؟ و بەرزترین ئەگەر هەڵدەبژێرێت.</p>
-<p>وشە نوێیەکە زیاد دەکرێت و دووبارە پێشبینی دەکرێت — هەتا تەواو دەبێت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">LLM چەوا بەرسڤ ددەت؟</h3>
-<p>LLM ژ پەیڤێن هاتیە نڤیسین دەست پێ دکەت و ژبۆ هەر پەیڤێ <b>ئه‌حتمالەک</b> حساب دکەت و یا هەرە بلند هەلبژێرە.</p>`,
-              code: `counts = {"salam": 5, "xosh": 2}
-best = max(counts, key=counts.get)
-print(best)`,
-              challenge_desc_so: 'فەرهەنگێک: {"salam": 5, "xosh": 2} — بە max() ئەو وشەیە چاپ بکە کە زۆرترین هاتووە.',
-              challenge_desc_ba: 'فەرهەنگەک: {"salam": 5, "xosh": 2} — ب max() وێ پەیڤێ چاپ بکە کو هەرە زێدە هاتیە.',
-              expected_output: 'salam', example_output: 'salam' },
-            { id: 'ai_llm_03', langId: 'ai_llm', order: 3, xp_cost: 1500, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
-              title_so: 'Prompt Engineering — ڕێنمایی ڕوون', title_ba: 'Prompt Engineering — ڕێبەریا روون',
-              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Prompt چییە و بۆچی گرنگە؟</h3>
-<p><b>Prompt</b> ڕێنماییەکەی تۆیە بۆ مۆدێلەکە. هەرچی ڕوونتر و وردتر بێت، وەڵامەکە باشتر دەبێت.</p>
-<p>پێکهاتەیەکی باش: <b>ڕۆڵ</b> (تۆ فێرکاری کوردی)، <b>کار</b> (ئەم وانەیە ڕوون بکەرەوە) و <b>شێواز</b> (بە نمونە بۆم ڕوون بکە).</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Prompt چی یە و جیما گرینگە؟</h3>
-<p><b>Prompt</b> ڕێبەرناما تە یە ژبۆ مۆدێلێ. هەر چەقە ڕۆناهتر بیت، بەرسڤ ژی چێتر دبی.</p>`,
-              code: `role = "teacher"
-task = "explain"
-prompt = "You are an AI " + role + " for " + task
-print(prompt)`,
-              challenge_desc_so: 'بە + دەقێک دروست بکە: "You are an AI " + "assistant" — ئینجا چاپی بکە.',
-              challenge_desc_ba: 'ب + نڤیسەک چێکە: "You are an AI " + "assistant" — پشتی چاپ بکە.',
-              expected_output: 'You are an AI assistant', example_output: 'You are an AI teacher for explain' },
-            { id: 'ai_llm_04', langId: 'ai_llm', order: 4, xp_cost: 1500, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
-              title_so: 'RAG — زانینی تایبەت بە مۆدێل', title_ba: 'RAG — زانینا تایبەت ب مۆدێل',
-              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">چۆن زانینی تایبەت بۆ LLM زیاد دەکرێت؟</h3>
-<p><b>RAG (Retrieval-Augmented Generation)</b>: پێش وەڵامدانەوە، مۆدێلەکە بە پاشخانێکدا دەگەڕێت و بەڵگەی پەیوەندیدار دەدۆزێتەوە — ئینجا وەڵامەکە لەسەر بنەمای ئەوە دەدات.</p>
-<p>بەم شێوەیە دەتوانیت مۆدێلێکی گشتی لەسەر داتای تایبەتی کۆمپانیاکەت بەکاربهێنیت.</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">چەوا زانینا تایبەت ژبۆ LLM دێتە زێدەکرن؟</h3>
-<p><b>RAG</b>: بەری بەرسڤدانێ، مۆدێل د ئەرشیڤێ دا دگەڕیت و بەلگەیێن تێکلیدار دبینیت — پشتی ل سەر وان بەرسڤێ ددەت.</p>`,
-              code: `docs = ["kurdi", "ziman", "slam"]
-query = "kurdi"
-match = docs[0] if query in docs else "not found"
-print(match)`,
-              challenge_desc_so: 'لیستەیەک: ["ferga", "slam"] و query = "slam" — ئەگەر هەبوو، یەکەم هاتوو چاپ بکە، نەوەک "not found".',
-              challenge_desc_ba: 'لیستەکەک: ["ferga", "slam"] و query = "slam" — هەکە هەبیت، یەکێمین هاتنێ چاپ بکە، نەخوە "not found".',
-              expected_output: 'ferga', example_output: 'kurdi' },
-            { id: 'ai_llm_05', langId: 'ai_llm', order: 5, xp_cost: 1500, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
-              title_so: 'کۆتا وانە — دروستکردنی پڕۆژەی AI', title_ba: 'وانەیێ داوی — دروستکرنا پرۆژەیا AI',
-              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ڕێگای دروستکردنی پڕۆژەی AI</h3>
-<p>پڕۆژەیەکی AI بەم ڕیزەیە دروست دەکرێت: ١) کۆکردنەوەی داتا، ٢) پاککردنەوە، ٣) دروستکردنی مۆدێل، ٤) فێربوون و ٥) تاقیکردنەوە و جێگیرکردن.</p>
-<p>بە تەواوکردنی ئەم بەشە، باجی ژیری دەستکرد بەدەست دەهێنیت 🤖 — ئێستا دەتوانیت پڕۆژەی خۆت دەست پێ بکەیت!</p>`,
-              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ڕێیا چێکرنا پرۆژەکەک AI</h3>
-<p>پرۆژەکەک AI ب ڤێ ڕێزێ دێتە چێکرن: 1) کۆمکرنا داتا، 2) پاقژکرن، 3) چێکرنا مۆدێلێ، 4) فێربوون و 5) سەریباندن و بجیهکرن.</p>
-<p>ب تەمامکرنا ڤی بەشی، باجیا ژیرییا دەستکرد ب دەست دتە 🤖 — نوکە دشێی پرۆژەیا خۆ دەست پێ بکەی!</p>`,
-              code: `def project(step):
-    return "step: " + step
+            // --- ئامار و بیرکاری بۆ ژیریی دەستکرد ---
+            { id: 'ai_math_01', langId: 'ai_math', order: 1, xp_cost: 0, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
+              title_so: 'ناوەند، ناوەڕاست و مۆد', title_ba: 'ناڤەند، ناڤەڕاست و مۆد',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">پێوەرەکانی ناوەند</h3>
+<p>پێش دروستکردنی هیچ مۆدێلێک، دەبێت داتاکە بناسیت. سێ پێوەری بنەڕەتی هەن:</p>
+<ul class="list-disc pr-6 space-y-1">
+<li><b>ناوەند (Mean)</b>: کۆی هەموو ژمارەکان بەسەر ژمارەیاندا.</li>
+<li><b>ناوەڕاست (Median)</b>: ئەو بەهایەی لە ناوەڕاستی داتای ڕیزکراودایە.</li>
+<li><b>مۆد (Mode)</b>: ئەو بەهایەی زۆرترین جار دووبارە بووەتەوە.</li>
+</ul>
+<p>ناوەند بە ئاسانی لەلایەن بەهای زۆر گەورەوە (outlier) دەگۆڕدرێت، بەڵام ناوەڕاست جێگیرترە.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">پێڤەرێن ناڤەندێ</h3>
+<p>بەری چێکرنا مۆدێلێ، دڤێت داتایێ بناسی: <b>ناڤەند</b>، <b>ناڤەڕاست</b> و <b>مۆد</b>.</p>`,
+              code: `data = [10, 20, 20, 30, 40]
 
-print(project("data"))`,
-              challenge_desc_so: 'فەنکشنێک بنووسە بە ناوی run کە دەگەڕێنێتەوە "run: ok" — ئینجا run() چاپ بکە.',
-              challenge_desc_ba: 'فەنکشنەک بنڤیسە ب ناڤێ run کو "run: ok" ڤدگەڕینەت — پشتی run() چاپ بکە.',
-              expected_output: 'run: ok', example_output: 'step: data' }
+mean = sum(data) / len(data)
+srt = sorted(data)
+median = srt[len(srt) // 2]
+
+print("mean:", mean)
+print("median:", median)`,
+              example_output: `mean: 24.0
+median: 20` },
+            { id: 'ai_math_02', langId: 'ai_math', order: 2, xp_cost: 0, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
+              title_so: 'پەرش و لادانی پێوانەیی', title_ba: 'بەلاڤبوون و لادانا پێڤانەیی',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">داتاکە چەند پەرشە؟</h3>
+<p><b>وەریانس (Variance)</b> ناوەندی چوارگۆشەی جیاوازی هەر بەهایەکە لە ناوەندەوە. <b>لادانی پێوانەیی (Standard Deviation)</b> ڕەگی دووەمی وەریانسە.</p>
+<p>هەرچی لادان بچووکتر بێت، داتاکە نزیکترە لە ناوەند — ئەمە لە AI بۆ ستانداردکردنی داتا (normalization) زۆر گرنگە.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">داتا چەند بەلاڤبووییە؟</h3>
+<p><b>Variance</b> ناڤەندێ چوارگۆشەیێن جوداهییان ژ ناڤەندی یە، و <b>Standard Deviation</b> ڕەهێ دووێ یێ وێ یە.</p>`,
+              code: `data = [10, 20, 20, 30, 40]
+mean = sum(data) / len(data)
+
+variance = sum((x - mean) ** 2 for x in data) / len(data)
+std = variance ** 0.5
+
+print("variance:", variance)
+print("std:", round(std, 2))`,
+              example_output: `variance: 104.0
+std: 10.2` },
+            { id: 'ai_math_03', langId: 'ai_math', order: 3, xp_cost: 0, level_so: 'ناوەند', level_ba: 'ناڤەند',
+              title_so: 'ئەگەر (Probability) بۆ AI', title_ba: 'ئەگەر (Probability) بۆ AI',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ئەگەر چییە؟</h3>
+<p><b>ئەگەر</b> ژمارەیەکە لە نێوان ٠ و ١ کە دەڵێت شتێک چەند ڕوودانی ئەگەری هەیە. مۆدێلەکانی AI بەڵێنی ڕەها نادەن — <b>ئەگەر</b> دەردەکەن.</p>
+<p>بۆ نموونە مۆدێلێکی پۆلێنکردن دەڵێت: ٩٢٪ ئەگەری هەیە ئەم وێنەیە پشیلە بێت.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ئەگەر چ یە؟</h3>
+<p><b>ئەگەر</b> ژمارەکە د ناڤبەرا ٠ و ١ دا یە. مۆدێلێن AI بەرسڤا ڕەها نادەن — ئەگەرێ ددەن.</p>`,
+              code: `favorable = 3
+total = 12
+
+p = favorable / total
+print("probability:", round(p, 2))
+print("percent:", round(p * 100, 1), "%")`,
+              example_output: `probability: 0.25
+percent: 25.0 %` },
+            { id: 'ai_math_04', langId: 'ai_math', order: 4, xp_cost: 0, level_so: 'ناوەند', level_ba: 'ناڤەند',
+              title_so: 'ڤێکتۆر و ماتریکس', title_ba: 'ڤێکتۆر و ماتریکس',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ئەلجەبرای هێڵی لە AI</h3>
+<p><b>ڤێکتۆر</b> ڕیزێک ژمارەیە و <b>ماتریکس</b> خشتەیەکی ژمارەیە. هەموو داتایەک (وێنە، دەق، دەنگ) لە کۆتاییدا دەبێتە ژمارە لەناو ڤێکتۆر و ماتریکس.</p>
+<p>گرنگترین کردار <b>لێکدانی نوقتەیی (dot product)</b>ە — بنەمای کارکردنی هەموو تۆڕە دەمارییەکان.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ئەلجەبرا خەتی د AI دا</h3>
+<p><b>ڤێکتۆر</b> ڕێزەکا ژماران و <b>ماتریکس</b> خشتەکا ژماران ە. کردارێ هەرە گرینگ <b>dot product</b> ە.</p>`,
+              code: `a = [1, 2, 3]
+b = [4, 5, 6]
+
+dot = sum(x * y for x, y in zip(a, b))
+print("dot product:", dot)`,
+              example_output: `dot product: 32` },
+            { id: 'ai_math_05', langId: 'ai_math', order: 5, xp_cost: 0, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
+              title_so: 'هەڵە و کەمکردنەوەی هەڵە', title_ba: 'خەلەتی و کێمکرنا خەلەتییێ',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">MSE — پێوانەی هەڵەی مۆدێل</h3>
+<p>مۆدێل فێردەبێت بە کەمکردنەوەی <b>هەڵە</b>. باوترین پێوانە <b>MSE (Mean Squared Error)</b>ە: ناوەندی چوارگۆشەی جیاوازی نێوان پێشبینی و ڕاستی.</p>
+<p>هەرچی MSE کەمتر بێت، مۆدێلەکە باشترە. ئەم بیرۆکەیە لە هەموو کۆرسەکانی داهاتوودا دووبارە دەبێتەوە.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">MSE — پێڤانا خەلەتییا مۆدێلی</h3>
+<p>مۆدێل ب کێمکرنا <b>خەلەتییێ</b> فێردبیت. پێڤانا هەرە باو <b>MSE</b> ە.</p>`,
+              code: `y_true = [3, 5, 7]
+y_pred = [2.5, 5.5, 7.5]
+
+mse = sum((t - p) ** 2 for t, p in zip(y_true, y_pred)) / len(y_true)
+print("MSE:", round(mse, 3))`,
+              example_output: `MSE: 0.25` },
+
+            // --- زانستی داتا ---
+            { id: 'ai_datasci_01', langId: 'ai_datasci', order: 1, xp_cost: 0, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
+              title_so: 'زانستی داتا چییە؟', title_ba: 'زانستێ داتا چ یە؟',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">زانستی داتا</h3>
+<p><b>زانستی داتا</b> پرۆسەی وەرگرتنی بڕیاری دروستە لە داتاوە. قۆناغەکانی:</p>
+<ol class="list-decimal pr-6 space-y-1">
+<li>پرسیارەکە دیاری بکە</li><li>داتا کۆبکەرەوە</li><li>داتاکە پاک بکەرەوە</li>
+<li>شیکاری بکە (EDA)</li><li>مۆدێل دروست بکە</li><li>ئەنجامەکە بگەیەنە</li>
+</ol>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">زانستێ داتا</h3>
+<p><b>زانستێ داتا</b> پێڤاجۆیا وەرگرتنا بڕیارا ڕاست ژ داتایان ە.</p>`,
+              code: `steps = ["question", "collect", "clean", "explore", "model", "share"]
+
+for i, s in enumerate(steps, start=1):
+    print(i, s)`,
+              example_output: `1 question
+2 collect
+3 clean
+4 explore
+5 model
+6 share` },
+            { id: 'ai_datasci_02', langId: 'ai_datasci', order: 2, xp_cost: 0, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
+              title_so: 'خوێندنەوەی داتا (CSV)', title_ba: 'خواندنا داتا (CSV)',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">داتا لە کوێوە دێت؟</h3>
+<p>باوترین شێوازی هەڵگرتنی داتا فایلی <b>CSV</b>ە — هەر ڕیزێک تۆمارێکە و بە کۆما جیا کراوەتەوە.</p>
+<p>لە پراکتیکدا <code>pandas.read_csv()</code> بەکاردەهێنیت، بەڵام گرنگە بزانیت لە پشتەوە چی ڕوودەدات.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">داتا ژ کیڤە دئێت؟</h3>
+<p>فۆرماتێ هەرە باو <b>CSV</b> ە — هەر ڕێزەک تۆمارەک ە و ب کۆمایێ دئێتە جودەکرن.</p>`,
+              code: `csv = "name,age\\nAli,20\\nSara,25"
+
+rows = [line.split(",") for line in csv.split("\\n")]
+header = rows[0]
+for row in rows[1:]:
+    print(dict(zip(header, row)))`,
+              example_output: `{'name': 'Ali', 'age': '20'}
+{'name': 'Sara', 'age': '25'}` },
+            { id: 'ai_datasci_03', langId: 'ai_datasci', order: 3, xp_cost: 0, level_so: 'ناوەند', level_ba: 'ناڤەند',
+              title_so: 'پاککردنەوەی داتا', title_ba: 'پاقژکرنا داتا',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">داتای پیس = مۆدێلی خراپ</h3>
+<p>زۆرترین کاتی زانای داتا بۆ <b>پاککردنەوە</b> دەڕوات: بەهای ونبوو (None)، دووبارەبوونەوە و بەهای هەڵە.</p>
+<p>ڕێگاکان: لابردنی ڕیزە ناتەواوەکان، یان پڕکردنەوەیان بە ناوەند/ناوەڕاست.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">داتایا پیس = مۆدێلێ خراب</h3>
+<p>پترین دەم بۆ <b>پاقژکرنێ</b> دچیت: بەهایێن ونبووی، دووبارەبوون و بەهایێن خەلەت.</p>`,
+              code: `data = [10, None, 20, 20, None, 30]
+
+clean = [x for x in data if x is not None]
+unique = sorted(set(clean))
+
+print("clean:", clean)
+print("unique:", unique)`,
+              example_output: `clean: [10, 20, 20, 30]
+unique: [10, 20, 30]` },
+            { id: 'ai_datasci_04', langId: 'ai_datasci', order: 4, xp_cost: 0, level_so: 'ناوەند', level_ba: 'ناڤەند',
+              title_so: 'EDA — ناسینی داتاکە', title_ba: 'EDA — ناسینا داتایێ',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">شیکاری دۆزەرەوە</h3>
+<p><b>EDA (Exploratory Data Analysis)</b> واتە گەڕان بەناو داتاکەدا پێش مۆدێل: کەمترین، زۆرترین، ناوەند، دابەشبوون و پەیوەندی نێوان ستوونەکان.</p>
+<p>ئەنجامی EDA بڕیار دەدات کە کام تایبەتمەندی (feature) بەکاربهێنیت.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">شیکارییا دیتنێ</h3>
+<p><b>EDA</b> واتە گەڕان د داتایێ دا بەری مۆدێلێ: کێمترین، پترین، ناڤەند و دابەشبوون.</p>`,
+              code: `ages = [20, 25, 25, 30, 41]
+
+print("count:", len(ages))
+print("min:", min(ages))
+print("max:", max(ages))
+print("mean:", sum(ages) / len(ages))`,
+              example_output: `count: 5
+min: 20
+max: 41
+mean: 28.2` },
+            { id: 'ai_datasci_05', langId: 'ai_datasci', order: 5, xp_cost: 0, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
+              title_so: 'گەیاندنی ئەنجام', title_ba: 'گەهاندنا ئەنجامان',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">داتا بکە بە چیرۆک</h3>
+<p>کۆتا قۆناغی زانستی داتا <b>گەیاندنی ئەنجامە</b>: خشتە، وێنە و کورتەیەکی ڕوون بۆ ئەوانەی بڕیار دەدەن.</p>
+<p>ڕاپۆرتێکی باش وەڵامی سێ پرسیار دەداتەوە: چی دۆزیمەوە؟ بۆچی گرنگە؟ چی بکەین؟</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">داتایێ بکە چیرۆک</h3>
+<p>قۆناغا داوی <b>گەهاندنا ئەنجاما</b> یە: خشتە، وێنە و کورتەکا ڕوون.</p>`,
+              code: `scores = {"python": 90, "math": 75, "data": 82}
+
+for name, value in scores.items():
+    bar = "#" * (value // 10)
+    print(name.ljust(8), bar, value)`,
+              example_output: `python   ######### 90
+math     ####### 75
+data     ######## 82` },
+
+            // --- تۆڕە دەمارییەکان ---
+            { id: 'ai_nn_01', langId: 'ai_nn', order: 1, xp_cost: 0, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
+              title_so: 'نۆرۆن چییە؟', title_ba: 'نۆرۆن چ یە؟',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">یەکەی بنەڕەتیی تۆڕ</h3>
+<p><b>نۆرۆن</b> بچووکترین یەکەی تۆڕی دەمارییە. چەند ژمارەیەک وەردەگرێت، هەریەکەیان لە <b>کێشێک (weight)</b> دەدات، کۆیان دەکاتەوە، <b>bias</b> زیاد دەکات و ئەنجامەکە دەردەکات.</p>
+<p>ئەمە هەمان <b>dot product</b>ی ئەلجەبرای هێڵییە کە لە کۆرسی ئامار و بیرکاری فێربوویت.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">یەکەیا بنەڕەتی یا تۆڕی</h3>
+<p><b>نۆرۆن</b> بچویکترین یەکەیا تۆڕا دەماری یە: ژمارا وەردگریت، ب کێشان لێدەت، کۆم دکەت و bias زێدە دکەت.</p>`,
+              code: `inputs = [1.0, 2.0, 3.0]
+weights = [0.2, 0.8, -0.5]
+bias = 2.0
+
+output = sum(i * w for i, w in zip(inputs, weights)) + bias
+print("neuron output:", round(output, 2))`,
+              example_output: `neuron output: 2.3` },
+            { id: 'ai_nn_02', langId: 'ai_nn', order: 2, xp_cost: 0, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
+              title_so: 'کێش و bias', title_ba: 'کێش و bias',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">تۆڕ چی فێردەبێت؟</h3>
+<p>تۆڕی دەماری داتاکە فێرنابێت — <b>کێشەکان (weights)</b> و <b>bias</b> فێردەبێت. ئەمانە ئەو ژمارانەن کە لە کاتی فێربووندا دەگۆڕدرێن.</p>
+<p>کێشی گەورە واتە ئەو inputە کاریگەری زیاتری هەیە لەسەر ئەنجام.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">تۆڕ چ فێردبیت؟</h3>
+<p>تۆڕ <b>کێشان</b> و <b>bias</b> فێردبیت — ئەڤ ژمارە د دەمێ فێربوونێ دا دگوهۆڕن.</p>`,
+              code: `def neuron(inputs, weights, bias):
+    return sum(i * w for i, w in zip(inputs, weights)) + bias
+
+x = [1.0, 2.0]
+print(neuron(x, [0.5, 0.5], 0.0))
+print(neuron(x, [2.0, 0.1], 1.0))`,
+              example_output: `1.5
+3.2` },
+            { id: 'ai_nn_03', langId: 'ai_nn', order: 3, xp_cost: 0, level_so: 'ناوەند', level_ba: 'ناڤەند',
+              title_so: 'فەنکشنی چالاککردن (Activation)', title_ba: 'فەنکشنا چالاککرنێ (Activation)',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">بۆچی activation پێویستە؟</h3>
+<p>بەبێ <b>activation</b>، تۆڕەکە تەنها کۆمەڵێک کۆکردنەوەی هێڵییە و ناتوانێت پەیوەندییە ئاڵۆزەکان فێربێت.</p>
+<ul class="list-disc pr-6 space-y-1">
+<li><b>ReLU</b>: ژمارە نەرێنییەکان دەکاتە ٠.</li>
+<li><b>Sigmoid</b>: هەموو ژمارەیەک دەخاتە نێوان ٠ و ١ (ئەگەر).</li>
+</ul>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">جما activation پێدڤی یە؟</h3>
+<p>بێی <b>activation</b>، تۆڕ تنێ کۆمکرنەکا خەتی یە. <b>ReLU</b> و <b>Sigmoid</b> یێن هەرە باو ن.</p>`,
+              code: `import math
+
+def relu(x):
+    return max(0.0, x)
+
+def sigmoid(x):
+    return 1 / (1 + math.exp(-x))
+
+print(relu(-3), relu(2.5))
+print(round(sigmoid(0), 2), round(sigmoid(2), 2))`,
+              example_output: `0.0 2.5
+0.5 0.88` },
+            { id: 'ai_nn_04', langId: 'ai_nn', order: 4, xp_cost: 0, level_so: 'ناوەند', level_ba: 'ناڤەند',
+              title_so: 'چینەکان و forward pass', title_ba: 'چین و forward pass',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">لە نۆرۆنەوە بۆ تۆڕ</h3>
+<p>کۆمەڵێک نۆرۆن پێکەوە <b>چینێک (layer)</b> پێکدەهێنن، و چەند چینێک پێکەوە <b>تۆڕێک</b>. ناردنی داتا بەناو تۆڕەکەدا لە input بۆ output پێی دەگوترێت <b>forward pass</b>.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">ژ نۆرۆنی بۆ تۆڕی</h3>
+<p>چەند نۆرۆن <b>چینەکێ</b> چێدکەن و چەند چین <b>تۆڕەکێ</b>. ڤێ ڕێکێ ژێ رە <b>forward pass</b> دێتە گۆتن.</p>`,
+              code: `def layer(inputs, weights_list, biases):
+    return [sum(i * w for i, w in zip(inputs, weights)) + b
+            for weights, b in zip(weights_list, biases)]
+
+x = [1.0, 2.0]
+out = layer(x, [[0.5, 0.5], [1.0, -1.0]], [0.0, 0.5])
+print(out)`,
+              example_output: `[1.5, -0.5]` },
+            { id: 'ai_nn_05', langId: 'ai_nn', order: 5, xp_cost: 0, level_so: 'پێشکەوتوو', level_ba: 'پێشکەفتی',
+              title_so: 'چۆن تۆڕ فێردەبێت؟', title_ba: 'تۆڕ چەوا فێردبیت؟',
+              content_so: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">هەڵە و نوێکردنەوەی کێش</h3>
+<p>لە دوای هەر forward passێک، تۆڕەکە <b>هەڵە (loss)</b> دەپێوێت، پاشان کێشەکان بەرەو ئاراستەیەک دەگۆڕێت کە هەڵەکە کەم بکاتەوە — بەمە <b>فێربوون</b> دەوترێت.</p>
+<p>ئەم پرۆسەیە لە کۆرسی «فێربوونی قووڵ» بە backpropagation قووڵتر دەکەینەوە.</p>`,
+              content_ba: `<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">خەلەتی و نویکرنا کێشان</h3>
+<p>پشتی هەر forward passەکێ، تۆڕ <b>loss</b> دپێڤیت و کێشان دگوهۆڕیت دا خەلەتی کێم ببیت.</p>`,
+              code: `w = 0.0
+x, target = 2.0, 6.0
+lr = 0.1
+
+for step in range(3):
+    pred = w * x
+    loss = (pred - target) ** 2
+    grad = 2 * (pred - target) * x
+    w = w - lr * grad
+    print(step, "loss:", round(loss, 2), "w:", round(w, 2))`,
+              example_output: `0 loss: 36.0 w: 2.4
+1 loss: 1.44 w: 2.88
+2 loss: 0.06 w: 2.98` }
         ];
 
         // پێشکەوتن بەپێی ئەکاونت (ئیمەیڵ) — ڕاژە فایەربەیسەکە وەک ڕاژە ڕاستەوخۆ (realtime) دەگوێرێتەوە
@@ -2390,7 +2483,7 @@ ${code}
         function saveProgressToFirebase() {
             if(!currentUid || !currentProgressPath) return;
             const savedLangId = lastActiveLangId || accountLastLangId || null;
-            const payload = { xp: userXP, completedLessons: completedLessons, streak: dayStreak, lastActiveDate: lastActiveDate, lessonProgress: lessonProgress, lastLanguageId: savedLangId, xpAwarded: xpAwardedLessons, aiUnlocked: aiUnlocked };
+            const payload = { xp: userXP, completedLessons: completedLessons, streak: dayStreak, lastActiveDate: lastActiveDate, lessonProgress: lessonProgress, lastLanguageId: savedLangId, xpAwarded: xpAwardedLessons };
             update(dbRef(db, currentProgressPath), payload)
                 .then(() => { console.log('[ferga] progress saved OK'); setSaveStatus('پێشکەوتن سەیڤکرا'); })
                 .catch(showProgressSaveError);
@@ -2461,9 +2554,26 @@ ${code}
 
         // --- Data Fetching ---
         // تێکەڵکردنی بەشی ژیری دەستکرد (virtual) لەگەڵ داتای فایەربەیس — تەنها وانە/بەشی نەهاتوو زیاد دەکرێت، بۆیە دەستکاری ئەدمین لە فایەربەیس ناسرێتەوە
+        const AI_LESSON_QUESTION_FIELDS = ['challenge_desc_so', 'challenge_desc_ba', 'expected_output', 'quiz_type',
+            'quiz_question_so', 'quiz_question_ba', 'quiz_options_so', 'quiz_options_ba', 'quiz_correct', 'quiz_code'];
+
         function mergeVirtualAI() {
-            AI_TOPICS.forEach(t => { if (!languagesData[t.id]) languagesData[t.id] = { ...t }; });
+            AI_TOPICS.forEach(t => {
+                const existing = languagesData[t.id];
+                if (existing && existing.deleted === true) { delete languagesData[t.id]; return; }
+                // بەشی ژیری دەستکرد هەمیشە پایسۆنە و ڕیزبەندییەکەی نابێت بگۆڕدرێت
+                languagesData[t.id] = { ...t, ...(existing || {}), is_ai: true, ai_order: t.ai_order, ext: 'py' };
+            });
             AI_SAMPLE_LESSONS.forEach(l => { if (!lessonsData[l.id]) lessonsData[l.id] = { ...l }; });
+            // وانەکانی ژیری دەستکرد پرسیار و مەشقیان تێدا نییە
+            for (let id in lessonsData) {
+                const le = lessonsData[id];
+                if (le && le.deleted === true) { delete lessonsData[id]; continue; }
+                if (!le || !le.langId) continue;
+                const topic = languagesData[le.langId];
+                if (!topic || !topic.is_ai) continue;
+                AI_LESSON_QUESTION_FIELDS.forEach(f => { delete le[f]; });
+            }
         }
         mergeVirtualAI();
         function showDataLoadError(m){const b=document.getElementById('data-load-error'),t=document.getElementById('data-load-error-msg');if(b){if(m&&t)t.textContent=m;b.classList.remove('hidden');}} function hideDataLoadError(){const b=document.getElementById('data-load-error');if(b)b.classList.add('hidden');} function subscribeWithTimeout(q,cb,t=8000){let h=false;const tm=setTimeout(()=>{if(!h){console.warn('Timeout');showDataLoadError('کێشەیەک لە بارکردنی داتاکان هەیە، پەیوەندی خاوە.');}},t);return onValue(q,(s)=>{h=true;clearTimeout(tm);hideDataLoadError();cb(s);},(e)=>{clearTimeout(tm);console.error(e);showDataLoadError(e&&e.message?e.message:'هەڵەیەک ڕوویدا');});}
@@ -2497,8 +2607,6 @@ ${code}
                 Object.assign(xpAwardedLessons, savedAwarded, loadXPBackup());
             } catch(e) { console.error('[ferga] xp awarded load failed', e); }
             saveXPBackup();
-            try { aiUnlocked = Object.assign({}, loadAIUnlocked(), (data && data.aiUnlocked) || {}); } catch(e) { aiUnlocked = loadAIUnlocked(); }
-            saveAIUnlocked();
             if (updateStreakLogic()) saveProgressToFirebase();
             updateStatsUI();
             if (currentActiveLanguage) renderSidebar();
@@ -2630,17 +2738,14 @@ ${code}
             return { grad: meta.grad || 'from-cyan-400 to-blue-600', glow: meta.ring || 'rgba(96,165,250,0.55)' };
         }
 
-        function renderLanguagesGrid() {
-            const grid = document.getElementById('languages-grid');
-            if(!grid) return;
-            grid.innerHTML = '';
-            for (let id in languagesData) {
-                const l = languagesData[id];
-                if (l.is_ai) continue; // بەشێکانی ژیری دەستکرد لە ناو زمانەکان پیشان نادرێن — بەشێکی سەربەخۆن
+        // کارتی کۆرس — هەمان دیزاین و هەمان میکانیزم بۆ زمانەکانی پرۆگرامسازی و بەشەکانی ژیری دەستکرد
+        function courseCardHtml(id, l, opts) {
+                opts = opts || {};
                 const name = loc(l, 'name');
                 const desc = loc(l, 'desc');
                 const locked = l.locked === true;
-                const showLock = locked && !window.isAdmin;
+                const prereqLocked = opts.prereqLocked === true && !window.isAdmin;
+                const showLock = (locked && !window.isAdmin) || prereqLocked;
                 const needsMembership = locked && !window.isAdmin && !window.isMember;
                 // پێشکەوتنی ئەم زمانە — completed lessons / total lessons
                 const langLessons = sortedLangLessons(id);
@@ -2650,26 +2755,36 @@ ${code}
                 const ps = langProgressStyle(id);
                 const progressLabel = currentLang === 'so' ? `${langDone}/${langTotal} وانە` : `${langDone}/${langTotal} وانە`;
                 const progressBar = glassProgressBar(langPct, ps.grad, ps.glow, { labelText: progressLabel });
-                let iconHtml = l.logo_url ? `<img src="${l.logo_url}" class="w-full h-full object-contain p-2" alt="${name}">` : `<span class="text-3xl font-black text-gray-800">${name.charAt(0)}</span>`;
-                const openAction = needsMembership
-                    ? `window.openMembershipModal('${id}')`
-                    : `window.openLanguage('${id}')`;
+                let iconHtml = l.logo_url
+                    ? `<img src="${l.logo_url}" class="w-full h-full object-contain p-2" alt="${name}">`
+                    : (l.icon ? `<span class="text-4xl leading-none">${l.icon}</span>` : `<span class="text-3xl font-black text-gray-800">${name.charAt(0)}</span>`);
+                const openAction = prereqLocked
+                    ? `window.showCoursePrereqMessage('${id}')`
+                    : (needsMembership
+                        ? `window.openMembershipModal('${id}')`
+                        : `window.openLanguage('${id}')`);
+                const lockText = prereqLocked
+                    ? (currentLang === 'so' ? 'سەرەتا کۆرسی پێشوو تەواو بکە' : 'پێشی کۆرسێ بەری خۆ تەمام بکە')
+                    : (currentLang === 'so' ? 'بەم زوانە بەردەست دەبێت' : 'بۆ ئەم زوانە بەردەست دەبیت');
                 const lockBadge = showLock ? `
                     <div onclick="event.stopPropagation(); ${openAction}" class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] font-black shadow-lg bg-gradient-to-r from-amber-500 to-yellow-500 text-white ring-2 ring-white dark:ring-gray-900 hover:scale-105 transition-transform cursor-pointer whitespace-nowrap">
                         <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18 8h-1V6a5 5 0 00-10 0v2H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zm-6 9a2 2 0 110-4 2 2 0 010 4zm3.5-9h-7V6a3.5 3.5 0 117 0v2z"/></svg>
-                        ${currentLang === 'so' ? 'بەم زوانە بەردەست دەبێت' : 'بۆ ئەم زوانە بەردەست دەبیت'}
+                        ${lockText}
                     </div>` : '';
-                const doneBadge = badgesEarned[id] ? `
+                const doneBadge = (badgesEarned[id] || opts.completed === true) ? `
                     <div onclick="event.stopPropagation(); window.openLanguage('${id}')" class="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-black shadow-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white ring-2 ring-white dark:ring-gray-900 hover:scale-105 transition-transform cursor-pointer whitespace-nowrap">
                         <span>${badgeMetaFor(id).icon}</span>
                         ${currentLang === 'so' ? 'تەواو بوو' : 'دووماهی بوو'}
                     </div>` : '';
-                grid.innerHTML += `
+                const orderBadge = opts.orderNumber ? `
+                    <div class="absolute top-4 left-4 z-20 w-9 h-9 rounded-2xl bg-gray-900/85 dark:bg-white/10 text-white flex items-center justify-center text-sm font-black ring-2 ring-white dark:ring-gray-900">${opts.orderNumber}</div>` : '';
+                return `
                     <div class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 flex flex-col items-center text-center p-10 group hover:-translate-y-2 relative ${showLock ? 'ring-1 ring-amber-200/60 dark:ring-amber-700/40' : ''}">
                         ${lockBadge}
+                        ${orderBadge}
                         ${doneBadge}
                         <div onclick="${openAction}" class="cursor-pointer w-full flex flex-col items-center">
-                            <div class="w-24 h-24 ${l.color || 'bg-blue-100'} rounded-[1.5rem] flex items-center justify-center mb-8 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 relative">
+                            <div class="w-24 h-24 ${l.color || 'bg-blue-100'} rounded-[1.5rem] flex items-center justify-center mb-8 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 relative ${showLock ? 'grayscale opacity-70' : ''}">
                                 ${iconHtml}
                             </div>
                             <h3 class="text-2xl font-black mb-4 text-gray-900 dark:text-white"><bdi>${name}</bdi></h3>
@@ -2692,13 +2807,50 @@ ${code}
                             </button>
                         </div>` : ''}
                     </div>`;
+        }
+
+        function renderLanguagesGrid() {
+            const grid = document.getElementById('languages-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            for (let id in languagesData) {
+                const l = languagesData[id];
+                if (l.is_ai) continue; // بەشێکانی ژیری دەستکرد لە ناو زمانەکان پیشان نادرێن — بەشێکی سەربەخۆن
+                grid.innerHTML += courseCardHtml(id, l);
             }
         }
 
-        // --- بەشەکان (Categories): پیشانکەری سەرەکی ---
-        function aiUnlockBackupKey() { return 'ferga_ai_unlocked_' + (currentUid || 'guest'); }
-        function saveAIUnlocked() { try { localStorage.setItem(aiUnlockBackupKey(), JSON.stringify(aiUnlocked)); } catch(e) { console.error('[ferga] ai unlock backup failed', e); } }
-        function loadAIUnlocked() { try { const raw = localStorage.getItem(aiUnlockBackupKey()); return raw ? JSON.parse(raw) : {}; } catch(e) { return {}; } }
+        // --- ڕیزبەندی کۆرسەکانی ژیری دەستکرد — کۆرسی دواتر تەنها دوای تەواوکردنی کۆرسی پێشوو دەکرێتەوە ---
+        function aiTopicsOrdered() {
+            return AI_TOPICS
+                .map(t => ({ id: t.id, data: languagesData[t.id] }))
+                .filter(t => t.data && t.data.is_ai && t.data.deleted !== true)
+                .sort((a, b) => (parseInt(a.data.ai_order, 10) || 0) - (parseInt(b.data.ai_order, 10) || 0));
+        }
+
+        function isCourseCompleted(id) {
+            const lessons = sortedLangLessons(id);
+            return lessons.length > 0 && lessons.every(l => completedLessons.includes(l.id));
+        }
+
+        // کۆرسێکی AI کراوەیە ئەگەر یەکەم کۆرس بێت یان کۆرسی پێش خۆی تەواو کرابێت
+        window.isAITopicUnlocked = function(id) {
+            if (window.isAdmin) return true;
+            const ordered = aiTopicsOrdered();
+            const idx = ordered.findIndex(t => t.id === id);
+            if (idx <= 0) return true;
+            return isCourseCompleted(ordered[idx - 1].id);
+        };
+
+        window.showCoursePrereqMessage = function(id) {
+            const ordered = aiTopicsOrdered();
+            const idx = ordered.findIndex(t => t.id === id);
+            const prev = idx > 0 ? ordered[idx - 1].data : null;
+            const prevName = prev ? loc(prev, 'name') : '';
+            showFlash(currentLang === 'so'
+                ? `🔒 سەرەتا کۆرسی «${prevName}» تەواو بکە`
+                : `🔒 پێشی کۆرسێ «${prevName}» تەمام بکە`, true);
+        };
 
         function renderHome() {
             const nav = document.getElementById('category-nav');
@@ -2711,12 +2863,12 @@ ${code}
                 if (nav) nav.classList.remove('hidden');
                 if (titleEl) titleEl.textContent = currentLang === 'so' ? '🤖 فێربوونی ژیری دەستکرد' : '🤖 فێربوونا زیرەکیا دەستکرد';
                 if (subEl) subEl.textContent = currentLang === 'so'
-                    ? 'بەشێک هەڵبژێرە و فێربوونەکەت دەست پێ بکە.'
-                    : 'بەشەک هەلبژێرە و فێربوونا خۆ دەستپێبکە.';
+                    ? 'کۆرسەکان بە ڕیز فێربە — لە کۆرسی یەکەمەوە دەست پێ بکە.'
+                    : 'کۆرسان ب ڕێز فێرببە — ژ کۆرسێ ئێکێ دەستپێبکە.';
                 if (heroSub) {
                     heroSub.textContent = currentLang === 'so'
-                        ? 'هەر بەشێک جارێک بە پۆینت دەکرێتەوە — دوای کردنەوەی، هەموو وانەکانی بەخۆڕایی فێر بە.'
-                        : 'هەر بەشەک یەک جار ب پۆینتان ڤەدبیت — پشتی ڤەکرنێ، هەمی وانەیێن وێ بەلاش فێر ببە.';
+                        ? 'کۆرسەکان بە ڕیزبەندین — هەتا کۆرسێک تەواو نەکەیت، کۆرسی دواتر ناکرێتەوە.'
+                        : 'کۆرس ب ڕێزبەندی نە — هەتا کۆرسەکێ تەمام نەکەی، کۆرسێ پشتی ناڤەبیت.';
                 }
                 renderAITopicsGrid();
             } else if (homeView === 'langs') {
@@ -2739,10 +2891,6 @@ ${code}
         }
 
         window.openCategory = function(catId) {
-            if (catId === 'ai' && !window.isAdmin) {
-                window.openAIComingSoon();
-                return;
-            }
             homeView = catId === 'ai' ? 'ai' : 'langs';
             renderHome();
         };
@@ -2750,12 +2898,6 @@ ${code}
         window.goToCategories = function() {
             homeView = 'categories';
             renderHome();
-        };
-
-        window.openAIComingSoon = function() {
-            showFlash(currentLang === 'so'
-                ? '🤖 بەشی ژیری دەستکرد بەم زوانە دەکرێتەوە'
-                : '🤖 بەشێ زیرەکیا دەستکرد د ڤێ زوانێ دا دێ ڤەبیت');
         };
 
         window.openRoboticsComingSoon = function() {
@@ -2774,16 +2916,16 @@ ${code}
             const langDoneAll = allLangLessons.filter(le => completedLessons.includes(le.id)).length;
             const langPctAll = langTotalAll ? Math.round((langDoneAll / langTotalAll) * 100) : 0;
             // کۆی پێشکەوتنی بەشەکانی ژیری دەستکرد — aggregate AI progress (admins learn/track it)
-            const aiLessonsAll = AI_TOPICS.reduce((acc, t) => acc.concat(sortedLangLessons(t.id)), []);
+            const aiTopics = aiTopicsOrdered();
+            const aiLessonsAll = aiTopics.reduce((acc, t) => acc.concat(sortedLangLessons(t.id)), []);
             const aiTotalAll = aiLessonsAll.length;
             const aiDoneAll = aiLessonsAll.filter(le => completedLessons.includes(le.id)).length;
             const aiPctAll = aiTotalAll ? Math.round((aiDoneAll / aiTotalAll) * 100) : 0;
             // پێشکەوتنی کارتەکان — glassmorphic bars (per card gradient + glow to match its border)
             const langsCatBar = glassProgressBar(langPctAll, 'from-cyan-400 to-indigo-600', 'rgba(99,102,241,0.55)',
                 { labelText: currentLang === 'so' ? `${langDoneAll}/${langTotalAll} وانە تەواو` : `${langDoneAll}/${langTotalAll} وانە دووماهی`, wrapClass: 'mt-auto pt-1 mb-5' });
-            const aiCatBarAdmin = glassProgressBar(aiPctAll, 'from-emerald-400 to-cyan-500', 'rgba(16,185,129,0.55)',
+            const aiCatBar = glassProgressBar(aiPctAll, 'from-emerald-400 to-cyan-500', 'rgba(16,185,129,0.55)',
                 { labelText: currentLang === 'so' ? `${aiDoneAll}/${aiTotalAll} وانە تەواو` : `${aiDoneAll}/${aiTotalAll} وانە دووماهی`, wrapClass: 'mt-auto pt-1 mb-5' });
-            const aiCatBarSoon = glassProgressBar(0, 'from-emerald-400 to-cyan-500', 'rgba(16,185,129,0.55)', { soon: true, wrapClass: 'mt-auto pt-1 mb-5' });
             const roboticsCatBar = glassProgressBar(0, 'from-rose-500 to-pink-600', 'rgba(244,63,94,0.55)', { soon: true, wrapClass: 'mt-auto pt-1 mb-5' });
             const langPreview = langIds.slice(0, 6).map(id => {
                 const l = languagesData[id];
@@ -2800,20 +2942,14 @@ ${code}
                     ${langsCatBar}
                     <span class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-black text-sm shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بکەرەوە' : 'ڤەکە'}</span>
                 </div>
-                <div onclick="window.${window.isAdmin ? "openCategory('ai')" : 'openAIComingSoon()'}" class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-300 p-10 flex flex-col items-center text-center group hover:-translate-y-2 relative cursor-pointer overflow-hidden h-full">
+                <div onclick="window.openCategory('ai')" class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-300 p-10 flex flex-col items-center text-center group hover:-translate-y-2 relative cursor-pointer overflow-hidden h-full">
                     <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500"></div>
                     <div class="w-24 h-24 bg-gradient-to-br from-emerald-400 to-cyan-500 rounded-[1.5rem] flex items-center justify-center text-6xl mb-8 mt-2 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">🤖</div>
                     <h3 class="text-3xl font-black mb-3 text-gray-900 dark:text-white">${currentLang === 'so' ? 'فێربوونی ژیری دەستکرد' : 'فێربوونا زیرەکیا دەستکرد'}</h3>
-                    ${window.isAdmin
-                        ? `<p class="text-gray-500 dark:text-gray-400 text-sm leading-loose mb-1">${AI_TOPICS.length} ${currentLang === 'so' ? 'بەش' : 'بەش'} • ${AI_TOPICS.reduce((s, t) => s + sortedLangLessons(t.id).length, 0)} ${currentLang === 'so' ? 'وانە' : 'وانە'}</p>
-                           <p class="text-gray-400 dark:text-gray-500 text-xs mb-6">${currentLang === 'so' ? 'داتا، ئالگۆریتم، ML، DL و LLM' : 'داتا، ئالگۆریتم، ML، DL و LLM'}</p>
-                           ${aiCatBarAdmin}
-                           <span class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بکەرەوە' : 'ڤەکە'}</span>`
-                        : `<p class="text-gray-500 dark:text-gray-400 text-sm leading-loose mb-1">${currentLang === 'so' ? 'بەم زوانە دەکرێتەوە' : 'د ڤێ زوانێ دا دێ ڤەبیت'}</p>
-                           <p class="text-gray-400 dark:text-gray-500 text-xs mb-6">${currentLang === 'so' ? '' : ''}</p>
-                           ${aiCatBarSoon}
-                           <span class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بەم زوانە دەکرێتەوە' : 'د ڤێ زوانێ دا دێ ڤەبیت'}</span>`
-                    }
+                    <p class="text-gray-500 dark:text-gray-400 text-sm leading-loose mb-1">${aiTopics.length} ${currentLang === 'so' ? 'کۆرس' : 'کۆرس'} • ${aiTotalAll} ${currentLang === 'so' ? 'وانە' : 'وانە'}</p>
+                    <p class="text-gray-400 dark:text-gray-500 text-xs mb-6">${currentLang === 'so' ? 'پایسۆن • داتا، ئامار، ML، DL، CV و NLP' : 'پایسۆن • داتا، ئامار، ML، DL، CV و NLP'}</p>
+                    ${aiCatBar}
+                    <span class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">${currentLang === 'so' ? 'بکەرەوە' : 'ڤەکە'}</span>
                 </div>
                 <div onclick="window.openRoboticsComingSoon()" class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-rose-500/10 transition-all duration-300 p-10 flex flex-col items-center text-center group hover:-translate-y-2 relative cursor-pointer overflow-hidden h-full">
                     <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-rose-500 via-red-500 to-pink-500"></div>
@@ -2829,75 +2965,16 @@ ${code}
         function renderAITopicsGrid() {
             const grid = document.getElementById('languages-grid');
             if (!grid) return;
-            const subEl = document.getElementById('category-subtitle');
-            if (subEl) subEl.textContent = currentLang === 'so'
-                ? 'هەر بەشێک جارێک بە پۆینت دەکرێتەوە، دوای ئەوە هەموو وانەکانی بەخۆڕایی دەکرێنەوە — پۆینتەکانی ئێستا: ' + userXP
-                : 'هەر بەشەک یەک جار ب پۆینتان ڤەدبیت، پشتی وێ هەمی وانەیێن وێ بەلاش ڤەدبن — پۆینتێن نڤکا: ' + userXP;
             grid.innerHTML = '';
-
-            const topics = AI_TOPICS
-                .map(t => languagesData[t.id] || t)
-                .filter(t => t && t.is_ai)
-                .sort((a, b) => (parseInt(a.ai_order, 10) || 0) - (parseInt(b.ai_order, 10) || 0));
-
-            topics.forEach((t, ti) => {
-                const grad = t.grad || 'from-emerald-500 to-cyan-500';
-                const lessons = sortedLangLessons(t.id);
-                const completed = lessons.filter(l => completedLessons.includes(l.id)).length;
-                const total = lessons.length;
-                const pct = total ? Math.round((completed / total) * 100) : 0;
-                const name = loc(t, 'name');
-                const desc = loc(t, 'desc');
-                const cost = parseInt(t.unlock_cost, 10) || 0;
-                const isUnlocked = aiUnlocked[t.id] === true || window.isAdmin;
-                const isDone = total > 0 && completed === total;
-                const openAction = isUnlocked
-                    ? `window.openLanguage('${t.id}')`
-                    : `window.openAITopicUnlockModal('${t.id}')`;
-                const stateBadge = isDone
-                    ? `<div onclick="event.stopPropagation(); window.openLanguage('${t.id}')" class="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-black shadow-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white ring-2 ring-white dark:ring-gray-900 hover:scale-105 transition-transform"><span>${badgeMetaFor(t.id).icon}</span>${currentLang === 'so' ? 'تەواو بوو' : 'دووماهی بوو'}</div>`
-                    : (isUnlocked
-                        ? `<div class="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-black shadow-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white ring-2 ring-white dark:ring-gray-900">🔓 ${currentLang === 'so' ? 'کراوە' : 'ڤەکری'}</div>`
-                        : `<div class="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-black shadow-lg bg-gradient-to-r from-amber-500 to-yellow-500 text-white ring-2 ring-white dark:ring-gray-900"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18 8h-1V6a5 5 0 00-10 0v2H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zm-6 9a2 2 0 110-4 2 2 0 010 4zm3.5-9h-7V6a3.5 3.5 0 117 0v2z"/></svg>${currentLang === 'so' ? 'قفڵکراوە' : 'قفڵکری'}</div>`);
-                const costChip = !isUnlocked ? `<span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black bg-gradient-to-r from-amber-100 to-yellow-100 dark:from-amber-900/40 dark:to-yellow-900/30 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-700/50 shadow-sm"><span>🪙</span>${cost} XP</span>` : '';
-                const btnText = isDone || isUnlocked
-                    ? (currentLang === 'so' ? 'بکەرەوە' : 'ڤەکە')
-                    : (currentLang === 'so' ? 'کردنەوە بە پۆینت' : 'ڤەکرن ب پۆینتان');
-                grid.innerHTML += `
-                    <div onclick="${openAction}" class="ai-topic-card glass-card rounded-[2.5rem] shadow-sm hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500 flex flex-col items-center text-center p-8 pt-0 group hover:-translate-y-2 relative cursor-pointer overflow-hidden ${isUnlocked ? 'ring-2 ring-emerald-300/40' : 'ring-1 ring-amber-200/60 dark:ring-amber-700/40'}" style="animation-delay:${ti * 90}ms">
-                        <div class="absolute top-0 inset-x-0 h-2 bg-gradient-to-r ${grad}"></div>
-                        <div class="absolute top-10 -left-10 w-48 h-48 rounded-full bg-gradient-to-br ${grad} opacity-10 blur-2xl group-hover:opacity-25 transition-opacity duration-500"></div>
-                        ${stateBadge}
-                        <div class="relative mt-10 mb-6">
-                            <div class="absolute inset-0 bg-gradient-to-br ${grad} rounded-[1.8rem] blur-xl opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
-                            <div class="relative w-24 h-24 bg-gradient-to-br ${grad} rounded-[1.8rem] flex items-center justify-center text-5xl shadow-2xl ring-4 ring-white dark:ring-gray-900 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">${t.icon || '🤖'}</div>
-                        </div>
-                        <h3 class="text-2xl font-black mb-2 text-gray-900 dark:text-white"><bdi>${name}</bdi></h3>
-                        <div class="flex items-center gap-2 mb-4">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">📚 ${completed}/${total}</span>
-                            ${costChip}
-                        </div>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm leading-loose line-clamp-3 mb-5">${desc}</p>
-                        <div class="w-full h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden mb-6">
-                            <div class="h-full bg-gradient-to-r ${grad} rounded-full transition-all duration-700" style="width:${pct}%; box-shadow:0 0 10px rgba(52,211,153,0.55)"></div>
-                        </div>
-                        <span class="inline-flex items-center gap-2 px-8 py-3 ${isUnlocked ? 'bg-gradient-to-r ' + grad + ' text-white shadow-lg' : 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white shadow-lg shadow-amber-500/20'} rounded-2xl font-black text-sm group-hover:scale-105 transition-transform">${btnText}</span>
-                        ${window.isAdmin ? `
-                        <div class="flex items-center gap-2 w-full mt-auto pt-5 border-t border-gray-200/50 dark:border-gray-700/50">
-                            <button onclick="event.stopPropagation(); window.openNewLessonModal('${t.id}')" class="flex-1 flex justify-center items-center gap-2 py-2.5 bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400 hover:bg-emerald-100 rounded-xl font-bold text-xs transition border border-emerald-200 dark:border-emerald-800/50">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                                ${currentLang === 'so' ? 'زیادکردنی وانە' : 'لێزێدەکرنا وانەیێ'}
-                            </button>
-                            <button onclick="event.stopPropagation(); window.openEditLangModal('${t.id}')" class="flex-1 flex justify-center items-center gap-2 py-2.5 bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400 hover:bg-amber-100 rounded-xl font-bold text-xs transition border border-amber-200 dark:border-amber-800/50">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                ${currentLang === 'so' ? 'دەستکاری' : 'دەستکاریکرن'}
-                            </button>
-                        </div>` : ''}
-                    </div>`;
+            aiTopicsOrdered().forEach((t, ti) => {
+                grid.innerHTML += courseCardHtml(t.id, t.data, {
+                    orderNumber: ti + 1,
+                    prereqLocked: !window.isAITopicUnlocked(t.id),
+                    completed: isCourseCompleted(t.id)
+                });
             });
         }
 
-        // --- کردنەوەی بەشی AI بە سەرفکردنی پۆینت (هەر بەشێک جارێک دەکرێتەوە، وانەکانی بەخۆڕایی) ---
         function showFlash(msg, isError) {
             const container = document.getElementById('xp-notification-container');
             if (!container) return;
@@ -2908,53 +2985,6 @@ ${code}
             setTimeout(() => notif.remove(), 3500);
         }
 
-        window.openAITopicUnlockModal = function(topicId) {
-            const topic = languagesData[topicId] || null;
-            if (!topic) return;
-            
-            pendingAITopicId = topicId;
-            document.getElementById('ai-unlock-title').textContent = loc(topic, 'name');
-            document.getElementById('ai-unlock-desc').textContent = currentLang === 'so'
-                ? 'ئەم بەشە جارێک بە خاڵ دەکرێتەوە. کاتێک دەیکەیتەوە، ئەم بڕە لە پۆینتەکانت دەبڕدرێتەوە و هەموو وانەکانی ئەم بەشە هەمیشە بەخۆڕایی کراوە دەبن.'
-                : 'ئەڤ بەشە یەک جار ب خاڵان ڤەدبیت. دەمێ تۆ د ڤەدەیت، ئەڤی بڕا د پۆینتان دا دبڕیت و هەمی وانەیێن ڤی بەشی هەر دیمە بەلاش ڤەببن.';
-            document.getElementById('ai-unlock-cost').textContent = '🪙 ' + cost + ' XP';
-            document.getElementById('ai-unlock-confirm-btn').textContent = currentLang === 'so' ? 'بەڵێ، بیکەرەوە' : 'بەلێ، ڤەکە';
-            const m = document.getElementById('ai-unlock-modal');
-            m.classList.remove('hidden');
-            m.classList.add('flex');
-        };
-
-        window.closeAIUnlockModal = function() {
-            const m = document.getElementById('ai-unlock-modal');
-            if (!m) return;
-            m.classList.add('hidden');
-            m.classList.remove('flex');
-            pendingAITopicId = null;
-        };
-
-        window.confirmAIUnlock = function() {
-            const id = pendingAITopicId;
-            if (!id) return;
-            const topic = languagesData[id];
-            if (!topic) return;
-            const cost = parseInt(topic.unlock_cost, 10) || 0;
-            if (userXP < cost) {
-                closeAIUnlockModal();
-                showFlash(currentLang === 'so' ? '⚠️ پۆینتی تەمام نییە!' : '⚠️ پۆینتێن تەمام نینە!', true);
-                return;
-            }
-            userXP -= cost;
-            aiUnlocked[id] = true;
-            saveAIUnlocked();
-            updateStatsUI();
-            saveProgressToFirebase();
-            showXPNotification(-cost);
-            closeAIUnlockModal();
-            try { triggerConfetti(); } catch(e) { console.error('[ferga] unlock confetti failed', e); }
-            showFlash(currentLang === 'so' ? '🎉 بەشەکەت کرایەوە — وانەکانی بەخۆڕایی فێربە!' : '🎉 بەش هاتە ڤەکرن — وانەیێن وێ بەلاش فێر ببە!');
-            renderHome();
-            window.openLanguage(id);
-        };
 
         window.toggleLanguageLock = async function(id) {
             const l = languagesData[id];
@@ -3073,6 +3103,11 @@ ${code}
         }
 
         window.openLanguage = function(langId, forcedIndex = null) {
+            // کۆرسەکانی ژیری دەستکرد بە ڕیزبەندین — کۆرسی دواتر پێویستی بە تەواوکردنی کۆرسی پێشووە
+            if (window.isAICourse(langId) && !window.isAITopicUnlocked(langId)) {
+                window.showCoursePrereqMessage(langId);
+                return;
+            }
             currentActiveLanguage = { id: langId, ...languagesData[langId] };
             document.getElementById('home-view').classList.add('hidden');
             document.getElementById('learning-view').classList.remove('hidden');
@@ -3134,8 +3169,21 @@ ${code}
             }
         };
 
+        // وانەکانی بەشی ژیری دەستکرد پرسیار و مەشقیان تێدا نییە
+        window.isAICourse = function(id) {
+            if (!id) return false;
+            const l = languagesData[id];
+            if (l && l.is_ai) return true;
+            return AI_TOPICS.some(t => t.id === id);
+        };
+
+        window.isAILesson = function(lesson) {
+            return !!lesson && window.isAICourse(lesson.langId);
+        };
+
         window.lessonQuestionType = function(lesson) {
             if (!lesson) return 'none';
+            if (window.isAILesson(lesson)) return 'none';
             if (lesson.quiz_type) return lesson.quiz_type;
             if ((lesson.quiz_question_so && lesson.quiz_question_so.trim()) || (lesson.quiz_question_ba && lesson.quiz_question_ba.trim())) return 'choice';
             const challenge = loc(lesson, 'challenge_desc');
@@ -3146,7 +3194,7 @@ ${code}
         };
 
         window.getLessonQuiz = function(lesson) {
-            if (!lesson) return null;
+            if (!lesson || window.isAILesson(lesson)) return null;
             if ((lesson.quiz_question_so && lesson.quiz_question_so.trim()) || (lesson.quiz_question_ba && lesson.quiz_question_ba.trim())) {
                 return {
                     question_so: lesson.quiz_question_so || '',
@@ -3737,7 +3785,19 @@ ${code}
             });
         };
 
-        window.deleteItem = async function(cat, id) { if(confirm('دڵنیایت لە سڕینەوە؟')) { await remove(dbRef(db, (cat === 'langs' ? 'ferga_languages' : 'ferga_lessons') + '/' + id)); } };
+        window.deleteItem = async function(cat, id) {
+            if (!confirm('دڵنیایت لە سڕینەوە؟')) return;
+            // بەشەکانی ژیری دەستکرد بنەڕەتین (virtual)، بۆیە بە نیشانەی سڕاوە دەمێننەوە تا دووبارە دروست نەبنەوە
+            if (cat === 'langs' && window.isAICourse(id)) {
+                await set(dbRef(db, 'ferga_languages/' + id), { is_ai: true, deleted: true });
+                return;
+            }
+            if (cat === 'lessons' && AI_SAMPLE_LESSONS.some(l => l.id === id)) {
+                await set(dbRef(db, 'ferga_lessons/' + id), { deleted: true });
+                return;
+            }
+            await remove(dbRef(db, (cat === 'langs' ? 'ferga_languages' : 'ferga_lessons') + '/' + id));
+        };
 
         window.editItem = async function(cat, id) {
             if(cat === 'langs') {
@@ -3858,6 +3918,16 @@ ${code}
         window.updateModalWebSection = function() {
             const zone = document.getElementById('modal-web-zone');
             if (zone) zone.classList.toggle('hidden', !modalLangIsWeb());
+            // بەشی ژیری دەستکرد پرسیار و مەشقی تێدا نییە
+            const langSel = document.getElementById('modal_lesson_lang_select');
+            const isAI = window.isAICourse(langSel ? langSel.value : '');
+            const qZone = document.getElementById('modal-question-zone');
+            if (qZone) qZone.classList.toggle('hidden', isAI);
+            if (isAI) {
+                const noneRadio = document.querySelector('input[name="modal_quiz_type"][value="none"]');
+                if (noneRadio) noneRadio.checked = true;
+                window.toggleQuizType();
+            }
         };
 
         function handleModalFiles(files) {
@@ -4131,6 +4201,11 @@ ${code}
                     quiz_correct: quizType === 'output' ? outputCorrect : document.getElementById('modal_quiz_correct').value,
                     quiz_code: quizType === 'output' ? document.getElementById('modal_quiz_code').value : null
                 };
+                // بەشی ژیری دەستکرد پرسیار و مەشقی تێدا نییە
+                if (window.isAICourse(updates.langId)) {
+                    updates.quiz_type = 'none';
+                    AI_LESSON_QUESTION_FIELDS.forEach(f => { if (f !== 'quiz_type') updates[f] = null; });
+                }
                 if (isNew) {
                     const newRef = push(dbRef(db, 'ferga_lessons'));
                     await set(newRef, updates);
@@ -4344,8 +4419,8 @@ ${code}
                         </div>
                     </div>
 
-                    <!-- ٣. پرسیاری وانەکە -->
-                    <div class="rounded-2xl border-2 border-green-300 dark:border-green-700 overflow-hidden">
+                    <!-- ٣. پرسیاری وانەکە (لە بەشی ژیری دەستکرد نیشان نادرێت) -->
+                    <div id="modal-question-zone" class="rounded-2xl border-2 border-green-300 dark:border-green-700 overflow-hidden">
                         <div class="px-5 py-3 bg-gradient-to-r from-green-600 to-emerald-500 text-white font-black text-sm flex items-center gap-2">
                             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <span>٣. پرسیاری وانەکە (بەدڵخواز — جۆرەکە هەڵبژێرە)</span>
