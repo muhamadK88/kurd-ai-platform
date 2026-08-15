@@ -46,33 +46,7 @@ class KnowledgeBaseController extends Controller
             return null;
         }
 
-        try {
-            $user = $this->firebase->verifyIdTokenRest($token);
-        } catch (Throwable) {
-            $user = null;
-        }
-
-        if (!$user) {
-            try {
-                $payload = $this->firebase->verifyIdToken($token);
-
-                $uid = $payload['uid'] ?? $payload['sub'] ?? null;
-                $email = strtolower(trim((string) ($payload['email'] ?? '')));
-                $name = trim((string) ($payload['name'] ?? ''));
-
-                if (!$uid) {
-                    return null;
-                }
-
-                $user = [
-                    'uid' => $uid,
-                    'email' => $email !== '' ? $email : null,
-                    'name' => $name !== '' ? $name : null,
-                ];
-            } catch (Throwable) {
-                $user = null;
-            }
-        }
+        $user = $this->firebase->verifiedUser($token);
 
         if (!$user || !$user['uid']) {
             return null;

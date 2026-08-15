@@ -167,15 +167,6 @@ class ChatSessionController extends Controller
     {
         $token = (string) ($request->header('X-Firebase-Id-Token') ?: $request->bearerToken());
         if ($token === '') return null;
-        return Cache::remember('firebase.email.' . hash('sha256', $token), now()->addMinutes(5), function () use ($token) {
-            try {
-                $user = $this->firebase->verifyIdTokenRest($token);
-                if ($user && !empty($user['email'])) return strtolower(trim($user['email']));
-                $payload = $this->firebase->verifyIdToken($token);
-                return !empty($payload['email']) ? strtolower(trim($payload['email'])) : null;
-            } catch (Throwable) {
-                return null;
-            }
-        });
+        return $this->firebase->verifiedUser($token)['email'] ?? null;
     }
 }

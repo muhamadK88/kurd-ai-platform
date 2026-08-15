@@ -827,31 +827,12 @@ class ChatbotController extends Controller
         $token = (string) ($request->header('X-Firebase-Id-Token') ?: $request->bearerToken());
         if ($token === '') return [];
 
-        return Cache::remember('firebase.identity.' . hash('sha256', $token), now()->addMinutes(5), function () use ($token) {
-            try {
-                $user = $this->firebase->verifyIdTokenRest($token);
-                if (!$user) {
-                    $cacheKey = 'auth_token_' . hash('sha256', $token);
-                    $verifiedIdToken = \Illuminate\Support\Facades\Cache::remember($cacheKey, 300, function () use ($token, $cacheKey) {
-                        $payload = $this->firebase->verifyIdToken($token);
-                        $exp = (int) ($payload['exp'] ?? 0);
-                        $ttl = max(0, $exp - time());
-                        \Illuminate\Support\Facades\Cache::put($cacheKey, $payload, $ttl);
-                        return $payload;
-                    });
-                    return [
-                        'email' => !empty($verifiedIdToken['email']) ? strtolower(trim($verifiedIdToken['email'])) : null,
-                        'name' => !empty($verifiedIdToken['name']) ? trim($verifiedIdToken['name']) : null,
-                    ];
-                }
-                return [
-                    'email' => !empty($user['email']) ? strtolower(trim($user['email'])) : null,
-                    'name' => !empty($user['name']) ? trim($user['name']) : null,
-                ];
-            } catch (Throwable) {
-                return [];
-            }
-        });
+        $user = $this->firebase->verifiedUser($token);
+
+        return [
+            'email' => !empty($user['email']) ? strtolower(trim($user['email'])) : null,
+            'name' => !empty($user['name']) ? trim($user['name']) : null,
+        ];
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Kreait\Firebase\Contract\Auth as FirebaseAuth;
 use Kreait\Firebase\Auth\UserRecord;
@@ -119,6 +120,45 @@ class FirebaseAuthService
         } catch (Throwable) {
             return null;
         }
+    }
+
+    /**
+     * Cached token verification (REST-first with SDK fallback).
+     * Result is cached under 'auth_token_' . sha256(token) for 300 seconds.
+     * Returns null on any failure so callers can fall back gracefully.
+     */
+    public function verifiedUser(string $token): ?array
+    {
+        if ($token === '') {
+            return null;
+        }
+
+        return Cache::remember('auth_token_' . hash('sha256', $token), 300, function () use ($token) {
+            try {
+                $user = $this->verifyIdTokenRest($token);
+                if ($user) {
+                    return $user;
+                }
+
+                $payload = $this->verifyIdToken($token);
+                $uid = $payload['uid'] ?? $payload['sub'] ?? null;
+
+                if (!$uid) {
+                    return null;
+                }
+
+                $email = strtolower(trim((string) ($payload['email'] ?? '')));
+                $name = trim((string) ($payload['name'] ?? ''));
+
+                return [
+                    'uid' => $uid,
+                    'email' => $email !== '' ? $email : null,
+                    'name' => $name !== '' ? $name : null,
+                ];
+            } catch (Throwable) {
+                return null;
+            }
+        });
     }
 
     private function randomPassword(): string

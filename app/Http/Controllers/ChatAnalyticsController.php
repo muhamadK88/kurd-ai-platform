@@ -141,13 +141,6 @@ class ChatAnalyticsController extends Controller
     {
         $token = (string) ($request->header('X-Firebase-Id-Token') ?: $request->bearerToken());
         if ($token === '') return null;
-        try {
-            $user = $this->firebase->verifyIdTokenRest($token);
-            if ($user) return $user;
-            $payload = $this->firebase->verifyIdToken($token);
-            return ['uid' => $payload['uid'] ?? $payload['sub'] ?? null, 'email' => $payload['email'] ?? null];
-        } catch (Throwable) {
-            return null;
-        }
+        return $this->firebase->verifiedUser($token);
     }
 }

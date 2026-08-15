@@ -31,8 +31,12 @@ class AdminController extends Controller
     public function showCourses()
     {
         $url = $this->firebaseUrl;
-        $courses = Cache::remember('firebase.courses.v1', now()->addMinutes(15), function () use ($url) {
-            return Http::timeout(5)->get($url . 'courses.json')->json() ?: [];
+        $courses = Cache::remember('firebase.courses.v1', 120, function () use ($url) {
+            try {
+                return Http::timeout(3)->connectTimeout(2)->retry(1, 100)->get($url . 'courses.json')->json() ?: [];
+            } catch (\Throwable $e) {
+                return [];
+            }
         });
         return view('courses_list', compact('courses'));
     }
@@ -40,14 +44,22 @@ class AdminController extends Controller
     public function storeCourse(Request $request)
     {
         $data = $request->except('_token');
-        Http::post($this->firebaseUrl . 'courses.json', $data);
+        try {
+            Http::timeout(3)->connectTimeout(2)->retry(1, 100)->post($this->firebaseUrl . 'courses.json', $data);
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Firebase connection failed.');
+        }
         Cache::forget('firebase.courses.v1');
         return redirect()->back()->with('success', 'Ú©Û†Ø±Ø³Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ø²ÛŒØ§Ø¯Ú©Ø±Ø§!');
     }
 
     public function destroyCourse($id)
     {
-        Http::delete($this->firebaseUrl . 'courses/' . $id . '.json');
+        try {
+            Http::timeout(3)->connectTimeout(2)->retry(1, 100)->delete($this->firebaseUrl . 'courses/' . $id . '.json');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Firebase connection failed.');
+        }
         Cache::forget('firebase.courses.v1');
         return redirect()->back()->with('success', 'Ú©Û†Ø±Ø³Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ø³Ú•Ø§ÛŒÛ•ÙˆÛ•!');
     }
@@ -56,7 +68,7 @@ class AdminController extends Controller
     public function editCourse($id)
     {
         try {
-            $response = Http::timeout(10)->get($this->firebaseUrl . 'courses/' . $id . '.json');
+            $response = Http::timeout(3)->connectTimeout(2)->retry(1, 100)->get($this->firebaseUrl . 'courses/' . $id . '.json');
             $data = $response->json();
         } catch (\Throwable $e) {
             return redirect('/courses')->with('error', 'Firebase connection failed.');
@@ -67,7 +79,11 @@ class AdminController extends Controller
     public function updateCourse(Request $request, $id)
     {
         $data = $request->except(['_token', '_method']);
-        Http::patch($this->firebaseUrl . 'courses/' . $id . '.json', $data);
+        try {
+            Http::timeout(3)->connectTimeout(2)->retry(1, 100)->patch($this->firebaseUrl . 'courses/' . $id . '.json', $data);
+        } catch (\Throwable $e) {
+            return redirect('/courses')->with('error', 'Firebase connection failed.');
+        }
         Cache::forget('firebase.courses.v1');
         return redirect('/courses')->with('success', 'Ú©Û†Ø±Ø³Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ù†ÙˆÛŽÚ©Ø±Ø§ÛŒÛ•ÙˆÛ•!');
     }
@@ -76,7 +92,7 @@ class AdminController extends Controller
     public function editAiTool($id)
     {
         try {
-            $response = Http::timeout(10)->get($this->firebaseUrl . 'ai_tools/' . $id . '.json');
+            $response = Http::timeout(3)->connectTimeout(2)->retry(1, 100)->get($this->firebaseUrl . 'ai_tools/' . $id . '.json');
             $data = $response->json();
         } catch (\Throwable $e) {
             return redirect('/ai-tools')->with('error', 'Firebase connection failed.');
@@ -87,7 +103,11 @@ class AdminController extends Controller
     public function updateAiTool(Request $request, $id)
     {
         $data = $request->except(['_token', '_method']);
-        Http::patch($this->firebaseUrl . 'ai_tools/' . $id . '.json', $data);
+        try {
+            Http::timeout(3)->connectTimeout(2)->retry(1, 100)->patch($this->firebaseUrl . 'ai_tools/' . $id . '.json', $data);
+        } catch (\Throwable $e) {
+            return redirect('/ai-tools')->with('error', 'Firebase connection failed.');
+        }
         Cache::forget('firebase.ai_tools.v1');
         return redirect('/ai-tools')->with('success', 'Ø¦Ø§Ù…Ø±Ø§Ø²Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ù†ÙˆÛŽÚ©Ø±Ø§ÛŒÛ•ÙˆÛ•!');
     }
@@ -96,7 +116,7 @@ class AdminController extends Controller
     public function editAcademicGuide($id)
     {
         try {
-            $response = Http::timeout(10)->get($this->firebaseUrl . 'academic_guide/' . $id . '.json');
+            $response = Http::timeout(3)->connectTimeout(2)->retry(1, 100)->get($this->firebaseUrl . 'academic_guide/' . $id . '.json');
             $data = $response->json();
         } catch (\Throwable $e) {
             return redirect('/academic-guide')->with('error', 'Firebase connection failed.');
@@ -107,7 +127,11 @@ class AdminController extends Controller
     public function updateAcademicGuide(Request $request, $id)
     {
         $data = $request->except(['_token', '_method']);
-        Http::patch($this->firebaseUrl . 'academic_guide/' . $id . '.json', $data);
+        try {
+            Http::timeout(3)->connectTimeout(2)->retry(1, 100)->patch($this->firebaseUrl . 'academic_guide/' . $id . '.json', $data);
+        } catch (\Throwable $e) {
+            return redirect('/academic-guide')->with('error', 'Firebase connection failed.');
+        }
         Cache::forget('firebase.academic_guide.v1');
         return redirect('/academic-guide')->with('success', 'Ù¾Ø±Ø³ÛŒØ§Ø±Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ù†ÙˆÛŽÚ©Ø±Ø§ÛŒÛ•ÙˆÛ•!');
     }
@@ -121,8 +145,12 @@ class AdminController extends Controller
     public function showAiTools()
     {
         $url = $this->firebaseUrl;
-        $aiTools = Cache::remember('firebase.ai_tools.v1', now()->addMinutes(15), function () use ($url) {
-            return Http::timeout(5)->get($url . 'ai_tools.json')->json() ?: [];
+        $aiTools = Cache::remember('firebase.ai_tools.v1', 120, function () use ($url) {
+            try {
+                return Http::timeout(3)->connectTimeout(2)->retry(1, 100)->get($url . 'ai_tools.json')->json() ?: [];
+            } catch (\Throwable $e) {
+                return [];
+            }
         });
         return view('ai_tools', compact('aiTools'));
     }
@@ -130,14 +158,22 @@ class AdminController extends Controller
     public function storeAiTool(Request $request)
     {
         $data = $request->except('_token');
-        Http::post($this->firebaseUrl . 'ai_tools.json', $data);
+        try {
+            Http::timeout(3)->connectTimeout(2)->retry(1, 100)->post($this->firebaseUrl . 'ai_tools.json', $data);
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Firebase connection failed.');
+        }
         Cache::forget('firebase.ai_tools.v1');
         return redirect()->back()->with('success', 'Ø¦Ø§Ù…Ø±Ø§Ø²Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ø²ÛŒØ§Ø¯Ú©Ø±Ø§!');
     }
 
     public function destroyAiTool($id)
     {
-        Http::delete($this->firebaseUrl . 'ai_tools/' . $id . '.json');
+        try {
+            Http::timeout(3)->connectTimeout(2)->retry(1, 100)->delete($this->firebaseUrl . 'ai_tools/' . $id . '.json');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Firebase connection failed.');
+        }
         Cache::forget('firebase.ai_tools.v1');
         return redirect()->back()->with('success', 'Ø¦Ø§Ù…Ø±Ø§Ø²Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ø³Ú•Ø§ÛŒÛ•ÙˆÛ•!');
     }
@@ -151,8 +187,12 @@ class AdminController extends Controller
     public function showAcademicGuide()
     {
         $url = $this->firebaseUrl;
-        $faqs = Cache::remember('firebase.academic_guide.v1', now()->addMinutes(15), function () use ($url) {
-            return Http::timeout(5)->get($url . 'academic_guide.json')->json() ?: [];
+        $faqs = Cache::remember('firebase.academic_guide.v1', 120, function () use ($url) {
+            try {
+                return Http::timeout(3)->connectTimeout(2)->retry(1, 100)->get($url . 'academic_guide.json')->json() ?: [];
+            } catch (\Throwable $e) {
+                return [];
+            }
         });
         return view('academic_guide', compact('faqs'));
     }
@@ -160,14 +200,22 @@ class AdminController extends Controller
     public function storeAcademicGuide(Request $request)
     {
         $data = $request->except('_token');
-        Http::post($this->firebaseUrl . 'academic_guide.json', $data);
+        try {
+            Http::timeout(3)->connectTimeout(2)->retry(1, 100)->post($this->firebaseUrl . 'academic_guide.json', $data);
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Firebase connection failed.');
+        }
         Cache::forget('firebase.academic_guide.v1');
         return redirect()->back()->with('success', 'Ù¾Ø±Ø³ÛŒØ§Ø±Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ø²ÛŒØ§Ø¯Ú©Ø±Ø§!');
     }
 
     public function destroyAcademicGuide($id)
     {
-        Http::delete($this->firebaseUrl . 'academic_guide/' . $id . '.json');
+        try {
+            Http::timeout(3)->connectTimeout(2)->retry(1, 100)->delete($this->firebaseUrl . 'academic_guide/' . $id . '.json');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Firebase connection failed.');
+        }
         Cache::forget('firebase.academic_guide.v1');
         return redirect()->back()->with('success', 'Ù¾Ø±Ø³ÛŒØ§Ø±Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ø³Ú•Ø§ÛŒÛ•ÙˆÛ•!');
     }
@@ -177,7 +225,11 @@ class AdminController extends Controller
     // ==========================================
     public function destroyFergaLesson($id)
     {
-        Http::delete($this->firebaseUrl . 'ferga_lessons/' . $id . '.json');
+        try {
+            Http::timeout(3)->connectTimeout(2)->retry(1, 100)->delete($this->firebaseUrl . 'ferga_lessons/' . $id . '.json');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Firebase connection failed.');
+        }
         return redirect()->back()->with('success', 'ÙˆØ§Ù†Û•Ú©Û• Ø¨Û• Ø³Û•Ø±Ú©Û•ÙˆØªÙˆÙˆÛŒÛŒ Ø³Ú•Ø§ÛŒÛ•ÙˆÛ•!');
     }
 

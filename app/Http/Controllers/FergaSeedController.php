@@ -37,7 +37,7 @@ class FergaSeedController extends Controller
             require base_path($file);
         }
 
-        $existing = Http::timeout(15)->get($this->firebaseUrl . 'ferga_lessons.json')->json() ?? [];
+        $existing = Http::timeout(5)->connectTimeout(2)->get($this->firebaseUrl . 'ferga_lessons.json')->json() ?? [];
         $present = [];
         foreach ($existing as $lesson) {
             if (isset($lesson['langId'])) {
@@ -66,14 +66,14 @@ class FergaSeedController extends Controller
                 $lesson['langId'] = $langId;
                 $lesson['content_so'] = $this->fixContent($lesson['content_so'] ?? '');
                 $lesson['content_ba'] = $this->fixContent($lesson['content_ba'] ?? '');
-                $res = Http::timeout(15)->post($this->firebaseUrl . 'ferga_lessons.json', $lesson);
+                $res = Http::timeout(5)->connectTimeout(2)->post($this->firebaseUrl . 'ferga_lessons.json', $lesson);
                 $log[] = $lang . ' #' . ($lesson['order'] ?? '?') . ' -> ' . $res->body();
                 $uploaded++;
             }
             if ($uploaded === 0 && $skipped > 0) {
                 $log[] = "$lang: all lessons already exist ($skipped skipped)";
             } else {
-                $unlock = Http::timeout(15)->patch($this->firebaseUrl . 'ferga_languages/' . $langId . '.json', ['locked' => false]);
+                $unlock = Http::timeout(5)->connectTimeout(2)->patch($this->firebaseUrl . 'ferga_languages/' . $langId . '.json', ['locked' => false]);
                 $log[] = "$lang: unlock -> " . $unlock->status() . " | uploaded $uploaded, skipped $skipped";
             }
         }
