@@ -135,6 +135,32 @@
         .ai-shine { position: absolute; top: 0; bottom: 0; width: 45%; background: linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 100%); transform: skewX(-18deg); animation: aiShine 1.8s ease-in-out 0.3s infinite; }
         .ai-pulse-ring { animation: badgeRingPulse 1.8s ease-out infinite; }
 
+        /* --- AI lesson hero (سەرپەڕەی وانەکانی ژیری دەستکرد) --- */
+        @keyframes aiHeroIn { 0% { opacity: 0; transform: translateY(24px) scale(0.98); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes aiHeroGradFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes aiHeroOrbFloat { 0%, 100% { transform: translateY(0) translateX(0) scale(1); } 33% { transform: translateY(-12px) translateX(10px) scale(1.08); } 66% { transform: translateY(8px) translateX(-8px) scale(0.95); } }
+        @keyframes aiHeroLogoPop { 0% { transform: scale(0.5) rotate(-12deg); opacity: 0; } 60% { transform: scale(1.1) rotate(4deg); } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+        @keyframes aiHeroBarFill { 0% { width: 0; } }
+        @keyframes aiHeroShimmer { 0% { left: -85%; } 100% { left: 155%; } }
+        #ai-lesson-hero { animation: aiHeroIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+        #ai-lesson-hero .ai-hero-grad { background-size: 220% 220%; animation: aiHeroGradFlow 8s ease-in-out infinite; }
+        #ai-lesson-hero .ai-hero-orb { animation: aiHeroOrbFloat 7s ease-in-out infinite; }
+        #ai-lesson-hero .ai-hero-logo { animation: aiHeroLogoPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both; }
+        #ai-lesson-hero .ai-hero-bar-fill { animation: aiHeroBarFill 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both; }
+        #ai-lesson-hero .ai-hero-shimmer { position: absolute; top: 0; bottom: 0; width: 50%; background: linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%); transform: skewX(-18deg); animation: aiHeroShimmer 2.4s ease-in-out 0.6s infinite; pointer-events: none; }
+        #ai-lesson-hero .ai-hero-grid { background-image: linear-gradient(rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.14) 1px, transparent 1px); background-size: 26px 26px; }
+        /* AI content box */
+        #display-content.ai-lesson-content { position: relative; }
+        #display-content.ai-lesson-content > .rendered-content-box { animation: aiHeroIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both; }
+        #display-content.ai-lesson-content > .rendered-content-box { background: rgba(255,255,255,0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(16,185,129,0.18); border-radius: 1.75rem; padding: 2rem 2.25rem; box-shadow: 0 18px 50px -18px rgba(16,185,129,0.18), 0 4px 18px -6px rgba(15,23,42,0.06); margin-bottom: 1.75rem; }
+        .dark #display-content.ai-lesson-content > .rendered-content-box { background: rgba(15,23,42,0.6); border-color: rgba(16,185,129,0.22); }
+        #display-content.ai-lesson-content > .rendered-content-box > :first-child { margin-top: 0; }
+        #display-content.ai-lesson-content > .rendered-content-box > :last-child { margin-bottom: 0; }
+        #display-content.ai-lesson-content h1, #display-content.ai-lesson-content h2, #display-content.ai-lesson-content h3 { color: #0f766e; }
+        .dark #display-content.ai-lesson-content h1, .dark #display-content.ai-lesson-content h2, .dark #display-content.ai-lesson-content h3 { color: #5eead4; }
+        #display-content.ai-lesson-content pre { border: 1px solid rgba(16,185,129,0.15); border-radius: 1rem; box-shadow: 0 12px 30px -12px rgba(2,6,23,0.4); }
+        @media (prefers-reduced-motion: reduce) { #ai-lesson-hero, #ai-lesson-hero * { animation: none !important; transition: none !important; } }
+
         /* --- Answer revealed → continue bar --- */
         @keyframes answerBarIn { 0% { opacity: 0; transform: translateY(30px) scale(0.96); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
         @keyframes answerCheckPop { 0% { transform: scale(0) rotate(-25deg); opacity: 0; } 60% { transform: scale(1.25) rotate(8deg); opacity: 1; } 80% { transform: scale(0.92) rotate(-3deg); } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
@@ -339,6 +365,36 @@
         <main class="flex-1 overflow-y-auto custom-scrollbar h-[calc(100vh-76px)] bg-slate-50 dark:bg-[#0f172a]">
             <div class="max-w-4xl mx-auto w-full flex-1 flex flex-col pt-10 md:pt-0">
                 <div id="data-load-error" class="hidden mb-6 bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl flex items-center justify-between shadow-sm" role="alert"><div class="flex items-center gap-3"><svg class="w-5 h-5 flex-shrink-0 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg><span id="data-load-error-msg" class="text-sm font-medium">نەتوانرا وانەکان باربکرێن. تکایە هێڵی ئینتەرنێتەکەت بپشکنە.</span></div><button type="button" onclick="location.reload()" class="text-xs bg-red-500/20 hover:bg-red-500/30 text-red-300 font-semibold px-3 py-1.5 rounded-lg transition-colors">دووبارە هەوڵبدەوە</button></div>
+                <div id="ai-lesson-hero" class="hidden relative overflow-hidden rounded-[2rem] shadow-2xl mb-8 ring-1 ring-white/40 dark:ring-white/10">
+                    <div id="ai-lesson-hero-grad" class="ai-hero-grad absolute inset-0 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600"></div>
+                    <div class="ai-hero-grid absolute inset-0 opacity-40"></div>
+                    <div class="ai-hero-orb absolute -top-10 -right-8 w-48 h-48 rounded-full bg-white/20 blur-2xl"></div>
+                    <div class="ai-hero-orb absolute -bottom-16 -left-10 w-56 h-56 rounded-full bg-black/10 blur-2xl" style="animation-delay:2.5s"></div>
+                    <div class="ai-hero-shimmer"></div>
+                    <div class="relative p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-5 md:gap-7">
+                        <div class="ai-hero-logo w-20 h-20 md:w-24 md:h-24 shrink-0 rounded-2xl bg-white/95 dark:bg-gray-900/90 p-1.5 shadow-2xl ring-4 ring-white/50 dark:ring-white/20 flex items-center justify-center overflow-hidden">
+                            <img id="ai-lesson-hero-logo-img" src="" alt="AI" class="w-full h-full object-cover hidden">
+                            <span id="ai-lesson-hero-logo-icon" class="text-5xl hidden">🤖</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-wrap items-center gap-2 mb-2">
+                                <span class="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-white/90 bg-white/20 backdrop-blur px-3 py-1 rounded-full ring-1 ring-white/30">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v3m0 12v3m9-9h-3M6 12H3m15.36 6.36l-2.12-2.12M7.76 7.76L5.64 5.64m12.72 0l-2.12 2.12M7.76 16.24l-2.12 2.12"></path></svg>
+                                    <span class="lang-str" data-so="ژیری دەستکرد" data-ba="زیرەکیا دەستکرد">ژیری دەستکرد</span>
+                                </span>
+                                <span id="ai-lesson-hero-level" class="text-[10px] font-black text-white/90 bg-black/20 backdrop-blur px-3 py-1 rounded-full ring-1 ring-white/20"></span>
+                            </div>
+                            <h2 id="ai-lesson-hero-course" class="text-xl md:text-2xl font-black text-white mb-1.5 leading-snug drop-shadow-sm" dir="rtl"></h2>
+                            <p id="ai-lesson-hero-lesson" class="text-sm font-bold text-white/85 leading-snug" dir="rtl"></p>
+                            <div class="mt-3 flex items-center gap-3">
+                                <div class="flex-1 h-2 bg-black/25 rounded-full overflow-hidden ring-1 ring-white/20">
+                                    <div id="ai-lesson-hero-bar" class="ai-hero-bar-fill h-full rounded-full bg-gradient-to-r from-white to-white/70" style="width:0%"></div>
+                                </div>
+                                <span id="ai-lesson-hero-count" class="text-[11px] font-black text-white/90 whitespace-nowrap"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <h1 id="display-title" class="text-4xl md:text-5xl font-black mb-6 text-gray-900 dark:text-white leading-tight"></h1>
                 
                 <div class="admin-only hidden mb-4 flex justify-end">
@@ -641,34 +697,6 @@
         </div>
     </div>
 
-    <!-- پەنجەرەی کردنەوەی بەشی ژیری دەستکرد بە پۆینت (هەر بەشێک جارێک) -->
-    <div id="ai-unlock-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[135] hidden items-center justify-center p-4">
-        <div class="badge-modal-box relative bg-slate-50 dark:bg-[#0f172a] rounded-[2.5rem] shadow-2xl w-full max-w-md p-10 text-center border border-white/20">
-            <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-emerald-400 via-cyan-500 to-emerald-400"></div>
-            <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at 50% 16%, rgba(52,211,153,0.32), transparent 62%);"></div>
-            <span class="badge-sparkle" style="top:16%; left:14%;">✨</span>
-            <span class="badge-sparkle" style="top:11%; right:18%; animation-delay:0.6s;">💫</span>
-            <span class="badge-sparkle" style="top:72%; left:10%; animation-delay:1.1s;">✨</span>
-            <span class="badge-sparkle" style="bottom:14%; right:12%; animation-delay:1.5s;">⭐</span>
-            <button onclick="closeAIUnlockModal()" class="absolute top-5 left-5 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition text-xl font-black">×</button>
-            <div class="badge-ring-float relative mx-auto mt-8 mb-8 w-32 h-32">
-                <div class="badge-ring absolute inset-0 rounded-full" style="border:3px dashed rgba(16,185,129,0.6);"></div>
-                <div class="ai-pulse-ring absolute -inset-3 rounded-full" style="border:2px solid rgba(16,185,129,0.35);"></div>
-                <div class="badge-disc w-full h-full rounded-full bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 shadow-2xl flex items-center justify-center ring-4 ring-emerald-200/50 dark:ring-emerald-900/40 overflow-hidden">
-                    <div class="badge-shine"></div>
-                    <span class="text-6xl drop-shadow-lg">🔓</span>
-                </div>
-            </div>
-            <h3 id="ai-unlock-title" class="relative text-3xl font-black mb-3 text-gray-900 dark:text-white"></h3>
-            <p id="ai-unlock-desc" class="relative text-gray-500 dark:text-gray-400 font-bold leading-relaxed mb-5"></p>
-            <p id="ai-unlock-cost" class="relative inline-block mb-8 px-5 py-2 rounded-full text-base font-black border bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700/50"></p>
-            <div class="relative flex gap-3">
-                <button onclick="closeAIUnlockModal()" class="flex-1 py-4 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-2xl font-black hover:bg-gray-200 dark:hover:bg-gray-700 transition-all lang-str" data-so="هەڵوەشاندنەوە" data-ba="بەتالکرن">هەڵوەشاندنەوە</button>
-                <button id="ai-unlock-confirm-btn" onclick="confirmAIUnlock()" class="relative flex-1 py-4 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white rounded-2xl font-black shadow-lg shadow-emerald-500/30 transition-all hover:-translate-y-1 overflow-hidden"></button>
-            </div>
-        </div>
-    </div>
-
     <!-- Firebase & Core Logic -->
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="application/json" id="kurdai-imgbb-config">{!! json_encode(config('kurdai.imgbb.api_key'), 15) !!}</script>
@@ -712,10 +740,8 @@
         let xpAwardedLessons = {};
         let latestCompilerOutput = ""; 
 
-        // --- بەشی ژیری دەستکرد: هەر بەشێک جارێک بە پۆینت دەکرێتەوە (بەشەکە لە خۆی) — وانەکانی ناو بەشەکە بەخۆڕایی و ڕیزبەندی کراوەن ---
-        let aiUnlocked = {};
+        // --- بەشی ژیری دەستکرد: کردارەوە تەنها لەلایەن ئەدمینەوە دەکرێت ---
         let homeView = 'categories';
-        let pendingAITopicId = null;
 
         // --- Badges (باجەکانی زمان) ---
         const LANGUAGE_BADGES = {
@@ -735,53 +761,53 @@
 
         // هەر کۆرسێک وەک زمانێک لە فایەربەیس دەهێڵدرێت (is_ai: true) و ئەدمین دەتوانێت بیگۆڕێت
         const AI_TOPICS = [
-            { id: 'ai_course_01', is_ai: true, ai_order: 1, unlock_cost: 0, icon: '🧠', color: 'bg-emerald-100', grad: 'from-emerald-500 to-teal-500',
+            { id: 'ai_course_01', is_ai: true, ai_order: 1, logo_url: '/logos/ai/ai_course_01.svg', icon: '💭', color: 'bg-emerald-100', grad: 'from-emerald-500 to-teal-500',
               name_so: 'بنەماکان و فەلسەفەی ژیریی دەستکرد (دەستپێكی تیۆری)', name_ba: 'بنەماکان و فەلسەفەی ژیریی دەستکرد (دەستپێكی تیۆری)',
               desc_so: 'ژیری دەستکرد چییە، مێژووەکەی، جۆرەکانی و چۆنیەتی کارکردنی — یەکەم قۆناغ لە گەشەکردنەکەتدا.',
               desc_ba: 'ژیری دەستکرد چییە، مێژووەکەی، جۆرەکانی و چۆنیەتی کارکردنی — یەکەم قۆناغ لە گەشەکردنەکەتدا.',
               ext: 'py' },
-            { id: 'ai_course_02', is_ai: true, ai_order: 2, unlock_cost: 0, icon: '📊', color: 'bg-teal-100', grad: 'from-teal-500 to-cyan-500',
+            { id: 'ai_course_02', is_ai: true, ai_order: 2, logo_url: '/logos/ai/ai_course_02.svg', icon: '📊', color: 'bg-teal-100', grad: 'from-teal-500 to-cyan-500',
               name_so: 'ئامرازەکانی شیکاری داتا (ئامادەکاری)', name_ba: 'ئامرازەکانی شیکاری داتا (ئامادەکاری)',
               desc_so: 'NumPy، Pandas، EDA و وێنەکێشان — داتا بناغەی هەموو مۆدێلەکانی AIە.',
               desc_ba: 'NumPy، Pandas، EDA و وێنەکێشان — داتا بناغەی هەموو مۆدێلەکانی AIە.',
               ext: 'py' },
-            { id: 'ai_course_03', is_ai: true, ai_order: 3, unlock_cost: 0, icon: '📐', color: 'bg-cyan-100', grad: 'from-cyan-500 to-sky-500',
-              name_so: 'ئامار و بیرکاری بۆ ژیریی دەستکرد', name_ba: 'ئامار و بیرکاری بۆ ژیریی دەستکرد',
+            { id: 'ai_course_03', is_ai: true, ai_order: 3, logo_url: '/logos/ai/ai_course_03.svg', icon: '📐', color: 'bg-cyan-100', grad: 'from-cyan-500 to-sky-500',
+              name_so: 'ئامار و بیرکاری بۆ ژیریی دەستکرد (بناغەی شاراوە)', name_ba: 'ئامار و بیرکاری بۆ ژیریی دەستکرد (بناغەی شاراوە)',
               desc_so: 'ئاماری سەرەکی، بیرکاری جەبری، و ئەو پێوانانەی کە پێویستن بۆ فێربوونی ئامێر.',
               desc_ba: 'ئاماری سەرەکی، بیرکاری جەبری، و ئەو پێوانانەی کە پێویستن بۆ فێربوونی ئامێر.',
               ext: 'py' },
-            { id: 'ai_course_04', is_ai: true, ai_order: 4, unlock_cost: 0, icon: '🔬', color: 'bg-indigo-100', grad: 'from-indigo-500 to-blue-600',
-              name_so: 'زانستی داتا', name_ba: 'زانستی داتا',
+            { id: 'ai_course_04', is_ai: true, ai_order: 4, logo_url: '/logos/ai/ai_course_04.svg', icon: '🔬', color: 'bg-indigo-100', grad: 'from-indigo-500 to-blue-600',
+              name_so: 'زانستی داتا (Data Science)', name_ba: 'زانستی داتا (Data Science)',
               desc_so: 'شیکاری داتا، پیشاندانی داتا، و تێگەیشتن لە داتا بۆ مۆدێلەکانی AI.',
               desc_ba: 'شیکاری داتا، پیشاندانی داتا، و تێگەیشتن لە داتا بۆ مۆدێلەکانی AI.',
               ext: 'py' },
-            { id: 'ai_course_05', is_ai: true, ai_order: 5, unlock_cost: 0, icon: '⚙️', color: 'bg-violet-100', grad: 'from-violet-500 to-purple-600',
-              name_so: 'ئەلگۆریتمەکان و چارەسەرکردنی کێشە', name_ba: 'ئەلگۆریتمەکان و چارەسەرکردنی کێشە',
+            { id: 'ai_course_05', is_ai: true, ai_order: 5, logo_url: '/logos/ai/ai_course_05.svg', icon: '⚙️', color: 'bg-violet-100', grad: 'from-violet-500 to-purple-600',
+              name_so: 'ئەلگۆریتمەکان و چارەسەرکردنی کێشە (Algorithms)', name_ba: 'ئەلگۆریتمەکان و چارەسەرکردنی کێشە (Algorithms)',
               desc_so: 'گەڕان، ڕیزکردن و ئاڵۆزی (Big O) — ئالگۆریتم پشووی هەموو AIەکە.',
               desc_ba: 'گەڕان، ڕیزکردن و ئاڵۆزی (Big O) — ئالگۆریتم پشووی هەموو AIەکە.',
               ext: 'py' },
-            { id: 'ai_course_06', is_ai: true, ai_order: 6, unlock_cost: 0, icon: '🤖', color: 'bg-sky-100', grad: 'from-sky-500 to-blue-600',
-              name_so: 'فێربوونی ئامێر (Machine Learning)', name_ba: 'فێربوونی ئامێر (Machine Learning)',
+            { id: 'ai_course_06', is_ai: true, ai_order: 6, logo_url: '/logos/ai/ai_course_06.svg', icon: '🤖', color: 'bg-sky-100', grad: 'from-sky-500 to-blue-600',
+              name_so: 'فێربوونی ئامێر (Machine Learning - ML)', name_ba: 'فێربوونی ئامێر (Machine Learning - ML)',
               desc_so: 'Supervised، Unsupervised، ڕیگرێشن و پێوانەکردنی مۆدێل — ئامێر لە داتا فێردەبێت.',
               desc_ba: 'Supervised، Unsupervised، ڕیگرێشن و پێوانەکردنی مۆدێل — ئامێر لە داتا فێردەبێت.',
               ext: 'py' },
-            { id: 'ai_course_07', is_ai: true, ai_order: 7, unlock_cost: 0, icon: '🧠', color: 'bg-purple-100', grad: 'from-purple-500 to-fuchsia-600',
-              name_so: 'تۆڕە دەمارییەکان (Neural Networks)', name_ba: 'تۆڕە دەمارییەکان (Neural Networks)',
+            { id: 'ai_course_07', is_ai: true, ai_order: 7, logo_url: '/logos/ai/ai_course_07.svg', icon: '🕸️', color: 'bg-purple-100', grad: 'from-purple-500 to-fuchsia-600',
+              name_so: 'تۆڕە دەمارییەکان (Neural Networks - NN)', name_ba: 'تۆڕە دەمارییەکان (Neural Networks - NN)',
               desc_so: 'پێرکێپترۆن، activation functions، و بناغەی تۆڕە دەمارییەکان.',
               desc_ba: 'پێرکێپترۆن، activation functions، و بناغەی تۆڕە دەمارییەکان.',
               ext: 'py' },
-            { id: 'ai_course_08', is_ai: true, ai_order: 8, unlock_cost: 0, icon: '🔮', color: 'bg-fuchsia-100', grad: 'from-fuchsia-500 to-pink-600',
-              name_so: 'فێربوونی قووڵ (Deep Learning)', name_ba: 'فێربوونی قووڵ (Deep Learning)',
+            { id: 'ai_course_08', is_ai: true, ai_order: 8, logo_url: '/logos/ai/ai_course_08.svg', icon: '🧠', color: 'bg-fuchsia-100', grad: 'from-fuchsia-500 to-pink-600',
+              name_so: 'فێربوونی قووڵ (Deep Learning - DL)', name_ba: 'فێربوونی قووڵ (Deep Learning - DL)',
               desc_so: 'تۆڕی دەمار، چینەکان، activation و فێربوون — بناغەی تەکنەلۆجیای ئەمڕۆ.',
               desc_ba: 'تۆڕی دەمار، چینەکان، activation و فێربوون — بناغەی تەکنەلۆجیای ئەمڕۆ.',
               ext: 'py' },
-            { id: 'ai_course_09', is_ai: true, ai_order: 9, unlock_cost: 0, icon: '👁️', color: 'bg-rose-100', grad: 'from-rose-500 to-red-600',
-              name_so: 'بینینی کۆمپیوتەر (Computer Vision)', name_ba: 'بینینی کۆمپیوتەر (Computer Vision)',
+            { id: 'ai_course_09', is_ai: true, ai_order: 9, logo_url: '/logos/ai/ai_course_09.svg', icon: '👁️', color: 'bg-rose-100', grad: 'from-rose-500 to-red-600',
+              name_so: 'بینینی کۆمپیوتەر (Computer Vision - CV)', name_ba: 'بینینی کۆمپیوتەر (Computer Vision - CV)',
               desc_so: 'وێنە وەک ئارای ژمارە، فیلتەر، ناسینەوەی ڕووخسار و دۆزینەوەی شت.',
               desc_ba: 'وێنە وەک ئارای ژمارە، فیلتەر، ناسینەوەی ڕووخسار و دۆزینەوەی شت.',
               ext: 'py' },
-            { id: 'ai_course_10', is_ai: true, ai_order: 10, unlock_cost: 0, icon: '💬', color: 'bg-amber-100', grad: 'from-amber-500 to-orange-600',
-              name_so: 'پرۆسێسکردنی زمانی سروشتی (NLP)', name_ba: 'پرۆسێسکردنی زمانی سروشتی (NLP)',
+            { id: 'ai_course_10', is_ai: true, ai_order: 10, logo_url: '/logos/ai/ai_course_10.svg', icon: '💬', color: 'bg-amber-100', grad: 'from-amber-500 to-orange-600',
+              name_so: 'پرۆسێسکردنی زمانی سروشتی (Natural Language Processing - NLP)', name_ba: 'پرۆسێسکردنی زمانی سروشتی (Natural Language Processing - NLP)',
               desc_so: 'Tokenization، پاککردنی دەق، هەست و وەرگێڕان — ئامێر لە زمان تێدەگات.',
               desc_ba: 'Tokenization، پاککردنی دەق، هەست و وەرگێڕان — ئامێر لە زمان تێدەگات.',
               ext: 'py' }
@@ -2561,7 +2587,7 @@ ${code}
         function saveProgressToFirebase() {
             if(!currentUid || !currentProgressPath) return;
             const savedLangId = lastActiveLangId || accountLastLangId || null;
-            const payload = { xp: userXP, completedLessons: completedLessons, streak: dayStreak, lastActiveDate: lastActiveDate, lessonProgress: lessonProgress, lastLanguageId: savedLangId, xpAwarded: xpAwardedLessons, aiUnlocked: aiUnlocked };
+            const payload = { xp: userXP, completedLessons: completedLessons, streak: dayStreak, lastActiveDate: lastActiveDate, lessonProgress: lessonProgress, lastLanguageId: savedLangId, xpAwarded: xpAwardedLessons };
             update(dbRef(db, currentProgressPath), payload)
                 .then(() => { console.log('[ferga] progress saved OK'); setSaveStatus('پێشکەوتن سەیڤکرا'); })
                 .catch(showProgressSaveError);
@@ -2633,8 +2659,8 @@ ${code}
         // --- Data Fetching ---
         // تێکەڵکردنی بەشی ژیری دەستکرد (virtual) لەگەڵ داتای فایەربەیس — تەنها وانە/بەشی نەهاتوو زیاد دەکرێت، بۆیە دەستکاری ئەدمین لە فایەربەیس ناسرێتەوە
         function mergeVirtualAI() {
-            AI_TOPICS.forEach(t => { if (!languagesData[t.id]) languagesData[t.id] = { ...t }; });
-            AI_SAMPLE_LESSONS.forEach(l => { if (!lessonsData[l.id]) lessonsData[l.id] = { ...l }; });
+            AI_TOPICS.forEach(t => { languagesData[t.id] = { ...t, ...(languagesData[t.id] || {}) }; });
+            AI_SAMPLE_LESSONS.forEach(l => { lessonsData[l.id] = { ...l, ...(lessonsData[l.id] || {}) }; });
         }
         mergeVirtualAI();
         function showDataLoadError(m){const b=document.getElementById('data-load-error'),t=document.getElementById('data-load-error-msg');if(b){if(m&&t)t.textContent=m;b.classList.remove('hidden');}} function hideDataLoadError(){const b=document.getElementById('data-load-error');if(b)b.classList.add('hidden');} function subscribeWithTimeout(q,cb,t=8000){let h=false;const tm=setTimeout(()=>{if(!h){console.warn('Timeout');showDataLoadError('کێشەیەک لە بارکردنی داتاکان هەیە، پەیوەندی خاوە.');}},t);return onValue(q,(s)=>{h=true;clearTimeout(tm);hideDataLoadError();cb(s);},(e)=>{clearTimeout(tm);console.error(e);showDataLoadError(e&&e.message?e.message:'هەڵەیەک ڕوویدا');});}
@@ -2668,8 +2694,6 @@ ${code}
                 Object.assign(xpAwardedLessons, savedAwarded, loadXPBackup());
             } catch(e) { console.error('[ferga] xp awarded load failed', e); }
             saveXPBackup();
-            try { aiUnlocked = Object.assign({}, loadAIUnlocked(), (data && data.aiUnlocked) || {}); } catch(e) { aiUnlocked = loadAIUnlocked(); }
-            saveAIUnlocked();
             if (updateStreakLogic()) saveProgressToFirebase();
             updateStatsUI();
             if (currentActiveLanguage) renderSidebar();
@@ -2821,7 +2845,7 @@ ${code}
                 const ps = langProgressStyle(id);
                 const progressLabel = currentLang === 'so' ? `${langDone}/${langTotal} وانە` : `${langDone}/${langTotal} وانە`;
                 const progressBar = glassProgressBar(langPct, ps.grad, ps.glow, { labelText: progressLabel });
-                let iconHtml = l.logo_url ? `<img src="${l.logo_url}" class="w-full h-full object-contain p-2" alt="${name}">` : `<span class="text-3xl font-black text-gray-800">${name.charAt(0)}</span>`;
+                let iconHtml = l.logo_url ? `<img src="${l.logo_url}" class="w-full h-full object-cover" alt="${name}">` : `<span class="text-3xl font-black text-gray-800">${name.charAt(0)}</span>`;
                 const openAction = needsMembership
                     ? `window.openMembershipModal('${id}')`
                     : `window.openLanguage('${id}')`;
@@ -2867,10 +2891,6 @@ ${code}
         }
 
         // --- بەشەکان (Categories): پیشانکەری سەرەکی ---
-        function aiUnlockBackupKey() { return 'ferga_ai_unlocked_' + (currentUid || 'guest'); }
-        function saveAIUnlocked() { try { localStorage.setItem(aiUnlockBackupKey(), JSON.stringify(aiUnlocked)); } catch(e) { console.error('[ferga] ai unlock backup failed', e); } }
-        function loadAIUnlocked() { try { const raw = localStorage.getItem(aiUnlockBackupKey()); return raw ? JSON.parse(raw) : {}; } catch(e) { return {}; } }
-
         function renderHome() {
             const nav = document.getElementById('category-nav');
             const titleEl = document.getElementById('category-title');
@@ -2880,7 +2900,7 @@ ${code}
             if (grid) grid.dataset.kaiView = homeView;
             if (homeView === 'ai') {
                 if (nav) nav.classList.remove('hidden');
-                if (titleEl) titleEl.textContent = currentLang === 'so' ? '🤖 فێربوونی ژیری دەستکرد' : '🤖 فێربوونا زیرەکیا دەستکرد';
+                if (titleEl) titleEl.textContent = currentLang === 'so' ? ' فێربوونی ژیری دەستکرد' : ' فێربوونا زیرەکیا دەستکرد';
                 if (subEl) subEl.textContent = currentLang === 'so'
                     ? 'بەشێک هەڵبژێرە و فێربوونەکەت دەست پێ بکە.'
                     : 'بەشەک هەلبژێرە و فێربوونا خۆ دەستپێبکە.';
@@ -2955,7 +2975,7 @@ ${code}
             const langPreview = langIds.slice(0, 6).map(id => {
                 const l = languagesData[id];
                 const name = loc(l, 'name');
-                return `<span class="w-10 h-10 rounded-xl ${l.color || 'bg-blue-100'} flex items-center justify-center text-lg font-black text-gray-800 shadow-inner ring-2 ring-white dark:ring-gray-900 overflow-hidden">${l.logo_url ? `<img src="${l.logo_url}" class="w-full h-full object-contain p-1" alt="${name}">` : (name ? name.charAt(0) : '؟')}</span>`;
+                return `<span class="w-10 h-10 rounded-xl ${l.color || 'bg-blue-100'} flex items-center justify-center text-lg font-black text-gray-800 shadow-inner ring-2 ring-white dark:ring-gray-900 overflow-hidden">${l.logo_url ? `<img src="${l.logo_url}" class="w-full h-full object-cover" alt="${name}">` : (name ? name.charAt(0) : '؟')}</span>`;
             }).join('');
             grid.innerHTML += `
                 <div onclick="window.openCategory('langs')" class="glass-card rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 p-10 flex flex-col items-center text-center group hover:-translate-y-2 relative cursor-pointer overflow-hidden h-full">
@@ -2996,9 +3016,7 @@ ${code}
             const grid = document.getElementById('languages-grid');
             if (!grid) return;
             const subEl = document.getElementById('category-subtitle');
-            if (subEl) subEl.textContent = currentLang === 'so'
-                ? 'هەر بەشێک دەکرێتەوە کاتێک بەشەکەی پێشوو تەواو دەبێت — فێربوونێکی ڕیزبەندی کراو.'
-                : 'هەر بەشەک دێتە ڤەکرن کەدەمێ بەشەکێ پێشوو دێتە تەمامکرن — فێربوونەکێ ڕێزکرن.';
+            if (subEl) subEl.textContent = '';
             grid.innerHTML = '';
 
             const topics = AI_TOPICS
@@ -3014,53 +3032,24 @@ ${code}
                 const pct = total ? Math.round((completed / total) * 100) : 0;
                 const name = loc(t, 'name');
                 const desc = loc(t, 'desc');
-                const cost = parseInt(t.unlock_cost, 10) || 0;
-                const aiOrder = parseInt(t.ai_order, 10) || 0;
                 const manuallyLocked = t.locked === true;
-
-                // Determine if course is logically locked (for UI display)
-                let logicallyLocked = false;
-                if (manuallyLocked) {
-                    logicallyLocked = true;
-                } else {
-                    // Members can access all AI courses
-                    if (window.isMember) {
-                        logicallyLocked = false;
-                    } else {
-                        // Sequential locking: Course is locked if previous course is not 100% completed
-                        if (aiOrder === 1) {
-                            logicallyLocked = false;
-                        } else {
-                            // Check if previous course is 100% completed
-                            const prevCourse = topics.find(tc => parseInt(tc.ai_order, 10) === aiOrder - 1);
-                            if (prevCourse) {
-                                const prevLessons = sortedLangLessons(prevCourse.id);
-                                const prevCompleted = prevLessons.filter(l => completedLessons.includes(l.id)).length;
-                                const prevTotal = prevLessons.length;
-                                logicallyLocked = !(prevTotal > 0 && prevCompleted === prevTotal);
-                            } else {
-                                logicallyLocked = true;
-                            }
-                        }
-                    }
-                }
-
-                // Admins can access everything, but UI shows lock status based on logicallyLocked
-                let isUnlocked = window.isAdmin || !logicallyLocked;
+                // ئەدمین بە تەنها کۆرسەکە دەکاتەوە: هەموو کۆرسەکان بە نەبونی field بۆ بەکارهێنەر قفڵکراون
+                const openToAll = t.locked === false;
+                const logicallyLocked = window.isAdmin ? manuallyLocked : !openToAll;
+                const isUnlocked = window.isAdmin || openToAll;
                 const isDone = total > 0 && completed === total;
                 const openAction = isUnlocked
                     ? `window.openLanguage('${t.id}')`
-                    : `window.openAITopicUnlockModal('${t.id}')`;
+                    : `window.aiCourseLockedToast()`;
                 // Show lock badge based on logicallyLocked, not isUnlocked (so admins see the lock status too)
                 const stateBadge = isDone
                     ? `<div onclick="event.stopPropagation(); window.openLanguage('${t.id}')" class="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-black shadow-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white ring-2 ring-white dark:ring-gray-900 hover:scale-105 transition-transform"><span>${badgeMetaFor(t.id).icon}</span>${currentLang === 'so' ? 'تەواو بوو' : 'دووماهی بوو'}</div>`
                     : (!logicallyLocked
                         ? `<div class="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-black shadow-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white ring-2 ring-white dark:ring-gray-900">🔓 ${currentLang === 'so' ? 'کراوە' : 'ڤەکری'}</div>`
                         : `<div class="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-black shadow-lg bg-gradient-to-r from-amber-500 to-yellow-500 text-white ring-2 ring-white dark:ring-gray-900"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18 8h-1V6a5 5 0 00-10 0v2H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zm-6 9a2 2 0 110-4 2 2 0 010 4zm3.5-9h-7V6a3.5 3.5 0 117 0v2z"/></svg>${currentLang === 'so' ? 'قفڵکراوە' : 'قفڵکری'}</div>`);
-                const costChip = !isUnlocked ? `<span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black bg-gradient-to-r from-amber-100 to-yellow-100 dark:from-amber-900/40 dark:to-yellow-900/30 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-700/50 shadow-sm"><span>🪙</span>${cost} XP</span>` : '';
                 const btnText = isDone || isUnlocked
                     ? (currentLang === 'so' ? 'بکەرەوە' : 'ڤەکە')
-                    : (currentLang === 'so' ? 'کردنەوە بە پۆینت' : 'ڤەکرن ب پۆینتان');
+                    : (currentLang === 'so' ? 'بەم زوانە بەردەست دەبێت' : 'د ڤێ زوانێ دا دێ بەردەست بیت');
                 grid.innerHTML += `
                     <div onclick="${openAction}" class="ai-topic-card glass-card rounded-[2.5rem] shadow-sm hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500 flex flex-col items-center text-center p-8 pt-0 group hover:-translate-y-2 relative cursor-pointer overflow-hidden ${isUnlocked ? 'ring-2 ring-emerald-300/40' : 'ring-1 ring-amber-200/60 dark:ring-amber-700/40'}" style="animation-delay:${ti * 90}ms">
                         <div class="absolute top-0 inset-x-0 h-2 bg-gradient-to-r ${grad}"></div>
@@ -3068,31 +3057,36 @@ ${code}
                         ${stateBadge}
                         <div class="relative mt-10 mb-6">
                             <div class="absolute inset-0 bg-gradient-to-br ${grad} rounded-[1.8rem] blur-xl opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
-                            <div class="relative w-24 h-24 bg-gradient-to-br ${grad} rounded-[1.8rem] flex items-center justify-center shadow-2xl ring-4 ring-white dark:ring-gray-900 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
-                                ${t.logo_url ? `<img src="${t.logo_url}" class="w-full h-full object-contain p-2" alt="${name}">` : `<span class="text-5xl">${t.icon || '🤖'}</span>`}
+                            <div class="relative w-24 h-24 bg-gradient-to-br ${grad} rounded-[1.8rem] flex items-center justify-center shadow-2xl ring-4 ring-white dark:ring-gray-900 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 ${window.isAdmin ? 'cursor-pointer hover:ring-4 hover:ring-amber-400/70' : ''}" ${window.isAdmin ? `onclick="event.stopPropagation(); window.changeAILogo('${t.id}')" title="${currentLang === 'so' ? 'گۆڕینی لۆگۆ/ئایکۆن' : 'گۆڕینا لۆگۆ/ئایکۆن'}"` : ''}>
+                                ${t.logo_url ? `<img src="${t.logo_url}" class="w-full h-full object-cover" alt="${name}">` : `<span class="text-5xl">${t.icon || '🤖'}</span>`}
                                 ${logicallyLocked ? `<div class="absolute inset-0 bg-black/40 rounded-[1.8rem] flex items-center justify-center backdrop-blur-sm">
                                     <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18 8h-1V6a5 5 0 00-10 0v2H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zm-6 9a2 2 0 110-4 2 2 0 010 4zm3.5-9h-7V6a3.5 3.5 0 117 0v2z"/></svg>
+                                </div>` : ''}
+                                ${window.isAdmin ? `<div class="absolute inset-0 rounded-[1.8rem] flex items-center justify-center bg-black/0 group-hover:bg-black/30 transition-colors duration-300 pointer-events-none">
+                                    <span class="opacity-0 group-hover:opacity-100 text-white text-[11px] font-black bg-black/60 px-2.5 py-1 rounded-full">🖼️ ${currentLang === 'so' ? 'گۆڕین' : 'گۆڕین'}</span>
                                 </div>` : ''}
                             </div>
                         </div>
                         <h3 class="text-2xl font-black mb-2 text-gray-900 dark:text-white"><bdi>${name}</bdi></h3>
                         <div class="flex items-center gap-2 mb-4">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">📚 ${completed}/${total}</span>
-                            ${costChip}
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400"> ${completed}/${total}</span>
                         </div>
                         <p class="text-gray-500 dark:text-gray-400 text-sm leading-loose line-clamp-3 mb-5">${desc}</p>
                         <div class="w-full h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden mb-6">
                             <div class="h-full bg-gradient-to-r ${grad} rounded-full transition-all duration-700" style="width:${pct}%; box-shadow:0 0 10px rgba(52,211,153,0.55)"></div>
                         </div>
+                        ${logicallyLocked ? `<div class="w-full mb-5 px-4 py-2.5 rounded-xl bg-amber-100/90 dark:bg-amber-900/30 border border-amber-300/70 dark:border-amber-700/40 text-center">
+                            <span class="text-xs font-black text-amber-700 dark:text-amber-300">🔒 ${currentLang === 'so' ? 'بەم زوانە بەردەست دەبێت' : 'د ڤێ زوانێ دا دێ بەردەست بیت'}</span>
+                        </div>` : ''}
                         <span class="inline-flex items-center gap-2 px-8 py-3 ${isUnlocked ? 'bg-gradient-to-r ' + grad + ' text-white shadow-lg' : 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white shadow-lg shadow-amber-500/20'} rounded-2xl font-black text-sm group-hover:scale-105 transition-transform">${btnText}</span>
                         ${window.isAdmin ? `
                         <div class="flex items-center gap-2 w-full mt-auto pt-5 border-t border-gray-200/50 dark:border-gray-700/50">
-                            <button onclick="event.stopPropagation(); window.toggleAILock('${t.id}')" class="flex-1 flex justify-center items-center gap-2 py-2.5 ${isUnlocked ? 'bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400 hover:bg-rose-100 border-rose-200 dark:border-rose-800/50' : 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400 hover:bg-emerald-100 border-emerald-200 dark:border-emerald-800/50'} rounded-xl font-bold text-xs transition border">
-                                ${isUnlocked 
-                                    ? `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>`
-                                    : `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>`
+                            <button onclick="event.stopPropagation(); window.toggleAILock('${t.id}')" class="flex-1 flex justify-center items-center gap-2 py-2.5 ${!openToAll ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400 hover:bg-emerald-100 border-emerald-200 dark:border-emerald-800/50' : 'bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400 hover:bg-rose-100 border-rose-200 dark:border-rose-800/50'} rounded-xl font-bold text-xs transition border">
+                                ${!openToAll 
+                                    ? `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>`
+                                    : `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>`
                                 }
-                                ${isUnlocked ? (currentLang === 'so' ? 'قفڵکردن' : 'قفڵکرن') : (currentLang === 'so' ? 'کردنەوە' : 'ڤەکە')}
+                                ${!openToAll ? (currentLang === 'so' ? 'کردنەوە' : 'ڤەکە') : (currentLang === 'so' ? 'قفڵکردن' : 'قفڵکرن')}
                             </button>
                             <button onclick="event.stopPropagation(); window.openNewLessonModal('${t.id}')" class="flex-1 flex justify-center items-center gap-2 py-2.5 bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400 hover:bg-emerald-100 rounded-xl font-bold text-xs transition border border-emerald-200 dark:border-emerald-800/50">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
@@ -3118,64 +3112,162 @@ ${code}
             setTimeout(() => notif.remove(), 3500);
         }
 
-        window.openAITopicUnlockModal = function(topicId) {
-            const topic = languagesData[topicId] || null;
-            if (!topic) return;
-            
-            pendingAITopicId = topicId;
-            document.getElementById('ai-unlock-title').textContent = loc(topic, 'name');
-            document.getElementById('ai-unlock-desc').textContent = currentLang === 'so'
-                ? 'ئەم بەشە دەکرێتەوە بە شێوەیەکی دەستکاری. لە دۆخی ئاساییدا، بەشەکان بە ڕیزبەندی دەکرێنەوە.'
-                : 'ئەڤ بەشە دێتە ڤەکرن ب شێوەیێ دەستکاری. د دۆخی ئاسایی دا، بەشان ب ڕێزکرن دێن ڤەکرن.';
-            document.getElementById('ai-unlock-cost').textContent = '🔓 دەستکاری';
-            document.getElementById('ai-unlock-confirm-btn').textContent = currentLang === 'so' ? 'بەڵێ، بیکەرەوە' : 'بەلێ، ڤەکە';
-            const m = document.getElementById('ai-unlock-modal');
-            m.classList.remove('hidden');
-            m.classList.add('flex');
-        };
-
-        window.toggleAILock = function(topicId) {
-            if (aiUnlocked[topicId]) {
-                delete aiUnlocked[topicId];
-            } else {
-                aiUnlocked[topicId] = true;
-            }
-            saveAIUnlocked();
-            saveProgressToFirebase();
-            renderAITopicsGrid();
-        };
-
-        window.closeAIUnlockModal = function() {
-            const m = document.getElementById('ai-unlock-modal');
-            if (!m) return;
-            m.classList.add('hidden');
-            m.classList.remove('flex');
-            pendingAITopicId = null;
-        };
-
-        window.confirmAIUnlock = function() {
-            const id = pendingAITopicId;
-            if (!id) return;
-            const topic = languagesData[id];
-            if (!topic) return;
-            const cost = parseInt(topic.unlock_cost, 10) || 0;
-            if (userXP < cost) {
-                closeAIUnlockModal();
-                showFlash(currentLang === 'so' ? '⚠️ پۆینتی تەمام نییە!' : '⚠️ پۆینتێن تەمام نینە!', true);
+        window.toggleAILock = async function(topicId) {
+            const l = languagesData[topicId];
+            if (!l) return;
+            const next = (l.locked === false);
+            try {
+                await update(dbRef(db, 'ferga_languages/' + topicId), { locked: next });
+            } catch (e) {
+                console.error('[ferga] toggle lock failed', e);
+                showFlash('⚠️ هەڵەیەک ڕوویدا لە قفڵکردن', true);
                 return;
             }
-            userXP -= cost;
-            aiUnlocked[id] = true;
-            saveAIUnlocked();
-            updateStatsUI();
-            saveProgressToFirebase();
-            showXPNotification(-cost);
-            closeAIUnlockModal();
-            try { triggerConfetti(); } catch(e) { console.error('[ferga] unlock confetti failed', e); }
-            showFlash(currentLang === 'so' ? '🎉 بەشەکەت کرایەوە — وانەکانی بەخۆڕایی فێربە!' : '🎉 بەش هاتە ڤەکرن — وانەیێن وێ بەلاش فێر ببە!');
-            renderHome();
-            window.openLanguage(id);
+            l.locked = next;
+            renderAITopicsGrid();
+            const notif = document.createElement('div');
+            notif.className = 'xp-popup bg-gradient-to-r from-emerald-600 to-teal-500 text-white px-6 py-3 rounded-2xl shadow-2xl font-bold flex items-center gap-2';
+            notif.innerHTML = next
+                ? (currentLang === 'so' ? '🔒 بەشەکە قفڵکرا' : '🔒 بەش قفڵکری')
+                : (currentLang === 'so' ? '🔓 بەشەکە کرایەوە' : '🔓 بەش هاتە ڤەکرن');
+            document.getElementById('xp-notification-container').appendChild(notif);
+            setTimeout(() => notif.remove(), 2500);
         };
+
+        window.aiCourseLockedToast = function() {
+            showFlash(currentLang === 'so'
+                ? '🤖 ئەم بەشە بەم زوانە بەردەست دەبێت'
+                : '🤖 ئەڤ بەشە د ڤێ زوانێ دا دێ بەردەست بیت');
+        };
+
+        // --- گۆڕینی لۆگۆ/ئایکۆنی بەشی AI (تەنها بۆ ئەدمین) ---
+        let currentLogoTopic = null;
+        const LOGO_EMOJIS = ['🤖', '🧠', '📊', '📐', '🔬', '⚙️', '👁️', '🔮', '💬', '📈', '⚡', '🚀', '🎓', '🌐', '🧩', '💡', '🦾', '🗂️', '🎯'];
+        // لۆگۆکانی ناو public/logos/ai/ — هەموو فایلەکان لێرە دەبینرێن و دەتوانرێت بە کلیکێک جێبەجێ بکرێن
+        const GALLERY_LOGOS = [
+            '/logos/ai/ai_course_01.svg', '/logos/ai/ai_course_02.svg', '/logos/ai/ai_course_03.svg',
+            '/logos/ai/ai_course_04.svg', '/logos/ai/ai_course_05.svg', '/logos/ai/ai_course_06.svg',
+            '/logos/ai/ai_course_07.svg', '/logos/ai/ai_course_08.svg', '/logos/ai/ai_course_09.svg',
+            '/logos/ai/ai_course_10.svg',
+        ];
+
+        window.changeAILogo = function(topicId) {
+            if (!window.isAdmin) return;
+            const topic = languagesData[topicId];
+            if (!topic) return;
+            currentLogoTopic = topicId;
+            const box = document.getElementById('change-logo-preview-box');
+            if (box) box.className = 'w-24 h-24 rounded-2xl flex items-center justify-center text-5xl ' + (topic.color || 'bg-emerald-100') + ' shadow-inner ring-2 ring-white dark:ring-gray-900 overflow-hidden';
+            const preview = document.getElementById('change-logo-preview-content');
+            if (preview) preview.innerHTML = topic.logo_url ? `<img src="${topic.logo_url}" class="w-full h-full object-cover">` : (topic.icon || '🤖');
+            const grid = document.getElementById('change-logo-emoji-grid');
+            if (grid) {
+                grid.innerHTML = '';
+                LOGO_EMOJIS.forEach(e => {
+                    grid.innerHTML += `<button type="button" onclick="window.setTopicLogoEmoji('${e}')" class="text-2xl p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition">${e}</button>`;
+                });
+            }
+            const gallery = document.getElementById('change-logo-gallery');
+            if (gallery) {
+                gallery.innerHTML = '';
+                GALLERY_LOGOS.forEach(url => {
+                    const isCurrent = topic.logo_url === url;
+                    gallery.innerHTML += `<button type="button" onclick="window.setTopicLogoUrl('${url}')" class="relative rounded-xl overflow-hidden ring-2 ring-transparent hover:ring-emerald-500 transition ${isCurrent ? 'ring-emerald-500' : ''}">
+                        <img src="${url}" alt="logo" class="w-full h-full object-cover" loading="lazy" decoding="async">
+                        ${isCurrent ? `<span class="absolute inset-0 bg-emerald-500/20 flex items-center justify-center"><svg class="w-6 h-6 text-emerald-400 drop-shadow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></span>` : ''}
+                    </button>`;
+                });
+            }
+            const fileInput = document.getElementById('change-logo-file');
+            if (fileInput) fileInput.value = '';
+            const modal = document.getElementById('changeLogoModal');
+            const content = document.getElementById('changeLogoModalContent');
+            if (!modal || !content) return;
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('translate-y-4', 'opacity-0');
+                content.classList.add('translate-y-0', 'opacity-100');
+            }, 10);
+        };
+
+        window.closeChangeLogoModal = function() {
+            const modal = document.getElementById('changeLogoModal');
+            const content = document.getElementById('changeLogoModalContent');
+            if (!modal || !content) return;
+            content.classList.remove('translate-y-0', 'opacity-100');
+            content.classList.add('translate-y-4', 'opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        };
+
+        window.setTopicLogoEmoji = async function(emoji) {
+            const id = currentLogoTopic;
+            if (!id) return;
+            try {
+                await update(dbRef(db, 'ferga_languages/' + id), { logo_url: '', icon: emoji });
+                if (languagesData[id]) { languagesData[id].logo_url = ''; languagesData[id].icon = emoji; }
+                window.closeChangeLogoModal();
+                renderAITopicsGrid();
+                showFlash('✅ ئایکۆنەکە گۆڕدرا');
+            } catch (error) {
+                console.error('[ferga] emoji update failed', error);
+                showFlash('⚠️ ' + (error.message || 'هەڵە'), true);
+            }
+        };
+
+        // وەرگرتنی لۆگۆ لە گالەری public/logos/ai/ و پاشەکەوتکردنی لە فایەربەیس
+        window.setTopicLogoUrl = async function(url) {
+            const id = currentLogoTopic;
+            if (!id) return;
+            try {
+                await update(dbRef(db, 'ferga_languages/' + id), { logo_url: url, icon: '' });
+                if (languagesData[id]) { languagesData[id].logo_url = url; languagesData[id].icon = ''; }
+                window.closeChangeLogoModal();
+                renderAITopicsGrid();
+                showFlash('✅ لۆگۆکە گۆڕدرا');
+            } catch (error) {
+                console.error('[ferga] logo set failed', error);
+                showFlash('⚠️ ' + (error.message || 'هەڵە'), true);
+            }
+        };
+
+        window.uploadTopicLogo = async function(file) {
+            const id = currentLogoTopic;
+            if (!id || !file) return;
+            try {
+                const url = await uploadImage(file);
+                await update(dbRef(db, 'ferga_languages/' + id), { logo_url: url, icon: '' });
+                if (languagesData[id]) { languagesData[id].logo_url = url; languagesData[id].icon = ''; }
+                window.closeChangeLogoModal();
+                renderAITopicsGrid();
+                showFlash('✅ لۆگۆکە گۆڕدرا');
+            } catch (error) {
+                console.error('[ferga] logo upload failed', error);
+                showFlash('⚠️ هەڵە لە بارکردنی وێنەکە: ' + (error.message || ''), true);
+            }
+        };
+
+        window.clearTopicLogo = async function() {
+            const id = currentLogoTopic;
+            if (!id) return;
+            try {
+                await update(dbRef(db, 'ferga_languages/' + id), { logo_url: '' });
+                if (languagesData[id]) { languagesData[id].logo_url = ''; }
+                window.closeChangeLogoModal();
+                renderAITopicsGrid();
+                showFlash('🗑️ لۆگۆکە سڕایەوە');
+            } catch (error) {
+                console.error('[ferga] clear logo failed', error);
+                showFlash('⚠️ ' + (error.message || 'هەڵە'), true);
+            }
+        };
+
+        const changeLogoFileEl = document.getElementById('change-logo-file');
+        if (changeLogoFileEl) {
+            changeLogoFileEl.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) window.uploadTopicLogo(file);
+            });
+        }
 
         window.toggleLanguageLock = async function(id) {
             const l = languagesData[id];
@@ -3287,6 +3379,19 @@ ${code}
                 htmlStr += `</div>`;
             }
             sidebar.innerHTML = htmlStr;
+            if (window.isAdmin && currentActiveLanguage) {
+                const addWrap = document.createElement('div');
+                addWrap.className = 'px-2 mt-6';
+                addWrap.innerHTML = `
+                    <button onclick="window.openNewLessonModal('${currentActiveLanguage.id}')" class="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-2xl font-black text-sm shadow-md shadow-emerald-500/25 hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                        <span class="lang-str" data-so="زیادکردنی وانەی نوێ" data-ba="زێدەکرنا وانەیەکا نوی">زیادکردنی وانەی نوێ</span>
+                    </button>`;
+                sidebar.appendChild(addWrap);
+                document.querySelectorAll('#sidebar-content .lang-str').forEach(el => {
+                    el.innerText = el.getAttribute(`data-${currentLang}`) || el.getAttribute('data-so');
+                });
+            }
             const activeBtn = document.getElementById(`sidebar-btn-${currentLessonIndex}`);
             if (activeBtn && !activeBtn.classList.contains('locked-lesson')) {
                 activeBtn.classList.add('bg-blue-50', 'dark:bg-blue-900/20', 'text-blue-600', 'dark:text-blue-400', 'shadow-sm');
@@ -3445,7 +3550,63 @@ ${code}
             }
 
             document.getElementById('display-title').innerHTML = loc(lesson, 'title');
-            document.getElementById('display-content').innerHTML = loc(lesson, 'content');
+            const contentBox = document.getElementById('display-content');
+            const lessonContentHtml = loc(lesson, 'content');
+            if (currentActiveLanguage && currentActiveLanguage.is_ai) {
+                contentBox.classList.add('ai-lesson-content');
+                let inner = contentBox.querySelector('.rendered-content-box');
+                if (!inner) {
+                    inner = document.createElement('div');
+                    inner.className = 'rendered-content-box';
+                    contentBox.innerHTML = '';
+                    contentBox.appendChild(inner);
+                }
+                inner.innerHTML = lessonContentHtml;
+            } else {
+                contentBox.classList.remove('ai-lesson-content');
+                contentBox.innerHTML = lessonContentHtml;
+            }
+            
+            // AI lesson hero — هەڵدەستێت بە پڕکردنەوەی سەرپەڕە بۆ کۆرسەکانی ژیری دەستکرد
+            const aiHero = document.getElementById('ai-lesson-hero');
+            const isAiCourse = currentActiveLanguage && currentActiveLanguage.is_ai;
+            if (aiHero) {
+                if (isAiCourse) {
+                    const grad = currentActiveLanguage.grad || 'from-emerald-500 via-teal-500 to-cyan-600';
+                    const logoUrl = currentActiveLanguage.logo_url || '';
+                    const icon = currentActiveLanguage.icon || '🤖';
+                    const level = loc(lesson, 'level');
+                    aiHero.classList.remove('hidden');
+                    const gradEl = document.getElementById('ai-lesson-hero-grad');
+                    if (gradEl) gradEl.className = 'ai-hero-grad absolute inset-0 bg-gradient-to-br ' + grad;
+                    const logoImg = document.getElementById('ai-lesson-hero-logo-img');
+                    const logoIcon = document.getElementById('ai-lesson-hero-logo-icon');
+                    if (logoImg) {
+                        if (logoUrl) { logoImg.src = logoUrl; logoImg.classList.remove('hidden'); logoImg.classList.add('block'); }
+                        else { logoImg.src = ''; logoImg.classList.add('hidden'); logoImg.classList.remove('block'); }
+                    }
+                    if (logoIcon) {
+                        logoIcon.textContent = icon;
+                        if (!logoUrl) { logoIcon.classList.remove('hidden'); logoIcon.classList.add('block'); }
+                        else { logoIcon.classList.add('hidden'); logoIcon.classList.remove('block'); }
+                    }
+                    const courseEl = document.getElementById('ai-lesson-hero-course');
+                    if (courseEl) courseEl.textContent = loc(currentActiveLanguage, 'name');
+                    const lessonEl = document.getElementById('ai-lesson-hero-lesson');
+                    if (lessonEl) lessonEl.textContent = loc(lesson, 'title');
+                    const levelEl = document.getElementById('ai-lesson-hero-level');
+                    if (levelEl) levelEl.textContent = level ? '✦ ' + level : '';
+                    const countEl = document.getElementById('ai-lesson-hero-count');
+                    const totalL = currentLessonArray.length;
+                    if (countEl) countEl.textContent = (currentLessonIndex + 1) + ' / ' + totalL;
+                    const barEl = document.getElementById('ai-lesson-hero-bar');
+                    if (barEl) barEl.style.width = totalL > 0 ? Math.max(4, Math.round(((currentLessonIndex + 1) / totalL) * 100)) + '%' : '4%';
+                    const levelTxt = document.getElementById('ai-lesson-hero-level');
+                    if (levelTxt) levelTxt.classList.remove('hidden');
+                } else {
+                    aiHero.classList.add('hidden');
+                }
+            }
             
             // Challenge Handling
             const questionType = window.lessonQuestionType(lesson);
@@ -4311,7 +4472,8 @@ ${code}
             setTimeout(() => { modal.classList.add('hidden'); }, 300);
         };
 
-        window.openNewLessonModal = function(topicId) {
+        window.openNewLessonModal = async function(topicId) {
+            await initQuill();
             const lang = languagesData[topicId] || null;
             const nextOrder = sortedLangLessons(topicId).reduce((mx, l) => Math.max(mx, parseInt(l.order, 10) || 0), 0) + 1;
             document.getElementById('edit_lesson_modal_id').value = '';
@@ -4435,6 +4597,46 @@ ${code}
     </script>
 
     <!-- مۆدالی دەستکاریکردنی زمان -->
+    <!-- مۆدالی گۆڕینی لۆگۆ/ئایکۆنی بەشی AI (تەنها ئەدمین) -->
+    <div id="changeLogoModal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm hidden z-[135] overflow-y-auto">
+        <div class="min-h-full flex items-center justify-center p-4">
+            <div class="absolute inset-0" onclick="window.closeChangeLogoModal()"></div>
+            <div id="changeLogoModalContent" class="relative w-full max-w-md bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 transition-all duration-300 translate-y-4 opacity-0">
+                <button onclick="window.closeChangeLogoModal()" class="absolute top-5 left-5 p-2 bg-gray-100 dark:bg-gray-800 text-gray-500 hover:text-red-500 rounded-full transition z-10">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <div class="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-emerald-600 to-teal-500 rounded-t-3xl">
+                    <h3 class="text-xl font-black text-white text-center">گۆڕینی لۆگۆ/ئایکۆنی بەش</h3>
+                </div>
+                <div class="p-6 space-y-5">
+                    <div class="flex justify-center">
+                        <div id="change-logo-preview-box" class="w-24 h-24 rounded-2xl flex items-center justify-center text-5xl bg-emerald-100 shadow-inner ring-2 ring-white dark:ring-gray-900 overflow-hidden">
+                            <span id="change-logo-preview-content">🤖</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-2">🖼️ گالەری لۆگۆکان (public/logos/ai)</label>
+                        <div id="change-logo-gallery" class="grid grid-cols-5 gap-2"></div>
+                        <p class="text-gray-400 text-[11px] mt-2">بۆ گۆڕینی وێنەکان، فایلی SVG بکەرەوە لە <span dir="ltr" class="font-mono">public/logos/ai/</span> و ناوی فایلەکە بگۆڕە — لەوێوە بە شێوەیەکی ئاسان دەبینرێت.</p>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-2">ئایکۆنی ئیمۆجی</label>
+                        <div id="change-logo-emoji-grid" class="grid grid-cols-5 gap-2"></div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-bold text-sm mb-2">وێنەی لۆگۆ</label>
+                        <div onclick="document.getElementById('change-logo-file').click()" class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 text-center cursor-pointer hover:border-emerald-500 transition">
+                            <p class="text-emerald-600 dark:text-emerald-400 font-black text-sm">📤 هەڵبژاردنی وێنە</p>
+                            <p class="text-gray-400 text-xs mt-1">JPEG، PNG، GIF</p>
+                        </div>
+                        <input type="file" id="change-logo-file" accept="image/*" class="hidden">
+                    </div>
+                    <button onclick="window.clearTopicLogo()" class="w-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 py-3 rounded-xl font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition">🗑️ سڕینەوە و گەڕانەوە بۆ ئایکۆنی بنەڕەتی</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="editLangModal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm hidden z-[130] overflow-y-auto">
         <div class="min-h-full flex items-center justify-center p-4">
             <div class="absolute inset-0" onclick="window.closeEditLangModal()"></div>

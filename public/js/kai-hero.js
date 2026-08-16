@@ -128,8 +128,6 @@
 
         var W = host.clientWidth || 360;
         var H = host.clientHeight || W;
-        var R = Math.min(W, H) * 0.32;
-        var COUNT = 420;
         var DPR = Math.min(window.devicePixelRatio || 1, 2);
 
         var canvas = document.createElement('canvas');
@@ -143,33 +141,39 @@
         }
 
         /* fibonacci sphere — uniform point distribution */
-        var pts = [];
         var palette = ['#22d3ee', '#818cf8', '#c084fc', '#f472b6', '#38bdf8'];
         var golden = Math.PI * (3 - Math.sqrt(5));
-        for (var i = 0; i < COUNT; i++) {
-            var y = 1 - (i / (COUNT - 1)) * 2;
-            var rad = Math.sqrt(Math.max(0, 1 - y * y));
-            var th = golden * i;
-            pts.push({
-                x: Math.cos(th) * rad * R,
-                y: y * R,
-                z: Math.sin(th) * rad * R,
-                c: palette[i % palette.length]
-            });
-        }
+        var COUNT = 420;
+        var R = 0, pts = [], edges = [], thr2 = 0, camD = 0;
 
-        /* constellation wiring — near neighbours, computed once */
-        var thr = R * 0.30;
-        var thr2 = thr * thr;
-        var MAX = 620;
-        var edges = [];
-        for (var a = 0; a < COUNT && edges.length < MAX; a++) {
-            for (var b = a + 1; b < COUNT && edges.length < MAX; b++) {
-                var dx = pts[a].x - pts[b].x;
-                var dy = pts[a].y - pts[b].y;
-                var dz = pts[a].z - pts[b].z;
-                if (dx * dx + dy * dy + dz * dz < thr2) edges.push(a, b);
+        function buildGeometry() {
+            R = Math.min(W, H) * 0.32;
+            pts.length = 0;
+            for (var i = 0; i < COUNT; i++) {
+                var y = 1 - (i / (COUNT - 1)) * 2;
+                var rad = Math.sqrt(Math.max(0, 1 - y * y));
+                var th = golden * i;
+                pts.push({
+                    x: Math.cos(th) * rad * R,
+                    y: y * R,
+                    z: Math.sin(th) * rad * R,
+                    c: palette[i % palette.length]
+                });
             }
+            /* constellation wiring — near neighbours, computed once per geometry */
+            var thr = R * 0.30;
+            thr2 = thr * thr;
+            var MAX = 620;
+            edges.length = 0;
+            for (var a = 0; a < COUNT && edges.length < MAX; a++) {
+                for (var b = a + 1; b < COUNT && edges.length < MAX; b++) {
+                    var dx = pts[a].x - pts[b].x;
+                    var dy = pts[a].y - pts[b].y;
+                    var dz = pts[a].z - pts[b].z;
+                    if (dx * dx + dy * dy + dz * dz < thr2) edges.push(a, b);
+                }
+            }
+            camD = R * 2.4;
         }
 
         function resize() {
@@ -180,6 +184,7 @@
             canvas.width = Math.round(W * DPR);
             canvas.height = Math.round(H * DPR);
             ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+            buildGeometry();
         }
         window.addEventListener('resize', resize);
 
@@ -196,7 +201,7 @@
         }
 
         var running = true;
-        var cx = 0, cy = 0, camD = R * 2.4;
+        var cx = 0, cy = 0;
 
         function frame() {
             if (!running) return;
@@ -284,6 +289,7 @@
         });
 
         resize();
+        buildGeometry();
         frame();
     }
 

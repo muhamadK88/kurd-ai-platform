@@ -138,4 +138,7 @@ Route::get('/news', function () {
 Route::get('/universities', function () {
     return view('universities');
 })->name('universities');
+Route::get('/general-info', function () {
+    return view('general_info');
+})->name('general-info');
 require __DIR__.'/auth.php';

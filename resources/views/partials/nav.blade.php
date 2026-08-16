@@ -21,6 +21,7 @@
         ['key' => 'ai-tools',       'href' => '/ai-tools',        'so' => 'تووڵەکان',     'ba' => 'ئامراز'],
         ['key' => 'academic-guide', 'href' => '/academic-guide',  'so' => 'ڕێنیشاندەر',   'ba' => 'ڕێبەر'],
         ['key' => 'universities',   'href' => '/universities',    'so' => 'زانکۆکان',     'ba' => 'زانکۆ'],
+        ['key' => 'general-info',   'href' => '/general-info',    'so' => 'زانیاری گشتی', 'ba' => 'زانیاری گشتی'],
         ['key' => 'about',          'href' => '/about',           'so' => 'دەربارەی ئێمە','ba' => 'دەربارەی مە'],
     ];
 @endphp

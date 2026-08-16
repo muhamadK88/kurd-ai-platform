@@ -748,10 +748,17 @@ async function kurdaiBootChat() {
 
     function renderMarkdown(text) {
         let out = esc(text);
-        out = out.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => `<pre><code class="lang-${lang || 'text'}">${code}</code></pre>`);
+        /* protect code blocks first so inline rules and <br> never touch their content */
+        const blocks = [];
+        out = out.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+            const token = '__KAI_CODE_' + blocks.length + '__';
+            blocks.push(`<pre><code class="lang-${lang || 'text'}">${code}</code></pre>`);
+            return token;
+        });
         out = out.replace(/`([^`\n]+)`/g, '<code>$1</code>');
         out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
         out = out.replace(/\n/g, '<br>');
+        blocks.forEach((html, i) => { out = out.replace('__KAI_CODE_' + i + '__', html); });
         return out;
     }
 

@@ -505,22 +505,43 @@
         let fergaLangNames = {};
 
         const AI_TOPIC_FALLBACK = {
-            ai_intro: { name_so: 'پێشەکی بۆ ژیری دەستکرد', name_ba: 'دەستپێک بۆ زیرەکیا دەستکرد', icon: '🧠' },
-            ai_data: { name_so: 'داتا و شیکردنەوەی داتا', name_ba: 'داتا و شیکرنا داتایان', icon: '📊' },
-            ai_algo: { name_so: 'بنەڕەتەکانی ئالگۆریتم', name_ba: 'بنەڕەتێن ئالگۆریتم', icon: '⚙️' },
-            ai_ml: { name_so: 'فێربوونی ئامێر (Machine Learning)', name_ba: 'فێربوونا ماکین (Machine Learning)', icon: '🤖' },
-            ai_dl: { name_so: 'فێربوونی قووڵ (Deep Learning)', name_ba: 'فێربوونا کور (Deep Learning)', icon: '🧠' },
-            ai_cv: { name_so: 'بینینی کۆمپیوتەر (Computer Vision)', name_ba: 'دیتنا کۆمپیوتەر (Computer Vision)', icon: '👁️' },
-            ai_nlp: { name_so: 'پرۆسێسکردنی زمان (NLP)', name_ba: 'پێڤاجۆکیرنا زمان (NLP)', icon: '💬' },
-            ai_llm: { name_so: 'مۆدێلی زمانی گەورە و AI پراکتیکی', name_ba: 'مۆدێلێن زمانێن مەزن و AI پراکتیک', icon: '🚀' },
+            ai_course_01: { name_so: 'بنەماکان و فەلسەفەی ژیریی دەستکرد (دەستپێكی تیۆری)', name_ba: 'بنەماکان و فەلسەفەی ژیریی دەستکرد (دەستپێكی تیۆری)', icon: '💭' },
+            ai_course_02: { name_so: 'ئامرازەکانی شیکاری داتا (ئامادەکاری)', name_ba: 'ئامرازەکانی شیکاری داتا (ئامادەکاری)', icon: '📊' },
+            ai_course_03: { name_so: 'ئامار و بیرکاری بۆ ژیریی دەستکرد (بناغەی شاراوە)', name_ba: 'ئامار و بیرکاری بۆ ژیریی دەستکرد (بناغەی شاراوە)', icon: '📐' },
+            ai_course_04: { name_so: 'زانستی داتا (Data Science)', name_ba: 'زانستی داتا (Data Science)', icon: '🔬' },
+            ai_course_05: { name_so: 'ئەلگۆریتمەکان و چارەسەرکردنی کێشە (Algorithms)', name_ba: 'ئەلگۆریتمەکان و چارەسەرکردنی کێشە (Algorithms)', icon: '⚙️' },
+            ai_course_06: { name_so: 'فێربوونی ئامێر (Machine Learning - ML)', name_ba: 'فێربوونی ئامێر (Machine Learning - ML)', icon: '🤖' },
+            ai_course_07: { name_so: 'تۆڕە دەمارییەکان (Neural Networks - NN)', name_ba: 'تۆڕە دەمارییەکان (Neural Networks - NN)', icon: '🕸️' },
+            ai_course_08: { name_so: 'فێربوونی قووڵ (Deep Learning - DL)', name_ba: 'فێربوونی قووڵ (Deep Learning - DL)', icon: '🧠' },
+            ai_course_09: { name_so: 'بینینی کۆمپیوتەر (Computer Vision - CV)', name_ba: 'بینینی کۆمپیوتەر (Computer Vision - CV)', icon: '👁️' },
+            ai_course_10: { name_so: 'پرۆسێسکردنی زمانی سروشتی (Natural Language Processing - NLP)', name_ba: 'پرۆسێسکردنی زمانی سروشتی (Natural Language Processing - NLP)', icon: '💬' },
+        };
+        // باجە جوان و تایبەتەکان بۆ هەر یەک لە ١٠ کۆرسەکانی ژیری دەستکرد
+        const AI_BADGE_META = {
+            ai_course_01: { icon: '💭', grad: 'from-emerald-500 to-teal-500' },
+            ai_course_02: { icon: '📊', grad: 'from-teal-500 to-cyan-500' },
+            ai_course_03: { icon: '📐', grad: 'from-cyan-500 to-sky-500' },
+            ai_course_04: { icon: '🔬', grad: 'from-indigo-500 to-blue-600' },
+            ai_course_05: { icon: '⚙️', grad: 'from-violet-500 to-purple-600' },
+            ai_course_06: { icon: '🤖', grad: 'from-sky-500 to-blue-600' },
+            ai_course_07: { icon: '🕸️', grad: 'from-purple-500 to-fuchsia-600' },
+            ai_course_08: { icon: '🧠', grad: 'from-fuchsia-500 to-pink-600' },
+            ai_course_09: { icon: '👁️', grad: 'from-rose-500 to-red-600' },
+            ai_course_10: { icon: '💬', grad: 'from-amber-500 to-orange-600' },
         };
 
         function fergaLangName(langId) {
-            const l = fergaLangNames[langId];
-            if (l) return currentLang === 'ba' && l.name_ba ? l.name_ba : (l.name_so || l.name || langId);
+            // بۆ کۆرسەکانی ژیری دەستکرد: ناوی ڕاستەقینەی کۆرسەکە لە یەکەم جارەوە بهێنە (نەوەک ئەی ئای کۆرس ١)
             const fb = AI_TOPIC_FALLBACK[langId];
             if (fb) return currentLang === 'ba' ? (fb.name_ba || fb.name_so) : fb.name_so;
+            const l = fergaLangNames[langId];
+            if (l) return currentLang === 'ba' && l.name_ba ? l.name_ba : (l.name_so || l.name || langId);
             return langId;
+        }
+
+        function isAILangId(langId) {
+            // تەنها ئەو کۆرسە ١٠ بەشەی ئێستای ژیری دەستکرد بە AI دادەنرێت
+            return !!AI_TOPIC_FALLBACK[langId];
         }
 
         function renderFergaProgress() {
@@ -528,22 +549,28 @@
             const summaryEl = document.getElementById('ferga-progress-summary');
             if (!container) return;
             const lp = fergaProgressData.lessonProgress || {};
-            const langIds = Object.keys(lp).filter(id => id && id !== 'undefined' && id !== 'null');
-            if (langIds.length === 0) {
+            const allIds = Object.keys(lp).filter(id => id && id !== 'undefined' && id !== 'null');
+            // تەنها کۆرسە هەرمانەکان بهێڵەرەوە — زمانە ڕاستەقینەکان + ئەو ١٠ کۆرسەی ئێستای ژیری دەستکرد
+            const knownIds = allIds.filter(id => {
+                if (AI_TOPIC_FALLBACK[id]) return true;
+                const l = fergaLangNames[id];
+                if (l && !l.is_ai) return true;
+                return false;
+            });
+            const langIds = knownIds.filter(id => !isAILangId(id));
+            const aiIds = knownIds.filter(id => isAILangId(id));
+            if (knownIds.length === 0) {
                 if (summaryEl) summaryEl.innerText = currentLang === 'so' ? 'هێشتا هیچ پێشکەوتنێک تۆمار نەکراوە — لە فێرگە دەست بە خوێندن بکە' : 'هێشتا چ پێشکەفتن نەهاتیە تۆمارکرن — د فێرگە دەست ب خوێندنێ بکە';
                 container.innerHTML = '';
                 return;
             }
-            let totalCompleted = 0; let totalAll = 0;
-            let html = '';
-            langIds.forEach(langId => {
+            const progressCard = (langId) => {
                 const p = lp[langId] || {};
                 const total = p.total || 0;
                 const completed = p.completed || 0;
                 const last = p.lastIndex || 0;
-                totalCompleted += completed; totalAll += total;
                 const percent = total > 0 ? Math.min(100, Math.round((completed / total) * 100)) : 0;
-                html += `
+                return `
                 <div class="bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-5 border border-gray-100/50 dark:border-gray-700/50">
                     <div class="flex items-center justify-between mb-3">
                         <span class="font-black text-gray-900 dark:text-white flex items-center gap-2">${fergaLangName(langId)}${(total > 0 && completed >= total) ? '<span class="text-base" title="' + (currentLang === 'so' ? 'تەواو بوو' : 'دووماهی بوو') + '">' + fergaBadgeMeta(langId).icon + '</span>' : ''}</span>
@@ -555,7 +582,29 @@
                     </div>
                     <p class="text-left text-xs font-black text-emerald-600 dark:text-emerald-400 mt-1.5">${percent}%</p>
                 </div>`;
+            };
+            let html = '';
+            let totalCompleted = 0; let totalAll = 0;
+            knownIds.forEach(id => {
+                totalCompleted += (lp[id].completed || 0);
+                totalAll += (lp[id].total || 0);
             });
+            if (langIds.length > 0) {
+                html += `<div class="md:col-span-2 flex items-center gap-2 mt-2">
+                    <span class="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-base shadow-inner">🌍</span>
+                    <span class="font-black text-gray-900 dark:text-white lang-str" data-so="زمانەکان" data-ba="زوان">زمانەکان</span>
+                    <span class="text-[10px] font-black px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded-full">${langIds.length}</span>
+                </div>`;
+                html += langIds.map(progressCard).join('');
+            }
+            if (aiIds.length > 0) {
+                html += `<div class="md:col-span-2 flex items-center gap-2 mt-6">
+                    <span class="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-base shadow-inner">🤖</span>
+                    <span class="font-black text-gray-900 dark:text-white lang-str" data-so="ژیری دەستکرد" data-ba="زیرەکیا دەستکرد">ژیری دەستکرد</span>
+                    <span class="text-[10px] font-black px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 rounded-full">${aiIds.length}</span>
+                </div>`;
+                html += aiIds.map(progressCard).join('');
+            }
             if (summaryEl) summaryEl.innerText = currentLang === 'so' ? `کۆی گشتی: ${totalCompleted} وانە لە ${totalAll}` : `کۆڤکا گشتی: ${totalCompleted} وانەی ژ ${totalAll}`;
             container.innerHTML = html;
         }
@@ -574,6 +623,7 @@
         let fergaBadgesData = {};
 
         function fergaBadgeMeta(langId) {
+            if (AI_BADGE_META[langId]) return AI_BADGE_META[langId];
             const l = fergaLangNames[langId];
             if (l && l.is_ai) return { icon: l.icon || '🤖', grad: 'from-emerald-500 to-cyan-500' };
             if (AI_TOPIC_FALLBACK[langId]) return { icon: AI_TOPIC_FALLBACK[langId].icon || '🤖', grad: 'from-emerald-500 to-cyan-500' };
@@ -590,20 +640,24 @@
                 const p = lp[id] || {};
                 if ((p.total || 0) > 0 && (p.completed || 0) >= p.total) earnedIds.add(id);
             });
-            if (earnedIds.size === 0) {
+            // تەنها باجەکانی ئەو کۆرسانە بهێڵەرەوە کە هەن (زمانە ڕاستەقینەکان + ١٠ کۆرسی ئێستای ژیری دەستکرد)
+            const validEarned = [...earnedIds].filter(id => AI_TOPIC_FALLBACK[id] || (fergaLangNames[id] && !fergaLangNames[id].is_ai));
+            if (validEarned.length === 0) {
                 container.innerHTML = `<div class="col-span-2 md:col-span-4 text-center py-8 text-sm font-bold text-gray-400 dark:text-gray-500">${currentLang === 'so' ? 'هێشتا هیچ باجێکت بەدەست نەهێناوە — لە فێرگە زمانێک بە تەواوی تەواو بکە!' : 'هێشتا چ باجەکە نەدستی نەکەتیە — د فێرگە زوانەک ب تەمامی دووماهی بکە!'}</div>`;
                 return;
             }
             let html = '';
-            earnedIds.forEach(id => {
+            validEarned.forEach(id => {
                 const meta = fergaBadgeMeta(id);
+                const isAi = !!AI_TOPIC_FALLBACK[id];
                 html += `
-                <div class="group bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-5 border border-gray-100/50 dark:border-gray-700/50 flex flex-col items-center text-center gap-2 hover:-translate-y-1 hover:shadow-lg transition-all cursor-default">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br ${meta.grad} flex items-center justify-center text-4xl shadow-lg ring-4 ring-amber-200/40 dark:ring-amber-900/40">
+                <div class="group bg-gray-50/80 dark:bg-[#111827]/80 rounded-2xl p-5 border border-gray-100/50 dark:border-gray-700/50 flex flex-col items-center text-center gap-2 hover:-translate-y-1 hover:shadow-lg transition-all cursor-default relative overflow-hidden ${isAi ? 'ring-1 ring-emerald-200 dark:ring-emerald-800/40' : ''}">
+                    ${isAi ? '<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-cyan-500 to-emerald-500 opacity-70"></div>' : ''}
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br ${meta.grad} flex items-center justify-center text-4xl shadow-lg ring-4 ring-amber-200/40 dark:ring-amber-900/40 group-hover:scale-110 transition-transform duration-300">
                         ${meta.icon}
                     </div>
                     <span class="text-[10px] font-black text-amber-600 dark:text-amber-400">${currentLang === 'so' ? '🏅 باجی تەواوکراو' : '🏅 باجا دووماهی'}</span>
-                    <h4 class="font-black text-xs text-gray-800 dark:text-gray-200">${fergaLangName(id)}</h4>
+                    <h4 class="font-black text-xs text-gray-800 dark:text-gray-200 line-clamp-2 text-center">${fergaLangName(id)}</h4>
                 </div>`;
             });
             container.innerHTML = html;

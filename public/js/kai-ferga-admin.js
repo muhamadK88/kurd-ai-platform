@@ -77,6 +77,12 @@
                     .then(function (authMod) {
                         var app = appMod.getApps().length ? appMod.getApp() : appMod.initializeApp(cfg);
                         var auth = authMod.getAuth(app);
+                        var logoutBtn = $('logout-btn');
+                        if (logoutBtn) {
+                            logoutBtn.addEventListener('click', function () {
+                                authMod.signOut(auth).then(function () { window.location.href = '/login'; });
+                            });
+                        }
                         authMod.onAuthStateChanged(auth, function (user) {
                             authUser = user;
                             boot();
