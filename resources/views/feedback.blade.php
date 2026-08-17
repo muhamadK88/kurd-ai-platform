@@ -64,12 +64,11 @@
 
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="module">
-        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-        const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+        const KaiF = window.KaiFirebase || {};
+        const auth = KaiF.auth ? KaiF.auth() : null;
+        const onAuthStateChanged = KaiF.onAuthStateChanged || function () {};
+        const signOut = KaiF.signOut || (function () { return Promise.resolve(); });
+        KaiTrack.visit('feedback');
 
         let currentLang = localStorage.getItem('site-lang') || 'so';
 
@@ -92,9 +91,9 @@
             localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
         });
 
-        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
+        document.getElementById('logout-btn').addEventListener('click', () => signOut().then(() => window.location.href = "/login"));
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged((user) => {
             /* body visible instantly */
             applyLanguage();
         });

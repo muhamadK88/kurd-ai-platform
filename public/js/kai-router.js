@@ -23,6 +23,22 @@
    anything marked data-kai-shared) stay in the <head> and bind ONCE;
    kurdai-ui.js + kurdai-nav.js re-scan the DOM via MutationObserver when
    new content appears.
+
+   v18 — Enterprise hardening:
+     • SPA ALLOWLIST: only the public section pages are intercepted.
+       Auth/admin/forms (login, dashboard, admin/chat-analytics,
+       knowledge, ferga_admin, edit, ...) go native immediately —
+       zero wasted fetches, zero AbortError noise on those routes.
+     • RACE-FREE NAVIGATION: a click owns a token; the 3s fallback timer
+       and the fetch catch can never both navigate. AbortError (browser
+       aborting the PJAX fetch during the fallback reload) is swallowed
+       silently — it is an expected side-effect, not a failure.
+     • NO ABORT ON THE NAV PATH: the nav fetch has no AbortController at
+       all; only background warm() fetches abort (after 6s) so hung
+       prefetches can never pin a fetcher entry.
+     • FLASH-FREE CSS: new stylesheets are appended non-blocking
+       (media="print" -> all) before the swap; stale stylesheets are
+       pruned after the new page settles — no FOUC, no jank.
    ========================================================================== */
 (function () {
     'use strict';
@@ -32,6 +48,20 @@
     var cache = {};      /* pathname+search -> { content, scripts, css, title, bodyClass } */
     var fetchers = {};   /* pathname+search -> shared in-flight fetch promise */
     var navToken = null; /* identity of the latest navigation click */
+
+    /* ---------- SPA isolation ----------
+       Only public section pages are SPA-swappable. Every other route
+       (auth, admin, forms, API-ish pages) falls through to a native
+       full page load. This is the FIRST gate, checked before any fetch,
+       so non-SPA links never cost a byte or log an error. */
+    var SPA_PATHS = {
+        '/': 1, '/ferga': 1, '/courses': 1, '/news': 1, '/ai-tools': 1,
+        '/academic-guide': 1, '/universities': 1, '/general-info': 1,
+        '/about': 1, '/feedback': 1, '/profile': 1
+    };
+    function isSpaPath(pathname) {
+        return SPA_PATHS[pathname] === 1;
+    }
 
     /* ---------- page transition ----------
        Keep navigation synchronous. Native View Transitions can retain a
@@ -54,6 +84,8 @@
         var p = new URL(a.href, location.href);
         if (p.origin !== location.origin) return false;
         if (p.protocol !== 'http:' && p.protocol !== 'https:') return false;
+        /* STRICT isolation: non-SPA routes are never intercepted. */
+        if (!isSpaPath(p.pathname)) return false;
         return true;
     }
 
@@ -71,15 +103,6 @@
         return out;
     }
 
-    function currentCss() {
-        var css = [], seen = {}, href;
-        document.querySelectorAll('link[rel="stylesheet"]').forEach(function (l) {
-            href = l.getAttribute('href');
-            if (href && !seen[href]) { seen[href] = 1; css.push(href); }
-        });
-        return css;
-    }
-
     function extractHead(doc) {
         var css = [], seen = {}, i, href;
         var l = doc.querySelectorAll('link[rel="stylesheet"]');
@@ -90,26 +113,38 @@
         return { css: css, title: doc.title || '' };
     }
 
+    /* Flash-free CSS sync: append the new page's stylesheets with the
+       print-media trick (never render-blocking), then prune stylesheets
+       the new page does not reference once it has settled. Old CSS stays
+       applied during the swap so there is no white/unstyled flash. */
+    var lastCss = [];
     function syncHead(page) {
-        var i, href, want = {}, add = [], have = {};
-        for (i = 0; i < page.css.length; i++) {
-            href = page.css[i];
-            if (!want[href]) { want[href] = 1; add.push(href); }
-        }
+        var have = {};
         document.querySelectorAll('link[rel="stylesheet"]').forEach(function (l) {
-            href = l.getAttribute('href');
-            if (href && !want[href]) l.remove();           /* drop old page's css */
-            else if (href) have[href] = 1;
+            var href = l.getAttribute('href');
+            if (href) have[href] = 1;
         });
-        for (i = 0; i < add.length; i++) {
-            if (!have[add[i]]) {
+        page.css.forEach(function (href) {
+            if (!have[href]) {
                 var nl = document.createElement('link');
                 nl.rel = 'stylesheet';
-                nl.href = add[i];
-                document.head.appendChild(nl);             /* add new page's css */
+                nl.href = href;
+                nl.media = 'print';
+                nl.onload = function () { nl.media = 'all'; };
+                document.head.appendChild(nl);
             }
-        }
+        });
+        lastCss = page.css;
         if (page.title) document.title = page.title;
+    }
+
+    function pruneCss(page) {
+        var want = {};
+        page.css.forEach(function (href) { want[href] = 1; });
+        document.querySelectorAll('link[rel="stylesheet"]').forEach(function (l) {
+            var href = l.getAttribute('href');
+            if (href && !want[href]) l.remove();
+        });
     }
 
     /* Shell elements survive every swap untouched. The router owns
@@ -184,8 +219,9 @@
 
     function parsePage(html, k) {
         var doc = new DOMParser().parseFromString(html, 'text/html');
-        /* Pages without the shared navigation are auth/admin flows and
-           should keep their normal full-page lifecycle. */
+        /* Defense-in-depth: pages without the shared navigation are
+           auth/admin flows and must keep their normal full-page lifecycle.
+           (The SPA allowlist above already prevents fetching these.) */
         if (!document.querySelector('.ka-nav') || !doc.querySelector('.ka-nav')) {
             throw new Error('page is not SPA-compatible');
         }
@@ -206,15 +242,26 @@
     /* Shared, deduplicated fetch: warm() and nav() await the SAME promise,
        so hovering a link starts the request and a click on it swaps from
        memory with zero extra network cost. Rapid clicks never fire
-       duplicate requests and never abort each other. */
+       duplicate requests and never abort each other.
+
+       The NAV path carries NO AbortController: only the nav() fallback
+       timer decides when a slow response gives up (full page load). A
+       browser abort during that fallback is expected and handled silently
+       in nav() — it is no longer a source of console noise or double
+       navigation. Warm() prefetches do abort after 6s so a hung
+       background request can never pin its fetcher entry forever. */
     function getPage(href, priority) {
         var p = new URL(href, location.href);
         var k = keyOf(p);
         if (cache[k]) return Promise.resolve(cache[k]);
         if (fetchers[k]) return fetchers[k];
 
-        var controller = window.AbortController ? new AbortController() : null;
-        var timeout = setTimeout(function () { if (controller) controller.abort(); }, 8000);
+        var isWarm = priority === 'low';
+        var controller = (isWarm && window.AbortController) ? new AbortController() : null;
+        var timeout = null;
+        if (controller) {
+            timeout = setTimeout(function () { controller.abort(); }, 6000);
+        }
 
         var promise = fetch(p.href, {
             credentials: 'same-origin',
@@ -227,15 +274,15 @@
                 return r.text();
             })
             .then(function (html) {
-                clearTimeout(timeout);
+                if (timeout) clearTimeout(timeout);
                 return parsePage(html, k);
             });
         fetchers[k] = promise;
         promise.then(function () {
-            clearTimeout(timeout);
+            if (timeout) clearTimeout(timeout);
             if (fetchers[k] === promise) delete fetchers[k];
         }, function () {
-            clearTimeout(timeout);
+            if (timeout) clearTimeout(timeout);
             if (fetchers[k] === promise) delete fetchers[k];
         });
         return promise;
@@ -290,11 +337,11 @@
             if (isScriptEl(el)) el.remove();
         });
 
-        /* requirement 1 + 2: clear only #main-content, then insert only the
-           parsed target content. The old body/nav/footer are never nested.
-           The cached nodes are already detached clones, so appending them
-           directly (instead of re-cloning the whole tree on every swap)
-           keeps the swap cheap on the large pages. */
+        /* clear only #main-content, then insert only the parsed target
+           content. The old body/nav/footer are never nested. The cached
+           nodes are already detached clones, so appending them directly
+           (instead of re-cloning the whole tree on every swap) keeps the
+           swap cheap on the large pages. */
         var frag = document.createDocumentFragment();
         page.content.forEach(function (node) {
             frag.appendChild(node);
@@ -319,7 +366,7 @@
         });
         window.scrollTo(0, 0);
 
-        /* requirement 4: re-execute the scripts that belong to the new page */
+        /* re-execute the scripts that belong to the new page */
         page.scripts.forEach(exec);
     }
 
@@ -389,6 +436,9 @@
             /* late passes: catch loading/veil classes dropped after the swap */
             setTimeout(sweepStuck, 250);
             setTimeout(sweepStuck, 900);
+            /* prune stylesheets the new page does not reference, once it
+               has settled — prevents CSS accumulation across swaps */
+            setTimeout(function () { pruneCss(page); }, 1200);
             return true;
         } catch (error) {
             console.error('[kai-router] navigation failed', error);
@@ -398,10 +448,18 @@
         }
     }
 
+    /* Single-navigation guarantee. A click owns `token`; exactly ONE of
+       the following may navigate to the target:
+         1. the fallback timer (slow response -> native reload), or
+         2. the PJAX success path (in-place swap).
+       The fetch catch NEVER navigates if the fallback already did — that
+       was the old double-navigation bug. AbortError is logged silently:
+       it simply means the browser cancelled the PJAX fetch while the
+       fallback reload was starting, which is expected behaviour. */
     function nav(href) {
         var p = new URL(href, location.href);
         var k = keyOf(p);
-        var token = {};
+        var token = { navigated: false };
 
         /* this click is now the latest — supersede any in-flight fetch */
         navToken = token;
@@ -415,15 +473,16 @@
             return;
         }
 
-        /* Never leave a click trapped behind a slow response. If the PJAX
-           request has not produced a usable page quickly, let the browser
-           perform a normal navigation. This is safer than keeping the old
-           page apparently frozen while an application request hangs. Most
-           clicks hit the pre-warmed cache anyway; the generous window here
-           prefers letting a slow-but-working PJAX fetch complete in-place
-           over forcing a full page reload. */
+        /* If the PJAX request has not produced a usable page quickly, let
+           the browser perform a normal navigation. This is safer than
+           keeping the old page apparently frozen while an application
+           request hangs. Most clicks hit the pre-warmed cache anyway. */
         var fallbackTimer = setTimeout(function () {
-            if (navToken === token) window.location.assign(p.href);
+            if (navToken === token && !token.navigated) {
+                token.navigated = true;
+                navToken = null;
+                window.location.assign(p.href);
+            }
         }, 3000);
 
         getPage(p.href, 'high').then(function () {
@@ -438,19 +497,30 @@
             });
         }).catch(function (error) {
             clearTimeout(fallbackTimer);
+            /* If the fallback timer already started a native reload (or a
+               newer click superseded this one), do nothing more. */
+            if (token.navigated) return;
             if (navToken !== token) return;
-            console.error('[kai-router] navigation failed', error);
+            token.navigated = true;
+            navToken = null;
+            /* An AbortError here is the browser cancelling the PJAX fetch
+               because the fallback reload is in flight — or the user
+               pressed stop. Neither needs console noise. */
+            if (!error || error.name !== 'AbortError') {
+                console.error('[kai-router] navigation failed', error);
+            }
             window.location.assign(p.href);
         });
     }
 
     /* Pre-warm a page into the in-memory cache without touching the DOM.
        The prefetch layer calls this on pointerover/pointerdown so a click
-       after a hover swaps instantly from cache. */
+       after a hover swaps instantly from cache. Only SPA routes warm. */
     function warm(href) {
         var p = new URL(href, location.href);
         if (p.origin !== location.origin) return;
         if (p.protocol !== 'http:' && p.protocol !== 'https:') return;
+        if (!isSpaPath(p.pathname)) return;
         var k = keyOf(p);
         if (cache[k] || fetchers[k]) return;
         getPage(p.href, 'low').catch(function () {});
@@ -480,7 +550,7 @@
         }, true);
 
         /* Prefetch dynamically-created links without attaching listeners to
-           individual anchors. */
+           individual anchors. interceptable() limits this to SPA routes. */
         document.addEventListener('pointerover', function (e) {
             var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
             if (a && interceptable(a)) warm(a.href);
@@ -534,6 +604,7 @@
     window.addEventListener('popstate', function (e) {
         var k = location.pathname + (location.search || '');
         if (cache[k]) {
+            syncHead(cache[k]);
             withTransition(function () {
                 commit(cache[k], location.href);
             });

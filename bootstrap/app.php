@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: '*');
 
+        // Anonymous usage beacon: fire-and-forget visit/login events.
+        $middleware->validateCsrfTokens(except: ['api/analytics/visit']);
+
         // Compress HTML/JSON and add Cache-Control headers on every response.
         $middleware->append(\App\Http\Middleware\CompressResponse::class);
         $middleware->append(\App\Http\Middleware\AddCacheHeaders::class);

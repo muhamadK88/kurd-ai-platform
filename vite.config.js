@@ -8,14 +8,25 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    build: {
+        build: {
+        target: 'esnext',
+        minify: 'terser',
+        cssCodeSplit: true,
         rollupOptions: {
             output: {
-                // Vendor libraries in their own chunk so a change to app.js
-                // doesn't invalidate the browser cache for the big deps.
-                manualChunks: {
-                    vendor: ['alpinejs', 'axios'],
+                manualChunks(id) {
+                    if (id.includes('node_modules')) {
+                        if (id.includes('alpinejs')) return 'alpine';
+                        if (id.includes('axios')) return 'axios';
+                        return 'vendor';
+                    }
                 },
+            },
+        },
+        terserOptions: {
+            compress: {
+                drop_console: true,
+                drop_debugger: true,
             },
         },
     },

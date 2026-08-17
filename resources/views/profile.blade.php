@@ -358,14 +358,15 @@
 
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="module">
-        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref, onValue, remove } from "/js/firebase10/firebase-database.js";
 
-        const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
+        const KaiF = window.KaiFirebase || {};
+        const app = KaiF.app ? KaiF.app() : null;
+        const db = app ? getDatabase(app) : null;
+        const auth = KaiF.auth ? KaiF.auth() : null;
+        const onAuthStateChanged = KaiF.onAuthStateChanged || function () {};
+        const signOut = KaiF.signOut || (function () { return Promise.resolve(); });
+        KaiTrack.visit('profile');
 
         let currentLang = localStorage.getItem('site-lang') || 'so';
         let isAdmin = false;
@@ -675,7 +676,7 @@
             if (user) remove(ref(db, 'favorites/' + user.uid + '/ai_tools/' + toolId));
         };
 
-        onAuthStateChanged(auth, (user) => { 
+        onAuthStateChanged((user) => { 
             if(!user) {
                 window.location.href = "/login"; 
             } else { 
@@ -746,7 +747,7 @@
             }
         });
         
-        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
+        document.getElementById('logout-btn').addEventListener('click', () => signOut().then(() => window.location.href = "/login"));
     </script>
 @include('components.chat-widget')
 </body>

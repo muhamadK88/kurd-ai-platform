@@ -8,6 +8,8 @@ use App\Http\Controllers\ChatSessionController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\KnowledgeBaseController;
 use App\Http\Controllers\ChatAnalyticsController;
+use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\AdminAnalyticsController;
 Route::get('/', function () {
     return view('home'); // بینێرە بۆ home.blade.php
 });
@@ -24,6 +26,13 @@ Route::get('/api/chat/quota', [ChatbotController::class, 'quota']);
 Route::post('/api/chat/messages/{id}/reaction', [ChatSessionController::class, 'react']);
 Route::get('/admin/chat-analytics', [ChatAnalyticsController::class, 'page']);
 Route::get('/api/admin/chat-analytics', [ChatAnalyticsController::class, 'data']);
+
+// ==========================================
+// ئامارەکانی بەکارهێنان (Site Analytics) — تەنها ئەدمین
+// Blade Auth (Laravel session) یان Firebase tokenی ئەدمین
+// ==========================================
+Route::post('/api/analytics/visit', [AnalyticsController::class, 'track']);
+Route::get('/api/admin/analytics', [AdminAnalyticsController::class, 'data']);
 
 // ==========================================
 // بەشی فیدباک (Feedback)

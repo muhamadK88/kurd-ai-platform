@@ -225,15 +225,15 @@
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="application/json" id="kurdai-imgbb-config">{!! json_encode(config('kurdai.imgbb.api_key'), 15) !!}</script>
     <script type="module">
-        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getDatabase, ref as dbRef, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref as dbRef, push, set, onValue } from "/js/firebase10/firebase-database.js";
 
-        const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
-
+        const KaiF = window.KaiFirebase || {};
+        const app = KaiF.app ? KaiF.app() : null;
+        let db = app ? getDatabase(app) : null;
+        const auth = KaiF.auth ? KaiF.auth() : null;
+        const onAuthStateChanged = KaiF.onAuthStateChanged || function () {};
+        const signOut = KaiF.signOut || (function () { return Promise.resolve(); });
+        KaiTrack.visit('ai_tools');
         const IMGBB_API_KEY = JSON.parse((document.getElementById('kurdai-imgbb-config') || {}).textContent || 'null');
 
         let currentLang = localStorage.getItem('site-lang') || 'so';
@@ -380,10 +380,14 @@
             renderTools(firebaseDataCache);
         };
 
-        onValue(dbRef(db, 'ai_tools'), (snapshot) => {
-            firebaseDataCache = snapshot.val() || {};
-            renderTools(firebaseDataCache);
-        });
+        function subscribeTools(fdb) {
+            onValue(dbRef(fdb, 'ai_tools'), (snapshot) => {
+                firebaseDataCache = snapshot.val() || {};
+                renderTools(firebaseDataCache);
+            });
+        }
+        if (db) subscribeTools(db);
+        else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeTools(db); } });
 
         applyLanguage();
 
@@ -450,12 +454,12 @@
             }
         });
 
-        onAuthStateChanged(auth, (user) => { 
+        onAuthStateChanged((user) => { 
             if (user && ["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
             }
         });
-        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
+        document.getElementById('logout-btn').addEventListener('click', () => signOut().then(() => window.location.href = "/login"));
     </script>
 @include('components.chat-widget')
 </body>

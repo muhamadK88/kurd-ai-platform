@@ -96,29 +96,32 @@
             <p class="text-gray-600 dark:text-gray-400 font-medium lang-str" data-so="بۆ پەیوەندی کردن زانیاری ئەندامان دەتوانیت لە ڕێگەی ئیمێڵ، ژمارە موبایل یان فەیسبووکەوە پەیوەندی بکەیت" data-ba="بۆ پەیوەندیکرن و دیتنا زانیاریێن ئەندامان دشێی ب ڕێکا ئیمێلی، ژمارا موبایلی یان فەیسبووکی پەیوەندیێ بکەی">بۆ پەیوەندی کردن و بەسەرکردنەوەی زانیاری ئەندامان دەتوانیت لە ڕێگەی ئیمێڵ، ژمارە موبایل یان فەیسبووکەوە پەیوەندی بکەیت</p>
         </div>
 
-        <!-- 3 Team Members Cards Grid -->
-        <div id="about-team-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <!-- 4 Team Members Cards Grid (Fixed Height Alignment with h-full & flex-1) -->
+        <div id="about-team-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             
             <!-- Member 1 -->
-            <div class="glass-card p-8 rounded-[2.5rem] shadow-xl border-t-4 border-blue-600 flex flex-col justify-between hover:shadow-2xl transition-all duration-300 group">
-                <div class="kai-id-strip flex items-center justify-between gap-3 pb-4 mb-6">
-                    <span class="kai-id-badge">AGENT-001</span>
-                    <span class="kai-id-status"><i></i>ONLINE</span>
-                </div>
-                <div>
-                    <!-- وێنەی ئەندامی یەکەم -->
-                    <div class="relative w-28 h-28 mx-auto mb-6">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-full blur-md opacity-50 group-hover:opacity-80 transition duration-300"></div>
-                        <img src="muhamad.jpg" alt="Member 1" class="relative w-28 h-28 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg">
+            <div class="glass-card p-8 rounded-[2.5rem] shadow-xl border-t-4 border-blue-600 flex flex-col h-full hover:shadow-2xl transition-all duration-300 group">
+                <div class="flex-1 flex flex-col">
+                    <div class="kai-id-strip flex items-center justify-between gap-3 pb-4 mb-6">
+                        <span class="kai-id-badge">AGENT-001</span>
+                        <span class="kai-id-status"><i></i>ONLINE</span>
                     </div>
-                    <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">محمد کامران حمەساڵح</h4>
-                    <p class="text-blue-600 dark:text-blue-400 font-bold text-center text-sm mb-6">زانکۆی ئاکرێ بۆ زانستە کردارییەکان - قۆناغی سێیەم</p>
-<p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="خوێندکاری بەشی ژیریی دەستکرد لە زانکۆی ئاکرێ و دامەزرێنەری پلاتفۆرمی کورد ئەی ئای. پەرەپێدەرێکی لێهاتووی سیستەمە زیرەکەکان و وێب، ئامانجی سەرەکی دروستکردنی ئامرازی پێشکەوتوو و ئاسانکردنی ژیانی ئەکادیمییە بۆ فێرخوازان." data-ba="قوتابیێ بەشێ ژیرییا دەستکرد ل زانکۆیا ئاکرێ و دامەزرێنەرێ پلاتفۆرمێ کورد ئەی ئای. پێشڤەبەرەکێ لێهاتی یێ سیستەمێن زیرەک و وێبی، ئارمانجا سەرەکی چێکرنا ئامرازێن پێشکەفتی و ساناهیکرنا ژیانا ئەکادیمی یە بۆ قوتابیان.">خوێندکاری بەشی ژیریی دەستکرد لە زانکۆی ئاکرێ و دامەزرێنەری پلاتفۆرمی کورد ئەی ئای. پەرەپێدەرێکی لێهاتووی سیستەمە زیرەکەکان و وێب، ئامانجی سەرەکی دروستکردنی ئامرازی پێشکەوتوو و ئاسانکردنی ژیانی ئەکادیمییە بۆ فێرخوازان.</p>                </div>
+                    <div>
+                        <!-- وێنەی ئەندامی یەکەم -->
+                        <div class="relative w-28 h-28 mx-auto mb-6">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-full blur-md opacity-50 group-hover:opacity-80 transition duration-300"></div>
+                            <img src="muhamad.jpg" alt="Member 1" class="relative w-28 h-28 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg">
+                        </div>
+                        <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">محمد کامران حمەساڵح</h4>
+                        <p class="text-blue-600 dark:text-blue-400 font-bold text-center text-sm mb-6">زانکۆی ئاکرێ بۆ زانستە کردارییەکان - قۆناغی سێیەم</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="خوێندکاری بەشی ژیریی دەستکرد لە زانکۆی ئاکرێ و دامەزرێنەری پلاتفۆرمی کورد ئەی ئای. پەرەپێدەرێکی لێهاتووی سیستەمە زیرەکەکان و وێب، ئامانجی سەرەکی دروستکردنی ئامرازی پێشکەوتوو و ئاسانکردنی ژیانی ئەکادیمییە بۆ فێرخوازان." data-ba="قوتابیێ بەشێ ژیرییا دەستکرد ل زانکۆیا ئاکرێ و دامەزرێنەرێ پلاتفۆرمێ کورد ئەی ئای. پێشڤەبەرەکێ لێهاتی یێ سیستەمێن زیرەک و وێبی، ئارمانجا سەرەکی چێکرنا ئامرازێن پێشکەفتی و ساناهیکرنا ژیانا ئەکادیمی یە بۆ قوتابیان.">خوێندکاری بەشی ژیریی دەستکرد لە زانکۆی ئاکرێ و دامەزرێنەری پلاتفۆرمی کورد ئەی ئای. پەرەپێدەرێکی لێهاتووی سیستەمە زیرەکەکان و وێب، ئامانجی سەرەکی دروستکردنی ئامرازی پێشکەوتوو و ئاسانکردنی ژیانی ئەکادیمییە بۆ فێرخوازان.</p>
+                    </div>
+                </div>
                 
-                <div class="space-y-3 pt-6 border-t border-gray-200/50 dark:border-gray-700/50">
+                <div class="space-y-3 pt-6 border-t border-gray-200/50 dark:border-gray-700/50 mt-auto">
                     <a href="mailto:mahamadkamaran890@gmail.com" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
                         <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        <span dir="ltr">mahamadkamaran890@gmail.com</span>
+                        <span dir="ltr">Email</span>
                     </a>
                     <a href="tel:+964XXXXXXXXX" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
                         <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
@@ -136,29 +139,43 @@
             </div>
 
             <!-- Member 2 -->
-            <div class="glass-card p-8 rounded-[2.5rem] shadow-xl border-t-4 border-purple-600 flex flex-col justify-between hover:shadow-2xl transition-all duration-300 group">
-                <div class="kai-id-strip flex items-center justify-between gap-3 pb-4 mb-6">
-                    <span class="kai-id-badge">AGENT-002</span>
-                    <span class="kai-id-status"><i></i>ONLINE</span>
-                </div>
-                <div>
-                    <!-- وێنەی ئەندامی دووەم -->
-                    <div class="relative w-28 h-28 mx-auto mb-6">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-purple-600 to-pink-500 rounded-full blur-md opacity-50 group-hover:opacity-80 transition duration-300"></div>
-                        <img src="rastgo.jpg" alt="Member 2" class="relative w-28 h-28 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg">
+            <div class="glass-card p-8 rounded-[2.5rem] shadow-xl border-t-4 border-purple-600 flex flex-col h-full hover:shadow-2xl transition-all duration-300 group">
+                <div class="flex-1 flex flex-col">
+                    <div class="kai-id-strip flex items-center justify-between gap-3 pb-4 mb-6">
+                        <span class="kai-id-badge">AGENT-002</span>
+                        <span class="kai-id-status"><i></i>ONLINE</span>
                     </div>
-                    <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">ڕاستگۆ تۆفیق حسێن</h4>
-                    <p class="text-purple-600 dark:text-purple-400 font-bold text-center text-sm mb-6">زانکۆی زاخۆ-قۆناغی دووەم</p>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="جێبەجێکاری لایەنی هونەری و نوسەری ناوەڕۆک و  بڵاوکراوەکانی کورد ئەی ئای شارەزا لە بواری سیستەمی پەروەردە و خوێندنی باڵا 
-Tech Evangelism& AI Literacy." data-ba="جێبەجێکارێ لایەنێ هونەری و نڤیسەرێ ناڤەرۆکێ و بەلاڤکرییێن کورد ئەی ئای، شارەزا د بوارێ سیستەمێن پەروەردەیێ و خواندنا بلند دا
-Tech Evangelism &amp; AI Literacy.">جێبەجێکاری لایەنی هونەری و نوسەری ناوەڕۆک و  بڵاوکراوەکانی کورد ئەی ئای شارەزا لە بواری سیستەمی پەروەردە و خوێندنی باڵا 
+                    <div>
+                        <!-- وێنەی ئەندامی دووەم -->
+                        <div class="relative w-28 h-28 mx-auto mb-6">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-purple-600 to-pink-500 rounded-full blur-md opacity-50 group-hover:opacity-80 transition duration-300"></div>
+                            <img src="rastgo.jpg" alt="Member 2" class="relative w-28 h-28 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg">
+                        </div>
+                        <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">ڕاستگۆ تۆفیق حسێن</h4>
+                        <p class="text-purple-600 dark:text-purple-400 font-bold text-center text-sm mb-6">زانکۆی زاخۆ-قۆناغی دووەم</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="AI engineering 
+دامەزرێنەری تیمی کورد ئەی ئای سەرپەرشتیاری لایەنی هونەری و بڵاوکراوەکانی ناوەندی کورد ئەی ئای
+شارەزا لە بواری تیۆری و هۆشیاری کۆمەڵایەتی لە ژیری دەستکرد و سیستەمەکانی خوێندن 
+AI evangelist 
+AI Literacy
+Tech Evangelism& AI Literacy." data-ba="AI engineering 
+دامەزرێنەری تیمی کورد ئەی ئای سەرپەرشتیاری لایەنی هونەری و بڵاوکراوەکانی ناوەندی کورد ئەی ئای
+شارەزا لە بواری تیۆری و هۆشیاری کۆمەڵایەتی لە ژیری دەستکرد و سیستەمەکانی خوێندن 
+AI evangelist 
+AI Literacy 
+Tech Evangelism &amp; AI Literacy.">AI engineering 
+دامەزرێنەری تیمی کورد ئەی ئای سەرپەرشتیاری لایەنی هونەری و بڵاوکراوەکانی ناوەندی کورد ئەی ئای
+شارەزا لە بواری تیۆری و هۆشیاری کۆمەڵایەتی لە ژیری دەستکرد و سیستەمەکانی خوێندن 
+AI evangelist 
+AI Literacy 
 Tech Evangelism& AI Literacy.</p>
+                    </div>
                 </div>
                 
-                <div class="space-y-3 pt-6 border-t border-gray-200/50 dark:border-gray-700/50">
+                <div class="space-y-3 pt-6 border-t border-gray-200/50 dark:border-gray-700/50 mt-auto">
                     <a href="mailto:rastgotofeq0@gmail.com" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
                         <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        <span dir="ltr">astgotofeq0@gmail.com</span>
+                        <span dir="ltr">Email</span>
                     </a>
                     <a href="tel:+9647708913535" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
                         <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
@@ -176,26 +193,28 @@ Tech Evangelism& AI Literacy.</p>
             </div>
 
             <!-- Member 3 -->
-            <div class="glass-card p-8 rounded-[2.5rem] shadow-xl border-t-4 border-teal-500 flex flex-col justify-between hover:shadow-2xl transition-all duration-300 group">
-                <div class="kai-id-strip flex items-center justify-between gap-3 pb-4 mb-6">
-                    <span class="kai-id-badge">AGENT-003</span>
-                    <span class="kai-id-status"><i></i>ONLINE</span>
-                </div>
-                <div>
-                    <!-- وێنەی ئەندامی سێیەم -->
-                    <div class="relative w-28 h-28 mx-auto mb-6">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-teal-500 to-emerald-500 rounded-full blur-md opacity-50 group-hover:opacity-80 transition duration-300"></div>
-                        <img src="ali.jpg" alt="Member 3" class="relative w-28 h-28 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg">
+            <div class="glass-card p-8 rounded-[2.5rem] shadow-xl border-t-4 border-teal-500 flex flex-col h-full hover:shadow-2xl transition-all duration-300 group">
+                <div class="flex-1 flex flex-col">
+                    <div class="kai-id-strip flex items-center justify-between gap-3 pb-4 mb-6">
+                        <span class="kai-id-badge">AGENT-003</span>
+                        <span class="kai-id-status"><i></i>ONLINE</span>
                     </div>
-                    <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">علی عارف محمد </h4>
-                    <p class="text-teal-600 dark:text-teal-400 font-bold text-center text-sm mb-6">AI engineering 3rd grade</p>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="جێبەجێکارێ تەکنیکی و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکر" data-ba="جێبەجێکارێ تەکنیکی و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکرد">جێبەجێکارێ تەکنیکی و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکر</p>
+                    <div>
+                        <!-- وێنەی ئەندامی سێیەم -->
+                        <div class="relative w-28 h-28 mx-auto mb-6">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-teal-500 to-emerald-500 rounded-full blur-md opacity-50 group-hover:opacity-80 transition duration-300"></div>
+                            <img src="ali.jpg" alt="Member 3" class="relative w-28 h-28 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg">
+                        </div>
+                        <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">علی عارف محمد </h4>
+                        <p class="text-teal-600 dark:text-teal-400 font-bold text-center text-sm mb-6">AI engineering 3rd grade</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="جێبەجێکارێ تەکنیکی و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکر" data-ba="جێبەجێکارێ تەکنیکی و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکرد">جێبەجێکارێ تەکنیکی و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکر</p>
+                    </div>
                 </div>
                 
-                <div class="space-y-3 pt-6 border-t border-gray-200/50 dark:border-gray-700/50">
+                <div class="space-y-3 pt-6 border-t border-gray-200/50 dark:border-gray-700/50 mt-auto">
                     <a href="mailto:ali.ai2004.20@gmail.com" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
                         <svg class="w-4 h-4 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        <span dir="ltr">ali.ai2004.20@gmail.com<span>
+                        <span dir="ltr">Email</span>
                     </a>
                     <a href="tel:+9647511826231" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
                         <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
@@ -212,90 +231,44 @@ Tech Evangelism& AI Literacy.</p>
                 </div>
             </div>
 
+            <!-- Member 4 -->
+            <div class="glass-card p-8 rounded-[2.5rem] shadow-xl border-t-4 border-amber-500 flex flex-col h-full hover:shadow-2xl transition-all duration-300 group">
+                <div class="flex-1 flex flex-col">
+                    <div class="kai-id-strip flex items-center justify-between gap-3 pb-4 mb-6">
+                        <span class="kai-id-badge">AGENT-004</span>
+                        <span class="kai-id-status"><i></i>ONLINE</span>
+                    </div>
+                    <div>
+                        <!-- وێنەی ئەندامی چوارەم -->
+                        <div class="relative w-28 h-28 mx-auto mb-6">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-amber-500 to-orange-500 rounded-full blur-md opacity-50 group-hover:opacity-80 transition duration-300"></div>
+                            <img src="sima.jpg" alt="Member 4" class="relative w-28 h-28 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg">
+                        </div>
+                        <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">سیما هێمن شەریف</h4>
+                        <p class="text-amber-600 dark:text-amber-400 font-bold text-center text-sm mb-6">خوێندکاری ئەندازیاری ژیری دەستکرد و ڕۆبۆتیکس - قۆناغی سێیەم - هەولێر</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="بەشداری لە گەشەپێدانی بواری ڕۆبۆتیکس و دروستکردنی سیستەمە زیرەکەکان، تێکەڵکردنی مۆدێلەکانی AI لەگەڵ هاردوێر و ڕۆبۆتەکان، و پەرەپێدانی بیرۆکە و پرۆژەی نوێ بۆ بەرزکردنەوەی ئاستی زانستی و تەکنەلۆژیای قوتابیانی کوردستان." data-ba="بەشداری لە گەشەپێدانی بواری ڕۆبۆتیکس و دروستکردنی سیستەمە زیرەکەکان، تێکەڵکردنی مۆدێلەکانی AI لەگەڵ هاردوێر و ڕۆبۆتەکان، و پەرەپێدانی بیرۆکە و پرۆژەی نوێ بۆ بەرزکردنەوەی ئاستی زانستی و تەکنەلۆژیای قوتابیانی کوردستان."> بەشداری لە گەشەپێدانی بواری ڕۆبۆتیکس و دروستکردنی سیستەمە زیرەکەکان، تێکەڵکردنی مۆدێلەکانی AI لەگەڵ هاردوێر و ڕۆبۆتەکان، و پەرەپێدانی بیرۆکە و پرۆژەی نوێ بۆ بەرزکردنەوەی ئاستی زانستی و تەکنەلۆژیای قوتابیانی کوردستان</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-3 pt-6 border-t border-gray-200/50 dark:border-gray-700/50 mt-auto">
+                    <a href="mailto:Simahemin25@gmail.com" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
+                        <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        <span dir="ltr">Email</span>
+                    </a>
+                    
+                    <a href="https://www.facebook.com/share/1TimMctkTt/" target="_blank" class="flex items-center gap-3 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 transition bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl">
+                        <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                        <span class="lang-str" data-so="کلیک لێرە بکە" data-ba="کلیک ل ڤێرێ بکە">کلیک لێرە بکە</span>
+                    </a>
+                    <div class="kai-barcode-wrap flex items-center gap-3 pt-4 mt-1">
+                        <span class="kai-barcode" aria-hidden="true"></span>
+                        <span class="kai-barcode-id text-[0.6rem] font-bold text-gray-400">KURD·AI</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
+        @include('partials.site-analytics')
+
     </section>
-
-    <!-- Script Section -->
-    <script>
-        let currentLang = localStorage.getItem('site-lang') || 'so';
-
-        function applyLanguage() {
-            const langBtnText = document.getElementById('lang-text');
-            if (langBtnText) {
-                langBtnText.innerText = currentLang === 'so' ? 'Badini' : 'سۆرانی';
-            }
-
-            document.querySelectorAll('.lang-str').forEach(el => {
-                el.innerText = el.getAttribute(`data-${currentLang}`) || el.getAttribute('data-so');
-            });
-        }
-
-        document.getElementById('lang-toggle').addEventListener('click', () => {
-            currentLang = currentLang === 'so' ? 'ba' : 'so';
-            localStorage.setItem('site-lang', currentLang);
-            applyLanguage();
-        });
-
-        document.getElementById('theme-toggle').addEventListener('click', () => {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('color-theme', 'light');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
-            }
-        });
-
-        applyLanguage();
-
-        (function () {
-            var cards = document.querySelectorAll('.grid .glass-card');
-            if (!cards.length) return;
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-            if (document.documentElement.classList.contains('kai-perf')) return;
-
-            cards.forEach(function (card) {
-                var icons = card.querySelectorAll('a svg');
-                if (!icons.length) return;
-                icons.forEach(function (icon) { icon.classList.add('kai-mag'); });
-                var raf = null;
-                card.addEventListener('mousemove', function (e) {
-                    if (raf) return;
-                    raf = requestAnimationFrame(function () {
-                        raf = null;
-                        var r = card.getBoundingClientRect();
-                        icons.forEach(function (icon) {
-                            var ir = icon.getBoundingClientRect();
-                            var pdx = (e.clientX - (ir.left + ir.width / 2)) / r.width * 24;
-                            var pdy = (e.clientY - (ir.top + ir.height / 2)) / r.height * 20;
-                            icon.style.transform = 'translate(' + pdx + 'px,' + pdy + 'px)';
-                        });
-                    });
-                });
-                card.addEventListener('mouseleave', function () {
-                    icons.forEach(function (icon) { icon.style.transform = ''; });
-                });
-            });
-        })();
-    </script>
-<script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
-<script type="module">
-    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    onAuthStateChanged(auth, (user) => {
-        if (user && ["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
-            document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
-        }
-    });
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
-    }
-</script>
-@include('components.chat-widget')
-</body>
-</html>

@@ -313,14 +313,15 @@
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="application/json" id="kurdai-imgbb-config">{!! json_encode(config('kurdai.imgbb.api_key'), 15) !!}</script>
     <script type="module">
-        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getDatabase, ref as dbRef, push, set, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref as dbRef, push, set, remove, onValue } from "/js/firebase10/firebase-database.js";
 
-        const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
+        const KaiF = window.KaiFirebase || {};
+        const app = KaiF.app ? KaiF.app() : null;
+        let db = app ? getDatabase(app) : null;
+        const auth = KaiF.auth ? KaiF.auth() : null;
+        const onAuthStateChanged = KaiF.onAuthStateChanged || function () {};
+        const signOut = KaiF.signOut || (function () { return Promise.resolve(); });
+        KaiTrack.visit('news');
         const IMGBB_API_KEY = JSON.parse((document.getElementById('kurdai-imgbb-config') || {}).textContent || 'null');
 
         let currentLang = localStorage.getItem('site-lang') || 'so';
@@ -453,11 +454,15 @@
             return date.toLocaleDateString('en-GB') + ' - ' + date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
         }
 
-        onValue(dbRef(db, 'news'), (s) => { 
-            newsData = s.val() || {}; 
-            renderNews();
-            renderTicker();
-        });
+        function subscribeNews(fdb) {
+            onValue(dbRef(fdb, 'news'), (s) => { 
+                newsData = s.val() || {}; 
+                renderNews();
+                renderTicker();
+            });
+        }
+        if (db) subscribeNews(db);
+        else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeNews(db); } });
 
         function renderNews() {
             const container = document.getElementById('news-container');
@@ -827,7 +832,7 @@
         };
 
         // پشکنینی هەژمار
-        onAuthStateChanged(auth, (user) => { 
+        onAuthStateChanged((user) => { 
             if (user) {
                 /* body visible instantly */
                 currentUser = user;
@@ -839,7 +844,7 @@
             applyLanguage();
         });
         
-        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
+        document.getElementById('logout-btn').addEventListener('click', () => signOut().then(() => window.location.href = "/login"));
     </script>
 @include('components.chat-widget')
 </body>

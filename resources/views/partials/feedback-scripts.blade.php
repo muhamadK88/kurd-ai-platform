@@ -1,19 +1,11 @@
 
 <script type="application/json" id="kurdai-fb-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
 <script type="module">
-    import { initializeApp, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
     (function () {
-        const firebaseConfig = JSON.parse((document.getElementById('kurdai-fb-config') || {}).textContent || '{}');
-
-        let app;
-        try {
-            app = getApp();
-        } catch (e) {
-            app = initializeApp(firebaseConfig);
-        }
-        const auth = getAuth(app);
+        const KaiF = window.KaiFirebase || {};
+        let auth = KaiF.auth ? KaiF.auth() : null;
+        if (KaiF.whenReady) KaiF.whenReady(function (st) { auth = st.auth; });
+        const onAuthStateChanged = KaiF.onAuthStateChanged || function () {};
 
         const CSRF = document.querySelector('meta[name="csrf-token"]')?.content || '';
 
@@ -168,7 +160,7 @@
 
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const user = auth.currentUser;
+                const user = (auth || {}).currentUser;
                 if (!user) return;
                 const btn = document.getElementById('fb-submit-btn');
                 const cat = document.getElementById('fb-category').value;
@@ -269,7 +261,7 @@
         }
 
         async function fbMarkRead(id, status) {
-            const user = auth.currentUser;
+            const user = (auth || {}).currentUser;
             if (!user) return;
             try {
                 const idToken = await user.getIdToken();
@@ -283,7 +275,7 @@
         }
 
         async function fbDelete(id) {
-            const user = auth.currentUser;
+            const user = (auth || {}).currentUser;
             if (!user) return;
             try {
                 const idToken = await user.getIdToken();
@@ -296,7 +288,7 @@
         }
 
         async function fbPoll() {
-            const user = auth.currentUser;
+            const user = (auth || {}).currentUser;
             if (!user) return;
             try {
                 const idToken = await user.getIdToken();
@@ -332,7 +324,7 @@
         }
 
         async function loadMine() {
-            const user = auth.currentUser;
+            const user = (auth || {}).currentUser;
             if (!user) return;
             const list = document.getElementById('fb-my-list');
             if (!list) return;
@@ -358,7 +350,7 @@
             } catch (e) {}
         }
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged((user) => {
             if (user) {
                 showMemberUI(user);
             } else {

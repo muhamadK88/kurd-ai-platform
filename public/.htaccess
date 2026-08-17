@@ -24,6 +24,13 @@
     RewriteRule ^ index.php [L]
 </IfModule>
 
+# ---- Compress text payloads (HTML/CSS/JS/JSON) on the fly ----
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript application/json application/xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
 # ---- Cache static assets aggressively (they are versioned with ?v=) ----
 <IfModule mod_expires.c>
     ExpiresActive On

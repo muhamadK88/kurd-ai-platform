@@ -251,15 +251,25 @@
 
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="module">
-        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getAuth, setPersistence, browserLocalPersistence, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "/js/firebase10/firebase-auth.js";
 
-        const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
+        const KaiF = window.KaiFirebase || {};
+        let auth = KaiF.auth ? KaiF.auth() : null;
+        const onAuthStateChanged = KaiF.onAuthStateChanged || function () {};
+        KaiF.whenReady(function (st) {
+            auth = st.auth;
+            if (st.auth) {
+                try { st.auth.useDeviceLanguage(); } catch (e) {}
+                setPersistence(st.auth, browserLocalPersistence).catch(() => {});
+            }
+        });
 
-        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        auth.useDeviceLanguage();
-        setPersistence(auth, browserLocalPersistence).catch(() => {});
+        function ensureAuth() {
+            return new Promise((resolve) => {
+                if (auth) return resolve(auth);
+                KaiF.whenReady(function (st) { resolve(st.auth); });
+            });
+        }
 
         const errorMsg = document.getElementById('error-message');
         const successMsg = document.getElementById('success-message');
@@ -360,11 +370,18 @@
             if (navigated) return;
             navigated = true;
             showSuccess('سەرکەوتوو بوو...');
+            try {
+                if (window.KaiTrack) {
+                    const a = KaiF.auth ? KaiF.auth() : null;
+                    const email = (a && a.currentUser && a.currentUser.email) || document.getElementById('login-email').value;
+                    window.KaiTrack.login(email);
+                }
+            } catch (e) {}
             setTimeout(() => { location.replace('/'); }, 350);
         }
 
         // already signed in? skip the form and go straight to the app
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged((user) => {
             if (user && !submitting && !navigated) location.replace('/');
         });
 
@@ -384,7 +401,9 @@
             setLoading(btn, true, 'چوونەژوورەوە...');
             submitting = true;
             try {
-                await signInWithEmailAndPassword(auth, email, password);
+                const a = await ensureAuth();
+                if (!a) { showError('هێشتا پەیوەندی بە فایەربەیسەوە نەبەستراوەتەوە. تکایە چەند چرکەیەک چاوەڕێ بکە و دووبارە هەوڵ بدەرەوە.'); return; }
+                await signInWithEmailAndPassword(a, email, password);
                 loginDone();
             } catch (e) {
                 if (e.code === 'auth/user-not-found') {
@@ -432,7 +451,9 @@
             setLoading(btn, true, 'دروستکردنی هەژمار...');
             submitting = true;
             try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const a = await ensureAuth();
+                if (!a) { showError('هێشتا پەیوەندی بە فایەربەیسەوە نەبەستراوەتەوە. تکایە چەند چرکەیەک چاوەڕێ بکە و دووبارە هەوڵ بدەرەوە.'); return; }
+                const userCredential = await createUserWithEmailAndPassword(a, email, password);
                 if (name) {
                     await updateProfile(userCredential.user, { displayName: name });
                 }
@@ -463,7 +484,9 @@
             setLoading(btn, true, 'تکایە چاوەڕێبە....');
             submitting = true;
             try {
-                await signInWithPopup(auth, provider);
+                const a = await ensureAuth();
+                if (!a) { showError('هێشتا پەیوەندی بە فایەربەیسەوە نەبەستراوەتەوە. تکایە چەند چرکەیەک چاوەڕێ بکە و دووبارە هەوڵ بدەرەوە.'); return; }
+                await signInWithPopup(a, provider);
                 loginDone();
             } catch (e) {
                 const msg = firebaseErrorMessage(e);

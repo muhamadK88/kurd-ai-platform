@@ -65,15 +65,22 @@
     /* firebase + api                                                      */
     /* ------------------------------------------------------------------ */
     function initFirebase() {
+        if (window.KaiFirebase && window.KaiFirebase.onAuthStateChanged) {
+            window.KaiFirebase.onAuthStateChanged(function (user) {
+                authUser = user;
+                boot();
+            });
+            return;
+        }
         var cfgEl = $('kurdai-firebase-config');
         if (!cfgEl) return;
         var cfg = {};
         try { cfg = JSON.parse(cfgEl.textContent || '{}'); } catch (e) {}
         if (!cfg || !cfg.apiKey) return;
 
-        import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js')
+        import('/js/firebase10/firebase-app.js')
             .then(function (appMod) {
-                return import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js')
+                return import('/js/firebase10/firebase-auth.js')
                     .then(function (authMod) {
                         var app = appMod.getApps().length ? appMod.getApp() : appMod.initializeApp(cfg);
                         var auth = authMod.getAuth(app);

@@ -108,9 +108,6 @@
     <!-- کۆدی فایەربەیس بۆ دارک مۆد و لۆگین -->
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="module">
-        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
         document.getElementById('theme-toggle').addEventListener('click', () => {
             if (document.documentElement.classList.contains('dark')) {
                 document.documentElement.classList.remove('dark');
@@ -121,11 +118,12 @@
             }
         });
 
-        const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+        const KaiF = window.KaiFirebase || {};
+        const auth = KaiF.auth ? KaiF.auth() : null;
+        const onAuthStateChanged = KaiF.onAuthStateChanged || function () {};
+        const signOut = KaiF.signOut || (function () { return Promise.resolve(); });
         
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged((user) => {
             if (!user) {
                 window.location.href = "/login";
             } else {
@@ -135,7 +133,7 @@
 
         const logoutBtn = document.getElementById('logout-btn');
         if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
+            logoutBtn.addEventListener('click', () => signOut().then(() => window.location.href = "/login"));
         }
     </script>
 @include('components.chat-widget')

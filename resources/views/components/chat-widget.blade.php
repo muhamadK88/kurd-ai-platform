@@ -1,6 +1,7 @@
 <!-- ===== چاتبۆتی یاریدەدەری AI (Kurd AI) - Full Features ===== -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <meta name="kurdai-user-id" content="{{ auth()->id() ?? '' }}">
+<meta name="kurdai-user-email" content="{{ strtolower((string) (auth()->user()?->email ?? '')) }}">
 <meta name="kurdai-user-admin" content="{{ auth()->user()?->is_admin ? '1' : '' }}">
 <script type="application/json" id="kurdai-chat-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
 <script data-kai-shared>
@@ -447,12 +448,11 @@
    page has finished loading. First paint never waits for it. */
 let kurdaiBootPromise = null;
 async function kurdaiBootChat() {
-    if (window.__kurdaiChatBooted) return kurdaiBootPromise;
-    window.__kurdaiChatBooted = true;
+    if (kurdaiBootPromise) return kurdaiBootPromise;
     kurdaiBootPromise = (async () => {
-        const fappMod = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
-        const fauthMod = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
-        const fdbMod = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js");
+        const fappMod = await import("/js/firebase10/firebase-app.js");
+        const fauthMod = await import("/js/firebase10/firebase-auth.js");
+        const fdbMod = await import("/js/firebase10/firebase-database.js");
         const { initializeApp, getApp } = fappMod;
         const { getAuth, onAuthStateChanged } = fauthMod;
         const { getDatabase, ref: dbRef, push, set, get, remove } = fdbMod;
@@ -490,18 +490,41 @@ async function kurdaiBootChat() {
     const adminBtn = document.getElementById('kurdai-admin-btn');
     const analyticsBtn = document.getElementById('kurdai-analytics-btn');
     let isAdmin = document.querySelector('meta[name="kurdai-user-admin"]')?.content === '1';
+    const localUserEmail = String(document.querySelector('meta[name="kurdai-user-email"]')?.content || '').toLowerCase();
+    const ownerEmail = 'mahamadkamaran890@gmail.com';
     function setAdmin(v) {
         isAdmin = v;
         if (adminBtn) adminBtn.style.display = v ? 'flex' : 'none';
     }
     function setOwner(email) {
-        if (analyticsBtn) analyticsBtn.style.display = String(email || '').toLowerCase() === 'mahamadkamaran890@gmail.com' ? 'flex' : 'none';
+        const resolvedEmail = String(email || localUserEmail || '').toLowerCase();
+        if (analyticsBtn) analyticsBtn.style.display = resolvedEmail === ownerEmail ? 'flex' : 'none';
     }
-    setOwner('');
+    setOwner(localUserEmail);
     setAdmin(isAdmin);
 
     async function detectAdminFromFirebase() {
         try {
+            if (window.KaiFirebase && window.KaiFirebase.onAuthStateChanged) {
+                window.KaiFirebase.onAuthStateChanged(async (user) => {
+                    if (!user) { setAdmin(isAdmin); setOwner(''); identityReadyResolve(); return; }
+                    userEmail = String(user.email || '').toLowerCase();
+                    setOwner(userEmail);
+                    window.dispatchEvent(new CustomEvent('kurdai:identity', { detail: { email: userEmail } }));
+                    identityReadyResolve();
+                    try {
+                        const idToken = await user.getIdToken();
+                        firebaseIdToken = idToken;
+                        firebaseUid = user.uid || '';
+                        firebaseDb = window.KaiFirebase.db ? window.KaiFirebase.db() : null;
+                        const res = await fetch('/api/knowledge', {
+                            headers: { 'Accept': 'application/json', 'Authorization': 'Bearer ' + idToken, 'X-Firebase-Id-Token': idToken },
+                        });
+                        setAdmin(res.status === 200);
+                    } catch (e) {}
+                });
+                return;
+            }
             const cfgEl = document.getElementById('kurdai-firebase-config') || document.getElementById('kurdai-chat-firebase-config');
             if (!cfgEl || !cfgEl.textContent) { identityReadyResolve(); return; }
             let fapp;
@@ -510,13 +533,14 @@ async function kurdaiBootChat() {
             onAuthStateChanged(fauth, async (user) => {
                 if (!user) { setAdmin(isAdmin); setOwner(''); identityReadyResolve(); return; }
                 userEmail = String(user.email || '').toLowerCase();
-                firebaseIdToken = await user.getIdToken();
-                firebaseUid = user.uid || '';
-                firebaseDb = getDatabase(fapp);
                 setOwner(userEmail);
+                window.dispatchEvent(new CustomEvent('kurdai:identity', { detail: { email: userEmail } }));
                 identityReadyResolve();
                 try {
                     const idToken = await user.getIdToken();
+                    firebaseIdToken = idToken;
+                    firebaseUid = user.uid || '';
+                    firebaseDb = getDatabase(fapp);
                     const res = await fetch('/api/knowledge', {
                         headers: { 'Accept': 'application/json', 'Authorization': 'Bearer ' + idToken, 'X-Firebase-Id-Token': idToken },
                     });
@@ -1327,7 +1351,15 @@ async function kurdaiBootChat() {
     });
 })();
     })();
-    return kurdaiBootPromise;
+    try {
+        const result = await kurdaiBootPromise;
+        window.__kurdaiChatBooted = true;
+        return result;
+    } catch (e) {
+        kurdaiBootPromise = null;
+        window.__kurdaiChatBooted = false;
+        throw e;
+    }
 }
 
 /* Boot the chat once: on first hover/tap of the launcher, or after the page
@@ -1339,10 +1371,15 @@ async function kurdaiBootChat() {
     var btn = document.getElementById('kurdai-chat-btn');
     if (!btn) return;
 
-    var boot = function () { kurdaiBootChat().catch(function () {}); };
+    var boot = function () { return kurdaiBootChat().catch(function () {}); };
+    var bootAndOpen = function () {
+        kurdaiBootChat().then(function () {
+            if (typeof window.kurdaiOpenChat === 'function') window.kurdaiOpenChat();
+        }).catch(function () {});
+    };
 
     btn.addEventListener('pointerenter', boot, { once: true, passive: true });
-    btn.addEventListener('pointerdown', boot, { once: true, passive: true });
+    btn.addEventListener('pointerdown', bootAndOpen, { once: true, passive: true });
 
     /* CTA buttons (e.g. hero) call kurdaiOpenChat. If the chat has not booted
        yet, start it and open once the (re)defined handler is in place. */

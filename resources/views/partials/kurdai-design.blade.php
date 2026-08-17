@@ -20,10 +20,61 @@
 <script src="/js/kurdai-ui.js?v=11" data-kai-shared defer></script>
 <script src="/js/kurdai-nav.js?v=4" data-kai-shared defer></script>
 <script src="/js/kai-cosmos.js?v=7" data-kai-shared defer></script>
-<script src="/js/kai-router.js?v=17" data-kai-shared defer></script>
+<script src="/js/kai-firebase.js?v=1" data-kai-shared defer></script>
+<script src="/js/kai-router.js?v=18" data-kai-shared defer></script>
 <script data-kai-shared>
 (function () {
     'use strict';
+    /* Anonymous usage beacon (KaiTrack): one fire-and-forget event per page
+       load / login. Feeds the admin-only analytics dashboard on /about. */
+    var identity = { uid: '', email: '' };
+    function send(payload) {
+        try {
+            if (navigator.sendBeacon) {
+                navigator.sendBeacon('/api/analytics/visit', new Blob([JSON.stringify(payload)], { type: 'application/json' }));
+            } else {
+                fetch('/api/analytics/visit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                    keepalive: true
+                }).catch(function () {});
+            }
+        } catch (e) {}
+    }
+    function userKey() {
+        var k = localStorage.getItem('kurdai_user_key');
+        if (!k) {
+            k = 'u' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+            try { localStorage.setItem('kurdai_user_key', k); } catch (e) {}
+        }
+        return k;
+    }
+    window.KaiTrack = {
+        setIdentity: function (uid, email) {
+            identity.uid = uid || '';
+            identity.email = String(email || '').toLowerCase();
+        },
+        visit: function (section) {
+            try {
+                var now = Date.now();
+                var last = sessionStorage.getItem('ka_v_' + section);
+                if (last && now - Number(last) < 15000) return;
+                sessionStorage.setItem('ka_v_' + section, String(now));
+                send({ type: 'visit', section: section, user_key: userKey(), uid: identity.uid, email: identity.email });
+            } catch (e) {}
+        },
+        login: function (email) {
+            try {
+                window.KaiTrack.setIdentity('', email);
+                send({ type: 'login', section: 'auth', user_key: userKey(), uid: '', email: String(email || '').toLowerCase() });
+            } catch (e) {}
+        }
+    };
+    /* Once Firebase identity resolves, later beacons carry the email. */
+    document.addEventListener('kurdai:identity', function (e) {
+        window.KaiTrack.setIdentity('', e.detail && e.detail.email);
+    });
     // Instant navigation: warm the next page into the router's in-memory
     // cache while the pointer is still moving, so a nav click after a hover
     // swaps from memory in the same frame — zero network wait.

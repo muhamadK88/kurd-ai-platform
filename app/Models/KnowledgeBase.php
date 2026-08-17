@@ -31,7 +31,13 @@ class KnowledgeBase extends Model
 
     protected static function booted(): void
     {
-        static::saved(fn () => Cache::forget('kurdai.knowledge.active.v1'));
-        static::deleted(fn () => Cache::forget('kurdai.knowledge.active.v1'));
+        static::saved(function () {
+            Cache::forget('kurdai.knowledge.active.so.v1');
+            Cache::forget('kurdai.knowledge.active.ba.v1');
+        });
+        static::deleted(function () {
+            Cache::forget('kurdai.knowledge.active.so.v1');
+            Cache::forget('kurdai.knowledge.active.ba.v1');
+        });
     }
 }

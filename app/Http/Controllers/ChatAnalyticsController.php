@@ -29,6 +29,11 @@ class ChatAnalyticsController extends Controller
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
+        $now = now();
+        $today = $now->copy()->startOfDay();
+        $weekStart = $now->copy()->subDays(6)->startOfDay();
+        $monthStart = $now->copy()->subDays(29)->startOfDay();
+
         $sessions = ChatSession::query()
             ->orderByDesc('updated_at')
             ->limit(500)
@@ -75,6 +80,33 @@ class ChatAnalyticsController extends Controller
 
         $topics = $this->topics($userMessages->pluck('content')->all());
         $words = $this->words($userMessages->pluck('content')->all());
+        $sessionMessageCounts = $messages->countBy('session_id');
+
+        $dailySeries = collect(range(13, 0))->map(function (int $offset) use ($sessions, $messages, $now) {
+            $day = $now->copy()->subDays($offset)->startOfDay();
+            return [
+                'date' => $day->format('Y-m-d'),
+                'label' => $day->format('m/d'),
+                'sessions' => $sessions->filter(fn (ChatSession $session) => $session->created_at && $session->created_at->isSameDay($day))->count(),
+                'messages' => $messages->filter(fn ($message) => $message->created_at && $message->created_at->isSameDay($day))->count(),
+            ];
+        })->values()->all();
+
+        $dailySessions = $sessions->filter(fn (ChatSession $session) => $session->created_at && $session->created_at->greaterThanOrEqualTo($today))->count();
+        $dailyMessages = $messages->filter(fn ($message) => $message->created_at && $message->created_at->greaterThanOrEqualTo($today))->count();
+        $weeklySessions = $sessions->filter(fn (ChatSession $session) => $session->created_at && $session->created_at->greaterThanOrEqualTo($weekStart))->count();
+        $weeklyMessages = $messages->filter(fn ($message) => $message->created_at && $message->created_at->greaterThanOrEqualTo($weekStart))->count();
+        $monthlySessions = $sessions->filter(fn (ChatSession $session) => $session->created_at && $session->created_at->greaterThanOrEqualTo($monthStart))->count();
+        $monthlyMessages = $messages->filter(fn ($message) => $message->created_at && $message->created_at->greaterThanOrEqualTo($monthStart))->count();
+
+        $loggedInSessions = $sessions->filter(fn (ChatSession $session) => filled($session->user_email))->count();
+        $guestSessions = $sessions->count() - $loggedInSessions;
+        $uniqueLoggedInUsers = $sessions->pluck('user_email')->filter()->map(fn ($email) => strtolower(trim((string) $email)))->unique()->count();
+
+        $topConversation = $sessions->sortByDesc(fn (ChatSession $session) => (int) ($sessionMessageCounts[$session->id] ?? 0))->first();
+        $topTopic = $topics[0] ?? null;
+        $topWord = $words[0] ?? null;
+        $topUser = $users->first();
 
         return response()->json([
             'owner' => self::OWNER_EMAIL,
@@ -86,6 +118,31 @@ class ChatAnalyticsController extends Controller
             'topics' => $topics,
             'top_words' => $words,
             'last_activity' => optional($sessions->max('updated_at'))->format('Y-m-d H:i'),
+            'summary' => [
+                'daily_sessions' => $dailySessions,
+                'daily_messages' => $dailyMessages,
+                'weekly_sessions' => $weeklySessions,
+                'weekly_messages' => $weeklyMessages,
+                'monthly_sessions' => $monthlySessions,
+                'monthly_messages' => $monthlyMessages,
+                'logged_in_sessions' => $loggedInSessions,
+                'guest_sessions' => $guestSessions,
+                'unique_logged_in_users' => $uniqueLoggedInUsers,
+            ],
+            'series' => [
+                'daily' => $dailySeries,
+            ],
+            'leaders' => [
+                'user' => $topUser,
+                'topic' => $topTopic,
+                'word' => $topWord,
+                'conversation' => $topConversation ? [
+                    'id' => $topConversation->id,
+                    'title' => $topConversation->title,
+                    'email' => $topConversation->user_email,
+                    'messages' => (int) ($sessionMessageCounts[$topConversation->id] ?? 0),
+                ] : null,
+            ],
             'users' => $users,
             'conversations' => $conversations,
         ]);

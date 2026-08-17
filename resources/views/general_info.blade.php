@@ -225,14 +225,15 @@
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="application/json" id="kurdai-imgbb-config">{!! json_encode(config('kurdai.imgbb.api_key'), 15) !!}</script>
     <script type="module">
-        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getDatabase, ref as dbRef, push, set, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref as dbRef, push, set, update, remove, onValue } from "/js/firebase10/firebase-database.js";
 
-        const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
+        const KaiF = window.KaiFirebase || {};
+        const app = KaiF.app ? KaiF.app() : null;
+        let db = app ? getDatabase(app) : null;
+        const auth = KaiF.auth ? KaiF.auth() : null;
+        const onAuthStateChanged = KaiF.onAuthStateChanged || function () {};
+        const signOut = KaiF.signOut || (function () { return Promise.resolve(); });
+        KaiTrack.visit('general_info');
         const IMGBB_API_KEY = JSON.parse((document.getElementById('kurdai-imgbb-config') || {}).textContent || 'null');
 
         const ADMIN_EMAILS = ["team@kurd-ai.com", "mahamadkamaran890@gmail.com"];
@@ -505,15 +506,19 @@
         });
 
         const logoutBtn = document.getElementById('logout-btn');
-        if (logoutBtn) logoutBtn.addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
+        if (logoutBtn) logoutBtn.addEventListener('click', () => signOut().then(() => window.location.href = "/login"));
 
-        onValue(dbRef(db, 'general_info'), (s) => {
-            giData = s.val() || {};
-            applyLanguage();
-            if (isAdmin) renderManageList();
-        });
+        function subscribeGI(fdb) {
+            onValue(dbRef(fdb, 'general_info'), (s) => {
+                giData = s.val() || {};
+                applyLanguage();
+                if (isAdmin) renderManageList();
+            });
+        }
+        if (db) subscribeGI(db);
+        else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeGI(db); } });
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged((user) => {
             if (user && ADMIN_EMAILS.includes(user.email)) {
                 isAdmin = true;
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));

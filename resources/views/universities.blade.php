@@ -236,14 +236,15 @@
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="application/json" id="kurdai-imgbb-config">{!! json_encode(config('kurdai.imgbb.api_key'), 15) !!}</script>
     <script type="module">
-        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getDatabase, ref as dbRef, push, set, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref as dbRef, push, set, update, remove, onValue } from "/js/firebase10/firebase-database.js";
 
-        const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
+        const KaiF = window.KaiFirebase || {};
+        const app = KaiF.app ? KaiF.app() : null;
+        let db = app ? getDatabase(app) : null;
+        const auth = KaiF.auth ? KaiF.auth() : null;
+        const onAuthStateChanged = KaiF.onAuthStateChanged || function () {};
+        const signOut = KaiF.signOut || (function () { return Promise.resolve(); });
+        KaiTrack.visit('universities');
         const IMGBB_API_KEY = JSON.parse((document.getElementById('kurdai-imgbb-config') || {}).textContent || 'null');
 
         let currentLang = localStorage.getItem('site-lang') || 'so';
@@ -267,12 +268,16 @@
             applyLanguage();
         });
 
-        onValue(dbRef(db, 'universities'), (s) => { 
-            unisData = s.val() || {}; 
-            applyLanguage(); 
-            updateAdminSelects(); 
-            renderManageList(); 
-        });
+        function subscribeUnis(fdb) {
+            onValue(dbRef(fdb, 'universities'), (s) => { 
+                unisData = s.val() || {}; 
+                applyLanguage(); 
+                updateAdminSelects(); 
+                renderManageList(); 
+            });
+        }
+        if (db) subscribeUnis(db);
+        else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeUnis(db); } });
 
         window.openPlanModal = function(uniId) {
             const u = unisData[uniId];
@@ -561,7 +566,7 @@
             localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
         });
 
-        onAuthStateChanged(auth, (user) => { 
+        onAuthStateChanged((user) => { 
             if (user && ["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
                 window.isAdmin = true;
                 document.querySelector('.admin-only').classList.remove('hidden');
@@ -569,7 +574,7 @@
             }
         });
         
-        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
+        document.getElementById('logout-btn').addEventListener('click', () => signOut().then(() => window.location.href = "/login"));
     </script>
 @include('components.chat-widget')
 </body>

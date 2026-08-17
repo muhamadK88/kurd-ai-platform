@@ -82,12 +82,11 @@
             </section>
         </section>
     </main>
-    <script type="application/json" id="firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
+    <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-        const config = JSON.parse(document.getElementById('firebase-config').textContent || '{}');
-        const auth = getAuth(initializeApp(config));
+        const KaiF = window.KaiFirebase || {};
+        const auth = KaiF.auth ? KaiF.auth() : null;
+        const onAuthStateChanged = KaiF.onAuthStateChanged || function () {};
         const loading = document.getElementById('loading');
         const unauthorized = document.getElementById('unauthorized');
         const dashboard = document.getElementById('dashboard');
@@ -175,7 +174,7 @@
         document.getElementById('conv-back').addEventListener('click', () => document.getElementById('conv-viewer').classList.add('hidden'));
         document.getElementById('conv-search').addEventListener('input', renderConversations);
 
-        onAuthStateChanged(auth, user => load(user).catch(() => { loading.classList.add('hidden'); unauthorized.classList.remove('hidden'); }));
+        onAuthStateChanged(user => load(user).catch(() => { loading.classList.add('hidden'); unauthorized.classList.remove('hidden'); }));
     </script>
 </body>
 </html>

@@ -20,16 +20,17 @@
     <meta property="twitter:image" content="https://kurd-ai.com/logo.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link rel="stylesheet" href="/css/kai-tailwind.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap"></noscript>
-    <script>if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
+
+    <script>
+        const theme = localStorage.getItem('color-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (theme === 'dark') document.documentElement.classList.add('dark');
     </script>
+
+    {{-- Essential CSS --}}
+    <link rel="stylesheet" href="/css/kai-tailwind.css">
+    <link rel="stylesheet" href="/css/kai-hero.css?v=3" media="print" onload="this.media='all'">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap"></noscript>
     <style>
         .glass-card {
             background: rgba(255, 255, 255, 0.7);
@@ -72,7 +73,6 @@
     </style>
 
     @include('partials.kurdai-design')
-    <link rel="stylesheet" href="/css/kai-hero.css?v=3">
     <script src="/js/kai-hero.js?v=4" defer></script>
 </head>
 
@@ -348,12 +348,11 @@
 
 <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
 <script type="module">
-    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    const firebaseConfig = JSON.parse((document.getElementById('kurdai-firebase-config') || {}).textContent || '{}');
-    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    const KaiF = window.KaiFirebase || {};
+    const auth = KaiF.auth ? KaiF.auth() : null;
+    const onAuthStateChanged = KaiF.onAuthStateChanged || function () {};
+    const signOut = KaiF.signOut || (function () { return Promise.resolve(); });
+    KaiTrack.visit('home');
 
     let currentLang = localStorage.getItem('site-lang') || 'so';
 
@@ -386,7 +385,7 @@
 
     document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
 
-    onAuthStateChanged(auth, (user) => { 
+    onAuthStateChanged((user) => { 
         if (user && ["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email)) {
             document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
         }
@@ -394,7 +393,7 @@
     
     const logoutBtn = document.getElementById('logout-btn');
     if(logoutBtn) {
-        logoutBtn.addEventListener('click', () => signOut(auth).then(() => window.location.href = "/login"));
+        logoutBtn.addEventListener('click', () => signOut().then(() => window.location.href = "/login"));
     }
 </script>
 
