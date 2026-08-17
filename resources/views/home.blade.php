@@ -134,7 +134,7 @@
 
                 <div class="flex flex-wrap justify-center lg:justify-start gap-3 kai-hero-in--d4">
                     <span class="kai-stat-chip"><span class="kai-tick">✔</span><span class="lang-str" data-so="بە تەواوی بە زمانی کوردی" data-ba="ب تەواوی ب زمانی کوردی">بە تەواوی بە زمانی کوردی</span></span>
-                    <span class="kai-stat-chip"><span class="kai-tick">✔</span><span class="lang-str" data-so="بە تەواوی خۆڕایی" data-ba="ب تەواوی بێ بەرامبەر">بە تەواوی خۆڕایی</span></span>
+                    <span class="kai-stat-chip"><span class="kai-tick">✔</span><span class="lang-str" data-so="بەتەواوی بەخۆڕاییە" data-ba="ب تەواوی بێ بەرامبەر">بەتەواوی بەخۆڕاییە</span></span>
                     <span class="kai-stat-chip"><span class="kai-tick">✔</span><span class="lang-str" data-so="فێربوونی پراکتیکی" data-ba="فێربوونەکا پراکتیکی">فێربوونی پراکتیکی</span></span>
                 </div>
             </div>

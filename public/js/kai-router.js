@@ -316,6 +316,7 @@
     }
 
     function apply(page) {
+        console.log('[dbg] apply() start, content nodes:', page.content.length);
         syncNav(page);
         /* soft-navigation marker: entrance animations are one-shot "page
            load" effects. Marking the document lets CSS (kurdai-design.css
@@ -429,6 +430,7 @@
        UI re-bound, and a visible page. Any failure -> full page load. */
     function commit(page, href) {
         try {
+            console.log('[dbg] commit start', href);
             if (!applySafely(page)) throw new Error('apply failed');
             cleanup();
             reinitUI();
@@ -457,6 +459,7 @@
        it simply means the browser cancelled the PJAX fetch while the
        fallback reload was starting, which is expected behaviour. */
     function nav(href) {
+        console.log('[dbg] nav() ->', href, 'cache?', !!cache[keyOf(new URL(href, location.href))]);
         var p = new URL(href, location.href);
         var k = keyOf(p);
         var token = { navigated: false };
@@ -486,6 +489,7 @@
         }, 3000);
 
         getPage(p.href, 'high').then(function () {
+            console.log('[dbg] getPage resolved');
             clearTimeout(fallbackTimer);
             /* only the latest click may swap the page */
             if (navToken !== token) return;
