@@ -180,7 +180,6 @@
         each(REVEAL_SELECTOR, root, function (el, i) {
             if (el.dataset.kaiReveal) return;
             if (isSkidded(el)) return;
-            if (el.closest('#kurdai-chat-panel')) return;
             if (el.closest('.fixed')) return;
             el.dataset.kaiReveal = '1';
             el.classList.add('kai-reveal');

@@ -188,7 +188,6 @@
                 <div class="mb-6">
                     <label class="block text-gray-700 dark:text-gray-300 font-bold mb-2">پۆل (Category)</label>
                     <select id="tool_category" required class="w-full px-5 py-4 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all">
-                        <option value="چات بۆت (Chatbot)">چات بۆت (Chatbot)</option>
                         <option value="وێنە (Image)">وێنە (Image)</option>
                         <option value="ڤیدیۆ (Video)">ڤیدیۆ (Video)</option>
                         <option value="کۆدکردن (Coding)">کۆدکردن (Coding)</option>
@@ -276,7 +275,7 @@
 
             const grouped = {};
             const catLabels = {
-                'چات بۆت (Chatbot)': 'چات بۆت', 'وێنە (Image)': 'وێنە', 'ڤیدیۆ (Video)': 'ڤیدیۆ',
+                'وێنە (Image)': 'وێنە', 'ڤیدیۆ (Video)': 'ڤیدیۆ',
                 'کۆدکردن (Coding)': 'کۆدکردن', 'دەنگ (Audio)': 'دەنگ', 'بەرهەمهێنان (Productivity)': 'بەرهەمهێنان',
                 'پێشکەشکردن (Presentation)': 'پێشکەشکردن', 'بیرکاری (Math)': 'بیرکاری', 'نووسین (Content)': 'نووسین',
                 'تر (Other)': 'تر'
@@ -285,23 +284,24 @@
             for (let id in data) {
                 const t = data[id];
                 const cat = t.category || 'تر (Other)';
+                if (/chat\s*bot/i.test(cat) || (cat.includes('چات') && cat.includes('بۆت'))) continue;
                 if (!grouped[cat]) grouped[cat] = [];
                 grouped[cat].push({id, ...t});
             }
 
             const allCats = Object.keys(grouped).sort((a, b) => {
-                const order = ['چات بۆت (Chatbot)','وێنە (Image)','ڤیدیۆ (Video)','کۆدکردن (Coding)','دەنگ (Audio)','بەرهەمهێنان (Productivity)','پێشکەشکردن (Presentation)','بیرکاری (Math)','نووسین (Content)','تر (Other)'];
+                const order = ['وێنە (Image)','ڤیدیۆ (Video)','کۆدکردن (Coding)','دەنگ (Audio)','بەرهەمهێنان (Productivity)','پێشکەشکردن (Presentation)','بیرکاری (Math)','نووسین (Content)','تر (Other)'];
                 return order.indexOf(a) - order.indexOf(b);
             });
 
             const catIcons = {
-                'چات بۆت (Chatbot)': '💬', 'وێنە (Image)': '🎨', 'ڤیدیۆ (Video)': '🎬',
+                'وێنە (Image)': '🎨', 'ڤیدیۆ (Video)': '🎬',
                 'کۆدکردن (Coding)': '💻', 'دەنگ (Audio)': '🎵', 'بەرهەمهێنان (Productivity)': '⚡',
                 'پێشکەشکردن (Presentation)': '📊', 'بیرکاری (Math)': '🔢', 'نووسین (Content)': '✍️',
                 'تر (Other)': '🔧'
             };
             const catColors = {
-                'چات بۆت (Chatbot)': 'from-blue-500 to-cyan-400', 'وێنە (Image)': 'from-pink-500 to-rose-400',
+                'وێنە (Image)': 'from-pink-500 to-rose-400',
                 'ڤیدیۆ (Video)': 'from-red-500 to-orange-400', 'کۆدکردن (Coding)': 'from-green-500 to-emerald-400',
                 'دەنگ (Audio)': 'from-violet-500 to-purple-400', 'بەرهەمهێنان (Productivity)': 'from-amber-500 to-yellow-400',
                 'پێشکەشکردن (Presentation)': 'from-indigo-500 to-blue-400', 'بیرکاری (Math)': 'from-teal-500 to-cyan-400',
@@ -386,8 +386,10 @@
                 renderTools(firebaseDataCache);
             });
         }
-        if (db) subscribeTools(db);
-        else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeTools(db); } });
+        window.KaiPageReady(function () {
+            if (db) subscribeTools(db);
+            else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeTools(db); } });
+        });
 
         applyLanguage();
 
@@ -461,6 +463,5 @@
         });
         document.getElementById('logout-btn').addEventListener('click', () => signOut().then(() => window.location.href = "/login"));
     </script>
-@include('components.chat-widget')
 </body>
 </html>

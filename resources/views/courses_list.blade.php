@@ -636,8 +636,10 @@ function subscribeCourses(fdb) {
                 renderCourses(firebaseDataCache);
             });
         }
-        if (db) subscribeCourses(db);
-        else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeCourses(db); } });
+        window.KaiPageReady(function () {
+            if (db) subscribeCourses(db);
+            else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeCourses(db); } });
+        });
 
         let isUploading = false;
         document.getElementById('upload-form').addEventListener('submit', async (e) => {
@@ -722,6 +724,5 @@ function subscribeCourses(fdb) {
         
         document.getElementById('logout-btn').addEventListener('click', () => signOut().then(() => window.location.href = "/login"));
     </script>
-@include('components.chat-widget')
 </body>
 </html>

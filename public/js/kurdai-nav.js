@@ -69,8 +69,12 @@
                 open = v;
                 nav.classList.toggle('is-open', v);
                 burger.setAttribute('aria-expanded', v ? 'true' : 'false');
+                drawer.setAttribute('aria-hidden', v ? 'false' : 'true');
+                drawer.classList.toggle('ka-open', v);
                 drawer.style.maxHeight = v ? drawer.scrollHeight + 'px' : '0px';
             }
+
+            setOpen(false);
 
             burger.addEventListener('click', function (e) {
                 e.stopPropagation();

@@ -11,7 +11,6 @@
      - .ka-nav                    (site navigation — stays put, no repaint)
      - #kai-cosmos / #kai-aurora-sweep / #kai-cursor  (background layers,
         their rAF loops never restart or leak)
-     - #kurdai-widget-root        (chat widget stays open mid-navigation)
 
    What is swapped (the "content region"):
      - #main-content is cleared first, then rebuilt from the new page's
@@ -24,12 +23,12 @@
    kurdai-ui.js + kurdai-nav.js re-scan the DOM via MutationObserver when
    new content appears.
 
-   v18 — Enterprise hardening:
+    v19 — Enterprise hardening:
      • SPA ALLOWLIST: only the public section pages are intercepted.
-       Auth/admin/forms (login, dashboard, admin/chat-analytics,
-       knowledge, ferga_admin, edit, ...) go native immediately —
+        Auth/admin/forms (login, dashboard, ferga_admin, edit, ...) go native
+        immediately —
        zero wasted fetches, zero AbortError noise on those routes.
-     • RACE-FREE NAVIGATION: a click owns a token; the 3s fallback timer
+      • RACE-FREE NAVIGATION: a click owns a token; the 10s fallback timer
        and the fetch catch can never both navigate. AbortError (browser
        aborting the PJAX fetch during the fallback reload) is swallowed
        silently — it is an expected side-effect, not a failure.
@@ -154,8 +153,7 @@
         if (el.classList && el.classList.contains('ka-nav')) return true;
         var id = el.id || '';
         return id === 'kai-cosmos' || id === 'kai-aurora-sweep' ||
-               id === 'kai-cursor' || id === 'kurdai-widget-root' ||
-               id === 'main-content';
+               id === 'kai-cursor' || id === 'main-content';
     }
 
     function isScriptEl(el) {
@@ -239,10 +237,10 @@
         return page;
     }
 
-    /* Shared, deduplicated fetch: warm() and nav() await the SAME promise,
-       so hovering a link starts the request and a click on it swaps from
-       memory with zero extra network cost. Rapid clicks never fire
-       duplicate requests and never abort each other.
+    /* Shared fetch/cache: a completed warm() result makes nav() instant, but
+       a real navigation supersedes a warm request that is still in flight.
+       Rapid clicks never fire duplicate navigation requests or abort each
+       other's active fetch.
 
        The NAV path carries NO AbortController: only the nav() fallback
        timer decides when a slow response gives up (full page load). A
@@ -250,16 +248,50 @@
        in nav() — it is no longer a source of console noise or double
        navigation. Warm() prefetches do abort after 6s so a hung
        background request can never pin its fetcher entry forever. */
+    var warmCtrls = {}; /* in-flight warm-up fetches, keyed by path key */
+    var prewarmTimer = null;
+    var prewarmStopped = false;
+    function abortWarm() {
+        prewarmStopped = true;
+        if (prewarmTimer) {
+            clearTimeout(prewarmTimer);
+            prewarmTimer = null;
+        }
+        var keys = Object.keys(warmCtrls);
+        for (var i = 0; i < keys.length; i++) {
+            try { warmCtrls[keys[i]].abort(); } catch (e) {}
+            /* an aborted warm fetch must not be handed to a waiting nav()
+               caller as the "in-flight fetcher" — it will only reject.
+               Drop it so a navigation starts a fresh request. */
+            delete fetchers[keys[i]];
+        }
+        warmCtrls = {};
+    }
+
     function getPage(href, priority) {
         var p = new URL(href, location.href);
         var k = keyOf(p);
         if (cache[k]) return Promise.resolve(cache[k]);
-        if (fetchers[k]) return fetchers[k];
+        if (fetchers[k]) {
+            if (priority !== 'low') {
+                /* a real navigation supersedes any warm fetch still in
+                   flight for the same page: abort it and fetch fresh so
+                   the click can never ride a doomed promise */
+                if (warmCtrls[k]) {
+                    try { warmCtrls[k].abort(); } catch (e) {}
+                    delete warmCtrls[k];
+                }
+                delete fetchers[k];
+            } else {
+                return fetchers[k];
+            }
+        }
 
         var isWarm = priority === 'low';
         var controller = (isWarm && window.AbortController) ? new AbortController() : null;
         var timeout = null;
         if (controller) {
+            warmCtrls[k] = controller;
             timeout = setTimeout(function () { controller.abort(); }, 6000);
         }
 
@@ -280,9 +312,11 @@
         fetchers[k] = promise;
         promise.then(function () {
             if (timeout) clearTimeout(timeout);
+            delete warmCtrls[k];
             if (fetchers[k] === promise) delete fetchers[k];
         }, function () {
             if (timeout) clearTimeout(timeout);
+            delete warmCtrls[k];
             if (fetchers[k] === promise) delete fetchers[k];
         });
         return promise;
@@ -316,7 +350,6 @@
     }
 
     function apply(page) {
-        console.log('[dbg] apply() start, content nodes:', page.content.length);
         syncNav(page);
         /* soft-navigation marker: entrance animations are one-shot "page
            load" effects. Marking the document lets CSS (kurdai-design.css
@@ -430,10 +463,18 @@
        UI re-bound, and a visible page. Any failure -> full page load. */
     function commit(page, href) {
         try {
-            console.log('[dbg] commit start', href);
             if (!applySafely(page)) throw new Error('apply failed');
             cleanup();
             reinitUI();
+            /* Lifecycle signal for any script that was not re-executed on
+               the swap (shared layers, long-lived widgets, analytics).
+               Dispatched after the new content is in place and the shell
+               is stable. */
+            try {
+                document.dispatchEvent(new CustomEvent('page:swapped', {
+                    detail: { href: href, pathname: new URL(href, location.href).pathname }
+                }));
+            } catch (ignore) {}
             if (!pageVisible()) throw new Error('page ended up blank');
             /* late passes: catch loading/veil classes dropped after the swap */
             setTimeout(sweepStuck, 250);
@@ -446,7 +487,6 @@
             console.error('[kai-router] navigation failed', error);
             try { cleanup(); } catch (e) {}
             window.location.href = href;
-            return false;
         }
     }
 
@@ -459,10 +499,14 @@
        it simply means the browser cancelled the PJAX fetch while the
        fallback reload was starting, which is expected behaviour. */
     function nav(href) {
-        console.log('[dbg] nav() ->', href, 'cache?', !!cache[keyOf(new URL(href, location.href))]);
         var p = new URL(href, location.href);
         var k = keyOf(p);
         var token = { navigated: false };
+
+        /* a real navigation supersedes every background warm-up fetch —
+           aborting them clears the server queue so this click is never
+           stuck behind a burst of prefetches */
+        abortWarm();
 
         /* this click is now the latest — supersede any in-flight fetch */
         navToken = token;
@@ -476,20 +520,22 @@
             return;
         }
 
-        /* If the PJAX request has not produced a usable page quickly, let
-           the browser perform a normal navigation. This is safer than
-           keeping the old page apparently frozen while an application
-           request hangs. Most clicks hit the pre-warmed cache anyway. */
+        /* If the PJAX request has not produced a usable page within a
+           generous window, let the browser perform a normal navigation.
+           The old 3s window was too aggressive: a busy server (or warm-up
+           fetches queued ahead of the click) would trip it and turn every
+           SPA click into a full page reload. 10s only gives up on a
+           genuinely hung request, while the click is meanwhile covered by
+           the pre-warmed cache. */
         var fallbackTimer = setTimeout(function () {
             if (navToken === token && !token.navigated) {
                 token.navigated = true;
                 navToken = null;
                 window.location.assign(p.href);
             }
-        }, 3000);
+        }, 10000);
 
         getPage(p.href, 'high').then(function () {
-            console.log('[dbg] getPage resolved');
             clearTimeout(fallbackTimer);
             /* only the latest click may swap the page */
             if (navToken !== token) return;
@@ -522,12 +568,12 @@
        after a hover swaps instantly from cache. Only SPA routes warm. */
     function warm(href) {
         var p = new URL(href, location.href);
-        if (p.origin !== location.origin) return;
-        if (p.protocol !== 'http:' && p.protocol !== 'https:') return;
-        if (!isSpaPath(p.pathname)) return;
+        if (p.origin !== location.origin) return Promise.resolve();
+        if (p.protocol !== 'http:' && p.protocol !== 'https:') return Promise.resolve();
+        if (!isSpaPath(p.pathname)) return Promise.resolve();
         var k = keyOf(p);
-        if (cache[k] || fetchers[k]) return;
-        getPage(p.href, 'low').catch(function () {});
+        if (cache[k] || fetchers[k]) return Promise.resolve();
+        return getPage(p.href, 'low').catch(function () {});
     }
 
     /* Event delegation: one document-level listener handles links that exist
@@ -571,25 +617,33 @@
        click. The delegated lookup works for current and future anchors. */
     installEvents();
 
-    /* Pull every section page into the in-memory cache shortly after the
-       first paint, staggered so the server is not hammered. After this one
-       warm-up every nav-link click swaps from memory — zero network wait,
-       which is what "very fast section switching" needs. */
+    /* Pull section pages into the in-memory cache one at a time shortly after
+       first paint. A fixed timer list still creates a server queue when one
+       response is slow; chaining each warm-up after the previous response
+       keeps php -S and other single-worker hosts responsive to real clicks. */
     var prewarmed = false;
     function prewarmNav() {
-        if (prewarmed) return;
+        if (prewarmed || prewarmStopped) return;
         prewarmed = true;
         var links = document.querySelectorAll('.ka-nav a[href]');
-        var seen = {}, delay = 0;
+        var seen = {}, queue = [];
         Array.prototype.slice.call(links).forEach(function (a) {
             var href = a.getAttribute('href');
             if (!href || seen[href]) return;
             seen[href] = 1;
-            (function (h, d) {
-                setTimeout(function () { warm(h); }, d);
-            })(href, delay);
-            delay += 350;
+            queue.push(href);
         });
+        var index = 0;
+        function next() {
+            if (prewarmStopped || index >= queue.length) return;
+            var href = queue[index++];
+            prewarmTimer = setTimeout(function () {
+                prewarmTimer = null;
+                if (prewarmStopped) return;
+                warm(href).then(next, next);
+            }, index === 1 ? 0 : 120);
+        }
+        next();
     }
 
     function schedulePreWarm() {

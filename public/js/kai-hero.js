@@ -3,8 +3,7 @@
    1) Lang-aware typewriter subheading (Sorani + Badini).
    2) Canvas-2D neural particle sphere — fibonacci lattice, constellation
       wiring, cursor-reactive parallax + breathing (no three.js).
-   3) "Chat" launcher — slides in the platform chat drawer (window.kurdaiOpenChat).
-   Pure additive layer. Guards: reduced-motion / touch / kai-perf / no-WebGL.
+   3) Pure additive layer. Guards: reduced-motion / touch / kai-perf / no-WebGL.
    ========================================================================== */
 (function () {
     'use strict';
@@ -105,19 +104,7 @@
     }
 
     /* ======================================================================
-        2. Chat launcher — slides the platform drawer in
-       ====================================================================== */
-    function initChatLaunch() {
-        var btn = document.querySelector('[data-kai-open-chat]');
-        if (!btn) return;
-        btn.addEventListener('click', function () {
-            var fn = window.kurdaiOpenChat;
-            if (fn) fn();
-        });
-    }
-
-    /* ======================================================================
-       3. Neural particle sphere (Canvas 2D — no three.js)
+       2. Neural particle sphere (Canvas 2D — no three.js)
        ====================================================================== */
     function mountSphere() {
         if (reduced || perf || isTouch) return;
@@ -298,7 +285,6 @@
        ====================================================================== */
     ready(function () {
         initTypewriter(document.getElementById('kai-typewriter'));
-        initChatLaunch();
         whenVisible(mountSphere);
     });
 })();

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Storage;
  *
  * Every route requires a verified Firebase identity whose email is either
  * in the ADMIN_EMAILS allow-list or has is_admin in the local users table
- * (the same policy FeedbackController/KnowledgeBaseController use).
+ * (the same policy used by the other admin content APIs).
  *
  * Capabilities: create/edit/delete courses, flip status
  * (active | locked | coming_soon), reorder the path, manage sections (بەش)

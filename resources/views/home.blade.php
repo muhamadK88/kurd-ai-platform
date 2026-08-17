@@ -126,10 +126,6 @@
                         <svg class="w-5 h-5 group-hover/btn:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                         <span class="lang-str" data-so="دەستبکە بە فێربوون" data-ba="دەستبکە بە فێربوونێ">دەستبکە بە فێربوون</span>
                     </a>
-                    <button type="button" data-kai-open-chat class="kai-chat-launch">
-                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-                        <span class="lang-str" data-so="وەڵامدانەوەی چاتی AI" data-ba="بەرسڤدانا چاتا AI">وەڵامدانەوەی چاتی AI</span>
-                    </button>
                 </div>
 
                 <div class="flex flex-wrap justify-center lg:justify-start gap-3 kai-hero-in--d4">
@@ -397,7 +393,6 @@
     }
 </script>
 
-@include('components.chat-widget')
 
 </body>
 </html>

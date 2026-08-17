@@ -461,8 +461,10 @@
                 renderTicker();
             });
         }
-        if (db) subscribeNews(db);
-        else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeNews(db); } });
+        window.KaiPageReady(function () {
+            if (db) subscribeNews(db);
+            else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeNews(db); } });
+        });
 
         function renderNews() {
             const container = document.getElementById('news-container');
@@ -846,6 +848,5 @@
         
         document.getElementById('logout-btn').addEventListener('click', () => signOut().then(() => window.location.href = "/login"));
     </script>
-@include('components.chat-widget')
 </body>
 </html>

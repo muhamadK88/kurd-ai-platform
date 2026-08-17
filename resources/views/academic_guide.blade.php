@@ -303,8 +303,10 @@
                 renderGuide(firebaseDataCache); 
             });
         }
-        if (db) subscribeGuide(db);
-        else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeGuide(db); } });
+        window.KaiPageReady(function () {
+            if (db) subscribeGuide(db);
+            else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeGuide(db); } });
+        });
 
         document.getElementById('upload-form').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -358,6 +360,5 @@
             logoutBtn.addEventListener('click', () => signOut().then(() => window.location.href = "/login"));
         }
     </script>
-@include('components.chat-widget')
 </body>
 </html>

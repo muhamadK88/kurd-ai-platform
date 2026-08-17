@@ -22,7 +22,8 @@
     if (window.KaiFirebase) return;
 
     var S = { app: null, auth: null, db: null, user: null, ready: false, booted: false, configured: false };
-    var cbs = [];
+    var readyCbs = [];
+    var authCbs = [];
     var cfg = {};
     try {
         var el = document.getElementById('kurdai-firebase-config');
@@ -39,8 +40,10 @@
             window.dispatchEvent(new CustomEvent('kurdai:identity', { detail: { email: email } }));
             window.dispatchEvent(new CustomEvent('kurdai:firebase-ready', { detail: { configured: S.configured, user: S.user } }));
         } catch (e) {}
-        for (var i = 0; i < cbs.length; i++) { try { cbs[i](S.user); } catch (e) {} }
-        cbs.length = 0;
+        for (var i = 0; i < readyCbs.length; i++) { try { readyCbs[i](S); } catch (e) {} }
+        for (var j = 0; j < authCbs.length; j++) { try { authCbs[j](S.user); } catch (e) {} }
+        readyCbs.length = 0;
+        authCbs.length = 0;
     }
 
     function boot() {
@@ -56,10 +59,18 @@
                 S.app = mods[0].getApps().length ? mods[0].getApp() : mods[0].initializeApp(cfg);
                 S.auth = mods[1].getAuth(S.app);
                 S.db = mods[2].getDatabase(S.app);
-                S.auth.useDeviceLanguage();
-                mods[1].onAuthStateChanged(S.auth, function (u) {
-                    S.user = u;
-                    settle();
+                try { S.auth.useDeviceLanguage(); } catch (e) {}
+                var persistence;
+                try {
+                    persistence = mods[1].setPersistence
+                        ? mods[1].setPersistence(S.auth, mods[1].browserLocalPersistence)
+                        : Promise.resolve();
+                } catch (e) { persistence = Promise.resolve(); }
+                Promise.resolve(persistence).catch(function () {}).then(function () {
+                    mods[1].onAuthStateChanged(S.auth, function (u) {
+                        S.user = u;
+                        settle();
+                    });
                 });
             } catch (e) { settle(); }
         }).catch(function () { settle(); });
@@ -74,14 +85,13 @@
         whenReady: function (cb) {
             if (typeof cb !== 'function') return;
             if (S.ready) { try { cb(S); } catch (e) {} return; }
-            var w = function () { try { cb(S); } catch (e) {} };
-            cbs.push(w);
+            readyCbs.push(cb);
             boot();
         },
         onAuthStateChanged: function (cb) {
             if (typeof cb !== 'function') return;
             if (S.ready) { try { cb(S.user); } catch (e) {} return; }
-            cbs.push(cb);
+            authCbs.push(cb);
             boot();
         },
         signOut: function () { return S.auth ? S.auth.signOut() : Promise.resolve(); }

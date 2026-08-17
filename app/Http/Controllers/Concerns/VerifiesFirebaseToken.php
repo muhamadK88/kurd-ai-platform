@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 
 /**
  * Single source of truth for resolving the Firebase user from an incoming
- * request. Every controller that talks to Firebase (chatbot, sessions,
- * feedback, knowledge base, chat analytics) shares this one trait instead of
+ * request. Every controller that talks to Firebase shares this one trait instead of
  * carrying its own copy of the token-extraction + verifyIdTokenRest/verifyIdToken
  * fallback ladder — which previously made five separate network call sites,
  * each without consistent caching.

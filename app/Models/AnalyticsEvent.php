@@ -26,7 +26,6 @@ class AnalyticsEvent extends Model
         'about' => 'دەربارەی ئێمە',
         'profile' => 'پڕۆفایل',
         'feedback' => 'ڕەخنە و پێشنیار',
-        'knowledge' => 'بنکەی زانست',
     ];
 
     public $timestamps = false;

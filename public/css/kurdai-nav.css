@@ -278,6 +278,78 @@ html.dark .ka-navlinks__pill {
 
 .ka-icon-btn:active { transform: translateY(-1px) scale(.97); }
 
+/* ---------- visibility vs Tailwind utilities ----------
+   .ka-icon-btn sets display:inline-flex, and this stylesheet loads AFTER
+   the Tailwind build — so on elements carrying both classes (e.g. the
+   mobile "profile" link: `hidden sm:inline-flex`, or the burger:
+   `lg:hidden`), the utility's display is overridden by ka-icon-btn. That
+   made the profile link permanently visible and the burger visible on
+   desktop, and the extra 88px of buttons overflowed the shell on phones,
+   pushing the burger off-screen. These rules restore the intended
+   breakpoint behaviour with equal specificity. */
+@media (max-width: 639.98px) {
+    .ka-icon-btn.hidden { display: none; }
+}
+@media (min-width: 640px) {
+    .ka-icon-btn.sm\:inline-flex { display: inline-flex; }
+}
+@media (min-width: 1024px) {
+    .ka-icon-btn.lg\:hidden { display: none; }
+}
+
+/* keep every control inside the shell on narrow phones: the RTL flex row
+   of wordmark + 5 buttons + burger overflows 375px and clips the burger */
+@media (max-width: 639.98px) {
+    .ka-nav__shell { gap: .5rem; }
+    .ka-nav__shell > div:last-child { gap: .25rem; }
+    .ka-nav__shell .ka-icon-btn {
+        min-height: 2.25rem;
+        padding-inline: .45rem;
+    }
+}
+
+/* Tablet and phone shells keep the logo compact so the complete control
+   group remains inside the viewport instead of pushing the burger offscreen. */
+@media (max-width: 1023.98px) {
+    .ka-nav__shell { min-width: 0; gap: .65rem; }
+    .ka-nav__shell > div:last-child { flex-shrink: 0; }
+    .ka-vt-logo > div:last-child { display: none; }
+}
+
+/* Mid-size laptops cannot fit the full wordmark, nine links and labelled
+   controls at once. Keep the logo image and every control, but compact the
+   labels before they can push the right-to-left control group off-screen. */
+@media (min-width: 1200px) and (max-width: 1599.98px) {
+    .ka-nav__shell { gap: .5rem; }
+    .ka-vt-logo > div:last-child { display: none; }
+    .ka-navlinks { gap: .125rem; }
+    .ka-navlinks .ka-navlink {
+        padding-inline: .55rem;
+        font-size: .75rem;
+    }
+    .ka-nav__shell > div:last-child { gap: .25rem; }
+    .ka-nav__shell .ka-icon-btn {
+        min-height: 2.25rem;
+        padding-inline: .45rem;
+        font-size: .7rem;
+    }
+}
+
+/* At the narrow laptop breakpoint the drawer is more reliable than a
+   squeezed nine-link row. Tailwind's lg:hidden is overridden intentionally
+   so the burger still has a visible target and its drawer can open. */
+@media (min-width: 1024px) and (max-width: 1199.98px) {
+    .ka-navlinks { display: none !important; }
+    .ka-icon-btn.lg\:hidden { display: inline-flex; }
+    #ka-drawer { display: block; }
+    .ka-nav__shell > div:last-child { gap: .25rem; }
+    .ka-nav__shell .ka-icon-btn {
+        min-height: 2.25rem;
+        padding-inline: .45rem;
+        font-size: .7rem;
+    }
+}
+
 #ka-burger svg {
     transition: transform .45s var(--ka-spring), color .3s var(--ka-ease);
 }

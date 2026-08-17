@@ -3,7 +3,6 @@
      Wrapped in Laravel Blade Auth (@auth + is_admin).
      100% hidden from members/guests at the server level —
      the HTML is never rendered for them.
-     AI-chat usage stats stay OWNER-ONLY (admin/chat key).
      ========================================== --}}
 
 {{-- Visit beacon for ALL visitors (admins and members) --}}
@@ -72,9 +71,6 @@
 
         <!-- Content -->
         <div id="kai-stats-content" class="hidden">
-
-            <!-- Owner-only AI chat KPIs -->
-            <div id="kai-chat-kpis" class="hidden grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8"></div>
 
             <!-- Overview KPIs -->
             <div id="kai-stats-overview-kpis" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8"></div>
@@ -173,7 +169,6 @@
         }
 
         function render() {
-            renderChatKpis();
             renderOverviewKpis();
             renderCharts();
             renderSection();
@@ -193,19 +188,6 @@
                 </div>
                 <div class="text-2xl font-black text-gray-900 dark:text-white">${num(value)}</div>
             </div>`;
-        }
-
-        /* Owner-only AI-chat stats (never mixed with general stats) */
-        function renderChatKpis() {
-            const el = document.getElementById('kai-chat-kpis');
-            const c = DATA.chat;
-            if (!c) { el.classList.add('hidden'); return; }
-            el.classList.remove('hidden');
-            el.innerHTML =
-                kpiCard('دەستپێکردنەکانی چات', c.sessions, 'border-indigo-500', '💬') +
-                kpiCard('پەیامەکانی چات', c.messages, 'border-fuchsia-500', '✉️') +
-                kpiCard('چاتی ئەمڕۆ', c.sessions_today, 'border-emerald-500', '📅') +
-                kpiCard('بەکارهێنەری چات', c.unique_users, 'border-cyan-500', '👥');
         }
 
         function renderOverviewKpis() {

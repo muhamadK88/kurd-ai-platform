@@ -7,21 +7,35 @@
        • hero tech-orbits + data-grid + scanning beam
        • neon micro-interactions (CTA shine, nav underline, chip pulse)
        • aurora ring on every glass card hover
-       • v10 dropped the CDN three.js + lottie-web scripts — the cosmos
-         background and hero sphere now render on Canvas 2D (kai-cosmos.js,
-         kai-hero.js), and the chat launcher loads lottie lazily. ~1.1MB
-         of JS removed from every page load.
+        • v10 dropped the CDN three.js scripts — the cosmos
+          background and hero sphere now render on Canvas 2D (kai-cosmos.js,
+          kai-hero.js). ~1.1MB of JS removed from every page load.
       kurdai-nav.{css,js} wire the ka-* navigation component
       (resources/views/partials/nav.blade.php) — safe on pages that don't
       use it yet. --}}
 <link rel="stylesheet" href="/css/kurdai-design.css?v=15">
-<link rel="stylesheet" href="/css/kurdai-nav.css?v=5">
+<link rel="stylesheet" href="/css/kurdai-nav.css?v=6">
 <link rel="stylesheet" href="/css/kai-cosmos.css?v=7">
 <script src="/js/kurdai-ui.js?v=11" data-kai-shared defer></script>
 <script src="/js/kurdai-nav.js?v=4" data-kai-shared defer></script>
 <script src="/js/kai-cosmos.js?v=7" data-kai-shared defer></script>
 <script src="/js/kai-firebase.js?v=1" data-kai-shared defer></script>
-<script src="/js/kai-router.js?v=18" data-kai-shared defer></script>
+<script src="/js/kai-router.js?v=19" data-kai-shared defer></script>
+<script data-kai-shared>
+    /* Page lifecycle helper: run `fn` as soon as the DOM is ready and safe
+       to touch. On a hard load this defers to DOMContentLoaded; on an SPA
+       swap the DOM is already in place, so the callback runs immediately.
+       Page scripts (which the router re-executes on every swap) can wrap
+       their boot code in KaiPageReady(fn) and be correct in both worlds. */
+    window.KaiPageReady = function (fn) {
+        if (typeof fn !== 'function') return;
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', fn, { once: true });
+        } else {
+            fn();
+        }
+    };
+</script>
 <script data-kai-shared>
 (function () {
     'use strict';
@@ -114,11 +128,11 @@
     document.addEventListener('pointerdown', pick, { passive: true });
 
     /* Critical controls must work while page modules (notably Firebase) are
-       still loading. Capture-level delegation handles the shared navbar
-       immediately and prevents the later page-specific listeners from
-       double-toggling the same control once they eventually attach. */
+       still loading. Capture-level delegation handles the language and theme
+       controls immediately; kurdai-nav.js owns the burger state so outside
+       click and Escape handling stay in sync with its local state. */
     document.addEventListener('click', function (e) {
-        var target = e.target && e.target.closest ? e.target.closest('#lang-toggle, #theme-toggle, #ka-burger') : null;
+        var target = e.target && e.target.closest ? e.target.closest('#lang-toggle, #theme-toggle') : null;
         if (!target) return;
 
         if (target.id === 'lang-toggle') {
@@ -146,15 +160,6 @@
             return;
         }
 
-        var nav = target.closest('.ka-nav');
-        var drawer = nav && nav.querySelector('#ka-drawer');
-        if (!nav || !drawer) return;
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        var open = !nav.classList.contains('is-open');
-        nav.classList.toggle('is-open', open);
-        target.setAttribute('aria-expanded', open ? 'true' : 'false');
-        drawer.style.maxHeight = open ? drawer.scrollHeight + 'px' : '0px';
     }, true);
 })();
 </script>

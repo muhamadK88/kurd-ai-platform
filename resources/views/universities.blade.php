@@ -276,8 +276,10 @@
                 renderManageList(); 
             });
         }
-        if (db) subscribeUnis(db);
-        else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeUnis(db); } });
+        window.KaiPageReady(function () {
+            if (db) subscribeUnis(db);
+            else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeUnis(db); } });
+        });
 
         window.openPlanModal = function(uniId) {
             const u = unisData[uniId];
@@ -576,6 +578,5 @@
         
         document.getElementById('logout-btn').addEventListener('click', () => signOut().then(() => window.location.href = "/login"));
     </script>
-@include('components.chat-widget')
 </body>
 </html>

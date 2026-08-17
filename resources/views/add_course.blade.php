@@ -45,6 +45,5 @@
         </form>
     </div>
 
-@include('components.chat-widget')
 </body>
 </html>

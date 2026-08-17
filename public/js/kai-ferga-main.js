@@ -1968,11 +1968,13 @@ ${code}
             subscribeWithTimeout(dbRef(fdb, 'ferga_lessons'), (s) => { lessonsData = s.val() || {}; mergeVirtualAI(); dataLoaded.lessons = true; updateAdminSelects(); renderManageList(); checkAndAutoResume(); });
             subscribeWithTimeout(dbRef(fdb, 'ferga_quizzes'), (s) => { quizzesData = s.val() || {}; dataLoaded.quizzes = true; renderManageList(); checkAndAutoResume(); });
         }
-        if (db) {
-            subscribeToFirebase(db);
-        } else if (KaiF.whenReady) {
-            KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeToFirebase(db); } });
-        }
+        window.KaiPageReady(function () {
+            if (db) {
+                subscribeToFirebase(db);
+            } else if (KaiF.whenReady) {
+                KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeToFirebase(db); } });
+            }
+        });
 
         // پەڕینەوە: ئەگەر فایەربەیس پەیوەندی نەبوو یان ناوەڕۆکی وانەکان نەگەیشت، پەڕەکە هەرگیز بەتاڵ نابێتەوە — بە ناوەڕۆکی virtual (تێکەڵکراو لە mergeVirtualAI) پەڕەکە پیشان دەدرێت
         setTimeout(function() {

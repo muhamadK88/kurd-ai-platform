@@ -1,8 +1,8 @@
 /* ==========================================================================
    KURD AI — kai-pyrunner.js · in-browser Python runner for فێرگە lessons.
-   Powered by Pyodide (CPython → WebAssembly). The chat widget already lazy-
-   loads Pyodide v0.23.4 as window.loadPyodide — we reuse that exact loader
-   so both features share ONE ~10MB download and ONE interpreter instance.
+   Powered by Pyodide (CPython → WebAssembly). The lesson page may already
+   lazy-load Pyodide v0.23.4 as window.loadPyodide — reuse that loader so all
+   lesson exercises share ONE ~10MB download and ONE interpreter instance.
 
    Public API:
      KaiPy.ensure()                  -> Promise<pyodide>   (singleton)
@@ -28,12 +28,12 @@
        ------------------------------------------------------------------ */
     /* window.loadPyodide comes from three places depending on boot order:
          1) Pyodide's real factory (returns a Promise<instance>),
-         2) the chat widget's wrapper (usually the same factory, sometimes
+         2) another lesson wrapper (usually the same factory, sometimes
             shaped differently, occasionally a raw promise that resolves
             directly to the instance),
          3) nothing yet — then we load Pyodide ourselves.
        ensure() normalizes all of them down to a Promise<instance> and caches
-       it so lessons + chat share ONE interpreter (~10MB, one WASM instance). */
+        it so all lesson exercises share ONE interpreter (~10MB, one WASM instance). */
     function ensure() {
         if (window.__kaiPyReady) return window.__kaiPyReady;
 
@@ -56,7 +56,7 @@
             if (typeof window.loadPyodide === 'function') {
                 boot();
             } else if (window.loadPyodide && window.loadPyodide.runPython) {
-                // the widget already resolved the interpreter — reuse it
+                    // another lesson wrapper already resolved the interpreter — reuse it
                 resolve(window.loadPyodide);
             } else {
                 var s = document.createElement('script');

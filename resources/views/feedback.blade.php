@@ -99,6 +99,5 @@
         });
     </script>
     @include('partials.feedback-scripts')
-    @include('components.chat-widget')
 </body>
 </html>

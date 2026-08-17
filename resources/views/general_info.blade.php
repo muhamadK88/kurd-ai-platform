@@ -515,8 +515,10 @@
                 if (isAdmin) renderManageList();
             });
         }
-        if (db) subscribeGI(db);
-        else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeGI(db); } });
+        window.KaiPageReady(function () {
+            if (db) subscribeGI(db);
+            else if (KaiF.whenReady) KaiF.whenReady(function (S) { if (S && S.db) { db = S.db; subscribeGI(db); } });
+        });
 
         onAuthStateChanged((user) => {
             if (user && ADMIN_EMAILS.includes(user.email)) {
@@ -526,6 +528,5 @@
             }
         });
     </script>
-@include('components.chat-widget')
 </body>
 </html>

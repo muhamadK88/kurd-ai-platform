@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnalyticsEvent;
-use App\Models\ChatHistory;
-use App\Models\ChatSession;
 use App\Models\FergaLessonCompletion;
 use App\Models\User;
 use App\Services\FirebaseAuthService;
@@ -26,8 +24,6 @@ use Illuminate\Support\Facades\Schema;
 class AdminAnalyticsController extends Controller
 {
     private const ADMIN_EMAILS = ['team@kurd-ai.com', 'mahamadkamaran890@gmail.com'];
-
-    private const OWNER_EMAIL = 'mahamadkamaran890@gmail.com';
 
     private const RANGES = ['day', 'week', 'month'];
 
@@ -139,30 +135,8 @@ class AdminAnalyticsController extends Controller
                 ])->values();
         }, collect());
 
-        /* AI-chat usage — OWNER ONLY (never mixed with general stats). */
-        $chat = null;
-        if ($adminEmail === self::OWNER_EMAIL) {
-            $chat = $this->safe(function () {
-                return [
-                    'sessions' => (int) ChatSession::query()->count(),
-                    'messages' => (int) ChatHistory::query()->count(),
-                    'sessions_today' => (int) ChatSession::query()
-                        ->where('created_at', '>=', now()->startOfDay())->count(),
-                    'messages_today' => (int) ChatHistory::query()
-                        ->where('created_at', '>=', now()->startOfDay())->count(),
-                    'sessions_week' => (int) ChatSession::query()
-                        ->where('created_at', '>=', now()->subDays(6)->startOfDay())->count(),
-                    'sessions_month' => (int) ChatSession::query()
-                        ->where('created_at', '>=', now()->subDays(29)->startOfDay())->count(),
-                    'unique_users' => (int) ChatSession::query()->whereNotNull('user_email')
-                        ->distinct('user_email')->count('user_email'),
-                ];
-            }, null);
-        }
-
         return response()->json([
             'admin' => $adminEmail,
-            'is_owner' => $adminEmail === self::OWNER_EMAIL,
             'range' => $range,
             'buckets' => collect($buckets)->map(fn ($b) => ['key' => $b['key'], 'label' => $b['label']])->values(),
             'totals' => $totals,
@@ -174,7 +148,6 @@ class AdminAnalyticsController extends Controller
             ],
             'sections' => $sections,
             'courses' => $courseCompletions,
-            'chat' => $chat,
         ]);
     }
 
