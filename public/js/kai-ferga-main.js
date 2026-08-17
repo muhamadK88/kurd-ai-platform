@@ -1958,7 +1958,11 @@ ${code}
         // --- Data Fetching ---
         function mergeVirtualAI() {
             AI_TOPICS.forEach(t => { languagesData[t.id] = { ...t, ...(languagesData[t.id] || {}) }; });
-            AI_SAMPLE_LESSONS.forEach(l => { lessonsData[l.id] = { ...l, ...(lessonsData[l.id] || {}) }; });
+            /* The theory course is fully authored in Firebase. Its local
+               five-lesson demo must never overwrite the real records. */
+            AI_SAMPLE_LESSONS.filter(l => l.langId !== 'ai_course_01').forEach(l => {
+                lessonsData[l.id] = { ...l, ...(lessonsData[l.id] || {}) };
+            });
         }
         mergeVirtualAI();
         function showDataLoadError(m){const b=document.getElementById('data-load-error'),t=document.getElementById('data-load-error-msg');if(b){if(m&&t)t.textContent=m;b.classList.remove('hidden');}} function hideDataLoadError(){const b=document.getElementById('data-load-error');if(b)b.classList.add('hidden');} function subscribeWithTimeout(q,cb,t=8000){let h=false;const tm=setTimeout(()=>{if(!h&&!initialLoadDone){console.warn('Timeout');showDataLoadError('کێشەیەک لە بارکردنی داتاکان هەیە، پەیوەندی خاوە.');}},t);return onValue(q,(s)=>{h=true;clearTimeout(tm);hideDataLoadError();cb(s);},(e)=>{clearTimeout(tm);if(!initialLoadDone){console.error(e);showDataLoadError(e&&e.message?e.message:'هەڵەیەک ڕوویدا');}});}
