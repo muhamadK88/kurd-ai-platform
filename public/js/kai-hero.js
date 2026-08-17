@@ -107,6 +107,7 @@
        2. Neural particle sphere (Canvas 2D — no three.js)
        ====================================================================== */
     function mountSphere() {
+        if (typeof window.__kaiSphereCleanup === 'function') window.__kaiSphereCleanup();
         if (reduced || perf || isTouch) return;
 
         var host = document.getElementById('kai-neuro-sphere');
@@ -177,18 +178,31 @@
 
         /* cursor-reactive parallax (pointer within stage bounds) */
         var tx = 0, ty = 0, curX = 0, curY = 0;
+        function onPointerMove(e) {
+            var r = host.getBoundingClientRect();
+            if (e.clientX < r.left - 60 || e.clientX > r.right + 60 ||
+                e.clientY < r.top - 60 || e.clientY > r.bottom + 60) return;
+            tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+            ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+        }
         if (!isTouch) {
-            document.addEventListener('pointermove', function (e) {
-                var r = host.getBoundingClientRect();
-                if (e.clientX < r.left - 60 || e.clientX > r.right + 60 ||
-                    e.clientY < r.top - 60 || e.clientY > r.bottom + 60) return;
-                tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
-                ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
-            }, { passive: true });
+            document.addEventListener('pointermove', onPointerMove, { passive: true });
         }
 
         var running = true;
         var cx = 0, cy = 0;
+        function onVisibilityChange() {
+            if (document.hidden) { running = false; }
+            else if (!running) { running = true; frame(); }
+        }
+        function cleanup() {
+            running = false;
+            window.removeEventListener('resize', resize);
+            document.removeEventListener('pointermove', onPointerMove);
+            document.removeEventListener('visibilitychange', onVisibilityChange);
+            if (window.__kaiSphereCleanup === cleanup) window.__kaiSphereCleanup = null;
+        }
+        window.__kaiSphereCleanup = cleanup;
 
         function frame() {
             if (!running) return;
@@ -197,7 +211,7 @@
                swaps replace #kai-neuro-sphere, and without this check every
                visit to home leaks another never-ending rAF loop that slows
                the whole page down over time. */
-            if (!canvas.isConnected) { running = false; return; }
+            if (!canvas.isConnected) { cleanup(); return; }
             var t = performance.now() * 0.0001;
 
             curX += (tx - curX) * 0.055;
@@ -270,10 +284,7 @@
             ctx.globalAlpha = 1;
         }
 
-        document.addEventListener('visibilitychange', function () {
-            if (document.hidden) { running = false; }
-            else if (!running) { running = true; frame(); }
-        });
+        document.addEventListener('visibilitychange', onVisibilityChange);
 
         resize();
         buildGeometry();

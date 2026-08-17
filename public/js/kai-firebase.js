@@ -94,7 +94,10 @@
             authCbs.push(cb);
             boot();
         },
-        signOut: function () { return S.auth ? S.auth.signOut() : Promise.resolve(); }
+        signOut: function () {
+            try { localStorage.removeItem('kurdai-authenticated'); } catch (e) {}
+            return S.auth ? S.auth.signOut() : Promise.resolve();
+        }
     };
 
     var scheduled = false;

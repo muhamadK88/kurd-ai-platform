@@ -1,5 +1,5 @@
 /* ==========================================================================
-   KURD AI — ka-nav component ("Futuristic Glass v4" navigation standard)
+   KURD AI — ka-nav component ("Futuristic Glass v7" navigation standard)
    Wires the ka-* vocabulary used by resources/views/partials/nav.blade.php:
      .ka-nav, .ka-nav__shell, .ka-navlinks, .ka-navlinks__pill,
      .ka-navlink(.is-active), .ka-wordmark, .ka-gradient-text, .ka-icon-btn,
@@ -47,6 +47,7 @@ html.dark {
         box-shadow .45s var(--ka-ease),
         padding .45s var(--ka-ease);
     contain: layout style;
+    box-shadow: 0 14px 34px -28px rgba(15,23,42,.65);
 }
 
 /* micro-nodes baked into the glass itself (same trick as glass-cards) */
@@ -105,6 +106,17 @@ html.dark .ka-nav.kai-nav-scrolled {
     justify-content: space-between;
     gap: 1rem;
     padding-block: .75rem;
+    position: relative;
+}
+
+.ka-nav__shell::before {
+    content: '';
+    position: absolute;
+    inset-inline: 1rem;
+    bottom: .35rem;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(6,182,212,.18), rgba(124,58,237,.16), transparent);
 }
 
 .ka-nav.kai-nav-scrolled .ka-nav__shell { padding-block: .45rem; }
@@ -265,7 +277,15 @@ html.dark .ka-navlinks__pill {
         box-shadow .4s var(--ka-ease),
         border-color .35s var(--ka-ease),
         color .3s var(--ka-ease),
-        background-color .3s var(--ka-ease);
+    background-color .3s var(--ka-ease);
+    min-height: 2.5rem;
+    white-space: nowrap;
+}
+
+.ka-nav__controls { position: relative; z-index: 2; }
+.ka-nav__controls .ka-icon-btn:focus-visible {
+    outline: 2px solid #22d3ee;
+    outline-offset: 3px;
 }
 
 .ka-icon-btn:hover {

@@ -112,7 +112,7 @@
               ext: 'py' }
         ];
 
-        // ٥ وانەی نمونە بۆ هەر کۆرسێک (کۆی گشتی ٥٠) — ئەدمین دەتوانێت تا ٣٠ وانە زیاد بکات
+        // وانە نمونەکان بۆ هەموو بەشەکانی AI — ئەدمین دەتوانێت وانەی زیاتر زیاد بکات
         const AI_SAMPLE_LESSONS = [
             // --- کۆرسی ١: بنەماکان و فەلسەفەی ژیریی دەستکرد ---
             { id: 'ai_course_01_01', langId: 'ai_course_01', order: 1, xp_cost: 0, level_so: 'بنەڕەتەکان', level_ba: 'بنەڕەت',
@@ -1956,7 +1956,6 @@ ${code}
         };
 
         // --- Data Fetching ---
-        // تێکەڵکردنی بەشی ژیری دەستکرد (virtual) لەگەڵ داتای فایەربەیس — تەنها وانە/بەشی نەهاتوو زیاد دەکرێت، بۆیە دەستکاری ئەدمین لە فایەربەیس ناسرێتەوە
         function mergeVirtualAI() {
             AI_TOPICS.forEach(t => { languagesData[t.id] = { ...t, ...(languagesData[t.id] || {}) }; });
             AI_SAMPLE_LESSONS.forEach(l => { lessonsData[l.id] = { ...l, ...(lessonsData[l.id] || {}) }; });
@@ -2043,7 +2042,7 @@ ${code}
                 currentUid = user.uid;
 
                 /* body visible instantly */
-                window.isAdmin = ["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(user.email);
+                window.isAdmin = ["team@kurd-ai.com", "mahamadkamaran890@gmail.com"].includes(String(user.email || '').toLowerCase());
                 if(window.isAdmin) {
                     document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
                 }

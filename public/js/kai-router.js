@@ -647,10 +647,19 @@
     }
 
     function schedulePreWarm() {
-        if (window.requestIdleCallback) {
-            requestIdleCallback(prewarmNav, { timeout: 2500 });
+        function start() {
+            if (window.requestIdleCallback) {
+                requestIdleCallback(prewarmNav, { timeout: 2500 });
+            } else {
+                setTimeout(prewarmNav, 2000);
+            }
+        }
+        /* Authentication and its SDK imports have priority over optional
+           HTML warm-ups, especially on a single-worker hosting process. */
+        if (window.KaiFirebase && window.KaiFirebase.whenReady) {
+            window.KaiFirebase.whenReady(start);
         } else {
-            setTimeout(prewarmNav, 2000);
+            start();
         }
     }
     if (document.readyState === 'loading') {

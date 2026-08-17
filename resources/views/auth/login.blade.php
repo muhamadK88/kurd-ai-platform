@@ -366,9 +366,14 @@
         // ---------- ناردن ----------
         let navigated = false;
         let submitting = false;
+        function returnPath() {
+            const value = new URLSearchParams(location.search).get('return') || '/';
+            return value.startsWith('/') && !value.startsWith('//') && value !== '/login' ? value : '/';
+        }
         function loginDone() {
             if (navigated) return;
             navigated = true;
+            try { localStorage.setItem('kurdai-authenticated', '1'); } catch (e) {}
             showSuccess('سەرکەوتوو بوو...');
             try {
                 if (window.KaiTrack) {
@@ -377,12 +382,15 @@
                     window.KaiTrack.login(email);
                 }
             } catch (e) {}
-            setTimeout(() => { location.replace('/'); }, 350);
+            setTimeout(() => { location.replace(returnPath()); }, 350);
         }
 
         // already signed in? skip the form and go straight to the app
         onAuthStateChanged((user) => {
-            if (user && !submitting && !navigated) location.replace('/');
+            if (user && !submitting && !navigated) {
+                try { localStorage.setItem('kurdai-authenticated', '1'); } catch (e) {}
+                location.replace(returnPath());
+            }
         });
 
         async function sendEmailLogin() {

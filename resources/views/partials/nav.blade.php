@@ -26,7 +26,7 @@
     ];
 @endphp
 
-<nav class="ka-nav ka-vt-nav">
+<nav class="ka-nav ka-vt-nav" data-kai-auth-required>
     <div class="container mx-auto px-4">
         <div class="ka-nav__shell">
 
@@ -66,9 +66,9 @@
             </div>
 
             {{-- ---------- Controls ---------- --}}
-            <div class="flex items-center gap-2">
+            <div class="ka-nav__controls flex items-center gap-2">
 
-                <button id="lang-toggle"
+                <button type="button" id="lang-toggle"
                         class="ka-icon-btn px-3 py-2 text-xs font-bold text-blue-700 dark:text-cyan-300"
                         title="سۆرانی / بادینی">
                     <span id="lang-text">Badini</span>
@@ -78,7 +78,7 @@
                    class="ka-icon-btn lang-str px-3 py-2 text-xs font-bold text-rose-600 dark:text-rose-400"
                    data-so="ڕەخنە" data-ba="ڕەخنە">ڕەخنە</a>
 
-                <button id="theme-toggle" class="ka-icon-btn p-2.5 text-base leading-none" title="ڕووناک / تاریک">
+                <button type="button" id="theme-toggle" class="ka-icon-btn p-2.5 text-base leading-none" title="ڕووناک / تاریک">
                     <span class="ka-theme-icon">🌙</span>
                 </button>
 
@@ -86,13 +86,13 @@
                    class="ka-icon-btn lang-str hidden sm:inline-flex px-3.5 py-2 text-xs font-bold text-gray-700 dark:text-gray-200"
                    data-so="هەژمارەکەم" data-ba="هەژمارا من">هەژمارەکەم</a>
 
-                <button id="logout-btn"
+                <button type="button" id="logout-btn"
                         class="ka-icon-btn lang-str px-3.5 py-2 text-xs font-bold text-red-600 dark:text-red-400
                                hover:!border-red-400/50"
                         data-so="دەرچوون" data-ba="دەرکەفتن">دەرچوون</button>
 
                 {{-- mobile menu trigger --}}
-                <button id="ka-burger" class="ka-icon-btn lg:hidden p-2.5" aria-expanded="false" aria-label="Menu">
+                <button type="button" id="ka-burger" class="ka-icon-btn lg:hidden p-2.5" aria-expanded="false" aria-controls="ka-drawer" aria-label="Menu">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/>
                     </svg>
@@ -103,6 +103,7 @@
         {{-- ---------- Mobile drawer ---------- --}}
         <div id="ka-drawer"
              class="lg:hidden overflow-hidden mt-2 rounded-[24px]"
+             aria-hidden="true"
              style="max-height: 0; transition: max-height .55s var(--ka-ease);">
             <div class="ka-glass p-3 rounded-[24px] grid grid-cols-2 gap-2">
                 @foreach ($navLinks as $link)

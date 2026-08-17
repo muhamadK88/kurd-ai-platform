@@ -1,7 +1,7 @@
 /* ==========================================================================
-   KURD AI — Hero "Neural Horizon" · bespoke split-screen hero.
+   KURD AI — Hero "Neural Orbit" · bespoke split-screen hero.
    Loaded ONLY on the home page (resources/views/home.blade.php).
-   Asymmetric split: typography (left) + Three.js neural sphere (right).
+   Asymmetric split: typography (left) + Canvas neural sphere (right).
    Pure additive layer — never touches page logic, ids or data.
    Guards: prefers-reduced-motion / kai-perf / touch keep the hero usable.
    ========================================================================== */
@@ -46,6 +46,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+    max-width: 100%;
+    padding-inline: .5rem;
 }
 @media (min-width: 1024px) {
     .kai-type-wrap { justify-content: flex-start; }
@@ -53,6 +56,9 @@
 .kai-typewriter {
     color: #a5f3fc;
     text-shadow: 0 0 18px rgba(34, 211, 238, .35);
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    text-align: center;
 }
 .kai-caret {
     display: inline-block;
@@ -64,6 +70,7 @@
     animation: kaiCaretBlink 1s steps(1) infinite;
     border-radius: 2px;
     vertical-align: -0.12em;
+    flex: 0 0 auto;
 }
 @keyframes kaiCaretBlink {
     50% { opacity: 0; }
@@ -99,10 +106,13 @@
 /* ---------- right: neural sphere stage ---------- */
 .kai-sphere-stage {
     position: relative;
-    min-height: 440px;
+    min-height: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
+    isolation: isolate;
+    overflow: hidden;
+    contain: layout paint;
 }
 .kai-sphere-halo {
     position: absolute;
@@ -125,6 +135,8 @@
     aspect-ratio: 1;
     border-radius: 50%;
     border: 1px dashed rgba(34, 211, 238, .30);
+    left: 50%;
+    top: 50%;
     animation: kaiSphereRotor 40s linear infinite;
     pointer-events: none;
 }
@@ -135,12 +147,14 @@
     aspect-ratio: 1;
     border-radius: 50%;
     border: 1px dashed rgba(168, 85, 247, .34);
+    left: 50%;
+    top: 50%;
     animation: kaiSphereRotor 26s linear infinite reverse;
     pointer-events: none;
 }
 @keyframes kaiSphereRotor {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 #kai-neuro-sphere {
     position: relative;
@@ -154,7 +168,89 @@
     height: 100% !important;
 }
 
-/* ---------- floating tech chips ---------- */
+/* ---------- stable orbit HUD ---------- */
+.kai-orbit-ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}
+.kai-orbit-ring--outer {
+    width: min(480px, 90%);
+    aspect-ratio: 1;
+    border: 1px solid rgba(34,211,238,.2);
+    box-shadow: inset 0 0 30px rgba(34,211,238,.05), 0 0 28px rgba(34,211,238,.08);
+    animation: kaiOrbitSpin 22s linear infinite;
+}
+.kai-orbit-ring--outer::before,
+.kai-orbit-ring--outer::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22d3ee;
+    box-shadow: 0 0 16px 4px rgba(34,211,238,.55);
+}
+.kai-orbit-ring--outer::before { top: 10%; left: 18%; }
+.kai-orbit-ring--outer::after { right: 8%; bottom: 24%; background: #c084fc; box-shadow: 0 0 16px 4px rgba(192,132,252,.55); }
+.kai-orbit-ring--inner {
+    width: min(365px, 70%);
+    aspect-ratio: 1;
+    border: 1px dashed rgba(192,132,252,.32);
+    animation: kaiOrbitSpinReverse 15s linear infinite;
+}
+.kai-orbit-core {
+    position: absolute;
+    z-index: 5;
+    left: 50%;
+    top: 50%;
+    width: clamp(112px, 24%, 150px);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .22rem;
+    border: 1px solid rgba(165,243,252,.35);
+    border-radius: 34% 66% 58% 42% / 42% 38% 62% 58%;
+    color: #ecfeff;
+    background: radial-gradient(circle at 35% 25%, rgba(34,211,238,.2), rgba(10,15,29,.78) 62%);
+    box-shadow: 0 0 0 8px rgba(34,211,238,.035), 0 0 45px rgba(34,211,238,.2), inset 0 0 28px rgba(124,58,237,.2);
+    animation: kaiCoreMorph 8s ease-in-out infinite;
+}
+.kai-orbit-core strong { font-size: clamp(1rem, 2.8vw, 1.45rem); letter-spacing: .08em; }
+.kai-orbit-core__signal, .kai-orbit-core__sub { font: 900 .48rem/1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .1em; color: #a5f3fc; }
+.kai-orbit-core__sub { color: rgba(226,232,240,.62); font-size: .42rem; }
+.kai-orbit-core__signal i, .kai-orbit-status i { display: inline-block; width: .38rem; height: .38rem; margin-inline-end: .25rem; border-radius: 50%; background: #34d399; box-shadow: 0 0 9px #34d399; }
+.kai-orbit-status {
+    position: absolute;
+    z-index: 6;
+    left: 50%;
+    bottom: 2.5%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: .42rem;
+    padding: .45rem .7rem;
+    border: 1px solid rgba(148,163,184,.2);
+    border-radius: 999px;
+    color: rgba(226,232,240,.72);
+    background: rgba(8,12,24,.56);
+    backdrop-filter: blur(10px);
+    font: 900 .55rem/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+    white-space: nowrap;
+}
+.kai-orbit-status i { width: .42rem; height: .42rem; margin: 0; }
+.kai-orbit-status b { color: #22d3ee; font-size: .62rem; }
+@keyframes kaiOrbitSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes kaiOrbitSpinReverse { to { transform: translate(-50%, -50%) rotate(-360deg); } }
+@keyframes kaiCoreMorph { 0%, 100% { border-radius: 34% 66% 58% 42% / 42% 38% 62% 58%; } 50% { border-radius: 60% 40% 35% 65% / 52% 62% 38% 48%; } }
+
+/* ---------- stable tech labels ---------- */
 .kai-chip {
     position: absolute;
     z-index: 3;
@@ -173,7 +269,7 @@
     box-shadow: 0 0 18px color-mix(in srgb, var(--chip-c, #22d3ee) 16%, transparent);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    animation: kaiChipFloat 7s ease-in-out infinite;
+    animation: kaiChipPulse 4s ease-in-out infinite;
     white-space: nowrap;
 }
 .kai-chip .kai-chip-dot {
@@ -189,10 +285,7 @@
 .kai-chip--c { --chip-c: #fbbf24; bottom: 24%; inset-inline-start: 12%; animation-delay: -5s;   }
 .kai-chip--d { --chip-c: #f472b6; bottom: 10%; inset-inline-end: 14%;  animation-delay: -2.2s; }
 .kai-chip--e { --chip-c: #34d399; top: 6%;    inset-inline-end: 22%;   animation-delay: -4.1s; }
-@keyframes kaiChipFloat {
-    0%, 100% { transform: translateY(0) rotate(-2deg); }
-    50%      { transform: translateY(-16px) rotate(2deg); }
-}
+@keyframes kaiChipPulse { 0%, 100% { opacity: .82; } 50% { opacity: 1; } }
 
 /* ---------- entrance ----------
    No fill-mode, no delays: the hero must never sit at opacity:0 while the
@@ -216,7 +309,9 @@ html.kai-perf .kai-hero-fx,
 html.kai-perf .kai-sphere-stage::before,
 html.kai-perf .kai-sphere-stage::after,
 html.kai-perf .kai-hero-in,
-html.kai-perf .kai-chip { animation: none; }
+html.kai-perf .kai-chip,
+html.kai-perf .kai-orbit-ring,
+html.kai-perf .kai-orbit-core { animation: none; }
 html.kai-perf .kai-chip { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -227,12 +322,24 @@ html.kai-perf .kai-chip { display: none; }
     .kai-sphere-stage::before,
     .kai-sphere-stage::after,
     .kai-chip,
+    .kai-orbit-ring,
+    .kai-orbit-core,
     .kai-hero-in { animation: none !important; }
     .kai-chip { display: none; }
     .kai-caret { opacity: .4; }
 }
 
 @media (max-width: 640px) {
-    .kai-sphere-stage { min-height: 340px; }
-    .kai-chip { font-size: .68rem; padding: .4rem .7rem; }
+    .kai-sphere-stage { min-height: 365px; }
+    .kai-orbit-ring--outer { width: 92%; }
+    .kai-orbit-ring--inner { width: 69%; }
+    .kai-chip { font-size: .62rem; padding: .36rem .55rem; gap: .3rem; }
+    .kai-chip .kai-chip-dot { width: 6px; height: 6px; }
+    .kai-chip--a { top: 10%; inset-inline-start: 2%; }
+    .kai-chip--b { top: 25%; inset-inline-end: 1%; }
+    .kai-chip--c { bottom: 23%; inset-inline-start: 1%; }
+    .kai-chip--d { bottom: 11%; inset-inline-end: 4%; }
+    .kai-chip--e { top: 4%; inset-inline-end: 24%; }
+    .kai-orbit-status { bottom: 1%; font-size: .45rem; gap: .25rem; padding: .38rem .5rem; }
+    .kai-orbit-status b { font-size: .52rem; }
 }

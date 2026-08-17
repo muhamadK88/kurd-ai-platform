@@ -182,7 +182,7 @@
     </style>
 
     @include('partials.kurdai-design')
-    <link rel="stylesheet" href="/css/kai-ferga.css?v=7">
+    <link rel="stylesheet" href="/css/kai-ferga.css?v=8">
     <script src="/js/kai-ferga.js?v=4" defer></script>
 </head>
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300">
@@ -703,7 +703,7 @@
     <!-- Firebase & Core Logic -->
     <script type="application/json" id="kurdai-firebase-config">{!! json_encode(config('kurdai.firebase'), 15) !!}</script>
     <script type="application/json" id="kurdai-imgbb-config">{!! json_encode(config('kurdai.imgbb.api_key'), 15) !!}</script>
-    <script type="module" src="/js/kai-ferga-main.js?v=5"></script>
+    <script type="module" src="/js/kai-ferga-main.js?v=6"></script>
 
     <!-- مۆدالی دەستکاریکردنی زمان -->
     <!-- مۆدالی گۆڕینی لۆگۆ/ئایکۆنی بەشی AI (تەنها ئەدمین) -->

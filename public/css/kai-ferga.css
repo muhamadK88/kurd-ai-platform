@@ -1,5 +1,5 @@
 /* ==========================================================================
-   KURD AI — فێرگە (Ferga) · Lesson experience design  ·  v6
+   KURD AI — فێرگە (Ferga) · Lesson experience design  ·  v8
    Loaded ONLY on /ferga. Purely presentational.
    Aligned with the "Futuristic Glass" v4 token system.
    Page identity: blue → violet → pink → cyan (learning aurora).
@@ -170,8 +170,8 @@
 
 /* read-along reveal (JS adds .kai-reveal, IntersectionObserver adds .kai-on) */
 #display-content .kai-reveal {
-    opacity: 0;
-    transform: translateY(16px);
+    opacity: 1;
+    transform: none;
     transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     transition-delay: var(--kai-delay, 0s);
 }

@@ -29,7 +29,7 @@
 
     {{-- Essential CSS --}}
     <link rel="stylesheet" href="/css/kai-tailwind.css">
-    <link rel="stylesheet" href="/css/kai-hero.css?v=3" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/css/kai-hero.css?v=4" media="print" onload="this.media='all'">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700;900&display=swap"></noscript>
     <style>
         .glass-card {
@@ -73,7 +73,7 @@
     </style>
 
     @include('partials.kurdai-design')
-    <script src="/js/kai-hero.js?v=4" defer></script>
+    <script src="/js/kai-hero.js?v=5" defer></script>
 </head>
 
 <body class="bg-gray-50 text-gray-900 dark:bg-[#0a0f1c] dark:text-white min-h-screen transition-colors duration-300">
@@ -138,12 +138,20 @@
             <!-- ڕاست: 3D neural sphere + floating tech chips -->
             <div class="kai-sphere-stage lg:order-first" aria-hidden="true">
                 <div class="kai-sphere-halo"></div>
+                <div class="kai-orbit-ring kai-orbit-ring--outer"></div>
+                <div class="kai-orbit-ring kai-orbit-ring--inner"></div>
                 <div id="kai-neuro-sphere"></div>
+                <div class="kai-orbit-core">
+                    <span class="kai-orbit-core__signal"><i></i> NEURAL CORE</span>
+                    <strong>KURD AI</strong>
+                    <span class="kai-orbit-core__sub">LEARN / BUILD / SHARE</span>
+                </div>
                 <span class="kai-chip kai-chip--a"><span class="kai-chip-dot"></span>Python</span>
                 <span class="kai-chip kai-chip--b"><span class="kai-chip-dot"></span>C++</span>
                 <span class="kai-chip kai-chip--c"><span class="kai-chip-dot"></span>JavaScript</span>
                 <span class="kai-chip kai-chip--d"><span class="kai-chip-dot"></span>PyTorch</span>
                 <span class="kai-chip kai-chip--e"><span class="kai-chip-dot"></span>LLM</span>
+                <span class="kai-orbit-status"><i></i><span>KURD AI SYSTEM ONLINE</span><b>01</b></span>
             </div>
 
         </div>

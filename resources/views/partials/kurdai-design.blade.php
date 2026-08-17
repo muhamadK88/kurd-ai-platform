@@ -14,13 +14,13 @@
       (resources/views/partials/nav.blade.php) — safe on pages that don't
       use it yet. --}}
 <link rel="stylesheet" href="/css/kurdai-design.css?v=15">
-<link rel="stylesheet" href="/css/kurdai-nav.css?v=6">
+<link rel="stylesheet" href="/css/kurdai-nav.css?v=7">
 <link rel="stylesheet" href="/css/kai-cosmos.css?v=7">
 <script src="/js/kurdai-ui.js?v=11" data-kai-shared defer></script>
 <script src="/js/kurdai-nav.js?v=4" data-kai-shared defer></script>
 <script src="/js/kai-cosmos.js?v=7" data-kai-shared defer></script>
 <script src="/js/kai-firebase.js?v=1" data-kai-shared defer></script>
-<script src="/js/kai-router.js?v=19" data-kai-shared defer></script>
+<script src="/js/kai-router.js?v=20" data-kai-shared defer></script>
 <script data-kai-shared>
     /* Page lifecycle helper: run `fn` as soon as the DOM is ready and safe
        to touch. On a hard load this defers to DOMContentLoaded; on an SPA
@@ -35,6 +35,62 @@
             fn();
         }
     };
+</script>
+<style data-kai-shared>
+    html.kai-auth-pending body { visibility: hidden; }
+</style>
+<script data-kai-shared>
+(function () {
+    'use strict';
+    document.documentElement.classList.add('kai-auth-pending');
+
+    function returnPath() {
+        return location.pathname + (location.search || '') + (location.hash || '');
+    }
+
+    function release() {
+        document.documentElement.classList.remove('kai-auth-pending');
+    }
+
+    function guard() {
+        if (!document.querySelector('.ka-nav[data-kai-auth-required]')) {
+            release();
+            return;
+        }
+
+        /* A first visit must reach the login form immediately. Returning
+           browsers still wait for Firebase so an expired local session can
+           never expose a protected page. */
+        var remembered = false;
+        try { remembered = localStorage.getItem('kurdai-authenticated') === '1'; } catch (e) {}
+        if (!remembered) {
+            location.replace('/login?return=' + encodeURIComponent(returnPath()));
+            return;
+        }
+
+        var firebase = window.KaiFirebase;
+        if (!firebase || typeof firebase.whenReady !== 'function') {
+            setTimeout(guard, 50);
+            return;
+        }
+
+        firebase.whenReady(function (state) {
+            if (state && state.user) {
+                release();
+                return;
+            }
+            try { localStorage.removeItem('kurdai-authenticated'); } catch (e) {}
+            var target = encodeURIComponent(returnPath());
+            location.replace('/login?return=' + target);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', guard, { once: true });
+    } else {
+        guard();
+    }
+})();
 </script>
 <script data-kai-shared>
 (function () {
