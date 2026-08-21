@@ -206,8 +206,8 @@ Tech Evangelism& AI Literacy.</p>
                             <img src="ali.jpg" alt="Member 3" class="relative w-28 h-28 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg">
                         </div>
                         <h4 class="text-2xl font-black text-gray-900 dark:text-white text-center mb-1">علی عارف محمد </h4>
-                        <p class="text-teal-600 dark:text-teal-400 font-bold text-center text-sm mb-6">AI engineering 3rd grade</p>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="جێبەجێکارێ تەکنیکی و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکر" data-ba="جێبەجێکارێ تەکنیکی و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکرد">جێبەجێکارێ تەکنیکی و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکر</p>
+                        <p class="text-teal-600 dark:text-teal-400 font-bold text-center text-sm mb-6 lang-str" data-so="قوتابی ل زانکۆیا زاخۆ - ئەندازیاریا ژیریا دەستکرد - قۆناغا سێیێ" data-ba="قوتابی ل زانکۆیا زاخۆ - ئەندازیاریا ژیریا دەستکرد - قۆناغا سێیێ">قوتابی ل زانکۆیا زاخۆ - ئەندازیاریا ژیریا دەستکرد - قۆناغا سێیێ</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed text-center mb-6 lang-str" data-so="جێبەجێکارێ تەکنیکی و قوتابی ل زانکۆیا زاخۆ و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکرد" data-ba="جێبەجێکارێ تەکنیکی و قوتابی ل زانکۆیا زاخۆ و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکرد">جێبەجێکارێ تەکنیکی و قوتابی ل زانکۆیا زاخۆ و شارەزا د بوارێ سێرڤەر و vibe coding و automation و زیرەکیا دەستکرد</p>
                     </div>
                 </div>
                 
